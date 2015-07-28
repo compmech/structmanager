@@ -8,7 +8,7 @@ from pyNastran.op2.op2 import OP2
 from sol200 import SOL200, DESVAR, DVPREL1, DRESP1, DCONSTR
 from ses import (Panel, InnerFlange, Web, OuterFlange, ShearClipFrame,
                  ShearClipSkin, Stringer)
-from sas import FrameAssembly, FrameAssemblyShearClip, StiffenedPanelAssembly
+from sas import FrameAssembly, FrameShearClipAssembly, StiffenedPanelAssembly
 
 
 class Model(object):
@@ -39,11 +39,11 @@ class Model(object):
         self.frames = {}
         self.stiffenedpanels = {}
         self.sas = {'stiffenedpanelassembly': StiffenedPanelAssembly,
-                    'frameassemblyshearclip': FrameAssemblyShearClip,
+                    'frameshearclipassembly': FrameShearClipAssembly,
                     'frameassembly': FrameAssembly,
                     }
 
-    def read_op2(self):
+    def read_op2(self, vectorized=True):
         if self.op2path is None:
             print('Model.op2path must be defined!')
             return
@@ -51,17 +51,20 @@ class Model(object):
             print('OP2 already loaded!')
             return
         self.op2 = OP2()
-        self.op2.read_op2(self.op2path, vectorized=True)
+        print('Reading op2 file...')
+        self.op2.read_op2(self.op2path, vectorized=vectorized)
+        print('finished!')
         #TODO try to fix op2.subcases and submit a pull request
         self.op2.subcases = sorted(self.op2.cquad4_force.keys())
 
         # reading forces for each SE
         for sename in self.ses.keys():
+            print('Reading forces for %s...' % sename)
             sename = sename.lower()
             se_container = getattr(self, sename + 's')
-
             for se in se_container.values():
                 se.read_forces()
+            print('finished!')
 
     def build(self):
         panels = self.panels
@@ -126,7 +129,7 @@ class Model(object):
                 frames[name] = saClass(name, outerflanges[n1], webs[n2],
                         innerflanges[n3])
 
-            if saname == 'frameassemblyshearclip':
+            if saname == 'frameshearclipassembly':
                 n1, n2, n3, n4, n5 = map(strip, fields[1].split(','))
                 frames[name] = saClass(name, shearclipskins[n1],
                         shearclipframes[n2], outerflanges[n3], webs[n4],
@@ -144,23 +147,9 @@ class Model(object):
             return
         bdf.read_bdf(self.bdfpath)
 
-        # Finding nodal connectivity
-        #TODO why pyNastran does not do this already?
-        if False:
-            print 1
-            nodes = defaultdict(set)
-            for element in bdf.elements.values():
-                if element.nodes is not None:
-                    for node in element.nodes:
-                        nodes[node.nid].add(element)
-            for node in bdf.nodes.values():
-                node.elements = nodes[node.nid]
-            print 2
-
-        #
         opt = self.optmodel = SOL200()
 
-        print('Building panels')
+        print('Building panels...')
         for p in panels.values():
             p.elements = [bdf.elements[eid] for eid in p.eids]
             setelements = set(p.elements)
@@ -188,7 +177,6 @@ class Model(object):
             p.G = np.array([elem.mid().g for elem in p.elements]).mean()
             p.nu = np.array([elem.mid().nu for elem in p.elements]).mean()
 
-
             vonMises = False
             if vonMises:
                 #FIXME remove repeated
@@ -199,6 +187,8 @@ class Model(object):
                 opt.dvprel1s[dvprel1.id] = dvprel1
                 opt.constrain_pshell(1, p.pid, 'CQUAD4', 'STRESS',
                     ['von Mises Z1', 'von Mises Z2'], -30., 40.)
+
+        print('finished!')
 
         opt.set_output_file('optcard.bdf')
         opt.print_model()

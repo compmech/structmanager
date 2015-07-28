@@ -17,7 +17,7 @@ class FrameAssembly(object):
         return str(self)
 
 
-class FrameAssemblyShearClip(object):
+class FrameShearClipAssembly(object):
     """Frame Assembly with Shear Clip"""
     def __init__(self, name, shearclipskin, shearclipframe, outerflange, web,
                  innerflange):
@@ -29,7 +29,7 @@ class FrameAssemblyShearClip(object):
         self.innerflange = innerflange
 
     def __str__(self):
-        return ('FrameAssemblyShearClip: ' + self.name +
+        return ('FrameShearClipAssembly: ' + self.name +
                 '\n-' + str(self.shearclipskin) +
                 '\n-' + str(self.shearclipframe) +
                 '\n-' + str(self.outerflange) +

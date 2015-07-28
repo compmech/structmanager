@@ -22,57 +22,66 @@ class SE1D(SE):
     def __init__(self, name, *eids):
         super(SE1D, self).__init__(name, *eids)
         # internal forces
-        self.bendingMomentA_plane1 = None
-        self.bendingMomentA_plane2 = None
-        self.bendingMomentB_plane1 = None
-        self.bendingMomentB_plane2 = None
-        self.shear_plane1 = None
-        self.shear_plane2 = None
+        self.bending_moment_a1 = None
+        self.bending_moment_a2 = None
+        self.bending_moment_b1 = None
+        self.bending_moment_b2 = None
+        self.shear1 = None
+        self.shear2 = None
         self.axial = None
         self.torque = None
 
     def read_forces(self):
         if self.model.op2 is None:
-            print('No op2 file defined for Panel.model')
+            print('No op2 file defined for SE.model')
         # LINEAR ELEMENTS
         # CBAR
-
         #TODO try to fix op2.subcases and submit a pull request
         subcases = self.model.op2.subcases
-        #
         num_subcases = len(subcases)
         forces = self.model.op2.cbar_force
         force1 = forces[subcases[0]]
-        num_vectors = 8
-        elements = np.sort(force1.axial.keys())
+        if not self.mode.op2.is_vectorized:
+            num_vectors = 8
 
-        self.forces = np.zeros((num_vectors, len(self.eids), num_subcases))
+            self.forces = np.zeros((num_vectors, len(self.eids), num_subcases))
 
-        getter = itemgetter(*self.eids)
+            getter = itemgetter(*self.eids)
 
-        for i, subcase in enumerate(subcases):
-            data = forces[subcase]
-            # Bending End A plane 1 and plane 2
-            tmp = getter(data.bendingMomentA)
-            print tmp
-            self.forces[0, :, i], self.forces[1, :, i] = zip(*tmp)
-            # Bending End B plane 1 and plane 2
-            tmp = getter(data.bendingMomentB)
-            self.forces[2, :, i], self.forces[3, :, i] = zip(*tmp)
-            # Shear plane 1 and plane 2
-            tmp = getter(data.shear)
-            self.forces[4, :, i], self.forces[5, :, i] = zip(*tmp)
-            # Axial force
-            self.forces[6, :, i] = getter(data.axial)
-            # Torque
-            self.forces[7, :, i] = getter(data.torque)
+            for i, subcase in enumerate(subcases):
+                data = forces[subcase]
+                # Bending End A plane 1 and plane 2
+                tmp = getter(data.bendingMomentA)
+                self.forces[0, :, i], self.forces[1, :, i] = zip(*tmp)
+                # Bending End B plane 1 and plane 2
+                tmp = getter(data.bendingMomentB)
+                self.forces[2, :, i], self.forces[3, :, i] = zip(*tmp)
+                # Shear plane 1 and plane 2
+                tmp = getter(data.shear)
+                self.forces[4, :, i], self.forces[5, :, i] = zip(*tmp)
+                # Axial force
+                self.forces[6, :, i] = getter(data.axial)
+                # Torque
+                self.forces[7, :, i] = getter(data.torque)
 
-        self.bendingMomentA_plane1 = self.forces[0]
-        self.bendingMomentA_plane2 = self.forces[1]
-        self.bendingMomentB_plane1 = self.forces[2]
-        self.bendingMomentB_plane2 = self.forces[3]
-        self.shear_plane1 = self.forces[4]
-        self.shear_plane2 = self.forces[5]
+        elif self.mode_op2.is_vectorized:
+            num_vectors = force1.data.shape[2]
+
+            self.forces = np.zeros((num_vectors, len(self.eids), num_subcases))
+
+            i_op2 = np.in1d(force1.element, self.eids)
+            i_panel = np.in1d(self.eids, force1.element)
+
+            for i, subcase in enumerate(subcases):
+                data = forces[subcase].data
+                self.forces[:, i_panel, i] = data[-1, i_op2, :].swapaxes(-1, -2)
+
+        self.bending_moment_a1 = self.forces[0]
+        self.bending_moment_a2 = self.forces[1]
+        self.bending_moment_b1 = self.forces[2]
+        self.bending_moment_b2 = self.forces[3]
+        self.shear1 = self.forces[4]
+        self.shear2 = self.forces[5]
         self.axial = self.forces[6]
         self.torque = self.forces[7]
 
@@ -92,35 +101,66 @@ class SE2D(SE):
 
     def read_forces(self):
         if self.model.op2 is None:
-            print('No op2 file defined for Panel.model')
-        #TODO try to fix op2.subcases and submit a pull request
-        subcases = self.model.op2.subcases
-        #
-        num_subcases = len(subcases)
-        forces = self.model.op2.cquad4_force
-        force1 = forces[subcases[0]]
-        num_vectors = force1.data.shape[2]
-
-        self.forces = np.zeros((num_vectors, len(self.eids), num_subcases))
-
+            print('No op2 file defined for SE.model')
+            return
         # LINEAR ELEMENTS
-        # CQUAD4
-        i_op2 = np.in1d(force1.element, self.eids)
-        i_panel = np.in1d(self.eids, force1.element)
+        if not self.model.op2.is_vectorized:
+            num_vectors = 8
 
-        for i, subcase in enumerate(subcases):
-            data = forces[subcase].data
-            self.forces[:, i_panel, i] = data[-1, i_op2, :].swapaxes(-1, -2)
+            self.forces = np.zeros((num_vectors, len(self.eids), num_subcases))
 
-        # CTRIA3
-        forces = self.model.op2.ctria3_force
-        force1 = forces[subcases[0]]
-        i_op2 = np.in1d(force1.element, self.eids)
-        i_panel = np.in1d(self.eids, force1.element)
+            getter = itemgetter(*self.eids)
 
-        for i, subcase in enumerate(subcases):
-            data = forces[subcase].data
-            self.forces[:, i_panel, i] = data[-1, i_op2, :].swapaxes(-1, -2)
+            element = np.sort(forces1.mx.keys())
+            i_panel = np.in1d(self.eids, force1.element)
+
+            for i, subcase in enumerate(subcases):
+                data = forces[subcase]
+                # mx
+                self.forces[0, :, i] = getter(data.mx)
+                # my
+                self.forces[1, :, i] = getter(data.my)
+                # mxy
+                self.forces[2, :, i] = getter(data.mxy)
+                # bmx
+                self.forces[3, :, i] = getter(data.bmx)
+                # bmy
+                self.forces[4, :, i] = getter(data.bmy)
+                # bmxy
+                self.forces[5, :, i] = getter(data.bmxy)
+                # tx
+                self.forces[6, :, i] = getter(data.tx)
+                # ty
+                self.forces[7, :, i] = getter(data.ty)
+
+        elif self.model.op2.is_vectorized:
+            #TODO try to fix op2.subcases and submit a pull request
+            subcases = self.model.op2.subcases
+            #
+            num_subcases = len(subcases)
+            forces = self.model.op2.cquad4_force
+            force1 = forces[subcases[0]]
+            num_vectors = force1.data.shape[2]
+
+            self.forces = np.zeros((num_vectors, len(self.eids), num_subcases))
+
+            # CQUAD4
+            i_op2 = np.in1d(force1.element, self.eids)
+            i_panel = np.in1d(self.eids, force1.element)
+
+            for i, subcase in enumerate(subcases):
+                data = forces[subcase].data
+                self.forces[:, i_panel, i] = data[-1, i_op2, :].swapaxes(-1, -2)
+
+            # CTRIA3
+            forces = self.model.op2.ctria3_force
+            force1 = forces[subcases[0]]
+            i_op2 = np.in1d(force1.element, self.eids)
+            i_panel = np.in1d(self.eids, force1.element)
+
+            for i, subcase in enumerate(subcases):
+                data = forces[subcase].data
+                self.forces[:, i_panel, i] = data[-1, i_op2, :].swapaxes(-1, -2)
 
         self.mx = self.forces[0]
         self.my = self.forces[1]
