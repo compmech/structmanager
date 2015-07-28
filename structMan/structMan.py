@@ -3,6 +3,7 @@ from string import strip
 
 import numpy as np
 from pyNastran.bdf.bdf import BDF
+from pyNastran.op2.op2 import OP2
 
 from sol200 import SOL200, DESVAR, DVPREL1, DRESP1, DCONSTR
 from ses import (Panel, InnerFlange, Web, OuterFlange, ShearClipFrame,
@@ -13,6 +14,12 @@ from sas import FrameAssembly, FrameAssemblyShearClip, StiffenedPanelAssembly
 class Model(object):
     """Model"""
     def __init__(self):
+        self.bdf = None
+        self.bdfpath = None
+        self.op2 = None
+        self.op2path = None
+        # structural elements
+        self.sefile = None
         self.panels = {}
         self.innerflanges = {}
         self.webs = {}
@@ -20,13 +27,6 @@ class Model(object):
         self.shearclipframes = {}
         self.shearclipskins = {}
         self.stringers = {}
-        self.frames = {}
-        self.stiffenedpanels = {}
-        self.pshells = {}
-        self.eids = {}
-        self.bdfpath = None
-        self.sefile = None
-        self.safile = None
         self.ses = {'panel': Panel,
                     'innerflange': InnerFlange,
                     'web': Web,
@@ -34,10 +34,34 @@ class Model(object):
                     'shearclipframe': ShearClipFrame,
                     'shearclipskin': ShearClipSkin,
                     'stringer': Stringer}
+        # structural assemblies
+        self.safile = None
+        self.frames = {}
+        self.stiffenedpanels = {}
         self.sas = {'stiffenedpanelassembly': StiffenedPanelAssembly,
                     'frameassemblyshearclip': FrameAssemblyShearClip,
                     'frameassembly': FrameAssembly,
                     }
+
+    def read_op2(self):
+        if self.op2path is None:
+            print('Model.op2path must be defined!')
+            return
+        if self.op2 is not None:
+            print('OP2 already loaded!')
+            return
+        self.op2 = OP2()
+        self.op2.read_op2(self.op2path, vectorized=True)
+        #TODO try to fix op2.subcases and submit a pull request
+        self.op2.subcases = sorted(self.op2.cquad4_force.keys())
+
+        # reading forces for each SE
+        for sename in self.ses.keys():
+            sename = sename.lower()
+            se_container = getattr(self, sename + 's')
+
+            for se in se_container.values():
+                se.read_forces()
 
     def build(self):
         panels = self.panels
@@ -51,6 +75,9 @@ class Model(object):
         stiffenedpanels = self.stiffenedpanels
 
         # reading structural elements
+        if self.sefile is None:
+            print('Model.sefile must be defined!')
+            return
         with open(self.sefile) as f:
             lines = f.readlines()
         for line in lines:
@@ -70,9 +97,14 @@ class Model(object):
             eids = map(int, fields[1].split(','))
 
             container = getattr(self, sename + 's')
-            container[name] = seClass(name, *eids)
+            se = seClass(name, *eids)
+            se.model = self
+            container[name] = se
 
         # reading structural assemblies
+        if self.safile is None:
+            print('Model.safile must be defined!')
+            return
         with open(self.safile) as f:
             lines = f.readlines()
         for line in lines:
@@ -106,18 +138,24 @@ class Model(object):
                         frames[n3], stringers[n4], stringers[n5])
 
         bdf = BDF()
-        bdf.read_bdf(self.bdfpath)
         self.bdf = bdf
+        if self.bdfpath is None:
+            print('Model.bdfpath must be defined!')
+            return
+        bdf.read_bdf(self.bdfpath)
 
         # Finding nodal connectivity
         #TODO why pyNastran does not do this already?
-        nodes = defaultdict(set)
-        for element in bdf.elements.values():
-            if element.nodes is not None:
-                for node in element.nodes:
-                    nodes[node.nid].add(element)
-        for node in bdf.nodes.values():
-            node.elements = nodes[node.nid]
+        if False:
+            print 1
+            nodes = defaultdict(set)
+            for element in bdf.elements.values():
+                if element.nodes is not None:
+                    for node in element.nodes:
+                        nodes[node.nid].add(element)
+            for node in bdf.nodes.values():
+                node.elements = nodes[node.nid]
+            print 2
 
         #
         opt = self.optmodel = SOL200()
