@@ -41,7 +41,7 @@ class SE1D(SE):
         num_subcases = len(subcases)
         forces = self.model.op2.cbar_force
         force1 = forces[subcases[0]]
-        if not self.mode.op2.is_vectorized:
+        if not self.model.op2.is_vectorized:
             num_vectors = 8
 
             self.forces = np.zeros((num_vectors, len(self.eids), num_subcases))
@@ -64,7 +64,7 @@ class SE1D(SE):
                 # Torque
                 self.forces[7, :, i] = getter(data.torque)
 
-        elif self.mode_op2.is_vectorized:
+        elif self.model.op2.is_vectorized:
             num_vectors = force1.data.shape[2]
 
             self.forces = np.zeros((num_vectors, len(self.eids), num_subcases))
@@ -103,41 +103,46 @@ class SE2D(SE):
         if self.model.op2 is None:
             print('No op2 file defined for SE.model')
             return
+        #TODO try to fix op2.subcases and submit a pull request
+        subcases = self.model.op2.subcases
+        num_subcases = len(subcases)
         # LINEAR ELEMENTS
         if not self.model.op2.is_vectorized:
             num_vectors = 8
-
             self.forces = np.zeros((num_vectors, len(self.eids), num_subcases))
 
-            getter = itemgetter(*self.eids)
+            for forces in [self.model.op2.cquad4_force,
+                           self.model.op2.ctria3_force]:
+                if len(forces.keys()) == 0:
+                    continue
+                element = np.sort(forces[subcases[0]].mx.keys())
+                i_panel = np.in1d(self.eids, element)
 
-            element = np.sort(forces1.mx.keys())
-            i_panel = np.in1d(self.eids, force1.element)
+                tmp = np.array(self.eids)[i_panel]
+                if len(tmp) == 0:
+                    continue
+                getter = itemgetter(*tmp)
 
-            for i, subcase in enumerate(subcases):
-                data = forces[subcase]
-                # mx
-                self.forces[0, :, i] = getter(data.mx)
-                # my
-                self.forces[1, :, i] = getter(data.my)
-                # mxy
-                self.forces[2, :, i] = getter(data.mxy)
-                # bmx
-                self.forces[3, :, i] = getter(data.bmx)
-                # bmy
-                self.forces[4, :, i] = getter(data.bmy)
-                # bmxy
-                self.forces[5, :, i] = getter(data.bmxy)
-                # tx
-                self.forces[6, :, i] = getter(data.tx)
-                # ty
-                self.forces[7, :, i] = getter(data.ty)
+                for i, subcase in enumerate(subcases):
+                    data = forces[subcase]
+                    # mx
+                    self.forces[0, i_panel, i] = getter(data.mx)
+                    # my
+                    self.forces[1, i_panel, i] = getter(data.my)
+                    # mxy
+                    self.forces[2, i_panel, i] = getter(data.mxy)
+                    # bmx
+                    self.forces[3, i_panel, i] = getter(data.bmx)
+                    # bmy
+                    self.forces[4, i_panel, i] = getter(data.bmy)
+                    # bmxy
+                    self.forces[5, i_panel, i] = getter(data.bmxy)
+                    # tx
+                    self.forces[6, i_panel, i] = getter(data.tx)
+                    # ty
+                    self.forces[7, i_panel, i] = getter(data.ty)
 
         elif self.model.op2.is_vectorized:
-            #TODO try to fix op2.subcases and submit a pull request
-            subcases = self.model.op2.subcases
-            #
-            num_subcases = len(subcases)
             forces = self.model.op2.cquad4_force
             force1 = forces[subcases[0]]
             num_vectors = force1.data.shape[2]
