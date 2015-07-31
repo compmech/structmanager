@@ -1,28 +1,28 @@
 """
-Optimization cards (:mod:`feopt.genesis.cards_opt`)
-=============================================
+Optimization cards (:mod:`structMan.genesis.cards_opt`)
+=======================================================
 
-.. currentmodule:: feopt.genesis.cards_opt`
+.. currentmodule:: structMan.genesis.cards_opt`
 
 Many input cards related to the optimization problem are wrapped in this
 module. The input cards more related to the solver are contained in module
-:mod:`feopt.genesis.cards_solver`.
+:mod:`structMan.genesis.cards_solver`.
 
 .. rubric:: Classes
 
 .. autosummary::
 
-    feopt.genesis.cards_opt.DCONS
-    feopt.genesis.cards_opt.DEQATN
-    feopt.genesis.cards_opt.DLINK
-    feopt.genesis.cards_opt.DOBJ
-    feopt.genesis.cards_opt.DRESP1
-    feopt.genesis.cards_opt.DRESP2
-    feopt.genesis.cards_opt.DRESP3
-    feopt.genesis.cards_opt.DSPLIT
-    feopt.genesis.cards_opt.DTABLE
-    feopt.genesis.cards_opt.DVAR
-    feopt.genesis.cards_opt.DVPROP3
+    structMan.genesis.cards_opt.DCONS
+    structMan.genesis.cards_opt.DEQATN
+    structMan.genesis.cards_opt.DLINK
+    structMan.genesis.cards_opt.DOBJ
+    structMan.genesis.cards_opt.DRESP1
+    structMan.genesis.cards_opt.DRESP2
+    structMan.genesis.cards_opt.DRESP3
+    structMan.genesis.cards_opt.DSPLIT
+    structMan.genesis.cards_opt.DTABLE
+    structMan.genesis.cards_opt.DVAR
+    structMan.genesis.cards_opt.DVPROP3
 
 """
 from pprint import pformat
@@ -168,11 +168,14 @@ class DRESP1(object):
                     file.write(dresp1str + '\n')
                     dresp1str = '+'
                     atticount = 2
-                dresp1str +=  ',' + str(self.atti[i])
+                dresp1str += ',' + str(self.atti[i])
         file.write(dresp1str + '\n')
 
 
 class DRESP23(object):
+    """Base class for DRESP2 and DRESP3
+
+    """
     def __init__(self):
         self.dvars = []
         self.dtable = []
@@ -187,7 +190,7 @@ class DRESP23(object):
     def add_dresp1(self, dresp1_id):
         self.dresp1.append(dresp1_id)
 
-    def print_aux (self, label, listaux, file):
+    def print_aux(self, label, listaux, file):
         auxstr = '+,' + label
         count = 2
         for aux_id in listaux:
@@ -209,7 +212,7 @@ class DRESP2(DRESP23):
     Parameters
     ----------
     label : str
-        User defined label.
+        User-defined label.
     eqid : int
         :class:`.DEQATN` entry identification number.
     region : int or None, optional
@@ -248,7 +251,7 @@ class DRESP2(DRESP23):
         file.write(drespstr)
 
         if len(self.dvars) > 0:
-            self.print_aux('DVAR'  , self.dvars , file)
+            self.print_aux('DVAR', self.dvars, file)
 
         if len(self.dtable) > 0:
             self.print_aux('DTABLE', self.dtable, file)
@@ -266,7 +269,7 @@ class DRESP3(DRESP23):
     Parameters
     ----------
     label : str
-        User defined label.
+        User-defined label.
     libid : int
         Library identification number or a built-in function name (see design
         manual).
@@ -318,10 +321,25 @@ class DRESP3(DRESP23):
 class DVAR(object):
     """Design Variable
 
+    Parameters
+    ----------
+    label : str
+        User-supplied name for printing purposes.
+    init : float
+        Initial value.
+    lb : float
+        Lower bound.
+    ub : float
+        Upper bound.
+    dvprop : :class:`.DVPROP3` or None, optional
+        The corresponding design variable-to-property relation.
+    code : str or None, optional
+        An additional code to identify the design varible.
+
     """
     uniqueid = 8000000
 
-    def __init__(self, label, init, lb, ub, dvsid, dvprop, code=None):
+    def __init__(self, label, init, lb, ub, dvsid, dvprop=None, code=None):
         self.id = DVAR.uniqueid
         DVAR.uniqueid += 1
         self.defaults()
@@ -366,7 +384,7 @@ class DVAR(object):
 
 
 class DVPROP3(object):
-    """Design Property DVPROP3
+    """Design Variable-to-Property relation
 
     This is a wrapper for the DVPROP3 card in Genesis.
 
@@ -587,6 +605,21 @@ class DLINK(object):
     - `c_{mult}` is a common multiplier
     - `c_i` is an individual multiplier for `{dvar}_i`
 
+    Parameters
+    ----------
+    ddvid : int
+        Dependent design variable identification number.
+    c0 : float
+        Constant term.
+    cmult : float
+        Constant multiplier.
+    idvs : list
+        The independent variables.
+    cs : list
+        The multipliers for each variable.
+
+    Notes
+    -----
     Be sure that no dependent variables are being used as independent
     variables.
 
@@ -598,7 +631,11 @@ class DLINK(object):
         indep_dv_c = [1000000, 1., 1000001, 1., ...]
 
     """
-    def __init__(self, dep_var, dvi_ci, c0 = 0., cmult = 1.):
+    uniqueid = 8000000
+
+    def __init__(self, dep_var, dvi_ci, c0=0., cmult=1.):
+        self.id = DLINK.uniqueid
+        DLINK.uniqueid += 1
         self.dvid = dep_var
         self.c0 = c0
         self.cmult = cmult

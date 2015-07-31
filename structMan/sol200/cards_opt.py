@@ -1,26 +1,26 @@
 """
-Optimization cards (:mod:`feopt.sol200.cards_opt`)
-=============================================
+Optimization cards (:mod:`structMan.sol200.cards_opt`)
+======================================================
 
-.. currentmodule:: feopt.sol200.cards_opt`
+.. currentmodule:: structMan.sol200.cards_opt`
 
 Many input cards related to the optimization problem are wrapped in this
 module. The input cards more related to the solver are contained in module
-:mod:`feopt.sol200.cards_solver`.
+:mod:`structMan.sol200.cards_solver`.
 
 .. rubric:: Classes
 
 .. autosummary::
 
-    feopt.sol200.cards_opt.DCONSTR
-    feopt.sol200.cards_opt.DEQATN
-    feopt.sol200.cards_opt.DESVAR
-    feopt.sol200.cards_opt.DLINK
-    feopt.sol200.cards_opt.DRESP1
-    feopt.sol200.cards_opt.DRESP2
-    feopt.sol200.cards_opt.DRESP3
-    feopt.sol200.cards_opt.DTABLE
-    feopt.sol200.cards_opt.DVPREL1
+    structMan.sol200.cards_opt.DCONSTR
+    structMan.sol200.cards_opt.DEQATN
+    structMan.sol200.cards_opt.DESVAR
+    structMan.sol200.cards_opt.DLINK
+    structMan.sol200.cards_opt.DRESP1
+    structMan.sol200.cards_opt.DRESP2
+    structMan.sol200.cards_opt.DRESP3
+    structMan.sol200.cards_opt.DTABLE
+    structMan.sol200.cards_opt.DVPREL1
 
 """
 from pprint import pformat
@@ -87,7 +87,7 @@ class DRESP1(object):
                     file.write(dresp1str + '\n')
                     dresp1str = '+'
                     atticount = 2
-                dresp1str = dresp1str + (',' + str(self.atti[i]))
+                dresp1str += ',' + str(self.atti[i])
         file.write(dresp1str + '\n')
 
 
@@ -96,12 +96,12 @@ class DRESP23(object):
 
     """
     def __init__(self):
-        self.dvar = []
+        self.dvars = []
         self.dtable = []
         self.dresp1 = []
 
     def add_dvar(self, dvar_id):
-        self.dvar.append(dvar_id)
+        self.dvars.append(dvar_id)
 
     def add_dtable(self, cons_label):
         self.dtable.append(cons_label)
@@ -124,6 +124,9 @@ class DRESP23(object):
 
 class DRESP2(DRESP23):
     """Design response DRESP2
+
+    Define equation responses that are used in the design, either as an
+    objective function or as constraints.
 
     Parameters
     ----------
@@ -161,20 +164,26 @@ class DRESP2(DRESP23):
             File object with a :meth:`write` method.
 
         """
-        drespstr = ('%s,%d,%s,%d,%s\n' %
-                     ('DRESP2', self.id, self.label, self.eqid, self.region))
+        drespstr = ('DRESP2,%d,%s,%d,%s\n' %
+                     (self.id, self.label, self.eqid, self.region))
+
         file.write(drespstr)
 
-        if len(self.dvar) > 0:
-            self.print_aux('DESVAR', self.dvar , file)
+        if len(self.dvars) > 0:
+            self.print_aux('DESVAR', self.dvars, file)
+
         if len(self.dtable) > 0:
             self.print_aux('DTABLE', self.dtable, file)
+
         if len(self.dresp1) > 0:
             self.print_aux('DRESP1', self.dresp1, file)
 
 
 class DRESP3(DRESP23):
     """Design response DRESP3
+
+    Define use-subroutine or built-in responses that can be used in the design
+    either as constraint or as an objective.
 
     Parameters
     ----------
@@ -213,12 +222,12 @@ class DRESP3(DRESP23):
             File object with a :meth:`write` method.
 
         """
-        drespstr = ('%s,%d,%s,%s,%s,%s\n' % ('DRESP2', self.id, self.label,
-            self.group, self.type, self.region))
+        drespstr = ('DRESP3,%d,%s,%s,%s,%s\n' % (self.id, self.label,
+                    self.group, self.type, self.region))
         file.write(drespstr)
 
-        if len(self.dvar) > 0:
-            self.print_aux('DESVAR', self.dvar , file)
+        if len(self.dvars) > 0:
+            self.print_aux('DESVAR', self.dvars, file)
         if len(self.dtable) > 0:
             self.print_aux('DTABLE', self.dtable, file)
         if len(self.dresp1) > 0:
@@ -239,7 +248,7 @@ class DESVAR(object):
     xub : float
         Upper bound.
     dvprel1 : :class:`.DVPREL1` or None, optional
-        The corresponding design property.
+        The corresponding design variable-to-property relation.
     code : str or None, optional
         An additional code to identify the design varible.
 
@@ -283,9 +292,9 @@ class DESVAR(object):
 
 
 class DVPREL1(object):
-    """Design Property DVPREL1
+    """Design Variable-to-Property relation
 
-    This is a wrapper for the DVPREL1 card in Genesis.
+    This is a wrapper for the DVPREL1 card in NASTRAN.
 
     Parameters
     ----------
@@ -414,6 +423,13 @@ class DLINK(object):
     -----
     Be sure that no dependent variables are being used as independent
     variables.
+
+    By default ``c0 = 0`` and ``cmult = 1``.
+
+    The values of ``dvi`` and ``ci`` are inputed as follows::
+
+        indep_dv_c = [dv1, c1, dv2, c2, ...]
+        indep_dv_c = [1000000, 1., 1000001, 1., ...]
 
     """
     uniqueid = 8000000
