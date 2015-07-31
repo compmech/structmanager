@@ -4,10 +4,42 @@ import numpy as np
 
 
 class SE(object):
+    """Structural Element
+
+    Attributes
+    ----------
+    name : str
+        Name.
+    eids : list
+        A list containing the elements belonging to this structural element.
+    all_constraints : list
+        A list of strings with all available constriants. For each constraint
+        'c' there must be a method `self.constrain_c` that will properly handle
+        the creation of each optimization card.
+    constraints : dict
+        Only the constraints that should be considered. The dictionary should
+        have the format::
+
+            constraints{'vonMises': 1, 'buckling': 'ALL'}
+
+        where `'ALL'` means that this constraint is applicable for all
+        subcases, whereas `1` means it is applicable for the first subcase.
+
+    """
     def __init__(self, name, *eids):
         self.name = name
         self.eids = eids
         self.model = None
+        # optimization parameters
+        self.dresps = {}
+        self.dvars = {}
+        self.dvprops = {}
+        self.deqatns = {}
+        self.dtables = {}
+        self.dlinks = {}
+        self.all_constraints = {}
+        self.constraints = {}
+        # outputs
         self.forces = None
 
     def __str__(self):
@@ -178,22 +210,34 @@ class SE2D(SE):
 
 
 class Panel(SE2D):
-    """Panel"""
+    """Panel
+
+    Attributes
+
+    """
     idDESVAR = 1000000
     idDVPREL = 1000000
     idDCONSTR = 1000000
     idDRESP = 1000000
     def __init__(self, name, *eids):
         super(Panel, self).__init__(name, *eids)
+        # geometric parameters
         self.radius1 = None
         self.radius2 = None
         self.width = None
         self.length = None
         self.thickness = None
         self.xaxis = 'stringer'
-        self.model = None
-        # parameters related to optimization
-        self.dvars = []
+        # material properties
+        self.is_isotropic = True
+        self.Ec = None
+        self.nu = None
+        # optimization constraints
+        self.constraints = {'vonMises': 'ALL'}
+
+    def constrain_vonMises(self):
+        self.
+
 
 
 class InnerFlange(SE1D):
