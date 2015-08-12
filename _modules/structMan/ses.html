@@ -1,0 +1,640 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>structMan.ses &mdash; structMan 0.1.0 dev documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.0 dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="structMan 0.1.0 dev documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for structMan.ses</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Structural Elements - SEs (:mod:`structMan.ses`)</span>
+<span class="sd">================================================</span>
+
+<span class="sd">.. currentmodule:: structMan.ses</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">itemgetter</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">sol200</span> <span class="kn">import</span> <span class="n">DRESP1</span><span class="p">,</span> <span class="n">DCONSTR</span><span class="p">,</span> <span class="n">DEQATN</span><span class="p">,</span> <span class="n">DRESP2</span>
+<span class="kn">import</span> <span class="nn">sol200.output_codes</span> <span class="kn">as</span> <span class="nn">output_codes_SOL200</span>
+
+
+<div class="viewcode-block" id="SE"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.SE">[docs]</a><span class="k">class</span> <span class="nc">SE</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Structural Element</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name : str</span>
+<span class="sd">        Name.</span>
+<span class="sd">    eids : list</span>
+<span class="sd">        A list containing the elements belonging to this structural element.</span>
+<span class="sd">    all_constraints : list</span>
+<span class="sd">        A list of strings with all implemented constriants. For each</span>
+<span class="sd">        constraint &#39;c&#39; there must be a method `self.constrain_c` that will</span>
+<span class="sd">        properly handle the creation of each optimization card.</span>
+<span class="sd">    constraints : dict</span>
+<span class="sd">        Only the constraints that should be considered. The dictionary should</span>
+<span class="sd">        have the format::</span>
+
+<span class="sd">            constraints{&#39;vonMises&#39;: 1, &#39;buckling&#39;: 3}</span>
+
+<span class="sd">        where `1` and `3` indicate the design constraint set ids for which</span>
+<span class="sd">        each respective constraint should be applied.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">eids</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eids</span> <span class="o">=</span> <span class="n">eids</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">elements</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="c"># optimization parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dresps</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvars</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvprops</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deqatns</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtables</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dlinks</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dconstrs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_constraints</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c"># outputs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forces</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">((</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">: &#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>  <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span>
+                <span class="s">&#39;, Elements: &#39;</span> <span class="o">+</span> <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eids</span><span class="p">)))</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="SE.add_dtable"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.SE.add_dtable">[docs]</a>    <span class="k">def</span> <span class="nf">add_dtable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a DTABLE entry to the SE and the optmodel</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        key : str</span>
+<span class="sd">            The DTABLE unique key.</span>
+<span class="sd">        value : float</span>
+<span class="sd">            The value corresponding to `key`.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">optmodel</span><span class="o">.</span><span class="n">dtables</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;{0} is an already existing DTABLE entry!&#39;</span><span class="o">.</span>
+                             <span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtables</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">optmodel</span><span class="o">.</span><span class="n">dtables</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="SE.add_dresp"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.SE.add_dresp">[docs]</a>    <span class="k">def</span> <span class="nf">add_dresp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dresp</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a DRESP(123) entry to the SE and the optmodel</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dresp : :class:`DRESP1`, :class:`DRESP2` or :class:`DRESP3`</span>
+<span class="sd">            The response object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dresps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dresp</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">optmodel</span><span class="o">.</span><span class="n">dresps</span><span class="p">[</span><span class="n">dresp</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dresp</span>
+
+</div>
+<div class="viewcode-block" id="SE.add_constraint"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.SE.add_constraint">[docs]</a>    <span class="k">def</span> <span class="nf">add_constraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dcid</span><span class="p">,</span> <span class="n">dresp</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a DCONSTR entry to the SE and the optmodel</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dcid : int</span>
+<span class="sd">            Design constraint set id.</span>
+<span class="sd">        dresp : :class:`DRESP1`, :class:`DRESP2` or :class:`DRESP3`</span>
+<span class="sd">            The response object.</span>
+<span class="sd">        lb : float</span>
+<span class="sd">            Lower boundary for the constraint.</span>
+<span class="sd">        ub : float</span>
+<span class="sd">            Upper boundary for the constraint.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dconstr</span> <span class="o">=</span> <span class="n">DCONSTR</span><span class="p">(</span><span class="n">dcid</span><span class="p">,</span> <span class="n">dresp</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dconstrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dconstr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">optmodel</span><span class="o">.</span><span class="n">dconstrs</span><span class="p">[</span><span class="n">dconstr</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dconstr</span>
+
+</div>
+<div class="viewcode-block" id="SE.get_central_element"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.SE.get_central_element">[docs]</a>    <span class="k">def</span> <span class="nf">get_central_element</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the element closest to the SE center of gravity</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">e</span><span class="o">.</span><span class="n">get_node_positions</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">])</span>
+        <span class="n">cg</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(((</span><span class="n">x</span><span class="o">-</span><span class="n">cg</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))]</span>
+
+</div></div>
+<span class="k">class</span> <span class="nc">SE1D</span><span class="p">(</span><span class="n">SE</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">eids</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SE1D</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">eids</span><span class="p">)</span>
+        <span class="c"># internal forces</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bending_moment_a1</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bending_moment_a2</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bending_moment_b1</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bending_moment_b2</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shear1</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shear2</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">axial</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">torque</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="nf">read_forces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">op2</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&#39;No op2 file defined for SE.model&#39;</span><span class="p">)</span>
+        <span class="c"># LINEAR ELEMENTS</span>
+        <span class="c"># CBAR</span>
+        <span class="c">#TODO try to fix op2.subcases and submit a pull request</span>
+        <span class="n">subcases</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">op2</span><span class="o">.</span><span class="n">subcases</span>
+        <span class="n">num_subcases</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">subcases</span><span class="p">)</span>
+        <span class="n">forces</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">op2</span><span class="o">.</span><span class="n">cbar_force</span>
+        <span class="n">force1</span> <span class="o">=</span> <span class="n">forces</span><span class="p">[</span><span class="n">subcases</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">op2</span><span class="o">.</span><span class="n">is_vectorized</span><span class="p">:</span>
+            <span class="n">num_vectors</span> <span class="o">=</span> <span class="mi">8</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">forces</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_vectors</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eids</span><span class="p">),</span> <span class="n">num_subcases</span><span class="p">))</span>
+
+            <span class="n">getter</span> <span class="o">=</span> <span class="n">itemgetter</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">eids</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">subcase</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">subcases</span><span class="p">):</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">forces</span><span class="p">[</span><span class="n">subcase</span><span class="p">]</span>
+                <span class="c"># Bending End A plane 1 and plane 2</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="n">getter</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">bendingMomentA</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">tmp</span><span class="p">)</span>
+                <span class="c"># Bending End B plane 1 and plane 2</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="n">getter</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">bendingMomentB</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">tmp</span><span class="p">)</span>
+                <span class="c"># Shear plane 1 and plane 2</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="n">getter</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shear</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">tmp</span><span class="p">)</span>
+                <span class="c"># Axial force</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">getter</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">axial</span><span class="p">)</span>
+                <span class="c"># Torque</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">getter</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">torque</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">op2</span><span class="o">.</span><span class="n">is_vectorized</span><span class="p">:</span>
+            <span class="n">num_vectors</span> <span class="o">=</span> <span class="n">force1</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">forces</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_vectors</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eids</span><span class="p">),</span> <span class="n">num_subcases</span><span class="p">))</span>
+
+            <span class="n">i_op2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="n">force1</span><span class="o">.</span><span class="n">element</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eids</span><span class="p">)</span>
+            <span class="n">i_panel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eids</span><span class="p">,</span> <span class="n">force1</span><span class="o">.</span><span class="n">element</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">subcase</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">subcases</span><span class="p">):</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">forces</span><span class="p">[</span><span class="n">subcase</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[:,</span> <span class="n">i_panel</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i_op2</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">bending_moment_a1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bending_moment_a2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bending_moment_b1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bending_moment_b2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shear1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shear2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">axial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">torque</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">SE2D</span><span class="p">(</span><span class="n">SE</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">eids</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SE2D</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">eids</span><span class="p">)</span>
+        <span class="c"># internal forces</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mx</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">my</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mxy</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bmx</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bmy</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bmxy</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tx</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ty</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="nf">read_forces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">op2</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&#39;No op2 file defined for SE.model&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="c">#TODO try to fix op2.subcases and submit a pull request</span>
+        <span class="n">subcases</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">op2</span><span class="o">.</span><span class="n">subcases</span>
+        <span class="n">num_subcases</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">subcases</span><span class="p">)</span>
+        <span class="c"># LINEAR ELEMENTS</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">op2</span><span class="o">.</span><span class="n">is_vectorized</span><span class="p">:</span>
+            <span class="n">num_vectors</span> <span class="o">=</span> <span class="mi">8</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">forces</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_vectors</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eids</span><span class="p">),</span> <span class="n">num_subcases</span><span class="p">))</span>
+
+            <span class="k">for</span> <span class="n">forces</span> <span class="ow">in</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">op2</span><span class="o">.</span><span class="n">cquad4_force</span><span class="p">,</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">op2</span><span class="o">.</span><span class="n">ctria3_force</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">forces</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">element</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">forces</span><span class="p">[</span><span class="n">subcases</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">mx</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+                <span class="n">i_panel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eids</span><span class="p">,</span> <span class="n">element</span><span class="p">)</span>
+
+                <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eids</span><span class="p">)[</span><span class="n">i_panel</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">getter</span> <span class="o">=</span> <span class="n">itemgetter</span><span class="p">(</span><span class="o">*</span><span class="n">tmp</span><span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">subcase</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">subcases</span><span class="p">):</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="n">forces</span><span class="p">[</span><span class="n">subcase</span><span class="p">]</span>
+                    <span class="c"># mx</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i_panel</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">getter</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">mx</span><span class="p">)</span>
+                    <span class="c"># my</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">i_panel</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">getter</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">my</span><span class="p">)</span>
+                    <span class="c"># mxy</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="n">i_panel</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">getter</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">mxy</span><span class="p">)</span>
+                    <span class="c"># bmx</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="n">i_panel</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">getter</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">bmx</span><span class="p">)</span>
+                    <span class="c"># bmy</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="n">i_panel</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">getter</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">bmy</span><span class="p">)</span>
+                    <span class="c"># bmxy</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="n">i_panel</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">getter</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">bmxy</span><span class="p">)</span>
+                    <span class="c"># tx</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="n">i_panel</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">getter</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">tx</span><span class="p">)</span>
+                    <span class="c"># ty</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="n">i_panel</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">getter</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">ty</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">op2</span><span class="o">.</span><span class="n">is_vectorized</span><span class="p">:</span>
+            <span class="n">forces</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">op2</span><span class="o">.</span><span class="n">cquad4_force</span>
+            <span class="n">force1</span> <span class="o">=</span> <span class="n">forces</span><span class="p">[</span><span class="n">subcases</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="n">num_vectors</span> <span class="o">=</span> <span class="n">force1</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">forces</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_vectors</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eids</span><span class="p">),</span> <span class="n">num_subcases</span><span class="p">))</span>
+
+            <span class="c"># CQUAD4</span>
+            <span class="n">i_op2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="n">force1</span><span class="o">.</span><span class="n">element</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eids</span><span class="p">)</span>
+            <span class="n">i_panel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eids</span><span class="p">,</span> <span class="n">force1</span><span class="o">.</span><span class="n">element</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">subcase</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">subcases</span><span class="p">):</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">forces</span><span class="p">[</span><span class="n">subcase</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[:,</span> <span class="n">i_panel</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i_op2</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+
+            <span class="c"># CTRIA3</span>
+            <span class="n">forces</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">op2</span><span class="o">.</span><span class="n">ctria3_force</span>
+            <span class="n">force1</span> <span class="o">=</span> <span class="n">forces</span><span class="p">[</span><span class="n">subcases</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="n">i_op2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="n">force1</span><span class="o">.</span><span class="n">element</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eids</span><span class="p">)</span>
+            <span class="n">i_panel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eids</span><span class="p">,</span> <span class="n">force1</span><span class="o">.</span><span class="n">element</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">subcase</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">subcases</span><span class="p">):</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">forces</span><span class="p">[</span><span class="n">subcase</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[:,</span> <span class="n">i_panel</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i_op2</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">my</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mxy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bmx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bmy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bmxy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ty</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="Panel"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.Panel">[docs]</a><span class="k">class</span> <span class="nc">Panel</span><span class="p">(</span><span class="n">SE2D</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Panel</span>
+
+<span class="sd">    Attributes</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">idDESVAR</span> <span class="o">=</span> <span class="mi">1000000</span>
+    <span class="n">idDVPREL</span> <span class="o">=</span> <span class="mi">1000000</span>
+    <span class="n">idDCONSTR</span> <span class="o">=</span> <span class="mi">1000000</span>
+    <span class="n">idDRESP</span> <span class="o">=</span> <span class="mi">1000000</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">eids</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Panel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">eids</span><span class="p">)</span>
+        <span class="c"># geometric parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">radius1</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">radius2</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">thickness</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xaxis</span> <span class="o">=</span> <span class="s">&#39;stringer&#39;</span>
+        <span class="c"># material properties</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_isotropic</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Ec</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nu</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="c"># optimization constraints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_constraints</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;vonMises&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;vonMises&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+
+
+<div class="viewcode-block" id="Panel.constrain_vonMises"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.Panel.constrain_vonMises">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_vonMises</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Fcy</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a von Mises stress constraint</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Fcy : float</span>
+<span class="sd">            The stress threshold that will be compared to the von Mises stress</span>
+<span class="sd">            for this constraint.</span>
+<span class="sd">        average : bool, optional</span>
+<span class="sd">            If False the center element is chosen, otherwise ...</span>
+<span class="sd">            #TODO not implemented</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">eid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_central_element</span><span class="p">()</span><span class="o">.</span><span class="n">eid</span>
+
+        <span class="n">dcid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s">&#39;vonMises&#39;</span><span class="p">]</span>
+        <span class="n">OUTC</span> <span class="o">=</span> <span class="n">output_codes_SOL200</span><span class="o">.</span><span class="n">OUTC</span>
+
+        <span class="n">atta</span> <span class="o">=</span> <span class="n">OUTC</span><span class="p">[</span><span class="s">&#39;STRESS&#39;</span><span class="p">][</span><span class="s">&#39;CQUAD4&#39;</span><span class="p">][</span><span class="s">&#39;von Mises or maximum shear at Z1&#39;</span><span class="p">]</span>
+        <span class="n">dresp1</span> <span class="o">=</span> <span class="n">DRESP1</span><span class="p">(</span><span class="s">&#39;PANZ1VM&#39;</span><span class="p">,</span> <span class="s">&#39;STRESS&#39;</span><span class="p">,</span> <span class="s">&#39;ELEM&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">atta</span><span class="o">=</span><span class="n">atta</span><span class="p">,</span>
+                        <span class="n">attb</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">atti</span><span class="o">=</span><span class="n">eid</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_dresp</span><span class="p">(</span><span class="n">dresp1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="n">dcid</span><span class="p">,</span> <span class="n">dresp1</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">Fcy</span><span class="p">)</span>
+
+        <span class="n">atta</span> <span class="o">=</span> <span class="n">OUTC</span><span class="p">[</span><span class="s">&#39;STRESS&#39;</span><span class="p">][</span><span class="s">&#39;CQUAD4&#39;</span><span class="p">][</span><span class="s">&#39;von Mises or maximum shear at Z2&#39;</span><span class="p">]</span>
+        <span class="n">dresp1</span> <span class="o">=</span> <span class="n">DRESP1</span><span class="p">(</span><span class="s">&#39;PANZ2VM&#39;</span><span class="p">,</span> <span class="s">&#39;STRESS&#39;</span><span class="p">,</span> <span class="s">&#39;ELEM&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">atta</span><span class="o">=</span><span class="n">atta</span><span class="p">,</span>
+                        <span class="n">attb</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">atti</span><span class="o">=</span><span class="n">eid</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_dresp</span><span class="p">(</span><span class="n">dresp1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="n">dcid</span><span class="p">,</span> <span class="n">dresp1</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">Fcy</span><span class="p">)</span>
+
+</div></div>
+<span class="k">class</span> <span class="nc">InnerFlange</span><span class="p">(</span><span class="n">SE1D</span><span class="p">):</span>
+    <span class="n">idDESVAR</span> <span class="o">=</span> <span class="mi">2100000</span>
+    <span class="n">idDVPREL</span> <span class="o">=</span> <span class="mi">2100000</span>
+    <span class="n">idDCONSTR</span> <span class="o">=</span> <span class="mi">2100000</span>
+    <span class="n">idDRESP</span> <span class="o">=</span> <span class="mi">2100000</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">eids</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">InnerFlange</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">eids</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Web</span><span class="p">(</span><span class="n">SE2D</span><span class="p">):</span>
+    <span class="n">idDESVAR</span> <span class="o">=</span> <span class="mi">2200000</span>
+    <span class="n">idDVPREL</span> <span class="o">=</span> <span class="mi">2200000</span>
+    <span class="n">idDCONSTR</span> <span class="o">=</span> <span class="mi">2200000</span>
+    <span class="n">idDRESP</span> <span class="o">=</span> <span class="mi">2200000</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">eids</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Web</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">eids</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">OuterFlange</span><span class="p">(</span><span class="n">SE1D</span><span class="p">):</span>
+    <span class="n">idDESVAR</span> <span class="o">=</span> <span class="mi">2300000</span>
+    <span class="n">idDVPREL</span> <span class="o">=</span> <span class="mi">2300000</span>
+    <span class="n">idDCONSTR</span> <span class="o">=</span> <span class="mi">2300000</span>
+    <span class="n">idDRESP</span> <span class="o">=</span> <span class="mi">2300000</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">eids</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">OuterFlange</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">eids</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ShearClipFrame"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.ShearClipFrame">[docs]</a><span class="k">class</span> <span class="nc">ShearClipFrame</span><span class="p">(</span><span class="n">SE2D</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Shear Clip Attachment to Frame</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">idDESVAR</span> <span class="o">=</span> <span class="mi">2400000</span>
+    <span class="n">idDVPREL</span> <span class="o">=</span> <span class="mi">2400000</span>
+    <span class="n">idDCONSTR</span> <span class="o">=</span> <span class="mi">2400000</span>
+    <span class="n">idDRESP</span> <span class="o">=</span> <span class="mi">2400000</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">eids</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ShearClipFrame</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">eids</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="ShearClipSkin"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.ShearClipSkin">[docs]</a><span class="k">class</span> <span class="nc">ShearClipSkin</span><span class="p">(</span><span class="n">SE1D</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Shear Clip Attachment to Skin</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">idDESVAR</span> <span class="o">=</span> <span class="mi">2500000</span>
+    <span class="n">idDVPREL</span> <span class="o">=</span> <span class="mi">2500000</span>
+    <span class="n">idDCONSTR</span> <span class="o">=</span> <span class="mi">2500000</span>
+    <span class="n">idDRESP</span> <span class="o">=</span> <span class="mi">2500000</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">eids</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ShearClipSkin</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">eids</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="Stringer"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.Stringer">[docs]</a><span class="k">class</span> <span class="nc">Stringer</span><span class="p">(</span><span class="n">SE1D</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Stringer</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    profile (`str`)</span>
+<span class="sd">        - `Z_t_b` - Z section defined with two variables:</span>
+<span class="sd">            - `t` (variable): profile thickness</span>
+<span class="sd">            - `b` (variable): flange width</span>
+<span class="sd">            - `h` (constant): height</span>
+
+<span class="sd">        - `Z_t_b_h` - Z section defined with three variables:</span>
+<span class="sd">            - `t` (variable): profile thickness</span>
+<span class="sd">            - `b` (variable): flange width</span>
+<span class="sd">            - `h` (variable): height</span>
+
+<span class="sd">        - `Z_tf_tw_b_h` - Z section defined with four variables:</span>
+<span class="sd">            - `tf` (variable): flange thickness</span>
+<span class="sd">            - `tw` (variable): web thickness</span>
+<span class="sd">            - `b` (variable): flange width</span>
+<span class="sd">            - `h` (variable): height</span>
+
+<span class="sd">        - `B_t` - Blade section defined with one variable:</span>
+<span class="sd">            - `t` (variable): thickness</span>
+<span class="sd">            - `h` (constant): height</span>
+
+<span class="sd">        - `B_t_h` - Blade section defined with two variables:</span>
+<span class="sd">            - `t` (variable): thickness</span>
+<span class="sd">            - `h` (variable): height</span>
+
+
+<span class="sd">        The stringer&#39;s attributes will vary from one `profile` to another.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">idDESVAR</span> <span class="o">=</span> <span class="mi">3000000</span>
+    <span class="n">idDVPREL</span> <span class="o">=</span> <span class="mi">3000000</span>
+    <span class="n">idDCONSTR</span> <span class="o">=</span> <span class="mi">3000000</span>
+    <span class="n">idDRESP</span> <span class="o">=</span> <span class="mi">3000000</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">eids</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Stringer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">eids</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_PBAR</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">profile</span> <span class="o">=</span> <span class="s">&#39;B_t&#39;</span>
+        <span class="c"># optimization constraints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_constraints</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;stress_tension&#39;</span><span class="p">,</span> <span class="s">&#39;stress_compression&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;stress_tension&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                            <span class="s">&#39;stress_compression&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+
+
+<div class="viewcode-block" id="Stringer.constrain_stress"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.Stringer.constrain_stress">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_stress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Fy</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a stress constrain</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Fy : float</span>
+<span class="sd">            The stress threshold to be used in the constraint. The sign of</span>
+<span class="sd">            `Fy` will determine whether this threshold if for tension or</span>
+<span class="sd">            compression.</span>
+<span class="sd">        average : bool, optional</span>
+<span class="sd">            If False the center element is chosen, otherwise ...</span>
+<span class="sd">            #TODO not implemented</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">eid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_central_element</span><span class="p">()</span><span class="o">.</span><span class="n">eid</span>
+        <span class="n">OUTC</span> <span class="o">=</span> <span class="n">output_codes_SOL200</span><span class="o">.</span><span class="n">OUTC</span>
+
+        <span class="k">if</span> <span class="n">Fy</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">dcid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s">&#39;stress_tension&#39;</span><span class="p">]</span>
+            <span class="n">atta</span> <span class="o">=</span> <span class="n">OUTC</span><span class="p">[</span><span class="s">&#39;STRESS&#39;</span><span class="p">][</span><span class="s">&#39;CBAR&#39;</span><span class="p">][</span><span class="s">&#39;End A maximum&#39;</span><span class="p">]</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="s">&#39;STRmaxS&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dcid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s">&#39;stress_compression&#39;</span><span class="p">]</span>
+            <span class="n">atta</span> <span class="o">=</span> <span class="n">OUTC</span><span class="p">[</span><span class="s">&#39;STRESS&#39;</span><span class="p">][</span><span class="s">&#39;CBAR&#39;</span><span class="p">][</span><span class="s">&#39;End A minimum&#39;</span><span class="p">]</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="s">&#39;STRminS&#39;</span>
+
+        <span class="n">dresp1</span> <span class="o">=</span> <span class="n">DRESP1</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="s">&#39;STRESS&#39;</span><span class="p">,</span> <span class="s">&#39;ELEM&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">atta</span><span class="o">=</span><span class="n">atta</span><span class="p">,</span> <span class="n">attb</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                        <span class="n">atti</span><span class="o">=</span><span class="n">eid</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_dresp</span><span class="p">(</span><span class="n">dresp1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">Fy</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="n">dcid</span><span class="p">,</span> <span class="n">dresp1</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">Fy</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="n">dcid</span><span class="p">,</span> <span class="n">dresp1</span><span class="p">,</span> <span class="n">Fy</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="Stringer.constrain_stress_tension"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.Stringer.constrain_stress_tension">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_stress_tension</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Fty</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a tension stress constraint</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Fty : float</span>
+<span class="sd">            The tension stress threshold to be used in the constraint.</span>
+<span class="sd">        average : bool, optional</span>
+<span class="sd">            If False the center element is chosen, otherwise ...</span>
+<span class="sd">            #TODO not implemented</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constrain_stress</span><span class="p">(</span><span class="n">Fy</span><span class="o">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">Fty</span><span class="p">),</span> <span class="n">average</span><span class="o">=</span><span class="n">average</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="Stringer.constrain_stress_compression"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.Stringer.constrain_stress_compression">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_stress_compression</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Fcy</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a compressive stress constraint</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Fcy : float</span>
+<span class="sd">            The compression stress threshold to be used in the constraint.</span>
+<span class="sd">        average : bool, optional</span>
+<span class="sd">            If False the center element is chosen, otherwise ...</span>
+<span class="sd">            #TODO not implemented</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constrain_stress</span><span class="p">(</span><span class="n">Fy</span><span class="o">=-</span><span class="nb">abs</span><span class="p">(</span><span class="n">Fcy</span><span class="p">),</span> <span class="n">average</span><span class="o">=</span><span class="n">average</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="Stringer.constrain_buckling"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.Stringer.constrain_buckling">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_buckling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a buckling constraint</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        method : int, optional</span>
+<span class="sd">            Select one of the following methods for  buckling calculation:</span>
+
+<span class="sd">            - `1` : Bruhn&#39;s method for Channel- and Z-section stiffeners</span>
+
+<span class="sd">            - `1` : Bruhn&#39;s...</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+
+<span class="sd">        Method 1) uses Bruhn&#39;s method described in Chapter 6, Fig. C6.4</span>
+
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">profile</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;z_t_b&#39;</span><span class="p">:</span>
+
+            <span class="n">deqatn</span> <span class="o">=</span> <span class="n">DEQATN</span><span class="p">(</span>
+                <span class="s">&#39;bf(dim1,dim3,dim2,E,nu,FA)=dim1-dim3/2.;&#39;</span>
+                <span class="s">&#39;bw=dim2-dim3;&#39;</span>
+                <span class="s">&#39;tw=dim3;&#39;</span>
+                <span class="s">&#39;x=bf/bw;&#39;</span>
+                <span class="s">&#39;Kw=-206.08*x**5 + 588.3*x**4 - 596.43*x**3 &#39;</span>
+                   <span class="s">&#39;+ 249.62*x**2 -41.924*x + 6.4545;&#39;</span>
+                <span class="s">&#39;SIGMAcr=Kw*PI(1)**2*E*tw**2/(12.*(1.-nu**2)*bw**2);&#39;</span>
+                <span class="s">&#39;MS=SIGMAcr/ABS(MIN(FA, 0.0001))-1.;&#39;</span><span class="p">)</span>
+            <span class="n">dresp2</span> <span class="o">=</span> <span class="n">DRESP2</span><span class="p">(</span><span class="s">&#39;STRBUCK&#39;</span><span class="p">,</span> <span class="n">deqatn</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="n">dresp2</span><span class="o">.</span><span class="n">dvars</span>
+</pre></div></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Saullo Castro.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

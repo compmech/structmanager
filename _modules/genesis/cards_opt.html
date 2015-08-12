@@ -1,0 +1,721 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>genesis.cards_opt &mdash; FeOpt 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FeOpt 0.1.0 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">FeOpt 0.1.0 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for genesis.cards_opt</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Optimization cards (:mod:`genesis.cards_opt`)</span>
+<span class="sd">=============================================</span>
+
+<span class="sd">.. currentmodule:: genesis.cards_opt`</span>
+
+<span class="sd">Many input cards related to the optimization problem are wrapped in this</span>
+<span class="sd">module. The input cards more related to the solver are contained in module</span>
+<span class="sd">:mod:`genesis.cards_solver`.</span>
+
+<span class="sd">.. rubric:: Classes</span>
+
+<span class="sd">.. autosummary::</span>
+
+<span class="sd">    genesis.cards_opt.DCONS</span>
+<span class="sd">    genesis.cards_opt.DEQATN</span>
+<span class="sd">    genesis.cards_opt.DLINK</span>
+<span class="sd">    genesis.cards_opt.DOBJ</span>
+<span class="sd">    genesis.cards_opt.DRESP1</span>
+<span class="sd">    genesis.cards_opt.DRESP23</span>
+<span class="sd">    genesis.cards_opt.DSPLIT</span>
+<span class="sd">    genesis.cards_opt.DTABLE</span>
+<span class="sd">    genesis.cards_opt.DVAR</span>
+<span class="sd">    genesis.cards_opt.DVPROP3</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pformat</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Iterable</span>
+
+<span class="kn">from</span> <span class="nn">sizing_data</span> <span class="kn">import</span> <span class="n">SDATA</span>
+
+
+<div class="viewcode-block" id="DSPLIT"><a class="viewcode-back" href="../../lib_python.html#genesis.cards_opt.DSPLIT">[docs]</a><span class="k">class</span> <span class="nc">DSPLIT</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;TODO add summary</span>
+
+<span class="sd">    TODO add description</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">propid</span><span class="p">,</span> <span class="n">ptype</span><span class="p">,</span> <span class="n">topo_max_elem</span><span class="p">,</span> <span class="n">manufact_cons_input</span><span class="p">,</span>
+                 <span class="n">manufact_cons_coord</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pid</span> <span class="o">=</span> <span class="n">propid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ptype</span> <span class="o">=</span> <span class="n">ptype</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cvalue</span> <span class="o">=</span> <span class="n">topo_max_elem</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cid</span> <span class="o">=</span> <span class="n">manufact_cons_coord</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manufact_cons_input</span> <span class="o">=</span> <span class="n">manufact_cons_input</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">defaults</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">defaults</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="s">&#39;s&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pid</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">symtol</span> <span class="o">=</span> <span class="mf">0.001</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">symmet</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angtype</span> <span class="o">=</span> <span class="s">&#39;ANGSYM&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type1</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type2</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type3</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coarse</span> <span class="o">=</span> <span class="s">&#39;COARSE&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ctype</span> <span class="o">=</span> <span class="s">&#39;MAXELEM&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">manufact_cons_input</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;&gt;</span> <span class="s">&#39;None&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">type1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">manufact_cons</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">manufact_cons_input</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">manufact_cons_input</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;&gt;</span> <span class="s">&#39;None&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">type2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">manufact_cons</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">manufact_cons_input</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">manufact_cons_input</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;&gt;</span> <span class="s">&#39;None&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">type3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">manufact_cons</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">manufact_cons_input</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span>
+
+<div class="viewcode-block" id="DSPLIT.manufact_cons"><a class="viewcode-back" href="../../lib_python.html#genesis.cards_opt.DSPLIT.manufact_cons">[docs]</a>    <span class="k">def</span> <span class="nf">manufact_cons</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create manufacture constraints following GENESIS Design Reference</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">manufact_cons</span><span class="o">=</span><span class="p">{}</span>
+        <span class="n">manufact_cons</span><span class="p">[</span><span class="s">&#39;Mirror symmetry with respect to the XY plane&#39;</span><span class="p">]</span><span class="o">=</span><span class="s">&#39;MXY&#39;</span>
+        <span class="n">manufact_cons</span><span class="p">[</span><span class="s">&#39;Mirror symmetry with respect to the YZ plane&#39;</span><span class="p">]</span><span class="o">=</span><span class="s">&#39;MYZ&#39;</span>
+        <span class="n">manufact_cons</span><span class="p">[</span><span class="s">&#39;Mirror symmetry with respect to the ZX plane&#39;</span><span class="p">]</span><span class="o">=</span><span class="s">&#39;MZX&#39;</span>
+        <span class="n">manufact_cons</span><span class="p">[</span><span class="s">&#39;Cyclic symmetry about the X axis&#39;</span><span class="p">]</span><span class="o">=</span><span class="s">&#39;CX&#39;</span>
+        <span class="n">manufact_cons</span><span class="p">[</span><span class="s">&#39;Cyclic symmetry about the Y axis&#39;</span><span class="p">]</span><span class="o">=</span><span class="s">&#39;CY&#39;</span>
+        <span class="n">manufact_cons</span><span class="p">[</span><span class="s">&#39;Cyclic symmetry about the Z axis&#39;</span><span class="p">]</span><span class="o">=</span><span class="s">&#39;CZ&#39;</span>
+        <span class="n">manufact_cons</span><span class="p">[</span><span class="s">&#39;Extrusion along the X axis&#39;</span><span class="p">]</span><span class="o">=</span><span class="s">&#39;EX&#39;</span>
+        <span class="n">manufact_cons</span><span class="p">[</span><span class="s">&#39;Extrusion along the Y axis&#39;</span><span class="p">]</span><span class="o">=</span><span class="s">&#39;EY&#39;</span>
+        <span class="n">manufact_cons</span><span class="p">[</span><span class="s">&#39;Extrusion along the Z axis&#39;</span><span class="p">]</span><span class="o">=</span><span class="s">&#39;EZ&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manufact_cons</span> <span class="o">=</span> <span class="n">manufact_cons</span>
+</div>
+<div class="viewcode-block" id="DSPLIT.print_card"><a class="viewcode-back" href="../../lib_python.html#genesis.cards_opt.DSPLIT.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file : file</span>
+<span class="sd">            File object with a :meth:`write` method.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dconsstr</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">,</span><span class="si">%d</span><span class="s">,</span><span class="si">%s</span><span class="s">,</span><span class="si">%s</span><span class="s">,</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;DSPLIT&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ptype</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pid</span><span class="p">))</span>
+        <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dconsstr</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cvalue</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;+,COARSE,</span><span class="si">%s</span><span class="s">,</span><span class="si">%d</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ctype</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cvalue</span><span class="p">))</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">type1</span> <span class="o">&lt;&gt;</span> <span class="s">&#39;&#39;</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">type2</span> <span class="o">&lt;&gt;</span> <span class="s">&#39;&#39;</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">type3</span> <span class="o">&lt;&gt;</span> <span class="s">&#39;&#39;</span><span class="p">):</span>
+            <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;+,SYM,</span><span class="si">%d</span><span class="s">,</span><span class="si">%s</span><span class="s">,</span><span class="si">%s</span><span class="s">,</span><span class="si">%s</span><span class="s">,</span><span class="si">%s</span><span class="s">,</span><span class="si">%f</span><span class="s">,</span><span class="si">%d</span><span class="s">,</span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span>
+                       <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">type1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">type2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">type3</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">symtol</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">symmet</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">angtype</span><span class="p">))</span>
+</div></div>
+<div class="viewcode-block" id="DRESP1"><a class="viewcode-back" href="../../lib_python.html#genesis.cards_opt.DRESP1">[docs]</a><span class="k">class</span> <span class="nc">DRESP1</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Design response DRESP1</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    TODO</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">uniqueid</span> <span class="o">=</span> <span class="mi">8000000</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">ptype</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">atta</span><span class="p">,</span> <span class="n">atti</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">DRESP1</span><span class="o">.</span><span class="n">uniqueid</span>
+        <span class="n">DRESP1</span><span class="o">.</span><span class="n">uniqueid</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rtype</span> <span class="o">=</span> <span class="n">rtype</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ptype</span> <span class="o">=</span> <span class="n">ptype</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">region</span> <span class="o">=</span> <span class="n">region</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atta</span> <span class="o">=</span> <span class="n">atta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atti</span> <span class="o">=</span> <span class="n">atti</span>
+
+<div class="viewcode-block" id="DRESP1.print_card"><a class="viewcode-back" href="../../lib_python.html#genesis.cards_opt.DRESP1.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dresp1str</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">,</span><span class="si">%d</span><span class="s">,</span><span class="si">%s</span><span class="s">,</span><span class="si">%s</span><span class="s">,</span><span class="si">%s</span><span class="s">,</span><span class="si">%s</span><span class="s">,</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span>
+                     <span class="p">(</span><span class="s">&#39;DRESP1&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rtype</span><span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">ptype</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">region</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">atta</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">atti</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;int&#39;</span><span class="p">:</span>
+            <span class="n">dresp1str</span> <span class="o">=</span> <span class="n">dresp1str</span> <span class="o">+</span> <span class="p">(</span><span class="s">&#39;,&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atti</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">atti</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="o">==</span><span class="s">&#39;list&#39;</span><span class="p">:</span>
+            <span class="n">atticount</span><span class="o">=-</span><span class="mi">3</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atti</span><span class="p">)):</span>
+                <span class="n">atticount</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">atticount</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">atticount</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+                    <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dresp1str</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+                    <span class="n">dresp1str</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;+&#39;</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="n">atticount</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+                        <span class="n">atticount</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="n">dresp1str</span> <span class="o">=</span> <span class="n">dresp1str</span> <span class="o">+</span> <span class="p">(</span><span class="s">&#39;,&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atti</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+        <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dresp1str</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+</div></div>
+<div class="viewcode-block" id="DRESP23"><a class="viewcode-back" href="../../lib_python.html#genesis.cards_opt.DRESP23">[docs]</a><span class="k">class</span> <span class="nc">DRESP23</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Design responses DRESP2 or DRESP3</span>
+
+<span class="sd">    This class can be used to create both design responses ``DRESP2`` or</span>
+<span class="sd">    ``DRESP3``, by changing the ``type`` attribute.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">uniqueid</span> <span class="o">=</span> <span class="mi">8000000</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">eqid</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">DRESP23</span><span class="o">.</span><span class="n">uniqueid</span>
+        <span class="n">DRESP23</span><span class="o">.</span><span class="n">uniqueid</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s">&#39;DRESP2&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eqid</span> <span class="o">=</span> <span class="n">eqid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">region</span> <span class="o">=</span> <span class="n">region</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dresp1</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvars</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtable</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">add_dresp1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dresp1_id</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dresp1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dresp1_id</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_dvar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dvar_id</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvar</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dvar_id</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_dtable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cons_label</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtable</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cons_label</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">print_aux</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">listaux</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+        <span class="n">auxstr</span> <span class="o">=</span> <span class="s">&#39;+,&#39;</span> <span class="o">+</span> <span class="n">label</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="k">for</span> <span class="n">aux_id</span> <span class="ow">in</span> <span class="n">listaux</span><span class="p">:</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">auxstr</span> <span class="o">+=</span> <span class="s">&#39;,&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">aux_id</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="n">count</span> <span class="o">=</span> <span class="mi">2</span>
+                <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">auxstr</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+                <span class="n">auxstr</span> <span class="o">=</span> <span class="s">&#39;+,&#39;</span>
+        <span class="k">if</span> <span class="n">auxstr</span> <span class="o">&lt;&gt;</span> <span class="s">&#39;+,&#39;</span><span class="p">:</span>
+            <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">auxstr</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DRESP23.print_card"><a class="viewcode-back" href="../../lib_python.html#genesis.cards_opt.DRESP23.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file : file</span>
+<span class="sd">            File object with a :meth:`write` method.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">drespstr</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">,</span><span class="si">%d</span><span class="s">,</span><span class="si">%s</span><span class="s">,</span><span class="si">%d</span><span class="s">,</span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span>
+                     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eqid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">region</span><span class="p">))</span>
+        <span class="c">#</span>
+        <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">drespstr</span><span class="p">)</span>
+        <span class="c">#</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dresp1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">print_aux</span><span class="p">(</span><span class="s">&#39;DRESP1&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dresp1</span><span class="p">,</span> <span class="nb">file</span><span class="p">)</span>
+        <span class="c">#</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dvars</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">print_aux</span><span class="p">(</span><span class="s">&#39;DVAR&#39;</span>  <span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvars</span> <span class="p">,</span> <span class="nb">file</span><span class="p">)</span>
+        <span class="c">#</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtable</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">print_aux</span><span class="p">(</span><span class="s">&#39;DTABLE&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtable</span><span class="p">,</span> <span class="nb">file</span><span class="p">)</span>
+</div></div>
+<div class="viewcode-block" id="DVAR"><a class="viewcode-back" href="../../lib_python.html#genesis.cards_opt.DVAR">[docs]</a><span class="k">class</span> <span class="nc">DVAR</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Design Variable</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">uniqueid</span> <span class="o">=</span> <span class="mi">8000000</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">init</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">,</span> <span class="n">dvsid</span><span class="p">,</span> <span class="n">dvprop</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">DVAR</span><span class="o">.</span><span class="n">uniqueid</span>
+        <span class="n">DVAR</span><span class="o">.</span><span class="n">uniqueid</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">defaults</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init</span> <span class="o">=</span> <span class="n">init</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lb</span> <span class="o">=</span> <span class="n">lb</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ub</span> <span class="o">=</span> <span class="n">ub</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvsid</span> <span class="o">=</span> <span class="n">dvsid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvprop</span> <span class="o">=</span> <span class="n">dvprop</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">code</span>
+
+    <span class="k">def</span> <span class="nf">defaults</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delx</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dxmin</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+
+<div class="viewcode-block" id="DVAR.print_card"><a class="viewcode-back" href="../../lib_python.html#genesis.cards_opt.DVAR.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file : file</span>
+<span class="sd">            File object with a :meth:`write` method.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">init</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">lb</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">ub</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;$dvar.id dvar.code </span><span class="si">%8d</span><span class="s"> </span><span class="si">%-8s</span><span class="s"> </span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="p">))</span>
+            <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;$HMNAME DVAR </span><span class="si">%8d</span><span class="s"> </span><span class="si">%-8s</span><span class="s"> </span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">))</span>
+            <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%-s</span><span class="s">,</span><span class="si">%d</span><span class="s">,</span><span class="si">%s</span><span class="s">,</span><span class="si">%f</span><span class="s">,</span><span class="si">%f</span><span class="s">,</span><span class="si">%f</span><span class="s">,</span><span class="si">%s</span><span class="s">,</span><span class="si">%s</span><span class="s"> </span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span>
+                      <span class="p">(</span><span class="s">&#39;DVAR&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lb</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">ub</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delx</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dxmin</span><span class="p">)))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvsid</span> <span class="o">&lt;&gt;</span> <span class="s">&#39;blank&#39;</span><span class="p">:</span>
+                <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;+,&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dvsid</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+</div>
+    <span class="k">def</span> <span class="nf">show_card</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%-s</span><span class="s">,</span><span class="si">%d</span><span class="s">,</span><span class="si">%s</span><span class="s">,</span><span class="si">%f</span><span class="s">,</span><span class="si">%f</span><span class="s">,</span><span class="si">%f</span><span class="s">,</span><span class="si">%s</span><span class="s">,</span><span class="si">%s</span><span class="s"> </span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span>
+                   <span class="p">(</span><span class="s">&#39;DVAR&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lb</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ub</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delx</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dxmin</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvsid</span> <span class="o">&lt;&gt;</span> <span class="s">&#39;blank&#39;</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&#39;+,&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dvsid</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="DVPROP3"><a class="viewcode-back" href="../../lib_python.html#genesis.cards_opt.DVPROP3">[docs]</a><span class="k">class</span> <span class="nc">DVPROP3</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Design Property DVPROP3</span>
+
+<span class="sd">    This is a wrapper for the DVPROP3 card in Genesis.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sizing_data : TODO</span>
+<span class="sd">        The sizing data for this entry.</span>
+<span class="sd">    id :</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">uniqueid</span> <span class="o">=</span> <span class="mi">8000000</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sizing_data</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">ptype</span><span class="p">,</span> <span class="n">eltype</span><span class="p">,</span> <span class="n">dvar_labels</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">dvar_codes</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">DVPROP3</span><span class="o">.</span><span class="n">uniqueid</span>
+        <span class="n">DVPROP3</span><span class="o">.</span><span class="n">uniqueid</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sizing_data</span> <span class="o">=</span> <span class="n">sizing_data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pid</span> <span class="o">=</span> <span class="n">pid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ptype</span> <span class="o">=</span> <span class="n">ptype</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eltype</span> <span class="o">=</span> <span class="n">eltype</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvars</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvars_by_code</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">defaults</span><span class="p">()</span>
+
+        <span class="c"># The label is used to organize the variables for each component</span>
+        <span class="k">if</span> <span class="n">dvar_labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dvar_labels</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dvar_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">dvar_labels</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sizing_data</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dvar_labels</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dvar_labels</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sizing_data</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Required one label for each variable!&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dvar_labels</span> <span class="o">=</span> <span class="n">dvar_labels</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;&quot;dvar_labels&quot; must be str or an iterable&#39;</span><span class="p">)</span>
+
+        <span class="c"># The code must be unique for each variable</span>
+        <span class="k">if</span> <span class="n">dvar_codes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dvar_codes</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;&quot;dvar_codes&quot; must be an Iterable&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">dvar_codes</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sizing_data</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Required one code for each variable!&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvar_codes</span> <span class="o">=</span> <span class="n">dvar_codes</span>
+
+
+    <span class="k">def</span> <span class="nf">defaults</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ishear</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pmin</span> <span class="o">=</span> <span class="mf">1.0e-10</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delp</span> <span class="o">=</span> <span class="mf">0.5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dpmin</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+
+<div class="viewcode-block" id="DVPROP3.create_dvars"><a class="viewcode-back" href="../../lib_python.html#genesis.cards_opt.DVPROP3.create_dvars">[docs]</a>    <span class="k">def</span> <span class="nf">create_dvars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create the design variables for the current DVPROP3</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">desvars</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">SDATA</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ptype</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">eltype</span><span class="p">]]</span>
+        <span class="c">#print(&quot;create_dvars:&quot;)</span>
+        <span class="c">#print(&quot;    &quot; + pformat(desvars))</span>
+        <span class="c">#print(&quot;    len(desvars): %s&quot; % len(desvars))</span>
+        <span class="c">#print(&quot;    self.ptype, self.eltype: %s %s&quot; % (self.ptype, self.eltype))</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">desvars</span><span class="p">)):</span>
+            <span class="n">desvar</span> <span class="o">=</span> <span class="n">desvars</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvar_labels</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">dvar_label</span> <span class="o">=</span> <span class="n">desvar</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dvar_label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvar_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="n">dvar_code</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvar_codes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">dvar_code</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvar_codes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="n">init</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sizing_data</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">lb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sizing_data</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">ub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sizing_data</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">init</span> <span class="o">&gt;</span> <span class="n">ub</span><span class="p">:</span>
+                <span class="n">init</span> <span class="o">=</span> <span class="n">ub</span>
+            <span class="k">elif</span> <span class="n">init</span> <span class="o">&lt;</span> <span class="n">lb</span><span class="p">:</span>
+                <span class="n">init</span> <span class="o">=</span> <span class="n">lb</span>
+
+            <span class="n">dvsid</span> <span class="o">=</span> <span class="s">&#39;blank&#39;</span>
+            <span class="n">dvar</span> <span class="o">=</span> <span class="n">DVAR</span><span class="p">(</span><span class="n">dvar_label</span><span class="p">,</span> <span class="n">init</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">,</span> <span class="n">dvsid</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">dvar_code</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dvars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dvar</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">dvar_code</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dvars_by_code</span><span class="p">[</span><span class="n">dvar_code</span><span class="p">]</span> <span class="o">=</span> <span class="n">dvar</span>
+
+</div>
+<div class="viewcode-block" id="DVPROP3.print_card"><a class="viewcode-back" href="../../lib_python.html#genesis.cards_opt.DVPROP3.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file : file</span>
+<span class="sd">            File object with a :meth:`write` method.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c">#finding all variables related to this dvprop3 entry</span>
+        <span class="n">csd</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">dvar</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvars</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">dvar</span><span class="o">.</span><span class="n">init</span> <span class="o">==</span> <span class="n">dvar</span><span class="o">.</span><span class="n">lb</span> <span class="o">==</span> <span class="n">dvar</span><span class="o">.</span><span class="n">ub</span><span class="p">):</span>
+                <span class="n">csd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">dvar</span><span class="o">.</span><span class="n">init</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">csd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">dvar</span><span class="o">.</span><span class="n">id</span><span class="p">))</span>
+
+        <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">,</span><span class="si">%d</span><span class="s">,</span><span class="si">%d</span><span class="s">,</span><span class="si">%s</span><span class="s">,</span><span class="si">%d</span><span class="s">,</span><span class="si">%f</span><span class="s">,</span><span class="si">%f</span><span class="s">,</span><span class="si">%f</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span>
+                  <span class="p">(</span><span class="s">&#39;DVPROP3&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eltype</span><span class="p">,</span>
+                   <span class="bp">self</span><span class="o">.</span><span class="n">ishear</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pmin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">delp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dpmin</span><span class="p">))</span>
+
+        <span class="n">cdsstr</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">,</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;+&#39;</span><span class="p">,</span> <span class="n">csd</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="n">cdsstrcount</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">csd</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">cdsstrcount</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">cdsstrcount</span> <span class="o">&gt;</span> <span class="mi">9</span><span class="p">:</span>
+                <span class="n">cdsstrcount</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cdsstr</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+                <span class="n">cdsstr</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">,</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;+&#39;</span><span class="p">,</span> <span class="n">csd</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cdsstr</span> <span class="o">=</span> <span class="n">cdsstr</span> <span class="o">+</span> <span class="p">(</span><span class="s">&#39;,</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">csd</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cdsstr</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="DOBJ"><a class="viewcode-back" href="../../lib_python.html#genesis.cards_opt.DOBJ">[docs]</a><span class="k">class</span> <span class="nc">DOBJ</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Design objective</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">drespid</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rid</span> <span class="o">=</span> <span class="n">drespid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">defaults</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">defaults</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="s">&#39;min_MASS&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lid</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">minmax</span> <span class="o">=</span> <span class="s">&#39;MIN&#39;</span>
+
+<div class="viewcode-block" id="DOBJ.print_card"><a class="viewcode-back" href="../../lib_python.html#genesis.cards_opt.DOBJ.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file : file</span>
+<span class="sd">            File object with a :meth:`write` method.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dobjstr</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">,</span><span class="si">%d</span><span class="s">,</span><span class="si">%s</span><span class="s">,</span><span class="si">%s</span><span class="s">,</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;DOBJ&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+                   <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lid</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">minmax</span><span class="p">))</span>
+        <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dobjstr</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="DCONS"><a class="viewcode-back" href="../../lib_python.html#genesis.cards_opt.DCONS">[docs]</a><span class="k">class</span> <span class="nc">DCONS</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Design constraint</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    drespid : int</span>
+<span class="sd">        The corresponding design response id.</span>
+<span class="sd">    lid_lb_ub : list</span>
+<span class="sd">        A list in the format ``[str, float, float]`` where the fields are</span>
+<span class="sd">        the load id or &#39;ALL&#39;, the negative allowable and the positive</span>
+<span class="sd">        allowable.</span>
+<span class="sd">    stress_type : str</span>
+<span class="sd">        If the corresponding response is &#39;negative&#39;, &#39;positive&#39; or &#39;both&#39;. It</span>
+<span class="sd">        helps defining the constraints.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">drespid</span><span class="p">,</span> <span class="n">lid_lb_ub</span><span class="p">,</span> <span class="n">stress_type</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rid</span> <span class="o">=</span> <span class="n">drespid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lid_lb_ub</span> <span class="o">=</span> <span class="n">lid_lb_ub</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stress_type</span> <span class="o">=</span> <span class="n">stress_type</span>
+
+<div class="viewcode-block" id="DCONS.print_card"><a class="viewcode-back" href="../../lib_python.html#genesis.cards_opt.DCONS.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file : file</span>
+<span class="sd">            File object with a :meth:`write` method.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dconsstr</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">,</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;DCONS&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rid</span><span class="p">))</span>
+        <span class="n">lidcount</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lid_lb_ub</span><span class="p">),</span> <span class="mi">3</span><span class="p">):</span>
+            <span class="n">lidcount</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">lidcount</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dconsstr</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+                <span class="n">dconsstr</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">,&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;+&#39;</span><span class="p">))</span>
+                <span class="n">lidcount</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">lb</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+            <span class="n">ub</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stress_type</span> <span class="o">==</span> <span class="s">&#39;negative&#39;</span><span class="p">:</span>
+                <span class="n">lb</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lid_lb_ub</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stress_type</span> <span class="o">==</span> <span class="s">&#39;positive&#39;</span><span class="p">:</span>
+                <span class="n">ub</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lid_lb_ub</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">]))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stress_type</span> <span class="o">==</span> <span class="s">&#39;both&#39;</span><span class="p">:</span>
+                <span class="n">lb</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lid_lb_ub</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]))</span>
+                <span class="n">ub</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lid_lb_ub</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">]))</span>
+            <span class="n">dconsstr</span> <span class="o">=</span> <span class="n">dconsstr</span> <span class="o">+</span> <span class="p">(</span><span class="s">&#39;,</span><span class="si">%s</span><span class="s">,</span><span class="si">%s</span><span class="s">,</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span>
+                                   <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lid_lb_ub</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">))</span>
+        <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dconsstr</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="DLINK"><a class="viewcode-back" href="../../lib_python.html#genesis.cards_opt.DLINK">[docs]</a><span class="k">class</span> <span class="nc">DLINK</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">r&quot;&quot;&quot;Link between design variables</span>
+
+<span class="sd">    DLINK creates links among variables using the form:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        dvar_{dependent} = c_0 + c_{mult} \times (c_1 \times {dvar}_1</span>
+<span class="sd">                                                + c_2 \times {dvar}_2)</span>
+
+<span class="sd">    where:</span>
+
+<span class="sd">    - `dvar_{dependent}` is the dependent variable</span>
+<span class="sd">    - `{dvar}_i` the `i^{th}` design variable</span>
+<span class="sd">    - `c_0` is a constant</span>
+<span class="sd">    - `c_{mult}` is a common multiplier</span>
+<span class="sd">    - `c_i` is an individual multiplier for `{dvar}_i`</span>
+
+<span class="sd">    Be sure that no dependent variables are being used as independent</span>
+<span class="sd">    variables.</span>
+
+<span class="sd">    By default ``c0 = 0`` and ``cmult = 1``.</span>
+
+<span class="sd">    The values of ``dvi`` and ``ci`` are inputed as follows::</span>
+
+<span class="sd">        indep_dv_c = [dv1, c1, dv2, c2, ...]</span>
+<span class="sd">        indep_dv_c = [1000000, 1., 1000001, 1., ...]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dep_var</span><span class="p">,</span> <span class="n">dvi_ci</span><span class="p">,</span> <span class="n">c0</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">cmult</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvid</span> <span class="o">=</span> <span class="n">dep_var</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c0</span> <span class="o">=</span> <span class="n">c0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cmult</span> <span class="o">=</span> <span class="n">cmult</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvi_ci</span> <span class="o">=</span> <span class="n">dvi_ci</span>
+
+<div class="viewcode-block" id="DLINK.print_card"><a class="viewcode-back" href="../../lib_python.html#genesis.cards_opt.DLINK.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file : file</span>
+<span class="sd">            File object with a :meth:`write` method.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c">##if dvars[self.dvid].init == dvars[self.dvid].lb == dvars[self.dvid].ub:</span>
+        <span class="c">##    dlinkstr = (&#39;%s,%f,%f,%f&#39; % (&#39;DLINK&#39;, dvars[self.dvid].init, self.c0, self.cmult))</span>
+        <span class="c">##else:</span>
+        <span class="c">##    dlinkstr = (&#39;%s,%d,%f,%f&#39; % (&#39;DLINK&#39;, self.dvid, self.c0, self.cmult))</span>
+        <span class="n">dlinkstr</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">,</span><span class="si">%d</span><span class="s">,</span><span class="si">%f</span><span class="s">,</span><span class="si">%f</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;DLINK&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmult</span><span class="p">))</span>
+        <span class="n">dvicicount</span><span class="o">=-</span><span class="mi">3</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dvi_ci</span><span class="p">),</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="n">dvicicount</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">dvicicount</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">dvicicount</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+                <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dlinkstr</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+                <span class="n">dlinkstr</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;+&#39;</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">dvicicount</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+                    <span class="n">dvicicount</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">dlinkstr</span> <span class="o">+=</span> <span class="p">(</span><span class="s">&#39;,</span><span class="si">%d</span><span class="s">,</span><span class="si">%f</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dvi_ci</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvi_ci</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">dlinkstr</span> <span class="o">+=</span> <span class="p">(</span><span class="s">&#39;,</span><span class="si">%d</span><span class="s">,</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dvi_ci</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvi_ci</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]))</span>
+
+        <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dlinkstr</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="DEQATN"><a class="viewcode-back" href="../../lib_python.html#genesis.cards_opt.DEQATN">[docs]</a><span class="k">class</span> <span class="nc">DEQATN</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Equation to calculate customized responses</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    eq : str</span>
+<span class="sd">        A string containing the equation. For example, the following equation:</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            T(x_1, x_2, x_3) = \sqrt{x_1^2 + x_2^2 + x_3^2}</span>
+
+<span class="sd">        can be written as::</span>
+
+<span class="sd">            eq = &#39;T(x1,x2,x3)=SQRT(x1**2+x2**2+x3**2)&#39;</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    .. note:: The :meth:`.DEQATN.print_card` method will try to split the</span>
+<span class="sd">              equation, when necessary, keeping operators like</span>
+<span class="sd">              ``, - + * / () ;`` as the last character.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">uniqueid</span> <span class="o">=</span> <span class="mi">8000000</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eq</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">DEQATN</span><span class="o">.</span><span class="n">uniqueid</span>
+        <span class="n">DEQATN</span><span class="o">.</span><span class="n">uniqueid</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eq</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">eq</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DEQATN.print_card"><a class="viewcode-back" href="../../lib_python.html#genesis.cards_opt.DEQATN.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file : file</span>
+<span class="sd">            File object with a :meth:`write` method.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">deqatn_str</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">,</span><span class="si">%d</span><span class="s">, &#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;DEQATN&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">))</span>
+        <span class="n">key_str</span> <span class="o">=</span> <span class="s">&#39;,+/-;*=()&#39;</span>
+        <span class="n">eq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eq</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">eq</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">deqatn_str</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">75</span><span class="p">:</span>
+                <span class="n">deqatn_str</span> <span class="o">+=</span> <span class="n">eq</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key_str</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">eq</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="c">#this if is to deal with power (**) function</span>
+                    <span class="k">if</span> <span class="n">eq</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;*&#39;</span> <span class="ow">and</span> <span class="n">eq</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;*&#39;</span><span class="p">:</span>
+                        <span class="n">deqatn_str</span> <span class="o">+=</span> <span class="n">eq</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">deqatn_str</span> <span class="o">+=</span> <span class="n">eq</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                        <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">deqatn_str</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+                        <span class="n">deqatn_str</span> <span class="o">=</span> <span class="s">&#39;+, &#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">deqatn_str</span> <span class="o">+=</span> <span class="n">eq</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">deqatn_str</span> <span class="o">&lt;&gt;</span> <span class="s">&#39;+, &#39;</span><span class="p">:</span>
+            <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">deqatn_str</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="DTABLE"><a class="viewcode-back" href="../../lib_python.html#genesis.cards_opt.DTABLE">[docs]</a><span class="k">class</span> <span class="nc">DTABLE</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Design Table used to define many constants</span>
+
+<span class="sd">    Hints:</span>
+
+<span class="sd">    - There can be any number of DTABLE entries in the bulk data.</span>
+<span class="sd">    - The user must avoid repeated labels for constants</span>
+<span class="sd">    - The constant label must be &lt;= 8 characters.</span>
+
+<span class="sd">    All values for the constants must be of the &#39;Real&#39; type.  Ex::</span>
+
+<span class="sd">        input_dict={&#39;c1&#39;:1. , &#39;c2&#39;:2., &#39;max8char&#39;:999.}</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">uniqueid</span> <span class="o">=</span> <span class="mi">8000000</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dict</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">DTABLE</span><span class="o">.</span><span class="n">uniqueid</span>
+        <span class="n">DTABLE</span><span class="o">.</span><span class="n">uniqueid</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+<div class="viewcode-block" id="DTABLE.print_card"><a class="viewcode-back" href="../../lib_python.html#genesis.cards_opt.DTABLE.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file : file</span>
+<span class="sd">            File object with a :meth:`write` method.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dict</span>
+        <span class="k">if</span> <span class="nb">len</span> <span class="p">(</span><span class="n">tmp</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">dtable_str</span> <span class="o">=</span> <span class="s">&#39;DTABLE&#39;</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">tmp</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+                <span class="n">count</span> <span class="o">+=</span> <span class="mi">2</span>
+                <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+                    <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dtable_str</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+                    <span class="n">dtable_str</span> <span class="o">=</span> <span class="s">&#39;+&#39;</span>
+                    <span class="n">count</span> <span class="o">=</span> <span class="mi">2</span>
+                <span class="n">dtable_str</span> <span class="o">+=</span> <span class="s">&#39;,</span><span class="si">%s</span><span class="s">,</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dtable_str</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+</pre></div></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">FeOpt 0.1.0 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Saullo Castro.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

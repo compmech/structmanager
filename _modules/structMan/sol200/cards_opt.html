@@ -1,0 +1,753 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>structMan.sol200.cards_opt &mdash; structMan 0.1.0 dev documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1.0 dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="structMan 0.1.0 dev documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for structMan.sol200.cards_opt</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Optimization cards (:mod:`structMan.sol200.cards_opt`)</span>
+<span class="sd">======================================================</span>
+
+<span class="sd">.. currentmodule:: structMan.sol200.cards_opt`</span>
+
+<span class="sd">Many input cards related to the optimization problem are wrapped in this</span>
+<span class="sd">module. The input cards more related to the solver are contained in module</span>
+<span class="sd">:mod:`structMan.sol200.cards_solver`.</span>
+
+<span class="sd">.. rubric:: Classes</span>
+
+<span class="sd">.. autosummary::</span>
+
+<span class="sd">    structMan.sol200.cards_opt.DCONSTR</span>
+<span class="sd">    structMan.sol200.cards_opt.DEQATN</span>
+<span class="sd">    structMan.sol200.cards_opt.DESVAR</span>
+<span class="sd">    structMan.sol200.cards_opt.DLINK</span>
+<span class="sd">    structMan.sol200.cards_opt.DRESP1</span>
+<span class="sd">    structMan.sol200.cards_opt.DRESP2</span>
+<span class="sd">    structMan.sol200.cards_opt.DRESP3</span>
+<span class="sd">    structMan.sol200.cards_opt.DTABLE</span>
+<span class="sd">    structMan.sol200.cards_opt.DVPREL1</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">sizing_data</span> <span class="kn">import</span> <span class="n">SDATA</span>
+<span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">format_float</span> <span class="k">as</span> <span class="n">ff</span>
+
+
+<span class="k">class</span> <span class="nc">DVPREL</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">uniqueid</span> <span class="o">=</span> <span class="mi">9000000</span>
+
+
+<span class="k">class</span> <span class="nc">DRESP</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">uniqueid</span> <span class="o">=</span> <span class="mi">9000000</span>
+
+
+<div class="viewcode-block" id="DRESP1"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.cards_opt.DRESP1">[docs]</a><span class="k">class</span> <span class="nc">DRESP1</span><span class="p">(</span><span class="n">DRESP</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Design response DRESP1</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    label : str</span>
+<span class="sd">        User-defined label.</span>
+<span class="sd">    rtype : str</span>
+<span class="sd">        Response type.</span>
+<span class="sd">    ptype : str</span>
+<span class="sd">        Element flag (&#39;ELEM&#39;) or property entry name (&#39;PBAR&#39;, PSHELL&#39; etc).</span>
+<span class="sd">    region : int or None, optional</span>
+<span class="sd">        Region identifier for constraint screening.</span>
+<span class="sd">    atta, attb: int or float or None</span>
+<span class="sd">        Response attributes.</span>
+<span class="sd">    atti : int or float or None or list, optional</span>
+<span class="sd">        Response attributes.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">ptype</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">atta</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">attb</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+            <span class="n">atti</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">region</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">region</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">atta</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">atta</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">attb</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">attb</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">atti</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">atti</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">DRESP</span><span class="o">.</span><span class="n">uniqueid</span>
+        <span class="n">DRESP</span><span class="o">.</span><span class="n">uniqueid</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rtype</span> <span class="o">=</span> <span class="n">rtype</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ptype</span> <span class="o">=</span> <span class="n">ptype</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">region</span> <span class="o">=</span> <span class="n">region</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atta</span> <span class="o">=</span> <span class="n">atta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attb</span> <span class="o">=</span> <span class="n">attb</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atti</span> <span class="o">=</span> <span class="n">atti</span>
+
+<div class="viewcode-block" id="DRESP1.print_card"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.cards_opt.DRESP1.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dresp1str</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%s% 8d% 8s% 8s% 8s% 8s% 8s% 8s</span><span class="s">&#39;</span> <span class="o">%</span>
+                     <span class="p">(</span><span class="s">&#39;DRESP1&#39;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rtype</span><span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">ptype</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">region</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">atta</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">attb</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atti</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="n">dresp1str</span> <span class="o">=</span> <span class="n">dresp1str</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atti</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atti</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">atticount</span> <span class="o">=</span> <span class="mi">8</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atti</span><span class="p">)):</span>
+                <span class="n">atticount</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">atticount</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+                    <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dresp1str</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+                    <span class="n">dresp1str</span> <span class="o">=</span> <span class="s">&#39;+&#39;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+                    <span class="n">atticount</span> <span class="o">=</span> <span class="mi">2</span>
+                <span class="n">dresp1str</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atti</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+        <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dresp1str</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="PRINTAUX"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.cards_opt.PRINTAUX">[docs]</a><span class="k">class</span> <span class="nc">PRINTAUX</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for :class:`DRESP23` and :class:`BASEDV2`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">print_aux</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">listaux</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+        <span class="n">auxstr</span> <span class="o">=</span> <span class="s">&#39;+&#39;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="o">+</span> <span class="n">label</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="k">for</span> <span class="n">aux_id</span> <span class="ow">in</span> <span class="n">listaux</span><span class="p">:</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">auxstr</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+                <span class="n">count</span> <span class="o">=</span> <span class="mi">3</span>
+                <span class="n">auxstr</span> <span class="o">=</span> <span class="s">&#39;+&#39;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+            <span class="n">auxstr</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">aux_id</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+        <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">auxstr</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="DRESP23"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.cards_opt.DRESP23">[docs]</a><span class="k">class</span> <span class="nc">DRESP23</span><span class="p">(</span><span class="n">PRINTAUX</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for DVPREL2, DVCREL2, DVMREL2, DRESP2, DRESP3 etc</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DRESP23</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvars</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtable</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dresp1</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">add_dvar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dvar_id</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dvar_id</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_dtable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cons_label</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtable</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cons_label</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_dresp1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dresp1_id</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dresp1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dresp1_id</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="DRESP2"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.cards_opt.DRESP2">[docs]</a><span class="k">class</span> <span class="nc">DRESP2</span><span class="p">(</span><span class="n">DRESP23</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Design response DRESP2</span>
+
+<span class="sd">    Define equation responses that are used in the design, either as an</span>
+<span class="sd">    objective function or as constraints.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    label : str</span>
+<span class="sd">        User-defined label.</span>
+<span class="sd">    eqid : int or str</span>
+<span class="sd">        :class:`.DEQATN` entry identification number, or string informing a</span>
+<span class="sd">        pre-programmed function.</span>
+<span class="sd">    region : int or None, optional</span>
+<span class="sd">        Region used for constraint screening.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    To add variables, table entries or other :class:`.DRESP1` responses use the</span>
+<span class="sd">    methods: :meth:`.add_dvar`, :meth:`.add_dtable` and :meth:`.add_dresp1`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">eqid</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DRESP2</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">region</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">region</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">DRESP</span><span class="o">.</span><span class="n">uniqueid</span>
+        <span class="n">DRESP</span><span class="o">.</span><span class="n">uniqueid</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eqid</span> <span class="o">=</span> <span class="n">eqid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">region</span> <span class="o">=</span> <span class="n">region</span>
+
+<div class="viewcode-block" id="DRESP2.print_card"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.cards_opt.DRESP2.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file : file</span>
+<span class="sd">            File object with a :meth:`write` method.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">drespstr</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%s% 8d% 8s% 8s% 8s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;DRESP2&#39;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eqid</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">region</span><span class="p">))</span>
+
+        <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">drespstr</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dvars</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">print_aux</span><span class="p">(</span><span class="s">&#39;DESVAR&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvars</span><span class="p">,</span> <span class="nb">file</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtable</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">print_aux</span><span class="p">(</span><span class="s">&#39;DTABLE&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtable</span><span class="p">,</span> <span class="nb">file</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dresp1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">print_aux</span><span class="p">(</span><span class="s">&#39;DRESP1&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dresp1</span><span class="p">,</span> <span class="nb">file</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="DRESP3"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.cards_opt.DRESP3">[docs]</a><span class="k">class</span> <span class="nc">DRESP3</span><span class="p">(</span><span class="n">DRESP23</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Design response DRESP3</span>
+
+<span class="sd">    Define use-subroutine or built-in responses that can be used in the design</span>
+<span class="sd">    either as constraint or as an objective.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    label : str</span>
+<span class="sd">        User-defined label.</span>
+<span class="sd">    group : str</span>
+<span class="sd">        Group name the external response type belongs to.</span>
+<span class="sd">    type : str</span>
+<span class="sd">        External response type.</span>
+<span class="sd">    region : int, optional</span>
+<span class="sd">        :class:`.DEQATN` entry identification number.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    To add variables, table entries or other :class:`.DRESP1` responses use the</span>
+<span class="sd">    methods: :meth:`.add_dvar`, :meth:`.add_dtable` and :meth:`.add_dresp1`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DRESP3</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">DRESP</span><span class="o">.</span><span class="n">uniqueid</span>
+        <span class="n">DRESP</span><span class="o">.</span><span class="n">uniqueid</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">group</span> <span class="o">=</span> <span class="n">group</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">region</span> <span class="o">=</span> <span class="n">region</span>
+
+<div class="viewcode-block" id="DRESP3.print_card"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.cards_opt.DRESP3.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file : file</span>
+<span class="sd">            File object with a :meth:`write` method.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">drespstr</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%s% 8d% 8s% 8s% 8s% 8s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;DRESP3&#39;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">group</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">region</span><span class="p">))</span>
+        <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">drespstr</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dvars</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">print_aux</span><span class="p">(</span><span class="s">&#39;DESVAR&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvars</span><span class="p">,</span> <span class="nb">file</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtable</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">print_aux</span><span class="p">(</span><span class="s">&#39;DTABLE&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtable</span><span class="p">,</span> <span class="nb">file</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dresp1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">print_aux</span><span class="p">(</span><span class="s">&#39;DRESP1&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dresp1</span><span class="p">,</span> <span class="nb">file</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="DESVAR"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.cards_opt.DESVAR">[docs]</a><span class="k">class</span> <span class="nc">DESVAR</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Design Variable</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    label : str</span>
+<span class="sd">        User-supplied name for printing purposes.</span>
+<span class="sd">    xinit : float</span>
+<span class="sd">        Initial value.</span>
+<span class="sd">    xlb : float</span>
+<span class="sd">        Lower bound.</span>
+<span class="sd">    xub : float</span>
+<span class="sd">        Upper bound.</span>
+<span class="sd">    dvprel1 : :class:`.DVPREL1` or None, optional</span>
+<span class="sd">        The corresponding design variable-to-property relation.</span>
+<span class="sd">    code : str or None, optional</span>
+<span class="sd">        An additional code to identify the design varible.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">uniqueid</span> <span class="o">=</span> <span class="mi">9000000</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">xinit</span><span class="p">,</span> <span class="n">xlb</span><span class="p">,</span> <span class="n">xub</span><span class="p">,</span> <span class="n">dvprel1</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">DESVAR</span><span class="o">.</span><span class="n">uniqueid</span>
+        <span class="n">DESVAR</span><span class="o">.</span><span class="n">uniqueid</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">defaults</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xinit</span> <span class="o">=</span> <span class="n">xinit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xlb</span> <span class="o">=</span> <span class="n">xlb</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xub</span> <span class="o">=</span> <span class="n">xub</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvprel1</span> <span class="o">=</span> <span class="n">dvprel1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">code</span>
+
+    <span class="k">def</span> <span class="nf">defaults</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delx</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ddval</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+
+<div class="viewcode-block" id="DESVAR.print_card"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.cards_opt.DESVAR.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file : file</span>
+<span class="sd">            File object with a :meth:`write` method.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c">#file.write(&#39;$dvar.id dvar.code %8d %-8s\n&#39; % (self.id, self.code))</span>
+        <span class="c">#file.write(&#39;$HMNAME DESVAR %8d %-8s\n&#39; % (self.id, self.label))</span>
+        <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s% 8d% 8s%s%s%s% 8s% 8s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;DESVAR&#39;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">ff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xinit</span><span class="p">),</span> <span class="n">ff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xlb</span><span class="p">),</span> <span class="n">ff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xub</span><span class="p">),</span>
+            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delx</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ddval</span><span class="p">)))</span>
+</div>
+    <span class="k">def</span> <span class="nf">show_card</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s% 8d% 8s%s%s%s% 8s% 8s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;DESVAR&#39;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span>
+              <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">ff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xinit</span><span class="p">),</span> <span class="n">ff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xlb</span><span class="p">),</span> <span class="n">ff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xub</span><span class="p">),</span>
+              <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delx</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ddval</span><span class="p">)))</span>
+
+</div>
+<div class="viewcode-block" id="BASEDV2"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.cards_opt.BASEDV2">[docs]</a><span class="k">class</span> <span class="nc">BASEDV2</span><span class="p">(</span><span class="n">PRINTAUX</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for DVPREL2, DVCREL2 and DVMREL2</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BASEDV2</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvars</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtable</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">add_dvar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dvar_id</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dvar_id</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_dtable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cons_label</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtable</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cons_label</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="DVPREL1"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.cards_opt.DVPREL1">[docs]</a><span class="k">class</span> <span class="nc">DVPREL1</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Design Variable-to-Property relation</span>
+
+<span class="sd">    This is a wrapper for the DVPREL1 card in NASTRAN.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    type : str</span>
+<span class="sd">        Name of a property entry, such as &quot;PBAR&quot;, &quot;PBEAM&quot;, etc.</span>
+<span class="sd">    pid : int</span>
+<span class="sd">        Property entry identification number.</span>
+<span class="sd">    pname : str</span>
+<span class="sd">        Parameter name such as &quot;T&quot;, &quot;A&quot;, &quot;DIM1&quot;, or a field position of the</span>
+<span class="sd">        property entry.</span>
+<span class="sd">    dvids : list</span>
+<span class="sd">        Ids of the design variables that will be related to this property</span>
+<span class="sd">        parameter.</span>
+<span class="sd">    coefs : list</span>
+<span class="sd">        Multipliers to each corresponding design variable.</span>
+<span class="sd">    c0 : float, optional</span>
+<span class="sd">        Constant term of relation.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">pname</span><span class="p">,</span> <span class="n">dvids</span><span class="p">,</span> <span class="n">coefs</span><span class="p">,</span> <span class="n">c0</span><span class="o">=</span><span class="mf">0.</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">DVPREL</span><span class="o">.</span><span class="n">uniqueid</span>
+        <span class="n">DVPREL</span><span class="o">.</span><span class="n">uniqueid</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pid</span> <span class="o">=</span> <span class="n">pid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pname</span> <span class="o">=</span> <span class="n">pname</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvids</span> <span class="o">=</span> <span class="n">dvids</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coefs</span> <span class="o">=</span> <span class="n">coefs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c0</span> <span class="o">=</span> <span class="n">c0</span>
+
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">dvids</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">coefs</span><span class="p">),</span> <span class="s">&#39;Lengths must be the same&#39;</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">dvids</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;At least one variable must be related&#39;</span>
+
+
+<div class="viewcode-block" id="DVPREL1.print_card"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.cards_opt.DVPREL1.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file : file</span>
+<span class="sd">            File object with a :meth:`write` method.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s% 8d% 8s% 8d% 8s% 8s% 8s%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span>
+                   <span class="p">(</span><span class="s">&#39;DVPREL1&#39;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pid</span><span class="p">,</span>
+                       <span class="bp">self</span><span class="o">.</span><span class="n">pname</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">ff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">c0</span><span class="p">)))</span>
+
+        <span class="n">fieldnum</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">dvprel1str</span> <span class="o">=</span> <span class="s">&#39;+&#39;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dvids</span><span class="p">)):</span>
+            <span class="n">fieldnum</span> <span class="o">+=</span> <span class="mi">2</span>
+            <span class="k">if</span> <span class="n">fieldnum</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dvprel1str</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+                <span class="n">dvprel1str</span> <span class="o">=</span> <span class="s">&#39;+&#39;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+                <span class="n">fieldnum</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="n">dvprel1str</span> <span class="o">+=</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">% 8d%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dvids</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">ff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coefs</span><span class="p">[</span><span class="n">i</span><span class="p">])))</span>
+        <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dvprel1str</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="DVPREL2"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.cards_opt.DVPREL2">[docs]</a><span class="k">class</span> <span class="nc">DVPREL2</span><span class="p">(</span><span class="n">BASEDV2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Design Variable-to-Property relation</span>
+
+<span class="sd">    This is a wrapper for the DVPREL1 card in NASTRAN.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    type : str</span>
+<span class="sd">        Name of a property entry, such as &quot;PBAR&quot;, &quot;PBEAM&quot;, etc.</span>
+<span class="sd">    pid : int</span>
+<span class="sd">        Property entry identification number.</span>
+<span class="sd">    pname : str</span>
+<span class="sd">        Parameter name such as &quot;T&quot;, &quot;A&quot;, &quot;DIM1&quot;, or a field position of the</span>
+<span class="sd">        property entry.</span>
+<span class="sd">    eqid : int or str</span>
+<span class="sd">        :class:`.DEQATN` entry identification number, or string informing a</span>
+<span class="sd">        pre-programmed function.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">pname</span><span class="p">,</span> <span class="n">eqid</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DVPREL2</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">DVPREL</span><span class="o">.</span><span class="n">uniqueid</span>
+        <span class="n">DVPREL</span><span class="o">.</span><span class="n">uniqueid</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pid</span> <span class="o">=</span> <span class="n">pid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pname</span> <span class="o">=</span> <span class="n">pname</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eqid</span> <span class="o">=</span> <span class="n">eqid</span>
+
+<div class="viewcode-block" id="DVPREL2.print_card"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.cards_opt.DVPREL2.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file : file</span>
+<span class="sd">            File object with a :meth:`write` method.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dvprel2str</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%s% 8d% 8s% 8d% 8s% 8s% 8s% 8s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span>
+                      <span class="p">(</span><span class="s">&#39;DVPREL2&#39;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pid</span><span class="p">,</span>
+                       <span class="bp">self</span><span class="o">.</span><span class="n">pname</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eqid</span><span class="p">)))</span>
+
+        <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dvprel2str</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dvars</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">print_aux</span><span class="p">(</span><span class="s">&#39;DESVAR&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvars</span><span class="p">,</span> <span class="nb">file</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtable</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">print_aux</span><span class="p">(</span><span class="s">&#39;DTABLE&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtable</span><span class="p">,</span> <span class="nb">file</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="DCONSTR"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.cards_opt.DCONSTR">[docs]</a><span class="k">class</span> <span class="nc">DCONSTR</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Design constraint</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dcid : int</span>
+<span class="sd">        Design constraint set identification number.</span>
+<span class="sd">    rid : int</span>
+<span class="sd">        The corresponding design response id.</span>
+<span class="sd">    lallow : float</span>
+<span class="sd">        Lower bound on the response quantity.</span>
+<span class="sd">    uallow : float</span>
+<span class="sd">        Upper bound on the response quantity.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">uniqueid</span> <span class="o">=</span> <span class="mi">9000000</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dcid</span><span class="p">,</span> <span class="n">rid</span><span class="p">,</span> <span class="n">lallow</span><span class="p">,</span> <span class="n">uallow</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">DCONSTR</span><span class="o">.</span><span class="n">uniqueid</span>
+        <span class="n">DCONSTR</span><span class="o">.</span><span class="n">uniqueid</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dcid</span> <span class="o">=</span> <span class="n">dcid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rid</span> <span class="o">=</span> <span class="n">rid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lallow</span> <span class="o">=</span> <span class="n">lallow</span> <span class="k">if</span> <span class="n">lallow</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="s">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uallow</span> <span class="o">=</span> <span class="n">uallow</span> <span class="k">if</span> <span class="n">uallow</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="s">&#39;&#39;</span>
+
+<div class="viewcode-block" id="DCONSTR.print_card"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.cards_opt.DCONSTR.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file : file</span>
+<span class="sd">            File object with a :meth:`write` method.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dconstr</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%s% 8d% 8d% 8s% 8s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;DCONSTR&#39;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">dcid</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rid</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lallow</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uallow</span><span class="p">)))</span>
+        <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dconstr</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="DLINK"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.cards_opt.DLINK">[docs]</a><span class="k">class</span> <span class="nc">DLINK</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">r&quot;&quot;&quot;Link between design variables</span>
+
+<span class="sd">    DLINK creates links among variables using the form:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        dvar_{dependent} = c_0 + c_{mult} \times (c_1 \times {dvar}_1</span>
+<span class="sd">                                                + c_2 \times {dvar}_2)</span>
+
+<span class="sd">    where:</span>
+
+<span class="sd">    - `dvar_{dependent}` is the dependent variable</span>
+<span class="sd">    - `{dvar}_i` the `i^{th}` design variable</span>
+<span class="sd">    - `c_0` is a constant</span>
+<span class="sd">    - `c_{mult}` is a common multiplier</span>
+<span class="sd">    - `c_i` is an individual multiplier for `{dvar}_i`</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ddvid : int</span>
+<span class="sd">        Dependent design variable identification number.</span>
+<span class="sd">    c0 : float</span>
+<span class="sd">        Constant term.</span>
+<span class="sd">    cmult : float</span>
+<span class="sd">        Constant multiplier.</span>
+<span class="sd">    idvs : list</span>
+<span class="sd">        The independent variables.</span>
+<span class="sd">    cs : list</span>
+<span class="sd">        The multipliers for each variable.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Be sure that no dependent variables are being used as independent</span>
+<span class="sd">    variables.</span>
+
+<span class="sd">    By default `c0 = 0` and `cmult = 1`.</span>
+
+<span class="sd">    The values of `dvi` and `ci` are inputed as follows::</span>
+
+<span class="sd">        indep_dv_c = [dv1, c1, dv2, c2, ...]</span>
+<span class="sd">        indep_dv_c = [1000000, 1., 1000001, 1., ...]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">uniqueid</span> <span class="o">=</span> <span class="mi">9000000</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ddvid</span><span class="p">,</span> <span class="n">idvs</span><span class="p">,</span> <span class="n">cs</span><span class="p">,</span> <span class="n">c0</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">cmult</span><span class="o">=</span><span class="mf">1.</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">DLINK</span><span class="o">.</span><span class="n">uniqueid</span>
+        <span class="n">DLINK</span><span class="o">.</span><span class="n">uniqueid</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ddvid</span> <span class="o">=</span> <span class="n">ddvid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c0</span> <span class="o">=</span> <span class="n">c0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cmult</span> <span class="o">=</span> <span class="n">cmult</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idvs</span> <span class="o">=</span> <span class="n">idvs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cs</span> <span class="o">=</span> <span class="n">cs</span>
+
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">idvs</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">cs</span><span class="p">),</span> <span class="s">&#39;Lengths must be the same&#39;</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">idvs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;At least one independent variable required&#39;</span>
+
+<div class="viewcode-block" id="DLINK.print_card"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.cards_opt.DLINK.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file : file</span>
+<span class="sd">            File object with a :meth:`write` method.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dlinkstr</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%s% 8d% 8d%s%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;DLINK&#39;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ddvid</span><span class="p">,</span> <span class="n">ff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">c0</span><span class="p">),</span> <span class="n">ff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cmult</span><span class="p">)))</span>
+        <span class="n">dvicicount</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idvs</span><span class="p">)):</span>
+            <span class="n">dvicicount</span> <span class="o">+=</span> <span class="mi">2</span>
+            <span class="k">if</span> <span class="n">dvicicount</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dlinkstr</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+                <span class="n">dlinkstr</span> <span class="o">=</span> <span class="s">&#39;+&#39;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+                <span class="n">dvicicount</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="n">dlinkstr</span> <span class="o">+=</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">% 8d%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idvs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">ff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cs</span><span class="p">[</span><span class="n">i</span><span class="p">])))</span>
+
+        <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dlinkstr</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="DEQATN"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.cards_opt.DEQATN">[docs]</a><span class="k">class</span> <span class="nc">DEQATN</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Equation to calculate customized responses</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    eq : str</span>
+<span class="sd">        A string containing the equation. For example, the following equation:</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            T(x_1, x_2, x_3) = \sqrt{x_1^2 + x_2^2 + x_3^2}</span>
+
+<span class="sd">        can be written as::</span>
+
+<span class="sd">            eq = &#39;T(x1,x2,x3)=SQRT(x1**2+x2**2+x3**2)&#39;</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    .. note:: The :meth:`.DEQATN.print_card` method will split the</span>
+<span class="sd">              equation, when necessary, in order to keep the limit length up to</span>
+<span class="sd">              56 characters in the first line, and 64 characters for the</span>
+<span class="sd">              subsequent lines.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">uniqueid</span> <span class="o">=</span> <span class="mi">9000000</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eq</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">DEQATN</span><span class="o">.</span><span class="n">uniqueid</span>
+        <span class="n">DEQATN</span><span class="o">.</span><span class="n">uniqueid</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eq</span> <span class="o">=</span> <span class="s">&#39;  &#39;</span> <span class="o">+</span> <span class="n">eq</span>
+
+<div class="viewcode-block" id="DEQATN.print_card"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.cards_opt.DEQATN.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file : file</span>
+<span class="sd">            File object with a :meth:`write` method.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">eq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eq</span>
+        <span class="n">deqatn_str</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s% 8d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;DEQATN&#39;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="n">check</span> <span class="o">=</span> <span class="n">eq</span><span class="p">[:</span><span class="mi">56</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;;&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">check</span> <span class="o">=</span> <span class="mi">55</span>
+        <span class="n">deqatn_str</span> <span class="o">+=</span> <span class="n">eq</span><span class="p">[:</span><span class="n">check</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">deqatn_str</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">deqatn_str</span><span class="p">)</span>
+
+        <span class="n">eq</span> <span class="o">=</span> <span class="n">eq</span><span class="p">[</span><span class="n">check</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
+
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">eq</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">check</span> <span class="o">=</span> <span class="n">eq</span><span class="p">[:</span><span class="mi">64</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;;&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">check</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">check</span> <span class="o">=</span> <span class="mi">63</span>
+            <span class="n">deqatn_str</span> <span class="o">=</span> <span class="s">&#39;+       &#39;</span> <span class="o">+</span> <span class="n">eq</span><span class="p">[:</span><span class="n">check</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+            <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">deqatn_str</span><span class="p">)</span>
+            <span class="n">eq</span> <span class="o">=</span> <span class="n">eq</span><span class="p">[</span><span class="n">check</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
+
+</div></div>
+<div class="viewcode-block" id="DTABLE"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.cards_opt.DTABLE">[docs]</a><span class="k">class</span> <span class="nc">DTABLE</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Design Table used to define many constants</span>
+
+<span class="sd">    Hints:</span>
+
+<span class="sd">    - There can be any number of DTABLE entries in the bulk data.</span>
+<span class="sd">    - The user must avoid repeated labels for constants</span>
+<span class="sd">    - The constant label must be &lt;= 8 characters.</span>
+
+<span class="sd">    All values for the constants must be of the &#39;Real&#39; type.  Ex::</span>
+
+<span class="sd">        input_dict={&#39;c1&#39;:1. , &#39;c2&#39;:2., &#39;max8char&#39;:999.}</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dict</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_dict</span> <span class="o">=</span> <span class="n">input_dict</span>
+
+<div class="viewcode-block" id="DTABLE.print_card"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.cards_opt.DTABLE.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file : file</span>
+<span class="sd">            File object with a :meth:`write` method.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_dict</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">keys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+            <span class="n">dtable_str</span> <span class="o">=</span> <span class="s">&#39;DTABLE&#39;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">keys</span><span class="p">):</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+                <span class="n">count</span> <span class="o">+=</span> <span class="mi">2</span>
+                <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+                    <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dtable_str</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+                    <span class="n">dtable_str</span> <span class="o">=</span> <span class="s">&#39;+&#39;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+                    <span class="n">count</span> <span class="o">=</span> <span class="mi">2</span>
+                <span class="n">dtable_str</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="si">% 8s%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="n">ff</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+            <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dtable_str</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+
+</div></div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;tmp.bdf&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">test</span> <span class="o">=</span> <span class="n">DRESP2</span><span class="p">(</span><span class="s">&#39;test&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">16</span><span class="p">):</span>
+            <span class="n">test</span><span class="o">.</span><span class="n">add_dvar</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">test</span><span class="o">.</span><span class="n">add_dresp1</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">test</span><span class="o">.</span><span class="n">print_card</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Saullo Castro.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>
