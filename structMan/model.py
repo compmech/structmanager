@@ -173,7 +173,6 @@ class Model(object):
         print('Building panels...')
         for p in panels.values():
             p.elements = [bdf.elements[eid] for eid in p.eids]
-            setelements = set(p.elements)
 
             # finding corner nodes
             # assuming that they are those that share only one inner element
@@ -197,22 +196,11 @@ class Model(object):
             p.E = np.array([elem.mid().e for elem in p.elements]).mean()
             p.G = np.array([elem.mid().g for elem in p.elements]).mean()
             p.nu = np.array([elem.mid().nu for elem in p.elements]).mean()
-
-            vonMises = False
-            opt = self.optmodel
-            if vonMises:
-                #FIXME remove repeated
-                # Von Mises Constraints
-                dvar = DESVAR('panelT', 1., 0.7, 5.)
-                dvprel1 = DVPREL1('PSHELL', p.pid, 'T', [dvar.id], [1.])
-                opt.dvars[dvar.id] = dvar
-                opt.dvprel1s[dvprel1.id] = dvprel1
-                opt.constrain_pshell(1, p.pid, 'CQUAD4', 'STRESS',
-                    ['von Mises Z1', 'von Mises Z2'], -30., 40.)
-
         print('finished!')
 
-        opt.set_output_file('optcard.bdf')
-        opt.print_model()
-
+        print('Building stringers...')
+        for s in stringers.values():
+            s.elements = [bdf.elements[eid] for eid in p.eids]
+            setelements = set(s.elements)
+        print('finished!')
 

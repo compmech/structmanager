@@ -125,6 +125,19 @@ class SE(object):
         self.model.optmodel.deqatns[deqatn.id] = deqatn
 
 
+    def add_dvar(self, dvar):
+        """Add a DESVAR entry to the SE and the optmodel
+
+        Parameters
+        ----------
+        dvar : :class:`DESVAR`
+            Design variable object.
+
+        """
+        self.dvars.append(dvar)
+        self.model.optmodel.dvars[dvar.id] = dvar
+
+
     def add_constraint(self, dcid, dresp, lb, ub):
         """Add a DCONSTR entry to the SE and the optmodel
 
@@ -134,9 +147,9 @@ class SE(object):
             Design constraint set id.
         dresp : :class:`DRESP1`, :class:`DRESP2` or :class:`DRESP3`
             The response object.
-        lb : float
+        lb : float or None
             Lower boundary for the constraint.
-        ub : float
+        ub : float or None
             Upper boundary for the constraint.
 
         """
@@ -366,13 +379,13 @@ class Panel(SE2D):
         dresp1 = DRESP1('PANZ1VM', 'STRESS', 'ELEM', None, atta=atta,
                         attb=None, atti=eid)
         self.add_dresp(dresp1)
-        self.add_constraint(dcid, dresp1, '', Fcy)
+        self.add_constraint(dcid, dresp1, None, Fcy)
 
         atta = OUTC['STRESS']['CQUAD4']['von Mises or maximum shear at Z2']
         dresp1 = DRESP1('PANZ2VM', 'STRESS', 'ELEM', None, atta=atta,
                         attb=None, atti=eid)
         self.add_dresp(dresp1)
-        self.add_constraint(dcid, dresp1, '', Fcy)
+        self.add_constraint(dcid, dresp1, None, Fcy)
 
 
 class InnerFlange(SE1D):
@@ -472,7 +485,8 @@ class Stringer(SE1D):
         # optimization constraints
         self.all_constraints = ['stress_tension', 'stress_compression']
         self.constraints = {'stress_tension': 1,
-                            'stress_compression': 1}
+                            'stress_compression': 1,
+                            'buckling': 1}
 
 
     def constrain_stress(self, Fy, average=False):
@@ -505,9 +519,9 @@ class Stringer(SE1D):
                         atti=eid)
         self.add_dresp(dresp1)
         if Fy > 0:
-            self.add_constraint(dcid, dresp1, '', Fy)
+            self.add_constraint(dcid, dresp1, None, Fy)
         else:
-            self.add_constraint(dcid, dresp1, Fy, '')
+            self.add_constraint(dcid, dresp1, Fy, None)
 
 
     def constrain_stress_tension(self, Fty, average=False):
@@ -539,7 +553,7 @@ class Stringer(SE1D):
         self.constrain_stress(Fy=-abs(Fcy), average=average)
 
 
-    def constrain_buckling(self, method=1):
+    def constrain_buckling(self, method=1, ms=0.1):
         """Add a buckling constraint
 
         Parameters
@@ -551,6 +565,9 @@ class Stringer(SE1D):
 
             - `1` : Bruhn's...
 
+        ms : float, optional
+            Minimum margin of safety to be used as constraint.
+
         Notes
         -----
 
@@ -558,9 +575,11 @@ class Stringer(SE1D):
 
 
         """
-        if method == 1 and profile.lower() == 'z_t_b':
+        if method == 1 and self.profile.lower() == 'z_t_b':
             b = DESVAR('STRZb', self.b, self.b_lb, self.b_ub)
             t = DESVAR('STRZt', self.t, self.t_lb, self.t_ub)
+            self.add_dvar(b)
+            self.add_dvar(t)
             h = self.add_dtable('STRh', self.h)
             E = self.add_dtable('STRE', self.E)
             nu = self.add_dtable('STRnu', self.nu)
@@ -580,10 +599,12 @@ class Stringer(SE1D):
                 'SIGMAcr=Kw*PI(1)**2*E*tw**2/(12.*(1.-nu**2)*bw**2);'
                 'MS=SIGMAcr/ABS(MIN(FA, 0.0001))-1.;')
             dresp2 = DRESP2('STRBUCK', deqatn.id)
-            dresp2.dvars = [b, t]
+            dresp2.dvars = [b.id, t.id]
             dresp2.dtable = [h, E, nu]
             dresp2.dresp1 = [FA]
             self.add_dresp(dresp2)
             self.add_deqatn(deqatn)
+            dcid = self.constraints['buckling']
+            dconstr = self.add_constraint(dcid, dresp2, ms, None)
 
 

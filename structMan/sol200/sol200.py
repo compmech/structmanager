@@ -77,7 +77,7 @@ class SOL200(object):
 
         """
         self.outputdir = os.path.dirname(path)
-        self.sol200file = open(path, 'w')
+        self.sol200file = open(path, 'wb')
 
 
     def _read_inputs(self, topocheck=False, topo_max_elem=1,

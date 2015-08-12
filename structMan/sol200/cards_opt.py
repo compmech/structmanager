@@ -29,7 +29,11 @@ from collections import Iterable
 from sizing_data import SDATA
 
 
-class DRESP1(object):
+class DRESP(object):
+    uniqueid = 99000000
+
+
+class DRESP1(DRESP):
     """Design response DRESP1
 
     Parameters
@@ -48,8 +52,6 @@ class DRESP1(object):
         Response attributes.
 
     """
-    uniqueid = 99000000
-
     def __init__(self, label, rtype, ptype, region=None, atta=None, attb=None,
             atti=None):
         if region is None:
@@ -60,8 +62,8 @@ class DRESP1(object):
             attb = ''
         if atti is None:
             atti = ''
-        self.id = DRESP1.uniqueid
-        DRESP1.uniqueid += 1
+        self.id = DRESP.uniqueid
+        DRESP.uniqueid += 1
         self.label = label
         self.rtype = rtype
         self.ptype = ptype
@@ -143,14 +145,12 @@ class DRESP2(DRESP23):
     methods: :meth:`.add_dvar`, :meth:`.add_dtable` and :meth:`.add_dresp1`.
 
     """
-    uniqueid = 99000000
-
     def __init__(self, label, eqid, region=None):
         if region is None:
             region = ''
         super(DRESP2, self).__init__()
-        self.id = DRESP2.uniqueid
-        DRESP2.uniqueid += 1
+        self.id = DRESP.uniqueid
+        DRESP.uniqueid += 1
         self.label = label
         self.eqid = eqid
         self.region = region
@@ -200,12 +200,10 @@ class DRESP3(DRESP23):
     methods: :meth:`.add_dvar`, :meth:`.add_dtable` and :meth:`.add_dresp1`.
 
     """
-    uniqueid = 99000000
-
     def __init__(self, label, group, type, region=''):
         super(DRESP3, self).__init__()
-        self.id = DRESP3.uniqueid
-        DRESP3.uniqueid += 1
+        self.id = DRESP.uniqueid
+        DRESP.uniqueid += 1
         self.label = label
         self.group = group
         self.type = type
