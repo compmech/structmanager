@@ -1,11 +1,17 @@
 import os
 import cPickle as pickle
-from pprint import pformat
 from collections import Iterable
 
 from output_codes import OUTC, get_output_code
 from cards_opt import *
 from cards_solver import *
+
+
+def section(text, file):
+    file.write('$ %s\n' % ('_'*72))
+    file.write('$ %s\n' % (' '*72))
+    file.write('$ %s\n' % text)
+    file.write('$\n')
 
 
 class SOL200(object):
@@ -17,8 +23,11 @@ class SOL200(object):
     Attribute           Description
     ==================  ======================================================
     `dobj`              :class:`.DESOBJ` object
-    `dvprel1s`          `dict` of :class:`.DVPREL1` objects
+    `dvprels`           `dict` of :class:`.DVPREL1` and :class:`.DVPREL2`
+                        objects
     `deqatns`           `dict` of :class:`.DEQATN` objects
+    `dtable`            :class:`.DTABLE` that will be created based on the
+                        `dtables` dictionary
     `dtables`           `dict` that will be used to build a unique DTABLE
     `dtable_prefixes`   `dict` carries IDs to prevent repeated DTABLE
                         constants.
@@ -36,16 +45,19 @@ class SOL200(object):
     `loads_list`        `list` containing the load cases' ids
     `num_cycles`        `int` indicating the number of design cycles
     `outputdir`         `str` path to the output directory
+    `sol200filepath`    `str` path to SOL200's output file
     `sol200file`        `file` handler to SOL200's output file
     ==================  ======================================================
 
     """
     def __init__(self):
         self.dobj = None
-        self.dvprel1s = {}
+        self.dvprels = {}
         self.reset_newprops()
         self.deqatns = {}
+        self.dtable = None
         self.dtables = {}
+        self.dtable_prefixes = {}
         self.dresps = {}
         self.dconstrs = {}
         self.dcids = set()
@@ -62,6 +74,7 @@ class SOL200(object):
         self.loads_list = None
         self.num_cycles = None
         self.outputdir = None
+        self.sol200filepath = None
         self.sol200file = None
 
 
@@ -77,7 +90,7 @@ class SOL200(object):
 
         """
         self.outputdir = os.path.dirname(path)
-        self.sol200file = open(path, 'wb')
+        self.sol200filepath = path
 
 
     def _read_inputs(self, topocheck=False, topo_max_elem=1,
@@ -89,23 +102,26 @@ class SOL200(object):
         self.manufact_cons_coord = manufact_cons_coord
 
 
-    def add_dvprel1(self, *args):
-        dvprel1 = DVPREL1(*args)
-        self.dvprel1s[dvprel1.id] = dvprel1
-
-
     def print_model(self):
         """Print the whole model.
 
         """
-        self._print_dvprel1s()
+        self.sol200file = open(self.sol200filepath, 'wb')
+
+        if len(self.dtables) > 0:
+            section('DESIGN CONSTRAINTS', self.sol200file)
+            self.dtable = DTABLE(self.dtables)
+            self.dtable.print_card(self.sol200file)
         self._print_dvars()
+        self._print_dlinks()
+        self._print_dvprels()
         self._print_dresps()
         self._print_deqatns()
         self._print_dcons()
         self._print_dobj()
-        self._print_dlinks()
         self._print_newprops()
+
+        self.sol200file.close()
 
 
     def reset_newprops(self):
@@ -302,36 +318,49 @@ class SOL200(object):
 
 
     def _print_dvars(self):
+        if len(self.dvars) > 0:
+            section('DESIGN VARIABLES', self.sol200file)
         for dvar in self.dvars.values():
             dvar.print_card(self.sol200file)
 
 
-    def _print_dvprel1s(self):
-        for dvprel1 in self.dvprel1s.values():
-            dvprel1.print_card(self.sol200file)
+    def _print_dvprels(self):
+        if len(self.dvprels) > 0:
+            section('DESIGN VARIABLE-TO-PROPERTY RELATIONS', self.sol200file)
+        for dvprel in self.dvprels.values():
+            dvprel.print_card(self.sol200file)
 
 
     def _print_dresps(self):
+        if len(self.dresps) > 0:
+            section('DESIGN RESPONSES', self.sol200file)
         for dresp in self.dresps.values():
             dresp.print_card(self.sol200file)
 
 
     def _print_deqatns(self):
+        if len(self.deqatns) > 0:
+            section('DESIGN EQUATIONS', self.sol200file)
         for deqatn in self.deqatns.values():
             deqatn.print_card(self.sol200file)
 
 
     def _print_dcons(self):
+        if len(self.dconstrs) > 0:
+            section('DESIGN CONSTRAINTS', self.sol200file)
         for dconstr in self.dconstrs.values():
             dconstr.print_card(self.sol200file)
 
 
     def _print_dobj(self):
         if self.dobj is not None:
+            section('DESIGN OBJECTIVE', self.sol200file)
             self.dobj.print_card(self.sol200file)
 
 
     def _print_dlinks(self):
+        if len(self.dlinks) > 0:
+            section('DESIGN LINKS', self.sol200file)
         for dlink in self.dlinks.values():
             dlink.print_card(self.sol200file)
 

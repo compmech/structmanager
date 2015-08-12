@@ -200,7 +200,7 @@ class Model(object):
 
         print('Building stringers...')
         for s in stringers.values():
-            s.elements = [bdf.elements[eid] for eid in p.eids]
+            s.elements = [bdf.elements[eid] for eid in s.eids]
             setelements = set(s.elements)
         print('finished!')
 

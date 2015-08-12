@@ -43,6 +43,7 @@ extensions = [
     'sphinx.ext.doctest',
     'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
+    'sphinx.ext.graphviz',
     'sphinx.ext.viewcode',
 ]
 

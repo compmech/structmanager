@@ -4,7 +4,7 @@ Welcome to Structure Manager (structMan) documentation!
 Contents:
 
 .. toctree::
-    :maxdepth: 3
+    :maxdepth: 4
 
     ./lib_python.rst
 

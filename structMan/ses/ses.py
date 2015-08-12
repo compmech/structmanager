@@ -1,16 +1,10 @@
-"""
-Structural Elements - SEs (:mod:`structMan.ses`)
-================================================
-
-.. currentmodule:: structMan.ses
-
-"""
 from operator import itemgetter
 
 import numpy as np
 
-from sol200 import DRESP1, DCONSTR, DEQATN, DRESP2, DESVAR
-import sol200.output_codes as output_codes_SOL200
+from structMan.sol200 import (DRESP1, DCONSTR, DEQATN, DRESP2, DESVAR,
+                              DVPREL1, DVPREL2)
+import structMan.sol200.output_codes as output_codes_SOL200
 
 
 class SE(object):
@@ -43,10 +37,10 @@ class SE(object):
         self.elements = None
         # optimization parameters
         self.dresps = []
-        self.dvars = []
-        self.dvprops = []
+        self.dvars = {}
+        self.dvprels = []
         self.deqatns = []
-        self.dtables = []
+        self.dtables = {}
         self.dlinks = []
         self.dconstrs = []
         self.all_constraints = []
@@ -80,20 +74,23 @@ class SE(object):
 
         """
         optmodel = self.model.optmodel
+        origkey = key
         if key in optmodel.dtables.keys():
             if len(key) >= 8:
                 raise ValueError('{0} is an already existing DTABLE entry!'.
                                  format(key))
             if key in optmodel.dtable_prefixes:
-                optmodel.dtabel_prefixes[key] += 1
+                optmodel.dtable_prefixes[key] += 1
             else:
                 optmodel.dtable_prefixes[key] = 0
-            sufix = optmodel.dtabel_prefixes[key]
+            sufix = str(optmodel.dtable_prefixes[key])
             key = key + sufix.rjust(8 - len(key), '0')
             if len(key) > 8:
                 raise ValueError('Use a smaller key')
 
-        self.dtables.append([key, value])
+        if origkey in self.dtables.keys():
+            raise
+        self.dtables[origkey] = [key, value]
         optmodel.dtables[key] = float(value)
 
         return key
@@ -134,8 +131,23 @@ class SE(object):
             Design variable object.
 
         """
-        self.dvars.append(dvar)
+        if dvar.label in self.dvars.keys():
+            raise
+        self.dvars[dvar.label] = dvar
         self.model.optmodel.dvars[dvar.id] = dvar
+
+
+    def add_dvprel(self, dvprel):
+        """Add a DVPREL(12) entry to the SE and the optmodel
+
+        Parameters
+        ----------
+        dvprel : :class:`DVPREL1` or :class:`DVPREL2`
+            Design property-to-variable object.
+
+        """
+        self.dvprels.append(dvprel)
+        self.model.optmodel.dvprels[dvprel.id] = dvprel
 
 
     def add_constraint(self, dcid, dresp, lb, ub):
@@ -335,10 +347,6 @@ class Panel(SE2D):
     Attributes
 
     """
-    idDESVAR = 1000000
-    idDVPREL = 1000000
-    idDCONSTR = 1000000
-    idDRESP = 1000000
     def __init__(self, name, *eids):
         super(Panel, self).__init__(name, *eids)
         # geometric parameters
@@ -389,28 +397,47 @@ class Panel(SE2D):
 
 
 class InnerFlange(SE1D):
-    idDESVAR = 2100000
-    idDVPREL = 2100000
-    idDCONSTR = 2100000
-    idDRESP = 2100000
     def __init__(self, name, *eids):
         super(InnerFlange, self).__init__(name, *eids)
 
 
+        #TODO will be useful
+        if False:
+            if self.is_PBAR:
+                pid = 1
+                # calculating A
+                deqatn = DEQATN('A(t,b) = t*b')
+                self.add_deqatn(deqatn)
+                dvprel = DVPREL2('PBAR', pid=pid, pname='A', eqid=deqatn.id)
+                dvprel.add_dvar(dvar_t.id)
+                dvprel.add_dvar(dvar_b.id)
+                self.add_dvprel(dvprel)
+                # assuming y-axis towards radial (normal) direction
+                # calculating I1
+                deqatn = DEQATN('I1(t,b)=t*b**3/12.')
+                self.add_deqatn(deqatn)
+                dvprel = DVPREL2('PBAR', pid=pid, pname='I1', eqid=deqatn.id)
+                dvprel.add_dvar(dvar_t.id)
+                dvprel.add_dvar(dvar_b.id)
+                self.add_dvprel(dvprel)
+                # calculating I2
+                deqatn = DEQATN('I1(t,b)=t*b**3/12.')
+                self.add_deqatn(deqatn)
+                dvprel = DVPREL2('PBAR', pid=pid, pname='I1', eqid=deqatn.id)
+                dvprel.add_dvar(dvar_t.id)
+                dvprel.add_dvar(dvar_b.id)
+                self.add_dvprel(dvprel)
+                # calculating I12
+                # calculating J
+                dvprel = DVPREL2('PBAR', pid=pid, pname='I1', eqid=deqatn.id)
+
+
 class Web(SE2D):
-    idDESVAR = 2200000
-    idDVPREL = 2200000
-    idDCONSTR = 2200000
-    idDRESP = 2200000
     def __init__(self, name, *eids):
         super(Web, self).__init__(name, *eids)
 
 
 class OuterFlange(SE1D):
-    idDESVAR = 2300000
-    idDVPREL = 2300000
-    idDCONSTR = 2300000
-    idDRESP = 2300000
     def __init__(self, name, *eids):
         super(OuterFlange, self).__init__(name, *eids)
 
@@ -419,10 +446,6 @@ class ShearClipFrame(SE2D):
     """Shear Clip Attachment to Frame
 
     """
-    idDESVAR = 2400000
-    idDVPREL = 2400000
-    idDCONSTR = 2400000
-    idDRESP = 2400000
     def __init__(self, name, *eids):
         super(ShearClipFrame, self).__init__(name, *eids)
 
@@ -431,180 +454,6 @@ class ShearClipSkin(SE1D):
     """Shear Clip Attachment to Skin
 
     """
-    idDESVAR = 2500000
-    idDVPREL = 2500000
-    idDCONSTR = 2500000
-    idDRESP = 2500000
     def __init__(self, name, *eids):
         super(ShearClipSkin, self).__init__(name, *eids)
-
-
-class Stringer(SE1D):
-    """Stringer
-
-    Attributes
-    ----------
-
-    profile (`str`)
-        - `Z_t_b` - Z section defined with two variables:
-            - `t` (variable): profile thickness
-            - `b` (variable): flange width
-            - `h` (constant): height
-
-        - `Z_t_b_h` - Z section defined with three variables:
-            - `t` (variable): profile thickness
-            - `b` (variable): flange width
-            - `h` (variable): height
-
-        - `Z_tf_tw_b_h` - Z section defined with four variables:
-            - `tf` (variable): flange thickness
-            - `tw` (variable): web thickness
-            - `b` (variable): flange width
-            - `h` (variable): height
-
-        - `B_t` - Blade section defined with one variable:
-            - `t` (variable): thickness
-            - `h` (constant): height
-
-        - `B_t_h` - Blade section defined with two variables:
-            - `t` (variable): thickness
-            - `h` (variable): height
-
-
-        The stringer's attributes will vary from one `profile` to another.
-
-    """
-    idDESVAR = 3000000
-    idDVPREL = 3000000
-    idDCONSTR = 3000000
-    idDRESP = 3000000
-    def __init__(self, name, *eids):
-        super(Stringer, self).__init__(name, *eids)
-        self.is_PBAR = True
-        self.profile = 'B_t'
-        # optimization constraints
-        self.all_constraints = ['stress_tension', 'stress_compression']
-        self.constraints = {'stress_tension': 1,
-                            'stress_compression': 1,
-                            'buckling': 1}
-
-
-    def constrain_stress(self, Fy, average=False):
-        """Add a stress constrain
-
-        Parameters
-        ----------
-        Fy : float
-            The stress threshold to be used in the constraint. The sign of
-            `Fy` will determine whether this threshold if for tension or
-            compression.
-        average : bool, optional
-            If False the central element is chosen, otherwise ...
-            #TODO not implemented
-
-        """
-        eid = self.get_central_element().eid
-        OUTC = output_codes_SOL200.OUTC
-
-        if Fy > 0:
-            dcid = self.constraints['stress_tension']
-            atta = OUTC['STRESS']['CBAR']['End A maximum']
-            label = 'STRmaxS'
-        else:
-            dcid = self.constraints['stress_compression']
-            atta = OUTC['STRESS']['CBAR']['End A minimum']
-            label = 'STRminS'
-
-        dresp1 = DRESP1(label, 'STRESS', 'ELEM', None, atta=atta, attb=None,
-                        atti=eid)
-        self.add_dresp(dresp1)
-        if Fy > 0:
-            self.add_constraint(dcid, dresp1, None, Fy)
-        else:
-            self.add_constraint(dcid, dresp1, Fy, None)
-
-
-    def constrain_stress_tension(self, Fty, average=False):
-        """Add a tension stress constraint
-
-        Parameters
-        ----------
-        Fty : float
-            The tension stress threshold to be used in the constraint.
-        average : bool, optional
-            If False the central element is chosen, otherwise ...
-            #TODO not implemented
-        """
-        self.constrain_stress(Fy=abs(Fty), average=average)
-
-
-    def constrain_stress_compression(self, Fcy, average=False):
-        """Add a compressive stress constraint
-
-        Parameters
-        ----------
-        Fcy : float
-            The compression stress threshold to be used in the constraint.
-        average : bool, optional
-            If False the central element is chosen, otherwise ...
-            #TODO not implemented
-
-        """
-        self.constrain_stress(Fy=-abs(Fcy), average=average)
-
-
-    def constrain_buckling(self, method=1, ms=0.1):
-        """Add a buckling constraint
-
-        Parameters
-        ----------
-        method : int, optional
-            Select one of the following methods for  buckling calculation:
-
-            - `1` : Bruhn's method for Channel- and Z-section stiffeners
-
-            - `1` : Bruhn's...
-
-        ms : float, optional
-            Minimum margin of safety to be used as constraint.
-
-        Notes
-        -----
-
-        Method 1) uses Bruhn's method described in Chapter 6, Fig. C6.4
-
-
-        """
-        if method == 1 and self.profile.lower() == 'z_t_b':
-            b = DESVAR('STRZb', self.b, self.b_lb, self.b_ub)
-            t = DESVAR('STRZt', self.t, self.t_lb, self.t_ub)
-            self.add_dvar(b)
-            self.add_dvar(t)
-            h = self.add_dtable('STRh', self.h)
-            E = self.add_dtable('STRE', self.E)
-            nu = self.add_dtable('STRnu', self.nu)
-            OUTC = output_codes_SOL200.OUTC
-            atta = OUTC['STRESS']['CBAR']['Axial']
-            eid = self.get_central_element().eid
-            FA = DRESP1('STRZFA', 'STRESS', 'ELEM', region=None, atta=atta,
-                        attb='', atti=eid)
-            self.add_dresp(FA)
-            deqatn = DEQATN(
-                'bf(dim1,dim3,dim2,E,nu,FA)=dim1-dim3/2.;'
-                'bw=dim2-dim3;'
-                'tw=dim3;'
-                'x=bf/bw;'
-                'Kw=-206.08*x**5 + 588.3*x**4 - 596.43*x**3 '
-                   '+ 249.62*x**2 -41.924*x + 6.4545;'
-                'SIGMAcr=Kw*PI(1)**2*E*tw**2/(12.*(1.-nu**2)*bw**2);'
-                'MS=SIGMAcr/ABS(MIN(FA, 0.0001))-1.;')
-            dresp2 = DRESP2('STRBUCK', deqatn.id)
-            dresp2.dvars = [b.id, t.id]
-            dresp2.dtable = [h, E, nu]
-            dresp2.dresp1 = [FA]
-            self.add_dresp(dresp2)
-            self.add_deqatn(deqatn)
-            dcid = self.constraints['buckling']
-            dconstr = self.add_constraint(dcid, dresp2, ms, None)
-
 
