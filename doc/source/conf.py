@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# ATD documentation build configuration file, created by
+# structMan documentation build configuration file, created by
 # sphinx-quickstart on Wed Feb 04 06:45:16 2015.
 #
 # This file is execfile()d with the current directory set to its
@@ -21,11 +21,12 @@ from datetime import datetime
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.append('.')
-sys.path.append('../../../feopt')
+sys.path.append(os.path.realpath('../..'))
 print os.getcwd()
+print '\n'.join(sys.path)
 
 import utils
-import feopt
+import structMan
 
 # -- General configuration ------------------------------------------------
 
@@ -58,7 +59,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'ATD'
+project = u'structMan'
 copyright = u'2015, Saullo Castro'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -66,7 +67,7 @@ copyright = u'2015, Saullo Castro'
 # built documents.
 #
 # The short X.Y version.
-version = feopt.__version__
+version = structMan.__version__
 
 # The full version, including alpha/beta/rc tags.
 release = version
@@ -87,7 +88,8 @@ exclude_patterns = []
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
-default_role = 'math'
+#default_role = 'math'
+default_role = 'literal'
 
 # If true, '()' will be appended to :func: etc. cross-reference text.
 #add_function_parentheses = True
@@ -192,7 +194,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'ATD'
+htmlhelp_basename = 'structMan'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -212,7 +214,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'ATD.tex', u'ATD Documentation',
+  ('index', 'structMan.tex', u'structMan Documentation',
    u'Saullo Castro', 'manual'),
 ]
 
@@ -242,7 +244,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'ATD', u'ATD Documentation',
+    ('index', 'structMan', u'structMan Documentation',
      [u'Saullo Castro'], 1)
 ]
 
@@ -256,8 +258,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'ATD', u'ATD Documentation',
-   u'Saullo Castro', 'ATD', 'One line description of project.',
+  ('index', 'structMan', u'structMan Documentation',
+   u'Saullo Castro', 'structMan', 'One line description of project.',
    'Miscellaneous'),
 ]
 
@@ -277,13 +279,13 @@ texinfo_documents = [
 # -- Options for Epub output ----------------------------------------------
 
 # Bibliographic Dublin Core info.
-epub_title = u'ATD'
+epub_title = u'structMan'
 epub_author = u'Saullo Castro'
 epub_publisher = u'Saullo Castro'
 epub_copyright = u'2015, Saullo Castro'
 
 # The basename for the epub file. It defaults to the project name.
-#epub_basename = u'ATD'
+#epub_basename = u'structMan'
 
 # The HTML theme for the epub output. Since the default themes are not optimized
 # for small screen space, using the same theme for HTML and epub output is

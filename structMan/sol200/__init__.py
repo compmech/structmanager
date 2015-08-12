@@ -1,22 +1,22 @@
 """
-SOL 200 (:mod:`atd.sol200`)
-===========================
+SOL 200 (:mod:`structMan.sol200`)
+=================================
 
-.. currentmodule:: atd.sol200
+.. currentmodule:: structMan.sol200
 
 This module contains useful functions for exporting optimization models to
 NASTRAN's SOL 200.
 
-.. automodule:: atd.sol200.sol200
+.. automodule:: structMan.sol200.sol200
     :members:
 
-.. automodule:: atd.sol200.cards_opt
+.. automodule:: structMan.sol200.cards_opt
     :members:
 
-.. automodule:: atd.sol200.cards_solver
+.. automodule:: structMan.sol200.cards_solver
     :members:
 
-.. automodule:: atd.sol200.sizing_data
+.. automodule:: structMan.sol200.sizing_data
     :members:
 
 """

@@ -1,6 +1,16 @@
+"""
+Structural Elements - SEs (:mod:`structMan.ses`)
+================================================
+
+.. currentmodule:: structMan.ses
+
+"""
 from operator import itemgetter
 
 import numpy as np
+
+from sol200 import DRESP1, DCONSTR, DEQATN, DRESP2, DESVAR
+import sol200.output_codes as output_codes_SOL200
 
 
 class SE(object):
@@ -13,31 +23,33 @@ class SE(object):
     eids : list
         A list containing the elements belonging to this structural element.
     all_constraints : list
-        A list of strings with all available constriants. For each constraint
-        'c' there must be a method `self.constrain_c` that will properly handle
-        the creation of each optimization card.
+        A list of strings with all implemented constriants. For each
+        constraint 'c' there must be a method `self.constrain_c` that will
+        properly handle the creation of each optimization card.
     constraints : dict
         Only the constraints that should be considered. The dictionary should
         have the format::
 
-            constraints{'vonMises': 1, 'buckling': 'ALL'}
+            constraints{'vonMises': 1, 'buckling': 3}
 
-        where `'ALL'` means that this constraint is applicable for all
-        subcases, whereas `1` means it is applicable for the first subcase.
+        where `1` and `3` indicate the design constraint set ids for which
+        each respective constraint should be applied.
 
     """
     def __init__(self, name, *eids):
         self.name = name
         self.eids = eids
         self.model = None
+        self.elements = None
         # optimization parameters
-        self.dresps = {}
-        self.dvars = {}
-        self.dvprops = {}
-        self.deqatns = {}
-        self.dtables = {}
-        self.dlinks = {}
-        self.all_constraints = {}
+        self.dresps = []
+        self.dvars = []
+        self.dvprops = []
+        self.deqatns = []
+        self.dtables = []
+        self.dlinks = []
+        self.dconstrs = []
+        self.all_constraints = []
         self.constraints = {}
         # outputs
         self.forces = None
@@ -48,6 +60,101 @@ class SE(object):
 
     def __repr__(self):
         return str(self)
+
+
+    def add_dtable(self, key, value):
+        """Add a DTABLE entry to the SE and the optmodel
+
+        Parameters
+        ----------
+        key : str
+            The DTABLE unique key. The algorithm automatically attempts to add
+            a sufix to prevent repeated keys.
+        value : float
+            The value corresponding to `key`.
+
+        Returns
+        -------
+        key : str
+            The resulting key.
+
+        """
+        optmodel = self.model.optmodel
+        if key in optmodel.dtables.keys():
+            if len(key) >= 8:
+                raise ValueError('{0} is an already existing DTABLE entry!'.
+                                 format(key))
+            if key in optmodel.dtable_prefixes:
+                optmodel.dtabel_prefixes[key] += 1
+            else:
+                optmodel.dtable_prefixes[key] = 0
+            sufix = optmodel.dtabel_prefixes[key]
+            key = key + sufix.rjust(8 - len(key), '0')
+            if len(key) > 8:
+                raise ValueError('Use a smaller key')
+
+        self.dtables.append([key, value])
+        optmodel.dtables[key] = float(value)
+
+        return key
+
+
+    def add_dresp(self, dresp):
+        """Add a DRESP(123) entry to the SE and the optmodel
+
+        Parameters
+        ----------
+        dresp : :class:`DRESP1`, :class:`DRESP2` or :class:`DRESP3`
+            The response object.
+
+        """
+        self.dresps.append(dresp)
+        self.model.optmodel.dresps[dresp.id] = dresp
+
+
+    def add_deqatn(self, deqatn):
+        """Add a DEQATN entry to the SE and the optmodel
+
+        Parameters
+        ----------
+        deqatn : :class:`DEQATN`
+            The equation to be added.
+
+        """
+        self.deqatns.append(deqatn)
+        self.model.optmodel.deqatns[deqatn.id] = deqatn
+
+
+    def add_constraint(self, dcid, dresp, lb, ub):
+        """Add a DCONSTR entry to the SE and the optmodel
+
+        Parameters
+        ----------
+        dcid : int
+            Design constraint set id.
+        dresp : :class:`DRESP1`, :class:`DRESP2` or :class:`DRESP3`
+            The response object.
+        lb : float
+            Lower boundary for the constraint.
+        ub : float
+            Upper boundary for the constraint.
+
+        """
+        dconstr = DCONSTR(dcid, dresp.id, lb, ub)
+        self.dconstrs.append(dconstr)
+        self.model.optmodel.dconstrs[dconstr.id] = dconstr
+
+
+    def get_central_element(self):
+        """Return the element closest to the SE center of gravity
+
+        """
+        if self.elements is None:
+            return
+        x = np.array([e.get_node_positions().mean(axis=0) for e in
+            self.elements])
+        cg = x.mean(axis=0)
+        return self.elements[np.argmin(((x-cg)**2).sum(axis=1))]
 
 
 class SE1D(SE):
@@ -233,11 +340,39 @@ class Panel(SE2D):
         self.Ec = None
         self.nu = None
         # optimization constraints
-        self.constraints = {'vonMises': 'ALL'}
+        self.all_constraints = ['vonMises']
+        self.constraints = {'vonMises': 1}
 
-    def constrain_vonMises(self):
-        self.
 
+    def constrain_vonMises(self, Fcy, average=False):
+        """Add a von Mises stress constraint
+
+        Parameters
+        ----------
+        Fcy : float
+            The stress threshold that will be compared to the von Mises stress
+            for this constraint.
+        average : bool, optional
+            If False the center element is chosen, otherwise ...
+            #TODO not implemented
+
+        """
+        eid = self.get_central_element().eid
+
+        dcid = self.constraints['vonMises']
+        OUTC = output_codes_SOL200.OUTC
+
+        atta = OUTC['STRESS']['CQUAD4']['von Mises or maximum shear at Z1']
+        dresp1 = DRESP1('PANZ1VM', 'STRESS', 'ELEM', None, atta=atta,
+                        attb=None, atti=eid)
+        self.add_dresp(dresp1)
+        self.add_constraint(dcid, dresp1, '', Fcy)
+
+        atta = OUTC['STRESS']['CQUAD4']['von Mises or maximum shear at Z2']
+        dresp1 = DRESP1('PANZ2VM', 'STRESS', 'ELEM', None, atta=atta,
+                        attb=None, atti=eid)
+        self.add_dresp(dresp1)
+        self.add_constraint(dcid, dresp1, '', Fcy)
 
 
 class InnerFlange(SE1D):
@@ -268,7 +403,9 @@ class OuterFlange(SE1D):
 
 
 class ShearClipFrame(SE2D):
-    """Shear Clip Attachment to Frame"""
+    """Shear Clip Attachment to Frame
+
+    """
     idDESVAR = 2400000
     idDVPREL = 2400000
     idDCONSTR = 2400000
@@ -278,7 +415,9 @@ class ShearClipFrame(SE2D):
 
 
 class ShearClipSkin(SE1D):
-    """Shear Clip Attachment to Skin"""
+    """Shear Clip Attachment to Skin
+
+    """
     idDESVAR = 2500000
     idDVPREL = 2500000
     idDCONSTR = 2500000
@@ -288,11 +427,163 @@ class ShearClipSkin(SE1D):
 
 
 class Stringer(SE1D):
-    """Stringer"""
+    """Stringer
+
+    Attributes
+    ----------
+
+    profile (`str`)
+        - `Z_t_b` - Z section defined with two variables:
+            - `t` (variable): profile thickness
+            - `b` (variable): flange width
+            - `h` (constant): height
+
+        - `Z_t_b_h` - Z section defined with three variables:
+            - `t` (variable): profile thickness
+            - `b` (variable): flange width
+            - `h` (variable): height
+
+        - `Z_tf_tw_b_h` - Z section defined with four variables:
+            - `tf` (variable): flange thickness
+            - `tw` (variable): web thickness
+            - `b` (variable): flange width
+            - `h` (variable): height
+
+        - `B_t` - Blade section defined with one variable:
+            - `t` (variable): thickness
+            - `h` (constant): height
+
+        - `B_t_h` - Blade section defined with two variables:
+            - `t` (variable): thickness
+            - `h` (variable): height
+
+
+        The stringer's attributes will vary from one `profile` to another.
+
+    """
     idDESVAR = 3000000
     idDVPREL = 3000000
     idDCONSTR = 3000000
     idDRESP = 3000000
     def __init__(self, name, *eids):
         super(Stringer, self).__init__(name, *eids)
+        self.is_PBAR = True
+        self.profile = 'B_t'
+        # optimization constraints
+        self.all_constraints = ['stress_tension', 'stress_compression']
+        self.constraints = {'stress_tension': 1,
+                            'stress_compression': 1}
+
+
+    def constrain_stress(self, Fy, average=False):
+        """Add a stress constrain
+
+        Parameters
+        ----------
+        Fy : float
+            The stress threshold to be used in the constraint. The sign of
+            `Fy` will determine whether this threshold if for tension or
+            compression.
+        average : bool, optional
+            If False the central element is chosen, otherwise ...
+            #TODO not implemented
+
+        """
+        eid = self.get_central_element().eid
+        OUTC = output_codes_SOL200.OUTC
+
+        if Fy > 0:
+            dcid = self.constraints['stress_tension']
+            atta = OUTC['STRESS']['CBAR']['End A maximum']
+            label = 'STRmaxS'
+        else:
+            dcid = self.constraints['stress_compression']
+            atta = OUTC['STRESS']['CBAR']['End A minimum']
+            label = 'STRminS'
+
+        dresp1 = DRESP1(label, 'STRESS', 'ELEM', None, atta=atta, attb=None,
+                        atti=eid)
+        self.add_dresp(dresp1)
+        if Fy > 0:
+            self.add_constraint(dcid, dresp1, '', Fy)
+        else:
+            self.add_constraint(dcid, dresp1, Fy, '')
+
+
+    def constrain_stress_tension(self, Fty, average=False):
+        """Add a tension stress constraint
+
+        Parameters
+        ----------
+        Fty : float
+            The tension stress threshold to be used in the constraint.
+        average : bool, optional
+            If False the central element is chosen, otherwise ...
+            #TODO not implemented
+        """
+        self.constrain_stress(Fy=abs(Fty), average=average)
+
+
+    def constrain_stress_compression(self, Fcy, average=False):
+        """Add a compressive stress constraint
+
+        Parameters
+        ----------
+        Fcy : float
+            The compression stress threshold to be used in the constraint.
+        average : bool, optional
+            If False the central element is chosen, otherwise ...
+            #TODO not implemented
+
+        """
+        self.constrain_stress(Fy=-abs(Fcy), average=average)
+
+
+    def constrain_buckling(self, method=1):
+        """Add a buckling constraint
+
+        Parameters
+        ----------
+        method : int, optional
+            Select one of the following methods for  buckling calculation:
+
+            - `1` : Bruhn's method for Channel- and Z-section stiffeners
+
+            - `1` : Bruhn's...
+
+        Notes
+        -----
+
+        Method 1) uses Bruhn's method described in Chapter 6, Fig. C6.4
+
+
+        """
+        if method == 1 and profile.lower() == 'z_t_b':
+            b = DESVAR('STRZb', self.b, self.b_lb, self.b_ub)
+            t = DESVAR('STRZt', self.t, self.t_lb, self.t_ub)
+            h = self.add_dtable('STRh', self.h)
+            E = self.add_dtable('STRE', self.E)
+            nu = self.add_dtable('STRnu', self.nu)
+            OUTC = output_codes_SOL200.OUTC
+            atta = OUTC['STRESS']['CBAR']['Axial']
+            eid = self.get_central_element().eid
+            FA = DRESP1('STRZFA', 'STRESS', 'ELEM', region=None, atta=atta,
+                        attb='', atti=eid)
+            self.add_dresp(FA)
+            deqatn = DEQATN(
+                'bf(dim1,dim3,dim2,E,nu,FA)=dim1-dim3/2.;'
+                'bw=dim2-dim3;'
+                'tw=dim3;'
+                'x=bf/bw;'
+                'Kw=-206.08*x**5 + 588.3*x**4 - 596.43*x**3 '
+                   '+ 249.62*x**2 -41.924*x + 6.4545;'
+                'SIGMAcr=Kw*PI(1)**2*E*tw**2/(12.*(1.-nu**2)*bw**2);'
+                'MS=SIGMAcr/ABS(MIN(FA, 0.0001))-1.;')
+            dresp2 = DRESP2('STRBUCK', deqatn.id)
+            dresp2.dvars = [b, t]
+            dresp2.dtable = [h, E, nu]
+            dresp2.dresp1 = [FA]
+            self.add_dresp(dresp2)
+            self.add_deqatn(deqatn)
+
 

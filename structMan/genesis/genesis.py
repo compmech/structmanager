@@ -16,27 +16,27 @@ class Genesis(object):
     ==================  ======================================================
     Attribute           Description
     ==================  ======================================================
-    ``dvprops``         ``dict`` of :class:`.DVPROP3` objects
-    ``deqatns``         ``dict`` of :class:`.DEQATN` objects
-    ``dtables``         ``dict`` of :class:`.DTABLE`
-    ``dresps``          ``dict`` of :class:`.DRESP1` or :class:`.DRESP23`
+    `dvprops`           `dict` of :class:`.DVPROP3` objects
+    `deqatns`           `dict` of :class:`.DEQATN` objects
+    `dtables`           `dict` of :class:`.DTABLE`
+    `dresps`            `dict` of :class:`.DRESP1` or :class:`.DRESP23`
                         objects
-    ``dcons``           ``dict`` of :class:`.DCONS` objects
-    ``dvars``           ``dict`` of :class:`.DVAR` objects
-    ``dvar_codes``      ``dict`` classifying the :class:`.DVAR` objects by
-                        their unique codes
-    ``dlinks``          ``dict`` of :class:`.DLINK` objects
-    ``newprops``        ``dict`` with different NASTRAN cards, see
-                        :meth:`.reset_newprops`
-    ``nodal_displ``     ``dict`` with the nodal displacements constraints as
-                        detailed in :meth:`.nodal_displ_from_excel`
-    ``loads_list``      ``list`` containing the load cases' ids
-    ``spcs_list``       ``list`` containing the single point constraint id
-                        for each load case
-    ``num_cycles``      ``int`` indicating the number of design cycles
-    ``outputdir``       ``str`` path to the output directory
-    ``genesisfile``     ``file`` handler to GENESIS's output file
-    ``nastranfile``     ``file`` handler to NASTRAN's output file
+    `dcons`             `dict` of :class:`.DCONS` objects
+    `dvars`             `dict` of :class:`.DVAR` objects
+    `dvar_codes`        `dict` classifying the :class:`.DVAR` objects by
+                          their unique codes
+    `dlinks`            `dict` of :class:`.DLINK` objects
+    `newprops`          `dict` with different NASTRAN cards, see
+                          :meth:`.reset_newprops`
+    `nodal_displ`       `dict` with the nodal displacements constraints as
+                          detailed in :meth:`.nodal_displ_from_excel`
+    `loads_list`        `list` containing the load cases' ids
+    `spcs_list`         `list` containing the single point constraint id
+                          for each load case
+    `num_cycles`        `int` indicating the number of design cycles
+    `outputdir`         `str` path to the output directory
+    `genesisfile`       `file` handler to GENESIS's output file
+    `nastranfile`       `file` handler to NASTRAN's output file
     ==================  ======================================================
 
     """
@@ -53,7 +53,7 @@ class Genesis(object):
         #TODO future implementation
         #self.externalDRESP3 = {}
         # Description
-        # ``externalDRESP3``  ``dict`` of :class:`.DRESP23` objects, containing
+        # `externalDRESP3`  `dict` of :class:`.DRESP23` objects, containing
         #                     external design responses to be considered
         self.topocheck = False
         self.nodal_displ = None
@@ -78,7 +78,7 @@ class Genesis(object):
                   load_case_id2 : {grid_1 : {output : [minvalue, maxvalue],
                                    grid_3 :  outout : [minvalue, maxvalue]}}}
 
-        where ``minvalue`` and ``maxvalue`` are the minimum and maximum
+        where `minvalue` and `maxvalue` are the minimum and maximum
         displacement values.
 
         Parameters
@@ -91,16 +91,16 @@ class Genesis(object):
         output : str
             A string with one of the values:
 
-            - ``'Translation X'``
-            - ``'Translation Y'``
-            - ``'Translation Z'``
-            - ``'Rotation X'``
-            - ``'Rotation Y'``
-            - ``'Rotation Z'``
-            - ``'Translation Total'``
-            - ``'Absolute X'``
-            - ``'Absolute Y'``
-            - ``'Absolute Z'``
+            - `'Translation X'`
+            - `'Translation Y'`
+            - `'Translation Z'`
+            - `'Rotation X'`
+            - `'Rotation Y'`
+            - `'Rotation Z'`
+            - `'Translation Total'`
+            - `'Absolute X'`
+            - `'Absolute Y'`
+            - `'Absolute Z'`
 
         """
         from excel import Excel
@@ -249,7 +249,7 @@ class Genesis(object):
         row i+3 LP.1.1 0.      1.      LS.1.1  0.4     LS.1.2  0.6     ...
         ======= ====== ======= ======= ======= ======= ======= ======= =======
 
-        where the relative position between the cell with ``DLINK`` and the
+        where the relative position between the cell with `DLINK` and the
         others must be held.
 
         Parameters
@@ -313,7 +313,7 @@ class Genesis(object):
     def set_output_file(self, path):
         """Define the data related to the output file.
 
-        The output directory is estimated based on ``path``.
+        The output directory is estimated based on `path`.
 
         Parameters
         ----------
@@ -408,9 +408,9 @@ class Genesis(object):
             Property id.
         cname : str or list
             The name of the constraint, as described in :mod:`.output_codes`,
-            without the sufix ``'Bottom'``  or ``'Top'``.
+            without the sufix `'Bottom'`  or `'Top'`.
         rtype : str
-            The type of response. For shells it is usually ``'STRESS'``.
+            The type of response. For shells it is usually `'STRESS'`.
         allow_C : float
             The allowable for compression.
         allow_T : float
@@ -488,11 +488,11 @@ class Genesis(object):
             Property id.
         name : str or list
             The name of the constraint, as described in :mod:`.output_codes`,
-            with only the prefix (``'Shear'``, ``'Normal'``, etc).
+            with only the prefix (`'Shear'`, `'Normal'`, etc).
         rtype : str
-            The type of response. For bar elements it is usually ``'STRESS'``.
+            The type of response. For bar elements it is usually `'STRESS'`.
         eltype : str
-            The section type: ``'RECT'``, ``'CIRCLE'``, etc.
+            The section type: `'RECT'`, `'CIRCLE'`, etc.
         allow_C : float
             The allowable for compression.
         allow_T : float
@@ -674,9 +674,9 @@ class Genesis(object):
     def merge_temp_files(self):
         """Merge the temporary file handlers into the final input file.
 
-        The file handlers contained in the attributes ``genesisfile`` and
-        ``nastranfile`` are used to write a unique output file given by the
-        attribute ``datname``.
+        The file handlers contained in the attributes `genesisfile` and
+        `nastranfile` are used to write a unique output file given by the
+        attribute `datname`.
 
         """
         import files

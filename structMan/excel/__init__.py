@@ -1,8 +1,8 @@
 """
-Excel (:mod:`atd.excel`)
-========================
+Excel (:mod:`structMan.excel`)
+==============================
 
-.. currentmodule:: atd.excel
+.. currentmodule:: structMan.excel
 
 Derived from "Python Programming on Win32" by Mark Hammond and Andy Robinson.
 

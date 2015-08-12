@@ -1,3 +1,10 @@
+"""
+Structural Assemblies - SAs (:mod:`structMan.sas`)
+==================================================
+
+.. currentmodule:: structMan.sas
+
+"""
 class FrameAssembly(object):
     """Frame Assembly"""
     def __init__(self, name, outerflange, web, innerflange):

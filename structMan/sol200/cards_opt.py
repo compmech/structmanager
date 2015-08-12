@@ -48,7 +48,7 @@ class DRESP1(object):
         Response attributes.
 
     """
-    uniqueid = 8000000
+    uniqueid = 99000000
 
     def __init__(self, label, rtype, ptype, region=None, atta=None, attb=None,
             atti=None):
@@ -143,7 +143,7 @@ class DRESP2(DRESP23):
     methods: :meth:`.add_dvar`, :meth:`.add_dtable` and :meth:`.add_dresp1`.
 
     """
-    uniqueid = 8000000
+    uniqueid = 99000000
 
     def __init__(self, label, eqid, region=None):
         if region is None:
@@ -171,10 +171,8 @@ class DRESP2(DRESP23):
 
         if len(self.dvars) > 0:
             self.print_aux('DESVAR', self.dvars, file)
-
         if len(self.dtable) > 0:
             self.print_aux('DTABLE', self.dtable, file)
-
         if len(self.dresp1) > 0:
             self.print_aux('DRESP1', self.dresp1, file)
 
@@ -202,7 +200,7 @@ class DRESP3(DRESP23):
     methods: :meth:`.add_dvar`, :meth:`.add_dtable` and :meth:`.add_dresp1`.
 
     """
-    uniqueid = 8000000
+    uniqueid = 99000000
 
     def __init__(self, label, group, type, region=''):
         super(DRESP3, self).__init__()
@@ -253,7 +251,7 @@ class DESVAR(object):
         An additional code to identify the design varible.
 
     """
-    uniqueid = 8000000
+    uniqueid = 99000000
 
     def __init__(self, label, xinit, xlb, xub, dvprel1=None, code=None):
         self.id = DESVAR.uniqueid
@@ -314,7 +312,7 @@ class DVPREL1(object):
         Constant term of relation.
 
     """
-    uniqueid = 8000000
+    uniqueid = 99000000
 
     def __init__(self, type, pid, pname, dvids, coefs, c0=0.):
         self.id = DVPREL1.uniqueid
@@ -369,7 +367,11 @@ class DCONSTR(object):
         Upper bound on the response quantity.
 
     """
+    uniqueid = 99000000
+
     def __init__(self, dcid, rid, lallow, uallow):
+        self.id = DCONSTR.uniqueid
+        DCONSTR.uniqueid += 1
         self.dcid = dcid
         self.rid = rid
         self.lallow = lallow
@@ -424,15 +426,15 @@ class DLINK(object):
     Be sure that no dependent variables are being used as independent
     variables.
 
-    By default ``c0 = 0`` and ``cmult = 1``.
+    By default `c0 = 0` and `cmult = 1`.
 
-    The values of ``dvi`` and ``ci`` are inputed as follows::
+    The values of `dvi` and `ci` are inputed as follows::
 
         indep_dv_c = [dv1, c1, dv2, c2, ...]
         indep_dv_c = [1000000, 1., 1000001, 1., ...]
 
     """
-    uniqueid = 8000000
+    uniqueid = 99000000
 
     def __init__(self, ddvid, idvs, cs, c0=0., cmult=1.):
         self.id = DLINK.uniqueid
@@ -492,7 +494,7 @@ class DEQATN(object):
               subsequent lines.
 
     """
-    uniqueid = 8000000
+    uniqueid = 99000000
 
     def __init__(self, eq):
         self.id = DEQATN.uniqueid
@@ -536,10 +538,7 @@ class DTABLE(object):
         input_dict={'c1':1. , 'c2':2., 'max8char':999.}
 
     """
-    uniqueid = 8000000
     def __init__(self, input_dict={}):
-        self.id = DTABLE.uniqueid
-        DTABLE.uniqueid += 1
         self.input_dict = input_dict
 
     def print_card(self, file):

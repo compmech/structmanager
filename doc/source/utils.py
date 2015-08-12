@@ -82,7 +82,7 @@ def create_task_list(to_do_fname, keyword='TODO'):
         create_task_list("_FIXME_list.rst", keyword="FIXME")
 
     """
-    print 'HERE'
+    print 'utils.py HERE'
     with open(to_do_fname, 'w') as f:
         f.write(keyword + ' list\n')
         f.write('='*len(keyword) + '=====\n')

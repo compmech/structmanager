@@ -128,7 +128,7 @@ class DRESP1(object):
     rtype : str
         Response type ('DISP', 'STRESS', 'FREQ' etc).
     ptype : str
-        If ``ptype='ELEM'`` the ATTi are element IDs, if ``ptype='PSHELL'`` etc
+        If `ptype='ELEM'` the ATTi are element IDs, if `ptype='PSHELL'` etc
         the ATTi are property IDs (see design manual for more info).
     region : int
         Region identifier for constraint screening.
@@ -544,7 +544,7 @@ class DCONS(object):
     drespid : int
         The corresponding design response id.
     lid_lb_ub : list
-        A list in the format ``[str, float, float]`` where the fields are
+        A list in the format `[str, float, float]` where the fields are
         the load id or 'ALL', the negative allowable and the positive
         allowable.
     stress_type : str
@@ -623,9 +623,9 @@ class DLINK(object):
     Be sure that no dependent variables are being used as independent
     variables.
 
-    By default ``c0 = 0`` and ``cmult = 1``.
+    By default `c0 = 0` and `cmult = 1`.
 
-    The values of ``dvi`` and ``ci`` are inputed as follows::
+    The values of `dvi` and `ci` are inputed as follows::
 
         indep_dv_c = [dv1, c1, dv2, c2, ...]
         indep_dv_c = [1000000, 1., 1000001, 1., ...]

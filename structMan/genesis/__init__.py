@@ -1,22 +1,22 @@
 """
-Genesis (:mod:`atd.genesis`)
-========================
+Genesis (:mod:`structMan.genesis`)
+==================================
 
-.. currentmodule:: atd.genesis
+.. currentmodule:: structMan.genesis
 
 This module contains useful functions for exporting optimization models to
 GENESIS.
 
-.. automodule:: atd.genesis.genesis
+.. automodule:: structMan.genesis.genesis
     :members:
 
-.. automodule:: atd.genesis.cards_opt
+.. automodule:: structMan.genesis.cards_opt
     :members:
 
-.. automodule:: atd.genesis.cards_solver
+.. automodule:: structMan.genesis.cards_solver
     :members:
 
-.. automodule:: atd.genesis.sizing_data
+.. automodule:: structMan.genesis.sizing_data
     :members:
 
 """

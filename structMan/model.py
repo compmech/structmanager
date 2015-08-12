@@ -1,3 +1,10 @@
+"""
+Model (:mod:`structMan.model`)
+==============================
+
+.. currentmodule:: structMan.model
+
+"""
 from collections import defaultdict
 from string import strip
 
@@ -9,6 +16,17 @@ from sol200 import SOL200, DESVAR, DVPREL1, DRESP1, DCONSTR
 from ses import (Panel, InnerFlange, Web, OuterFlange, ShearClipFrame,
                  ShearClipSkin, Stringer)
 from sas import FrameAssembly, FrameShearClipAssembly, StiffenedPanelAssembly
+
+
+def treat_bdf_subcases(bdf):
+    bdf.subcases = []
+    for line in bdf.case_control_lines:
+        line = line.strip()
+        if 'SUBCASE' in line.upper():
+            if line[0] == '$':
+                continue
+            bdf.subcases.append(int(line.split()[-1]))
+
 
 
 class Model(object):
@@ -42,6 +60,9 @@ class Model(object):
                     'frameshearclipassembly': FrameShearClipAssembly,
                     'frameassembly': FrameAssembly,
                     }
+        # optimization related
+        self.optmodel = SOL200()
+
 
     def read_op2(self, vectorized=True):
         if self.op2path is None:
@@ -146,8 +167,8 @@ class Model(object):
             print('Model.bdfpath must be defined!')
             return
         bdf.read_bdf(self.bdfpath)
+        treat_bdf_subcases(bdf)
 
-        opt = self.optmodel = SOL200()
 
         print('Building panels...')
         for p in panels.values():
@@ -178,6 +199,7 @@ class Model(object):
             p.nu = np.array([elem.mid().nu for elem in p.elements]).mean()
 
             vonMises = False
+            opt = self.optmodel
             if vonMises:
                 #FIXME remove repeated
                 # Von Mises Constraints

@@ -1,8 +1,17 @@
-Python Lib
-==========
+structMan Modules
+=================
 
-.. automodule:: genesis
+.. automodule:: structMan.genesis
     :members:
 
-.. automodule:: sol200
+.. automodule:: structMan.sol200
+    :members:
+
+.. automodule:: structMan.model
+    :members:
+
+.. automodule:: structMan.ses
+    :members:
+
+.. automodule:: structMan.sas
     :members:

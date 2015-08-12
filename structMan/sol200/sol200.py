@@ -16,26 +16,27 @@ class SOL200(object):
     ==================  ======================================================
     Attribute           Description
     ==================  ======================================================
-    ``dobj``            :class:`.DESOBJ` object
-    ``dvprel1s``        ``dict`` of :class:`.DVPREL1` objects
-    ``deqatns``         ``dict`` of :class:`.DEQATN` objects
-    ``dtables``         ``dict`` of :class:`.DTABLE` objects
-    ``dresp1s``         ``dict`` of :class:`.DRESP1` objects
-    ``dresp2s``         ``dict`` of :class:`.DRESP2` objects
-    ``dresp3s``         ``dict`` of :class:`.DRESP3` objects
-    ``dcons``           ``dict`` of :class:`.DCONSTR` objects
-    ``dvars``           ``dict`` of :class:`.DVAR` objects
-    ``dvar_codes``      ``dict`` classifying the :class:`.DVAR` objects by
-                        their unique codes
-    ``dlinks``          ``dict`` of :class:`.DLINK` objects
-    ``newprops``        ``dict`` with different NASTRAN cards, see
+    `dobj`              :class:`.DESOBJ` object
+    `dvprel1s`          `dict` of :class:`.DVPREL1` objects
+    `deqatns`           `dict` of :class:`.DEQATN` objects
+    `dtables`           `dict` that will be used to build a unique DTABLE
+    `dtable_prefixes`   `dict` carries IDs to prevent repeated DTABLE
+                        constants.
+    `dresps`            `dict` of :class:`.DRESP1`, :class:`.DRESP2` or
+                        :class:`.DRESP3` objects
+    `dconstrs`          `dict` of :class:`.DCONSTR` objects
+    `dvars`             `dict` of :class:`.DVAR` objects
+    `dvar_codes`        `dict` classifying the :class:`.DVAR` objects by
+                          their unique codes
+    `dlinks`            `dict` of :class:`.DLINK` objects
+    `newprops`          `dict` with different NASTRAN cards, see
                         :meth:`.reset_newprops`
-    ``nodal_displ``     ``dict`` with the nodal displacements constraints as
+    `nodal_displ`       `dict` with the nodal displacements constraints as
                         detailed in :meth:`.nodal_displ_from_excel`
-    ``loads_list``      ``list`` containing the load cases' ids
-    ``num_cycles``      ``int`` indicating the number of design cycles
-    ``outputdir``       ``str`` path to the output directory
-    ``sol200file``      ``file`` handler to SOL200's output file
+    `loads_list`        `list` containing the load cases' ids
+    `num_cycles`        `int` indicating the number of design cycles
+    `outputdir`         `str` path to the output directory
+    `sol200file`        `file` handler to SOL200's output file
     ==================  ======================================================
 
     """
@@ -45,17 +46,16 @@ class SOL200(object):
         self.reset_newprops()
         self.deqatns = {}
         self.dtables = {}
-        self.dresp1s = {}
-        self.dresp2s = {}
-        self.dresp3s = {}
-        self.dcons = {}
+        self.dresps = {}
+        self.dconstrs = {}
+        self.dcids = set()
         self.dvars = {}
         self.dvar_codes = {}
         self.dlinks = {}
         #TODO future implementation
         #self.externalDRESP3 = {}
         # Description
-        # ``externalDRESP3``  ``dict`` of :class:`.DRESP3` objects, containing
+        # `externalDRESP3`  `dict` of :class:`.DRESP3` objects, containing
         #                     external design responses to be considered
         self.topocheck = False
         self.nodal_displ = None
@@ -68,7 +68,7 @@ class SOL200(object):
     def set_output_file(self, path):
         """Define the data related to the output file.
 
-        The output directory is estimated based on ``path``.
+        The output directory is estimated based on `path`.
 
         Parameters
         ----------
@@ -100,9 +100,7 @@ class SOL200(object):
         """
         self._print_dvprel1s()
         self._print_dvars()
-        self._print_dresp1s()
-        self._print_dresp2s()
-        self._print_dresp2s()
+        self._print_dresps()
         self._print_deqatns()
         self._print_dcons()
         self._print_dobj()
@@ -142,7 +140,7 @@ class SOL200(object):
         eltype : str
             Element type ('CQUAD4', 'CTRIA3', etc).
         rtype : str
-            The type of response. For shells it is usually ``'STRESS'``.
+            The type of response. For shells it is usually `'STRESS'`.
         names : str or list of strings
             The name of the constraint, as in the quick reference guide,
             reproduced in module :mod:`.atd.sol200.output_codes`.
@@ -162,27 +160,30 @@ class SOL200(object):
         if not isinstance(names, (list, tuple)):
             names = [names]
 
+        self.dcids.add(dcid)
         for name in names:
             atta = get_output_code(rtype, eltype, name)
             dresp1 = DRESP1(name[:8], rtype, ptype, region, atta, pid)
-            dcons = DCONSTR(dcid, dresp1.id, lallow, uallow)
-            self.dresp1s[dresp1.id] = dresp1
-            self.dcons[dresp1.id] = dcons
+            dconstr = DCONSTR(dcid, dresp1.id, lallow, uallow)
+            self.dresps[dresp1.id] = dresp1
+            self.dconstrs[dconstr.id] = dconstr
 
 
-    def constrain_pbar(self, pid, name, rtype, eltype, allow_C, allow_T):
+    def constrain_pbar(self, dcid, pid, name, rtype, eltype, allow_C, allow_T):
         """Add constraints to all stress recovery points of a bar property.
 
         Parameters
         ----------
+        dcid : int
+            Design constraint set identification number.
         pid : int
             Property id.
         name : str or list
             The name of the constraint.
         rtype : str
-            The type of response. For bar elements it is usually ``'STRESS'``.
+            The type of response. For bar elements it is usually `'STRESS'`.
         eltype : str
-            The section type: ``'RECT'``, ``'CIRCLE'``, etc.
+            The section type: `'RECT'`, `'CIRCLE'`, etc.
         allow_C : float
             The allowable for compression.
         allow_T : float
@@ -199,26 +200,18 @@ class SOL200(object):
         lid_lb_ub.append(allow_C)
         lid_lb_ub.append(allow_T)
 
+        self.dcids.add(dcid)
 
         for namei in name:
-            if 'Normal X' in namei:
-                cons_names = ['Normal X Point 1 at end A',
-                              'Normal X Point 2 at end A',
-                              'Normal X Point 3 at end A',
-                              'Normal X Point 4 at end A',
-                              'Normal X Point 9 at end B',
-                              'Normal X Point 10 at end B',
-                              'Normal X Point 11 at end B',
-                              'Normal X Point 12 at end B']
-            elif 'Shear' in namei:
-                cons_names = ['Shear XZ Point 5 at end A',
-                              'Shear XY Point 6 at end A',
-                              'Shear XZ Point 7 at end A',
-                              'Shear XY Point 8 at end A',
-                              'Shear XZ Point 13 at end B',
-                              'Shear XY Point 14 at end B',
-                              'Shear XZ Point 15 at end B',
-                              'Shear XY Point 16 at end B']
+            if 'Axial' in namei:
+                cons_names = ['End A-Point C',
+                              'End A-Point D',
+                              'End A-Point E',
+                              'End A-Point F',
+                              'End B-Point C',
+                              'End B-Point D',
+                              'End B-Point E',
+                              'End B-Point F']
             ptype = 'PBARL'
             for i in range(len(cons_names)):
                 name = cons_names[i]
@@ -230,24 +223,20 @@ class SOL200(object):
                     stress_type = 'negative'
                 elif output_name.find('Normal') > -1:
                     stress_type = 'both'
-                else:
-                    #TODO perhaps we need a shear allowable
-                    if output_name.upper().find('SHEAR') > -1:
-                        stress_type = 'positive'
-                        lid_lb_ub[1] = lid_lb_ub[1] / 2.
-                        lid_lb_ub[2] = lid_lb_ub[2] / 2.
 
                 dresp1 = DRESP1(label, rtype, ptype, region, atta, pid)
-                dcons = DCONSTR(dresp1.id, lid_lb_ub, stress_type)
-                self.dresp1s[dresp1.id] = dresp1
-                self.dcons[dresp1.id] = dcons
+                dconstr = DCONSTR(dcid, dresp1.id, lid_lb_ub, stress_type)
+                self.dresps[dresp1.id] = dresp1
+                self.dconstrs[dconstr.id] = dconstr
 
 
-    def constrain_two_vars(self, var1, var2, maxdiff):
+    def constrain_two_vars(self, dcid, var1, var2, maxdiff):
         """Constrain two vars in order to keep a maximum relative difference
 
         Parameters
         ----------
+        dcid : int
+            Design constraint set identification number.
         var1, var2 : int or str
             The variables id (int) or code (str).
         maxdiff : float
@@ -279,11 +268,12 @@ class SOL200(object):
         dresp2.label = 'v1v2{0:d}'.format(dresp2.id)
         dresp2.add_dvar(var1.id)
         dresp2.add_dvar(var2.id)
-        dcons = DCONSTR(dresp2.id, ['ALL', '', maxdiff], 'positive')
+        self.dcids.add(dcid)
+        dconstr = DCONSTR(dcid, dresp2.id, ['ALL', '', maxdiff], 'positive')
 
         self.deqatns[deqatn.id] = deqatn
-        self.dresp2s[dresp2.id] = dresp2
-        self.dcons[dresp2.id] = dcons
+        self.dresps[dresp2.id] = dresp2
+        self.dconstrs[dconstr.id] = dconstr
 
 
     def create_dobj(self):
@@ -291,7 +281,7 @@ class SOL200(object):
 
         """
         dresp1 =  DRESP1('mass','MASS', '', '', '', '')
-        self.dresp1s[dresp1.id] = dresp1
+        self.dresps[dresp1.id] = dresp1
 
         #TODO move to the case control section
         if False:
@@ -321,18 +311,8 @@ class SOL200(object):
             dvprel1.print_card(self.sol200file)
 
 
-    def _print_dresp1s(self):
-        for dresp in self.dresp1s.values():
-            dresp.print_card(self.sol200file)
-
-
-    def _print_dresp2s(self):
-        for dresp in self.dresp2s.values():
-            dresp.print_card(self.sol200file)
-
-
-    def _print_dresp3s(self):
-        for dresp in self.dresp3s.values():
+    def _print_dresps(self):
+        for dresp in self.dresps.values():
             dresp.print_card(self.sol200file)
 
 
@@ -342,8 +322,8 @@ class SOL200(object):
 
 
     def _print_dcons(self):
-        for dcons in self.dcons.values():
-            dcons.print_card(self.sol200file)
+        for dconstr in self.dconstrs.values():
+            dconstr.print_card(self.sol200file)
 
 
     def _print_dobj(self):
