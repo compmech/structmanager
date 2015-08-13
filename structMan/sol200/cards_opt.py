@@ -332,23 +332,23 @@ class DVPREL1(object):
     dvids : list
         Ids of the design variables that will be related to this property
         parameter.
-    coefs : list
+    coeffs : list
         Multipliers to each corresponding design variable.
     c0 : float, optional
         Constant term of relation.
 
     """
-    def __init__(self, type, pid, pname, dvids, coefs, c0=0.):
+    def __init__(self, type, pid, pname, dvids, coeffs, c0=0.):
         self.id = DVPREL.uniqueid
         DVPREL.uniqueid += 1
         self.type = type
         self.pid = pid
         self.pname = pname
         self.dvids = dvids
-        self.coefs = coefs
+        self.coeffs = coeffs
         self.c0 = c0
 
-        assert len(dvids) == len(coefs), 'Lengths must be the same'
+        assert len(dvids) == len(coeffs), 'Lengths must be the same'
         assert len(dvids) > 0, 'At least one variable must be related'
 
 
@@ -373,7 +373,7 @@ class DVPREL1(object):
                 file.write(dvprel1str + '\n')
                 dvprel1str = '+'.ljust(8)
                 fieldnum = 2
-            dvprel1str += ('% 8d%s' % (self.dvids[i], ff(self.coefs[i])))
+            dvprel1str += ('% 8d%s' % (self.dvids[i], ff(self.coeffs[i])))
         file.write(dvprel1str + '\n')
 
 
