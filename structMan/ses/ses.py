@@ -194,6 +194,10 @@ class SE1D(SE):
         self.shear2 = None
         self.axial = None
         self.torque = None
+        self.all_constraints = ['stress_tension', 'stress_compression']
+        self.constraints = {'stress_tension': 1,
+                            'stress_compression': 1}
+
 
     def read_forces(self):
         if self.model.op2 is None:
@@ -248,6 +252,81 @@ class SE1D(SE):
         self.shear2 = self.forces[5]
         self.axial = self.forces[6]
         self.torque = self.forces[7]
+
+
+    def constrain_stress(self, Fy, average=False):
+        """Add a stress constrain
+
+        Parameters
+        ----------
+        Fy : float
+            The stress threshold to be used in the constraint. The sign of
+            `Fy` will determine whether this threshold if for tension or
+            compression.
+        average : bool, optional
+            If False the central element is chosen, otherwise ...
+            #TODO not implemented
+
+        """
+        self.create_dvars()
+        eid = self.get_central_element().eid
+        OUTC = output_codes_SOL200.OUTC
+
+        eltype = self.elements[0].type
+
+        if Fy > 0:
+            dcid = self.constraints['stress_tension']
+            if eltype == 'CBAR':
+                atta = OUTC['STRESS']['CBAR']['End A maximum']
+            else:
+                raise NotImplementedError
+            label = 'STRmaxS'
+        else:
+            dcid = self.constraints['stress_compression']
+            if eltype == 'CBAR':
+                atta = OUTC['STRESS']['CBAR']['End A minimum']
+            else:
+                raise NotImplementedError
+            label = 'STRminS'
+
+        dresp1 = DRESP1(label, 'STRESS', 'ELEM', None, atta=atta, attb=None,
+                        atti=eid)
+        self.add_dresp(dresp1)
+        if Fy > 0:
+            self.add_constraint(dcid, dresp1, None, Fy)
+        else:
+            self.add_constraint(dcid, dresp1, Fy, None)
+
+
+    def constrain_stress_tension(self, Fty, average=False):
+        """Add a tension stress constraint
+
+        Parameters
+        ----------
+        Fty : float
+            The tension stress threshold to be used in the constraint.
+        average : bool, optional
+            If False the central element is chosen, otherwise ...
+            #TODO not implemented
+        """
+        self.create_dvars()
+        self.constrain_stress(Fy=abs(Fty), average=average)
+
+
+    def constrain_stress_compression(self, Fcy, average=False):
+        """Add a compressive stress constraint
+
+        Parameters
+        ----------
+        Fcy : float
+            The compression stress threshold to be used in the constraint.
+        average : bool, optional
+            If False the central element is chosen, otherwise ...
+            #TODO not implemented
+
+        """
+        self.create_dvars()
+        self.constrain_stress(Fy=-abs(Fcy), average=average)
 
 
 class SE2D(SE):
@@ -396,50 +475,256 @@ class Panel(SE2D):
         self.add_constraint(dcid, dresp1, None, Fcy)
 
 
-class InnerFlange(SE1D):
+class Flange1D(SE1D):
+    """Flange1D base class for :class:`InnerFlange` and :class:`OuterFlange`
+
+    """
+    def __init__(self, name, *eids):
+        super(Flange1D, self).__init__(name, *eids)
+        self.dvars_created = False
+
+    def create_dvars(self):
+        if self.dvars_created:
+            return
+        self.dvars_created = True
+        pid = self.elements[0].pid.pid
+        ptype = self.elements[0].pid.type
+
+        if self.profile.lower() == 't':
+            dvar_t = DESVAR('STRBt', self.t, self.t_lb, self.t_ub)
+            self.add_dvar(dvar_t)
+            dtable_b = self.add_dtable('STRb', self.b)
+            if ptype == 'PBAR':
+                # calculating A
+                deqatn = DEQATN('A(t,b) = t*b')
+                self.add_deqatn(deqatn)
+                dvprel = DVPREL2(ptype, pid=pid, pname='A', eqid=deqatn.id)
+                dvprel.add_dvar(dvar_t.id)
+                dvprel.add_dtable(dtable_b)
+                self.add_dvprel(dvprel)
+                # assuming y-axis towards radial (normal) direction
+                # calculating I1 = Izz
+                deqatn = DEQATN('I1(t,b) = b*t**3/12.')
+                self.add_deqatn(deqatn)
+                dvprel = DVPREL2(ptype, pid=pid, pname='I1', eqid=deqatn.id)
+                dvprel.add_dvar(dvar_t.id)
+                dvprel.add_dtable(dtable_b)
+                self.add_dvprel(dvprel)
+                # calculating I2 = Iyy
+                deqatn = DEQATN('I2(t,b) = t*b**3/12. + t*b*(b/2.)**2')
+                self.add_deqatn(deqatn)
+                dvprel = DVPREL2(ptype, pid=pid, pname='I2', eqid=deqatn.id)
+                dvprel.add_dvar(dvar_t.id)
+                dvprel.add_dtable(dtable_b)
+                self.add_dvprel(dvprel)
+                # calculating J
+                deqatn = DEQATN('I1(t,b) = b*t**3/12.;'
+                                'I2 = t*b**3/12. + t*b*(b/2.)**2;'
+                                'J = I1 + I2')
+                self.add_deqatn(deqatn)
+                dvprel = DVPREL2(ptype, pid=pid, pname='J', eqid=deqatn.id)
+                dvprel.add_dvar(dvar_t.id)
+                dvprel.add_dtable(dtable_b)
+                self.add_dvprel(dvprel)
+            else:
+                raise NotImplementedError('%s not supported!' % ptype)
+
+        elif self.profile.lower() == 't_b':
+            dvar_t = DESVAR('STRBt', self.t, self.t_lb, self.t_ub)
+            dvar_h = DESVAR('STRBb', self.b, self.b_lb, self.b_ub)
+            self.add_dvar(dvar_t)
+            self.add_dvar(dvar_h)
+            if ptype == 'PBAR':
+                # calculating A
+                deqatn = DEQATN('A(t,b) = t*b')
+                self.add_deqatn(deqatn)
+                dvprel = DVPREL2(ptype, pid=pid, pname='A', eqid=deqatn.id)
+                dvprel.add_dvar(dvar_t.id)
+                dvprel.add_dvar(dvar_h.id)
+                self.add_dvprel(dvprel)
+                # assuming y-axis towards radial (normal) direction
+                # calculating I1 = Izz
+                deqatn = DEQATN('I1(t,b) = b*t**3/12.')
+                self.add_deqatn(deqatn)
+                dvprel = DVPREL2(ptype, pid=pid, pname='I1', eqid=deqatn.id)
+                dvprel.add_dvar(dvar_t.id)
+                dvprel.add_dvar(dvar_h.id)
+                self.add_dvprel(dvprel)
+                # calculating I2 = Iyy
+                deqatn = DEQATN('I2(t,b) = t*b**3/12. + t*b*(b/2.)**2')
+                self.add_deqatn(deqatn)
+                dvprel = DVPREL2(ptype, pid=pid, pname='I2', eqid=deqatn.id)
+                dvprel.add_dvar(dvar_t.id)
+                dvprel.add_dvar(dvar_h.id)
+                self.add_dvprel(dvprel)
+                # calculating J
+                deqatn = DEQATN('I1(t,b) = b*t**3/12.;'
+                                'I2 = t*b**3/12. + t*b*(b/2.)**2;'
+                                'J = I1 + I2')
+                self.add_deqatn(deqatn)
+                dvprel = DVPREL2(ptype, pid=pid, pname='J', eqid=deqatn.id)
+                dvprel.add_dvar(dvar_t.id)
+                dvprel.add_dvar(dvar_h.id)
+                self.add_dvprel(dvprel)
+            else:
+                raise NotImplementedError('%s not supported!' % ptype)
+
+
+    def constrain_buckling(self, method=1, ms=0.1):
+        """Add a buckling constraint
+
+        Parameters
+        ----------
+        method : int, optional
+            Select one of the following methods for  buckling calculation:
+
+            - `1` : Bruhn's method for Channel- and Z-section stiffeners
+
+            - `1` : Bruhn's...
+
+        ms : float, optional
+            Minimum margin of safety to be used as constraint.
+
+        Notes
+        -----
+
+        Method 1) uses Bruhn's method described in Chapter 6, Fig. C6.4
+
+        """
+        self.create_dvars()
+        eltype = self.elements[0].type
+        if method == 1 and self.profile.lower() == 't':
+            # buckling equation
+            deqatn = DEQATN(
+                'bf(dim1,dim3,dim2,E,nu,FA) = dim1-dim3/2.;'
+                'bw = dim2-dim3;'
+                'tw = dim3;'
+                'x = bf/bw;'
+                'Kw = -206.08*x**5 + 588.3*x**4 - 596.43*x**3 '
+                   '+ 249.62*x**2 -41.924*x + 6.4545;'
+                'SIGMAcr = Kw*PI(1)**2*E*tw**2/(12.*(1.-nu**2)*bw**2);'
+                'MS = SIGMAcr/ABS(MIN(FA, 0.0001))-1.;')
+            self.add_deqatn(deqatn)
+            # reading variables
+            dvar_t = self.dvars['STRZt']
+            dvar_b = self.dvars['STRZb']
+            # reading constants
+            dtable_h = self.dtables['STRh'][0]
+            dtable_E = self.dtables['STRE'][0]
+            dtable_nu = self.dtables['STRnu'][0]
+            # reading axial stress
+            OUTC = output_codes_SOL200.OUTC
+            if eltype == 'CBAR':
+                atta = OUTC['STRESS']['CBAR']['Axial']
+            else:
+                raise NotImplementedError
+            eid = self.get_central_element().eid
+            dresp_FA = DRESP1('STRZFA', 'STRESS', 'ELEM', region=None,
+                              atta=atta, attb='', atti=eid)
+            self.add_dresp(dresp_FA)
+            # building DRESP2
+            dresp2 = DRESP2('STRBUCK', deqatn.id)
+            dresp2.dvars = [dvar_b.id, dvar_t.id]
+            dresp2.dtable = [dtable_h, dtable_E, dtable_nu]
+            dresp2.dresp1 = [dresp_FA.id]
+            self.add_dresp(dresp2)
+            # applying constraint
+            dcid = self.constraints['buckling']
+            dconstr = self.add_constraint(dcid, dresp2, ms, None)
+
+        elif method == 1 and self.profile.lower() == 't_b':
+            # buckling equation
+            deqatn = DEQATN(
+                'bf(dim1,dim3,dim2,E,nu,FA) = dim1-dim3/2.;'
+                'bw = dim2-dim3;'
+                'tw = dim3;'
+                'x = bf/bw;'
+                'Kw = -206.08*x**5 + 588.3*x**4 - 596.43*x**3 '
+                   '+ 249.62*x**2 -41.924*x + 6.4545;'
+                'SIGMAcr = Kw*PI(1)**2*E*tw**2/(12.*(1.-nu**2)*bw**2);'
+                'MS = SIGMAcr/ABS(MIN(FA, 0.0001))-1.;')
+            self.add_deqatn(deqatn)
+            # reading variables
+            dvar_t = self.dvars['STRZt']
+            dvar_b = self.dvars['STRZb']
+            dvar_h = self.dvars['STRZh']
+            # reading constants
+            dtable_E = self.dtables['STRE'][0]
+            dtable_nu = self.dtables['STRnu'][0]
+            # reading axial stress
+            OUTC = output_codes_SOL200.OUTC
+            if eltype == 'CBAR':
+                atta = OUTC['STRESS']['CBAR']['Axial']
+            else:
+                raise NotImplementedError
+            eid = self.get_central_element().eid
+            dresp_FA = DRESP1('STRZFA', 'STRESS', 'ELEM', region=None,
+                              atta=atta, attb='', atti=eid)
+            self.add_dresp(dresp_FA)
+            # building DRESP2
+            dresp2 = DRESP2('STRBUCK', deqatn.id)
+            dresp2.dvars = [dvar_b.id, dvar_t.id, dvar_h.id]
+            dresp2.dtable = [dtable_E, dtable_nu]
+            dresp2.dresp1 = [dresp_FA.id]
+            self.add_dresp(dresp2)
+            # applying constraint
+            dcid = self.constraints['buckling']
+            dconstr = self.add_constraint(dcid, dresp2, ms, None)
+
+
+class InnerFlange(Flange1D):
+    """Inner Flange
+
+    It is assumed a rectangular section for the inner flange with two
+    parameters `t` (thickness) and `b` (width).
+
+    Attributes
+    ----------
+
+    profile (`str`)
+        - `t` - defined with one variable:
+            - `t` (variable): thickness
+            - `b` (constant): width
+
+        - `t_b` - defined with two variables:
+            - `t` (variable): thickness
+            - `b` (variable): width
+
+        The InnerFlange's attributes will vary from one `profile` to another.
+
+    """
     def __init__(self, name, *eids):
         super(InnerFlange, self).__init__(name, *eids)
 
 
-        #TODO will be useful
-        if False:
-            if self.is_PBAR:
-                pid = 1
-                # calculating A
-                deqatn = DEQATN('A(t,b) = t*b')
-                self.add_deqatn(deqatn)
-                dvprel = DVPREL2('PBAR', pid=pid, pname='A', eqid=deqatn.id)
-                dvprel.add_dvar(dvar_t.id)
-                dvprel.add_dvar(dvar_b.id)
-                self.add_dvprel(dvprel)
-                # assuming y-axis towards radial (normal) direction
-                # calculating I1
-                deqatn = DEQATN('I1(t,b)=t*b**3/12.')
-                self.add_deqatn(deqatn)
-                dvprel = DVPREL2('PBAR', pid=pid, pname='I1', eqid=deqatn.id)
-                dvprel.add_dvar(dvar_t.id)
-                dvprel.add_dvar(dvar_b.id)
-                self.add_dvprel(dvprel)
-                # calculating I2
-                deqatn = DEQATN('I1(t,b)=t*b**3/12.')
-                self.add_deqatn(deqatn)
-                dvprel = DVPREL2('PBAR', pid=pid, pname='I1', eqid=deqatn.id)
-                dvprel.add_dvar(dvar_t.id)
-                dvprel.add_dvar(dvar_b.id)
-                self.add_dvprel(dvprel)
-                # calculating I12
-                # calculating J
-                dvprel = DVPREL2('PBAR', pid=pid, pname='I1', eqid=deqatn.id)
+class OuterFlange(Flange1D):
+    """Outer Flange
+
+    It is assumed a rectangular section for the outer flange with two
+    parameters `t` (thickness) and `b` (width).
+
+    Attributes
+    ----------
+
+    profile (`str`)
+        - `t` - defined with one variable:
+            - `t` (variable): thickness
+            - `b` (constant): width
+
+        - `t_b` - defined with two variables:
+            - `t` (variable): thickness
+            - `b` (variable): width
+
+        The OuterFlange's attributes will vary from one `profile` to another.
+
+    """
+    def __init__(self, name, *eids):
+        super(OuterFlange, self).__init__(name, *eids)
 
 
 class Web(SE2D):
     def __init__(self, name, *eids):
         super(Web, self).__init__(name, *eids)
-
-
-class OuterFlange(SE1D):
-    def __init__(self, name, *eids):
-        super(OuterFlange, self).__init__(name, *eids)
 
 
 class ShearClipFrame(SE2D):

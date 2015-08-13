@@ -47,10 +47,8 @@ class Stringer(SE1D):
         self.dvars_created = False
         self.profile = 'B_t'
         # optimization constraints
-        self.all_constraints = ['stress_tension', 'stress_compression']
-        self.constraints = {'stress_tension': 1,
-                            'stress_compression': 1,
-                            'buckling': 1}
+        self.all_constraints += ['buckling']
+        self.constraints['buckling'] = 1
 
 
     def create_dvars(self):
@@ -59,6 +57,7 @@ class Stringer(SE1D):
         self.dvars_created = True
         pid = self.elements[0].pid.pid
         ptype = self.elements[0].pid.type
+
         if self.profile.lower() == 'z_t_b':
             dvar_t = DESVAR('STRZt', self.t, self.t_lb, self.t_ub)
             dvar_b = DESVAR('STRZb', self.b, self.b_lb, self.b_ub)
@@ -71,32 +70,32 @@ class Stringer(SE1D):
                 # calculating A
                 deqatn = DEQATN('A(t,b,h) = 2*t*b + t*h')
                 self.add_deqatn(deqatn)
-                dvprel = DVPREL2('PBAR', pid=pid, pname='A', eqid=deqatn.id)
+                dvprel = DVPREL2(ptype, pid=pid, pname='A', eqid=deqatn.id)
                 dvprel.add_dvar(dvar_t.id)
                 dvprel.add_dvar(dvar_b.id)
                 dvprel.add_dtable(dtable_h)
                 self.add_dvprel(dvprel)
                 # assuming y-axis towards radial (normal) direction
-                # calculating I1
+                # calculating I1 = Izz
                 deqatn = DEQATN('I1f(t,b,h) = t*b**3/12.;'
                                 'I1w = h*t**3/12.;'
                                 'd = t/2. + b/2.;'
                                 'Ad2f = t*b*d**2;'
                                 'I1 = 2*(I1f + Ad2f) + I1w')
                 self.add_deqatn(deqatn)
-                dvprel = DVPREL2('PBAR', pid=pid, pname='I1', eqid=deqatn.id)
+                dvprel = DVPREL2(ptype, pid=pid, pname='I1', eqid=deqatn.id)
                 dvprel.add_dvar(dvar_t.id)
                 dvprel.add_dvar(dvar_b.id)
                 dvprel.add_dtable(dtable_h)
                 self.add_dvprel(dvprel)
-                # calculating I2
+                # calculating I2 = Iyy
                 deqatn = DEQATN('I2f(t,b,h) = b*t**3/12.;'
                                 'I2w = t*h**3/12.;'
                                 'd = h/2. - t/2.;'
                                 'Ad2f = t*b*d**2;'
                                 'I2 = 2*(I2f + Ad2f) + I2w')
                 self.add_deqatn(deqatn)
-                dvprel = DVPREL2('PBAR', pid=pid, pname='I2', eqid=deqatn.id)
+                dvprel = DVPREL2(ptype, pid=pid, pname='I2', eqid=deqatn.id)
                 dvprel.add_dvar(dvar_t.id)
                 dvprel.add_dvar(dvar_b.id)
                 dvprel.add_dtable(dtable_h)
@@ -114,7 +113,7 @@ class Stringer(SE1D):
                                 'I2 = 2*(I2f + Ad2f) + I2w;'
                                 'J = I1 + I2')
                 self.add_deqatn(deqatn)
-                dvprel = DVPREL2('PBAR', pid=pid, pname='J', eqid=deqatn.id)
+                dvprel = DVPREL2(ptype, pid=pid, pname='J', eqid=deqatn.id)
                 dvprel.add_dvar(dvar_t.id)
                 dvprel.add_dvar(dvar_b.id)
                 dvprel.add_dtable(dtable_h)
@@ -135,32 +134,32 @@ class Stringer(SE1D):
                 # calculating A
                 deqatn = DEQATN('A(t,b,h) = 2*t*b + t*h')
                 self.add_deqatn(deqatn)
-                dvprel = DVPREL2('PBAR', pid=pid, pname='A', eqid=deqatn.id)
+                dvprel = DVPREL2(ptype, pid=pid, pname='A', eqid=deqatn.id)
                 dvprel.add_dvar(dvar_t.id)
                 dvprel.add_dvar(dvar_b.id)
                 dvprel.add_dvar(dvar_h.id)
                 self.add_dvprel(dvprel)
                 # assuming y-axis towards radial (normal) direction
-                # calculating I1
+                # calculating I1 = Izz
                 deqatn = DEQATN('I1f(t,b,h) = t*b**3/12.;'
                                 'I1w = h*t**3/12.;'
                                 'd = t/2. + b/2.;'
                                 'Ad2f = t*b*d**2;'
                                 'I1 = 2*(I1f + Ad2f) + I1w')
                 self.add_deqatn(deqatn)
-                dvprel = DVPREL2('PBAR', pid=pid, pname='I1', eqid=deqatn.id)
+                dvprel = DVPREL2(ptype, pid=pid, pname='I1', eqid=deqatn.id)
                 dvprel.add_dvar(dvar_t.id)
                 dvprel.add_dvar(dvar_b.id)
                 dvprel.add_dvar(dvar_h.id)
                 self.add_dvprel(dvprel)
-                # calculating I2
+                # calculating I2 = Iyy
                 deqatn = DEQATN('I2f(t,b,h) = b*t**3/12.;'
                                 'I2w = t*h**3/12.;'
                                 'd = h/2. - t/2.;'
                                 'Ad2f = t*b*d**2;'
                                 'I2 = 2*(I2f + Ad2f) + I2w')
                 self.add_deqatn(deqatn)
-                dvprel = DVPREL2('PBAR', pid=pid, pname='I2', eqid=deqatn.id)
+                dvprel = DVPREL2(ptype, pid=pid, pname='I2', eqid=deqatn.id)
                 dvprel.add_dvar(dvar_t.id)
                 dvprel.add_dvar(dvar_b.id)
                 dvprel.add_dvar(dvar_h.id)
@@ -178,7 +177,7 @@ class Stringer(SE1D):
                                 'I2 = 2*(I2f + Ad2f) + I2w;'
                                 'J = I1 + I2')
                 self.add_deqatn(deqatn)
-                dvprel = DVPREL2('PBAR', pid=pid, pname='J', eqid=deqatn.id)
+                dvprel = DVPREL2(ptype, pid=pid, pname='J', eqid=deqatn.id)
                 dvprel.add_dvar(dvar_t.id)
                 dvprel.add_dvar(dvar_b.id)
                 dvprel.add_dvar(dvar_h.id)
@@ -199,34 +198,34 @@ class Stringer(SE1D):
                 # calculating A
                 deqatn = DEQATN('A(tf,tw,b,h) = 2*tf*b + tw*h')
                 self.add_deqatn(deqatn)
-                dvprel = DVPREL2('PBAR', pid=pid, pname='A', eqid=deqatn.id)
+                dvprel = DVPREL2(ptype, pid=pid, pname='A', eqid=deqatn.id)
                 dvprel.add_dvar(dvar_tf.id)
                 dvprel.add_dvar(dvar_tw.id)
                 dvprel.add_dvar(dvar_b.id)
                 dvprel.add_dvar(dvar_h.id)
                 self.add_dvprel(dvprel)
                 # assuming y-axis towards radial (normal) direction
-                # calculating I1
+                # calculating I1 = Izz
                 deqatn = DEQATN('I1f(tf,tw,b,h) = tf*b**3/12.;'
                                 'I1w = h*tw**3/12.;'
                                 'd = tw/2. + b/2.;'
                                 'Ad2f = tf*b*d**2;'
                                 'I1 = 2*(I1f + Ad2f) + I1w')
                 self.add_deqatn(deqatn)
-                dvprel = DVPREL2('PBAR', pid=pid, pname='I1', eqid=deqatn.id)
+                dvprel = DVPREL2(ptype, pid=pid, pname='I1', eqid=deqatn.id)
                 dvprel.add_dvar(dvar_tf.id)
                 dvprel.add_dvar(dvar_tw.id)
                 dvprel.add_dvar(dvar_b.id)
                 dvprel.add_dvar(dvar_h.id)
                 self.add_dvprel(dvprel)
-                # calculating I2
+                # calculating I2 = Iyy
                 deqatn = DEQATN('I2f(tf,tw,b,h) = b*tf**3/12.;'
                                 'I2w = tw*h**3/12.;'
                                 'd = h/2. - tf/2.;'
                                 'Ad2f = tf*b*d**2;'
                                 'I2 = 2*(I2f + Ad2f) + I2w')
                 self.add_deqatn(deqatn)
-                dvprel = DVPREL2('PBAR', pid=pid, pname='I2', eqid=deqatn.id)
+                dvprel = DVPREL2(ptype, pid=pid, pname='I2', eqid=deqatn.id)
                 dvprel.add_dvar(dvar_tf.id)
                 dvprel.add_dvar(dvar_tw.id)
                 dvprel.add_dvar(dvar_b.id)
@@ -245,7 +244,7 @@ class Stringer(SE1D):
                                 'I2 = 2*(I2f + Ad2f) + I2w;'
                                 'J = I1 + I2')
                 self.add_deqatn(deqatn)
-                dvprel = DVPREL2('PBAR', pid=pid, pname='J', eqid=deqatn.id)
+                dvprel = DVPREL2(ptype, pid=pid, pname='J', eqid=deqatn.id)
                 dvprel.add_dvar(dvar_tf.id)
                 dvprel.add_dvar(dvar_tw.id)
                 dvprel.add_dvar(dvar_b.id)
@@ -262,31 +261,31 @@ class Stringer(SE1D):
                 # calculating A
                 deqatn = DEQATN('A(t,h) = t*h')
                 self.add_deqatn(deqatn)
-                dvprel = DVPREL2('PBAR', pid=pid, pname='A', eqid=deqatn.id)
+                dvprel = DVPREL2(ptype, pid=pid, pname='A', eqid=deqatn.id)
                 dvprel.add_dvar(dvar_t.id)
                 dvprel.add_dtable(dtable_h)
                 self.add_dvprel(dvprel)
                 # assuming y-axis towards radial (normal) direction
-                # calculating I1
-                deqatn = DEQATN('I1(t,h) = h*t**3/12.')
+                # calculating I1 = Izz
+                deqatn = DEQATN('I1(t,h) = t*h**3/12. + t*h*(h/2.)**2')
                 self.add_deqatn(deqatn)
-                dvprel = DVPREL2('PBAR', pid=pid, pname='I1', eqid=deqatn.id)
+                dvprel = DVPREL2(ptype, pid=pid, pname='I1', eqid=deqatn.id)
                 dvprel.add_dvar(dvar_t.id)
                 dvprel.add_dtable(dtable_h)
                 self.add_dvprel(dvprel)
-                # calculating I2
-                deqatn = DEQATN('I2(t,h) = t*h**3/12. + t*h*(h/2.)**2')
+                # calculating I2 = Iyy
+                deqatn = DEQATN('I2(t,h) = h*t**3/12.')
                 self.add_deqatn(deqatn)
-                dvprel = DVPREL2('PBAR', pid=pid, pname='I2', eqid=deqatn.id)
+                dvprel = DVPREL2(ptype, pid=pid, pname='I2', eqid=deqatn.id)
                 dvprel.add_dvar(dvar_t.id)
                 dvprel.add_dtable(dtable_h)
                 self.add_dvprel(dvprel)
                 # calculating J
-                deqatn = DEQATN('I1(t,h) = h*t**3/12.;'
-                                'I2 = t*h**3/12. + t*h*(h/2.)**2;'
+                deqatn = DEQATN('I1(t,h) = t*h**3/12. + t*h*(h/2.)**2;'
+                                'I2 = h*t**3/12.;'
                                 'J = I1 + I2')
                 self.add_deqatn(deqatn)
-                dvprel = DVPREL2('PBAR', pid=pid, pname='J', eqid=deqatn.id)
+                dvprel = DVPREL2(ptype, pid=pid, pname='J', eqid=deqatn.id)
                 dvprel.add_dvar(dvar_t.id)
                 dvprel.add_dtable(dtable_h)
                 self.add_dvprel(dvprel)
@@ -302,103 +301,36 @@ class Stringer(SE1D):
                 # calculating A
                 deqatn = DEQATN('A(t,h) = t*h')
                 self.add_deqatn(deqatn)
-                dvprel = DVPREL2('PBAR', pid=pid, pname='A', eqid=deqatn.id)
+                dvprel = DVPREL2(ptype, pid=pid, pname='A', eqid=deqatn.id)
                 dvprel.add_dvar(dvar_t.id)
                 dvprel.add_dvar(dvar_h.id)
                 self.add_dvprel(dvprel)
                 # assuming y-axis towards radial (normal) direction
-                # calculating I1
-                deqatn = DEQATN('I1(t,h) = h*t**3/12.')
+                # calculating I1 = Izz
+                deqatn = DEQATN('I1(t,h) = t*h**3/12. + t*h*(h/2.)**2')
                 self.add_deqatn(deqatn)
-                dvprel = DVPREL2('PBAR', pid=pid, pname='I1', eqid=deqatn.id)
+                dvprel = DVPREL2(ptype, pid=pid, pname='I1', eqid=deqatn.id)
                 dvprel.add_dvar(dvar_t.id)
                 dvprel.add_dvar(dvar_h.id)
                 self.add_dvprel(dvprel)
-                # calculating I2
-                deqatn = DEQATN('I2(t,h) = t*h**3/12. + t*h*(h/2.)**2')
+                # calculating I2 = Iyy
+                deqatn = DEQATN('I2(t,h) = h*t**3/12.')
                 self.add_deqatn(deqatn)
-                dvprel = DVPREL2('PBAR', pid=pid, pname='I2', eqid=deqatn.id)
+                dvprel = DVPREL2(ptype, pid=pid, pname='I2', eqid=deqatn.id)
                 dvprel.add_dvar(dvar_t.id)
                 dvprel.add_dvar(dvar_h.id)
                 self.add_dvprel(dvprel)
                 # calculating J
-                deqatn = DEQATN('I1(t,h) = h*t**3/12.;'
-                                'I2 = t*h**3/12. + t*h*(h/2.)**2;'
+                deqatn = DEQATN('I1(t,h) = t*h**3/12. + t*h*(h/2.)**2;'
+                                'I2 = h*t**3/12.;'
                                 'J = I1 + I2')
                 self.add_deqatn(deqatn)
-                dvprel = DVPREL2('PBAR', pid=pid, pname='J', eqid=deqatn.id)
+                dvprel = DVPREL2(ptype, pid=pid, pname='J', eqid=deqatn.id)
                 dvprel.add_dvar(dvar_t.id)
                 dvprel.add_dvar(dvar_h.id)
                 self.add_dvprel(dvprel)
             else:
                 raise NotImplementedError('%s not supported!' % ptype)
-
-
-    def constrain_stress(self, Fy, average=False):
-        """Add a stress constrain
-
-        Parameters
-        ----------
-        Fy : float
-            The stress threshold to be used in the constraint. The sign of
-            `Fy` will determine whether this threshold if for tension or
-            compression.
-        average : bool, optional
-            If False the central element is chosen, otherwise ...
-            #TODO not implemented
-
-        """
-        self.create_dvars()
-        eid = self.get_central_element().eid
-        OUTC = output_codes_SOL200.OUTC
-
-        if Fy > 0:
-            dcid = self.constraints['stress_tension']
-            atta = OUTC['STRESS']['CBAR']['End A maximum']
-            label = 'STRmaxS'
-        else:
-            dcid = self.constraints['stress_compression']
-            atta = OUTC['STRESS']['CBAR']['End A minimum']
-            label = 'STRminS'
-
-        dresp1 = DRESP1(label, 'STRESS', 'ELEM', None, atta=atta, attb=None,
-                        atti=eid)
-        self.add_dresp(dresp1)
-        if Fy > 0:
-            self.add_constraint(dcid, dresp1, None, Fy)
-        else:
-            self.add_constraint(dcid, dresp1, Fy, None)
-
-
-    def constrain_stress_tension(self, Fty, average=False):
-        """Add a tension stress constraint
-
-        Parameters
-        ----------
-        Fty : float
-            The tension stress threshold to be used in the constraint.
-        average : bool, optional
-            If False the central element is chosen, otherwise ...
-            #TODO not implemented
-        """
-        self.create_dvars()
-        self.constrain_stress(Fy=abs(Fty), average=average)
-
-
-    def constrain_stress_compression(self, Fcy, average=False):
-        """Add a compressive stress constraint
-
-        Parameters
-        ----------
-        Fcy : float
-            The compression stress threshold to be used in the constraint.
-        average : bool, optional
-            If False the central element is chosen, otherwise ...
-            #TODO not implemented
-
-        """
-        self.create_dvars()
-        self.constrain_stress(Fy=-abs(Fcy), average=average)
 
 
     def constrain_buckling(self, method=1, ms=0.1):
@@ -423,6 +355,7 @@ class Stringer(SE1D):
 
         """
         self.create_dvars()
+        eltype = self.elements[0].type
         if method == 1 and self.profile.lower() == 'z_t_b':
             # buckling equation
             deqatn = DEQATN(
@@ -444,12 +377,15 @@ class Stringer(SE1D):
             dtable_nu = self.dtables['STRnu'][0]
             # reading axial stress
             OUTC = output_codes_SOL200.OUTC
-            atta = OUTC['STRESS']['CBAR']['Axial']
+            if eltype == 'CBAR':
+                atta = OUTC['STRESS']['CBAR']['Axial']
+            else:
+                raise NotImplementedError
             eid = self.get_central_element().eid
             dresp_FA = DRESP1('STRZFA', 'STRESS', 'ELEM', region=None,
                               atta=atta, attb='', atti=eid)
             self.add_dresp(dresp_FA)
-            # bulding DRESP2
+            # building DRESP2
             dresp2 = DRESP2('STRBUCK', deqatn.id)
             dresp2.dvars = [dvar_b.id, dvar_t.id]
             dresp2.dtable = [dtable_h, dtable_E, dtable_nu]
@@ -480,7 +416,10 @@ class Stringer(SE1D):
             dtable_nu = self.dtables['STRnu'][0]
             # reading axial stress
             OUTC = output_codes_SOL200.OUTC
-            atta = OUTC['STRESS']['CBAR']['Axial']
+            if eltype == 'CBAR':
+                atta = OUTC['STRESS']['CBAR']['Axial']
+            else:
+                raise NotImplementedError
             eid = self.get_central_element().eid
             dresp_FA = DRESP1('STRZFA', 'STRESS', 'ELEM', region=None,
                               atta=atta, attb='', atti=eid)
