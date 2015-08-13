@@ -31,7 +31,8 @@ class Panel(SE2D):
         self.constraints = {'vonMises': 1}
 
         # finding corner nodes
-        # assuming that they are those that share only one inner element
+        # - assuming that they are those that share only one inner element
+        # - radius calculated assuming the panel has a common center
         if self.elements is not None:
             nodes = []
             for element in self.elements:
