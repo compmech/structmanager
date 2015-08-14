@@ -1,0 +1,12 @@
+Import("env_base")
+env = env_base.Copy()
+
+#================== Perform local customization here ==================
+
+if env['MACHINE'] == 'solaris8664':
+  env.Propagate(env.Append, LIBS=['Cstd','Crun','malloc','dl','intl','socket','nsl','rt'])
+
+#================== Perform local customization here ==================
+
+retval = env.ProcessDir(env_base)
+Return('retval')
