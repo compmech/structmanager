@@ -9,7 +9,7 @@ from operator import itemgetter
 
 import numpy as np
 
-from structMan.sol200 import (DRESP1, DCONSTR, DEQATN, DRESP2, DESVAR,
+from structMan.sol200 import (DRESP1, DCONSTR, DEQATN, DRESP2, DRESP3, DESVAR,
                               DVPREL1, DVPREL2)
 import structMan.sol200.output_codes as output_codes_SOL200
 
@@ -147,6 +147,8 @@ class SE(object):
         """
         self.dresps.append(dresp)
         self.model.optmodel.dresps[dresp.id] = dresp
+        if isinstance(dresp, DRESP3):
+            self.model.optmodel.groups.add(dresp.group)
 
 
     def add_deqatn(self, deqatn):
