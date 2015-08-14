@@ -1,3 +1,10 @@
+"""
+Base classes for SEs (:mod:`structMan.ses.ses`)
+===================================================================
+
+.. currentmodule:: structMan.ses.ses
+
+"""
 from operator import itemgetter
 
 import numpy as np

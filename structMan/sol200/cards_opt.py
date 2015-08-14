@@ -28,10 +28,12 @@ from utils import format_float as ff
 
 
 class DVPREL(object):
+    """Base class to guarantee an unique id among all DVPRELs"""
     uniqueid = 9000000
 
 
 class DRESP(object):
+    """Base class to guarantee an unique id among all DRESPs"""
     uniqueid = 9000000
 
 

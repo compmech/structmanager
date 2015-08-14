@@ -6,7 +6,7 @@ Contents:
 .. toctree::
     :maxdepth: 4
 
-    ./lib_python.rst
+    ./structMan_modules.rst
 
 Please help!:
 

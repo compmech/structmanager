@@ -1,3 +1,10 @@
+"""
+Stringer SEs (:mod:`structMan.ses.stringer`)
+============================================
+
+.. currentmodule:: structMan.ses.stringer
+
+"""
 import numpy as np
 
 from ses import SE1D

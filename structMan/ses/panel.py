@@ -1,3 +1,10 @@
+"""
+Panel SEs (:mod:`structMan.ses.panel`)
+======================================
+
+.. currentmodule:: structMan.ses.panel
+
+"""
 import numpy as np
 
 from ses import SE2D
@@ -12,6 +19,7 @@ class Panel(SE2D):
     """Panel
 
     Attributes
+    ----------
 
     """
     def __init__(self, name, eids, model=None):

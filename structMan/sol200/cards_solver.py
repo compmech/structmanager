@@ -1,8 +1,8 @@
 """
-Optimization cards (:mod:`structMan.genesis.cards_solver`)
-==========================================================
+Solver cards (:mod:`structMan.sol200.cards_solver`)
+===================================================
 
-.. currentmodule:: structMan.genesis.cards_solver`
+.. currentmodule:: structMan.sol200.cards_solver`
 
 Many input cards related to the finite element solver are wrapped in this
 module.

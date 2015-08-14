@@ -1,3 +1,10 @@
+"""
+Ring frame flanges (:mod:`structMan.ses.flanges`)
+=================================================
+
+.. currentmodule:: structMan.ses.flanges
+
+"""
 import numpy as np
 
 from ses import SE1D
@@ -8,13 +15,17 @@ import structMan.sol200.output_codes as output_codes_SOL200
 
 
 class Flange1D(SE1D):
-    """Flange1D base class for :class:`InnerFlange` and :class:`OuterFlange`
+    """Flange1D base class for :class:`.InnerFlange` and :class:`.OuterFlange`
+
+    .. autoattribute:: Flange1D.profile
 
     """
+    ##L (`float`) - flange length
     def __init__(self, name, eids, model):
         super(Flange1D, self).__init__(name, eids, model)
-        #
+
         self.profile = 't'
+
         # optimization constraints
         self.all_constraints += ['buckling']
         self.constraints['buckling'] = 1

@@ -1,6 +1,8 @@
 """
-Sizing data (:mod:`feopt.genesis.sizing_data`)
-========================================
+Sizing data (:mod:`structMan.sol200.sizing_data`)
+=================================================
+
+.. currentmodule:: structMan.sol200.sizing_data
 
 In this module it is defined the dictionary ``SDATA`` containing the definition
 of the sizing variables for each property accordingly to GENESIS Analysis
@@ -14,7 +16,7 @@ It should be used as ``SDATA[ptype][etype]``, where:
 
 The currently available values are:
 
-.. literalinclude:: ../../feopt/genesis/sizing_data.py
+.. literalinclude:: ../../structMan/sol200/sizing_data.py
     :language: python
     :lines: 22-
 

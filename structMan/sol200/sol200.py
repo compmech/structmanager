@@ -1,3 +1,10 @@
+"""
+SOL200 optimization model (:mod:`structMan.sol200.sol200`)
+==========================================================
+
+.. currentmodule:: structMan.sol200.sol200
+
+"""
 import os
 import cPickle as pickle
 from collections import Iterable
