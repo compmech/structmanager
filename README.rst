@@ -7,6 +7,8 @@ Documentation
 
 The documentation is available on: http://saullocastro.github.io/structMan/
 
+.. include:: ROADMAP.rst
+
 Requirements
 ------------
 - numpy
