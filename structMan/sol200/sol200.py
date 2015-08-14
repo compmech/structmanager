@@ -40,6 +40,8 @@ class SOL200(object):
                         constants.
     `dresps`            `dict` of :class:`.DRESP1`, :class:`.DRESP2` or
                         :class:`.DRESP3` objects
+    `groups`            `set` containing the externl subroutines that are used
+                        in the current optimization model
     `dconstrs`          `dict` of :class:`.DCONSTR` objects
     `dvars`             `dict` of :class:`.DVAR` objects
     `dvar_codes`        `dict` classifying the :class:`.DVAR` objects by
@@ -66,6 +68,7 @@ class SOL200(object):
         self.dtables = {}
         self.dtable_prefixes = {}
         self.dresps = {}
+        self.groups = set()
         self.dconstrs = {}
         self.dcids = set()
         self.dvars = {}

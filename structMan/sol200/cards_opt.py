@@ -57,7 +57,7 @@ class DRESP1(DRESP):
 
     """
     def __init__(self, label, rtype, ptype, region=None, atta=None, attb=None,
-            atti=None):
+                 atti=None):
         if region is None:
             region = ''
         if atta is None:
@@ -126,6 +126,7 @@ class DRESP23(PRINTAUX):
         self.dvars = []
         self.dtable = []
         self.dresp1 = []
+        self.dresp2 = []
 
     def add_dvar(self, dvar_id):
         self.dvars.append(dvar_id)
@@ -135,6 +136,9 @@ class DRESP23(PRINTAUX):
 
     def add_dresp1(self, dresp1_id):
         self.dresp1.append(dresp1_id)
+
+    def add_dresp2(self, dresp2_id):
+        self.dresp2.append(dresp2_id)
 
 
 class DRESP2(DRESP23):
@@ -189,6 +193,8 @@ class DRESP2(DRESP23):
             self.print_aux('DTABLE', self.dtable, file)
         if len(self.dresp1) > 0:
             self.print_aux('DRESP1', self.dresp1, file)
+        if len(self.dresp2) > 0:
+            self.print_aux('DRESP2', self.dresp2, file)
 
 
 class DRESP3(DRESP23):
@@ -242,6 +248,8 @@ class DRESP3(DRESP23):
             self.print_aux('DTABLE', self.dtable, file)
         if len(self.dresp1) > 0:
             self.print_aux('DRESP1', self.dresp1, file)
+        if len(self.dresp2) > 0:
+            self.print_aux('DRESP2', self.dresp2, file)
 
 
 class DESVAR(object):
