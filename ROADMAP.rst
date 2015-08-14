@@ -15,7 +15,6 @@ Roadmap
   pockets for diagonal tension.
 - add a base class called "Plate" which can be the base class for Web,
   ShearClipFrame and similar ones...
-
 - create a class OptimizationModel which will do what SOL200 currently does,
   but automatically selecting which optimization card should be used depending
   on which optimization solver the user chooses
