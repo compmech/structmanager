@@ -7,7 +7,10 @@ Documentation
 
 The documentation is available on: http://saullocastro.github.io/structMan/
 
-.. include:: ./ROADMAP.rst
+Roadmap
+-------
+Please, `refer to the ROADMAP.rst file for details
+<https://github.com/saullocastro/structMan/blob/master/ROADMAP.rst>`_.
 
 Requirements
 ------------
