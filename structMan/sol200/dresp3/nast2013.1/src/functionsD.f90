@@ -2,13 +2,13 @@
 ! Diagonal tension functions for curved stiffened panels
 ! Written by Saullo Castro, April 2015
 !
-real*8 function cot(x)
+real*8 function cotD(x)
     implicit none
     real*8 x
-    cot = 1./tan(x)
+    cotD = 1./tan(x)
 end function
 
-real*8 function fSScr_skin(a, b, t, r, Ec_skin, nu_skin)
+real*8 function fSScr_skinD(a, b, t, r, Ec_skin, nu_skin)
     ! Curved skin shear buckling allowable
     ! as in Fig.C9.4 and C9.5 pgC9.5 of Bruhn 
     ! - written by Tam Ha, Feb. 2001
@@ -135,10 +135,10 @@ real*8 function fSScr_skin(a, b, t, r, Ec_skin, nu_skin)
         end if
     end if
     ! Calculate Shear Buckling allowable
-    fSScr_skin = ks*pi**2*Ec_skin*(t/min(a, b))**2/(12 * (1 - nu_skin**2))
+    fSScr_skinD = ks*pi**2*Ec_skin*(t/min(a, b))**2/(12 * (1 - nu_skin**2))
 end
 
-real*8 function fSCcr_skin(a, b, t, r, Ec_skin, nu_skin)
+real*8 function fSCcr_skinD(a, b, t, r, Ec_skin, nu_skin)
     ! curved skin compressive buckling allowable 
     ! as in Fig.C9.1 pgC9.2 of Bruhn
     ! - written by Tam Ha, Feb. 2001
@@ -216,11 +216,11 @@ real*8 function fSCcr_skin(a, b, t, r, Ec_skin, nu_skin)
        kc = ((ratio - 500) / 200.) * (kc_700_2 - kc_500_2) + kc_500_2
     end if
 
-    fSCcr_skin = pi**2*kc*Ec_skin/(12*(1 - nu_skin**2))*(t/min(b, a))**2
+    fSCcr_skinD = pi**2*kc*Ec_skin/(12*(1 - nu_skin**2))*(t/min(b, a))**2
 end function
 
 
-real*8 function fSratio_str(kk, a, b)
+real*8 function fSratio_strD(kk, a, b)
     ! Ratio of max to ave stress for stringers 
     ! as in FigC11.21 pg.C11.27 of Bruhn
     ! - writen by Tam HA March 9th. 2001
@@ -248,30 +248,30 @@ real*8 function fSratio_str(kk, a, b)
     !
     ! Calculate Stress ratios for exact k values
     if (abs(kk - 0.8) < 0.00001) then
-       fSratio_str = fst_ratio_8
+       fSratio_strD = fst_ratio_8
     else if (abs(kk - 0.6) < 0.00001) then
-       fSratio_str = fst_ratio_6
+       fSratio_strD = fst_ratio_6
     else if (abs(kk - 0.4) < 0.00001) then
-       fSratio_str = fst_ratio_4
+       fSratio_strD = fst_ratio_4
     else if (abs(kk - 0.2) < 0.00001) then
-       fSratio_str = fst_ratio_2
+       fSratio_strD = fst_ratio_2
     else if (abs(kk - 0) < 0.00001) then
-       fSratio_str = fst_ratio_0
+       fSratio_strD = fst_ratio_0
     end if
     !
     ! Calculate Stress ratios for in between k values
     if ((kk > 0.6) .and. (kk < 0.8)) then
-       fSratio_str = (kk - 0.6) * (fst_ratio_8 - fst_ratio_6) / 0.2 + fst_ratio_6
+       fSratio_strD = (kk - 0.6) * (fst_ratio_8 - fst_ratio_6) / 0.2 + fst_ratio_6
     else if ((kk > 0.4) .and. (kk < 0.6)) then
-       fSratio_str = (kk - 0.4) * (fst_ratio_6 - fst_ratio_4) / 0.2 + fst_ratio_4
+       fSratio_strD = (kk - 0.4) * (fst_ratio_6 - fst_ratio_4) / 0.2 + fst_ratio_4
     else if ((kk > 0.2) .and. (kk < 0.4)) then
-       fSratio_str = (kk - 0.2) * (fst_ratio_4 - fst_ratio_2) / 0.2 + fst_ratio_2
+       fSratio_strD = (kk - 0.2) * (fst_ratio_4 - fst_ratio_2) / 0.2 + fst_ratio_2
     else if ((kk > 0) .and. (kk < 0.2)) then
-       fSratio_str = (kk - 0) * (fst_ratio_2 - fst_ratio_0) / 0.2 + fst_ratio_0
+       fSratio_strD = (kk - 0) * (fst_ratio_2 - fst_ratio_0) / 0.2 + fst_ratio_0
     end if
 end function
 
-real*8 function fSratio_fr(kk, ask, bsk)
+real*8 function fSratio_frD(kk, ask, bsk)
     ! Ratio of max to ave stress for stringers 
     ! as in FigC11.21 pg.C11.27 of Bruhn
     ! - writen by Tam HA March 9th. 2001
@@ -301,30 +301,30 @@ real*8 function fSratio_fr(kk, ask, bsk)
 
     ! Calculate Stress ratios for exact k values
     if (abs(kk - 0.8) < 0.00001) then
-        fSratio_fr = ffr_ratio_8
+        fSratio_frD = ffr_ratio_8
     else if (abs(kk - 0.6) < 0.00001) then
-        fSratio_fr = ffr_ratio_6
+        fSratio_frD = ffr_ratio_6
     else if (abs(kk - 0.4) < 0.00001) then
-        fSratio_fr = ffr_ratio_4
+        fSratio_frD = ffr_ratio_4
     else if (abs(kk - 0.2) < 0.00001) then
-        fSratio_fr = ffr_ratio_2
+        fSratio_frD = ffr_ratio_2
     else if (abs(kk - 0) < 0.00001) then
-        fSratio_fr = ffr_ratio_0
+        fSratio_frD = ffr_ratio_0
     end if
 
     ! Calculate Stress ratios for in between k values
     if ((kk > 0.6) .and. (kk < 0.8)) then
-        fSratio_fr = (kk - 0.6) * (ffr_ratio_8 - ffr_ratio_6) / 0.2 + ffr_ratio_6
+        fSratio_frD = (kk - 0.6) * (ffr_ratio_8 - ffr_ratio_6) / 0.2 + ffr_ratio_6
     else if ((kk > 0.4) .and. (kk < 0.6)) then
-        fSratio_fr = (kk - 0.4) * (ffr_ratio_6 - ffr_ratio_4) / 0.2 + ffr_ratio_4
+        fSratio_frD = (kk - 0.4) * (ffr_ratio_6 - ffr_ratio_4) / 0.2 + ffr_ratio_4
     else if ((kk > 0.2) .and. (kk < 0.4)) then
-        fSratio_fr = (kk - 0.2) * (ffr_ratio_4 - ffr_ratio_2) / 0.2 + ffr_ratio_2
+        fSratio_frD = (kk - 0.2) * (ffr_ratio_4 - ffr_ratio_2) / 0.2 + ffr_ratio_2
     else if ((kk > 0) .and. (kk < 0.2)) then
-        fSratio_fr = (kk - 0) * (ffr_ratio_2 - ffr_ratio_0) / 0.2 + ffr_ratio_0
+        fSratio_frD = (kk - 0) * (ffr_ratio_2 - ffr_ratio_0) / 0.2 + ffr_ratio_0
     end if
 end function
 
-real*8 function SFC_allow_str(kleft, kright, tleft, tright, tweb, fcy, Ec)
+real*8 function SFC_allow_strD(kleft, kright, tleft, tright, tweb, fcy, Ec)
     ! Forced Crippling Allowable for Stringers
     ! Bruhn Fig.C11.38
     ! - writen by Tam HA March 9th. 2001
@@ -349,11 +349,11 @@ real*8 function SFC_allow_str(kleft, kright, tleft, tright, tweb, fcy, Ec)
 
     ! Calculate Forced Crippling Allowable for Stringer
     c = fcy * 0.01 / (5.88 * (fcy / Ec + 0.002) ** 0.5)
-    SFC_allow_str = -n * c / 1000
+    SFC_allow_strD = -n * c / 1000
 end function
 
 
-real*8 function Ffr_allow(kk, tweb, tskin, Rin, fcy, Ec)
+real*8 function Ffr_allowD(kk, tweb, tskin, Rin, fcy, Ec)
     ! Forced Crippling Allowables for Frames
     ! Bruhn Fig.C11.38
     ! - writen by Tam HA, March 9th. 2001
@@ -418,16 +418,16 @@ real*8 function Ffr_allow(kk, tweb, tskin, Rin, fcy, Ec)
     end if
     
     c = fcy * 0.01 / (5.88 * (fcy / Ec + 0.002) ** 0.5)
-    Ffr_allow = n * c / 1000
+    Ffr_allowD = n * c / 1000
     
-    Ffr_allow = Ffr_allow / 1.45
+    Ffr_allowD = Ffr_allowD / 1.45
 end function
 
 
 
 
-real*8 Function fs_allow_Ftu(ask, bsk, tskin, Afr, Astr, kk, alpha, Ftu_fs)
-    ! Allowable Stress in Skin (Ftu_fs and fs_allow_Ftu are in psi)
+real*8 Function fs_allow_FtuD(ask, bsk, tskin, Afr, Astr, kk, alpha, Ftu_fs)
+    ! Allowable Stress in Skin (Ftu_fs and fs_allow_FtuD are in psi)
     ! - as given in Bruhn Fig.C11.42, pg. C11.53 and Eq. 103 pg. C11.37
     ! - written by Reinaldo Sawaguchi Kolososki and adapted by Malcom Petras, 2010
     ! - translated to Fortran by Saullo Castro, July 2015
@@ -520,10 +520,10 @@ real*8 Function fs_allow_Ftu(ask, bsk, tskin, Afr, Astr, kk, alpha, Ftu_fs)
         y2 = fs_allow_Ftu_120
     end if
 
-    fs_allow_Ftu = (x2 - Ftu_fs) / (x2 - x1) * y1 + (Ftu_fs - x1) / (x2 - x1) * y2
+    fs_allow_FtuD = (x2 - Ftu_fs) / (x2 - x1) * y1 + (Ftu_fs - x1) / (x2 - x1) * y2
 
-    fs_allow_Ftu = fs_allow_Ftu * (0.65 + delta)
+    fs_allow_FtuD = fs_allow_FtuD * (0.65 + delta)
 
-    fs_allow_Ftu = fs_allow_Ftu * 1000. ! transforming from ksi to psi
+    fs_allow_FtuD = fs_allow_FtuD * 1000. ! transforming from ksi to psi
 
 end function

@@ -1,0 +1,12 @@
+Import("env_base")
+env = env_base.Copy()
+#================== Perform local customization here ==================
+
+if env_base['MACHINE'].startswith('WIN'):
+  env_base.Append(CPPDEFINES=['_DOUBLE', 'NO_FTN_CVF'])
+
+env_base.EnableMSCFPP(extlist=[".F",".F90",".cftn",".cppftn"],d2fpp=0,mscfpp=1)
+
+#======================================================================
+retval = env.ProcessDir(env_base)
+Return('retval')

@@ -1,0 +1,92 @@
+$  gmconn = paths
+CONNECT DRESP3 BARNGRAD PATH2
+$ID MSC, DSOUG13 $ v2004 ehj 25-Jun-2003
+DIAG 8,15 $
+SOL 200
+CEND
+TITLE = BUCKLING TEST CASE WITH AN EXTERNAL RESPONSE - DSOUG13
+SUBTITLE = JOHNSON/EULER BUCKLING CASE
+ECHO = SORT
+SPC = 100
+DESOBJ = 20
+SUBCASE 1
+   DESSUB = 1
+   LABEL = LOAD CONDITION 1
+   LOAD = 300
+   ANALYSIS = STATICS
+   DISP = ALL
+   STRESS = ALL
+SUBCASE 2
+   DESSUB = 2
+   ANALYSIS = BUCK
+   METHOD = 1
+   DISP = ALL
+   LABEL = BUCKLING FACTORS
+$
+BEGIN BULK
+PARAM,POST,-1
+$------------------------------------------------------------------------
+$ ANALYSIS MODEL
+$------------------------------------------------------------------------
+$
+$ GRID DATA
+$       2       3       4       5       6       7       8       9       10
+GRDSET                                                  345
+GRID,1,,0.0,0.0,0.0
+GRID,2,,8.0,0.0,0.0
+GRID,3,,16.0,0.0,0.0
+GRID,4,,24.0,0.0,0.0
+GRID,5,,32.0,0.0,0.0
+GRID,6,,40.0,0.0,0.0
+GRID,10,,0.0,0.0,100.0,,123456
+$
+$ ELEMENT AND MATERIAL DATA
+CBAR,1,10,1,2,10
+CBAR,2,10,2,3,10
+CBAR,3,10,3,4,10
+CBAR,4,10,4,5,10
+CBAR,5,10,5,6,10
+MAT1    1       3.0E7           0.33    0.1
+$ PROPERTY DATA 
+PBARL,10,1,MSCBML0,ROD
+,1.0
+$ BOUNDARY CONDITION DATA 
+SPC1,100,1,1
+SPC1,100,2,1,6
+$ EXTERNAL LOADS DATA
+FORCE   300     6               -2.0E5  1.0
+$ BUCKLING ANALYSIS DATA 
+EIGRL   1       .05             4
+$
+$------------------------------------------------------------------------
+$ DESIGN MODEL
+$------------------------------------------------------------------------
+$
+$[--1--][---2--][---3--][---4--][---5--][---6--][---7--][---8--][---9--]
+DESVAR  1       RG      1.0     0.01    10.0
+DOPTPRM,P2,15,DESMAX,20,DELP,0.5,GMAX,0.01
+,CONVDV,0.01,CONVPR,0.02,P1,1,
+DRESP1  20      W       WEIGHT
+DRESP1  23      S1      STRESS  PBAR            7               10
+DRESP1  24      S1      STRESS  PBAR            8               10
+DRESP1  25      S1      STRESS  PBAR            6               10
+$[--1--][---2--][---3--][---4--][---5--][---6--][---7--][---8--][---9--]
+DRESP3  32      JOHNSON BARNGRAD  EULJOH
+        DESVAR         1
+        DTABLE         L       E  SIGMAC
+        DRESP1        25
+$
+DCONSTR,1,23,,100000.
+DCONSTR,1,24,-80000.
+DCONSTR,1,32,,1.0
+DTABLE,E,30.0E6,L,40.0,SIGMAC,8.0E4
+DVPREL1,10,PBARL,10,DIM1
+,1,1.0
+$
+$  DESIGN FOR BUCKLING EIGENVALUE 
+DRESP1  1       BUCK1   LAMA                    1
+DCONSTR,2,1,1.0
+PARAM,DSNOKD,1.0
+
+
+ENDDATA

@@ -1,0 +1,13 @@
+#
+# Source tree specific build options file
+#
+# Set build type
+#
+BUILDTYPE = 'opt'
+#
+# Directory selections
+#
+APPS_DIR     = 'SCAKernel'
+TOOLS_DIR    = 'Tools'
+PRODUCT_LINE = 'nastran'
+STRICT_CHECK = False

@@ -68,11 +68,11 @@ subroutine R3SVALD(GRPID, TYPNAM, NITEMS, ARGLIS, NSIZE, ARGVAL, &
     data BADTYP /7554/
 
 
-    real*8, external :: cot, fFScr_skin, fFCcr_skin
+    real*8, external :: fSScr_skinD, fSCcr_skinD
 
     real*8 Nxx, Nxy, FC, FS, nu, Ec
     real*8 FScr, FCcr
-    real*8 A_ratio, B_ratio, Rc
+    real*8 A_ratio, B_ratio, Rc, Rs
 
     real*8 r, t, a, b
     real*8 ms
@@ -108,8 +108,8 @@ subroutine R3SVALD(GRPID, TYPNAM, NITEMS, ARGLIS, NSIZE, ARGVAL, &
         FC = FC
         FS = ABS(FS)
         
-        FCcr = fFCcr_skin(a, b, t, r, Ec, nu)
-        FScr = fFScr_skin(a, b, t, r, Ec, nu)
+        FCcr = fSCcr_skinD(a, b, t, r, Ec, nu)
+        FScr = fSScr_skinD(a, b, t, r, Ec, nu)
 
         Rc = FC/FCcr
         Rs = FS/FScr

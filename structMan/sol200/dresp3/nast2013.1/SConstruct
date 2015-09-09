@@ -1,0 +1,11 @@
+#
+# Main SCons configuration file for the SCA build system.
+#
+from SCASCons.Configure import *
+
+#================== Perform local customization here ==================
+
+#======================================================================
+
+import SCASCons.Setup
+SCASCons.Setup.Setup()
