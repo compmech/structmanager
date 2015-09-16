@@ -6,7 +6,8 @@ Contents:
 .. toctree::
     :maxdepth: 4
 
-    ./structMan_modules.rst
+    structMan_modules.rst
+    examples/examples.rst
 
 Please help!:
 
