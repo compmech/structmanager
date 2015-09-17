@@ -51,6 +51,13 @@
           <div class="body" role="main">
             
   <h1>Source code for structMan.sol200.sol200</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SOL200 optimization model (:mod:`structMan.sol200.sol200`)</span>
+<span class="sd">==========================================================</span>
+
+<span class="sd">.. currentmodule:: structMan.sol200.sol200</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">cPickle</span> <span class="kn">as</span> <span class="nn">pickle</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Iterable</span>
@@ -67,7 +74,7 @@
     <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;$</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="SOL200"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.sol200.SOL200">[docs]</a><span class="k">class</span> <span class="nc">SOL200</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="SOL200"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structMan.sol200.sol200.SOL200">[docs]</a><span class="k">class</span> <span class="nc">SOL200</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;SOL200 optimization model</span>
 
 <span class="sd">    This class corresponds to an optimization model.</span>
@@ -86,6 +93,8 @@
 <span class="sd">                        constants.</span>
 <span class="sd">    `dresps`            `dict` of :class:`.DRESP1`, :class:`.DRESP2` or</span>
 <span class="sd">                        :class:`.DRESP3` objects</span>
+<span class="sd">    `groups`            `set` containing the externl subroutines that are used</span>
+<span class="sd">                        in the current optimization model</span>
 <span class="sd">    `dconstrs`          `dict` of :class:`.DCONSTR` objects</span>
 <span class="sd">    `dvars`             `dict` of :class:`.DVAR` objects</span>
 <span class="sd">    `dvar_codes`        `dict` classifying the :class:`.DVAR` objects by</span>
@@ -112,6 +121,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dtables</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dtable_prefixes</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dresps</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">groups</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dconstrs</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dcids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dvars</span> <span class="o">=</span> <span class="p">{}</span>
@@ -131,7 +141,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span> <span class="o">=</span> <span class="bp">None</span>
 
 
-<div class="viewcode-block" id="SOL200.set_output_file"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.sol200.SOL200.set_output_file">[docs]</a>    <span class="k">def</span> <span class="nf">set_output_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<div class="viewcode-block" id="SOL200.set_output_file"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structMan.sol200.sol200.SOL200.set_output_file">[docs]</a>    <span class="k">def</span> <span class="nf">set_output_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Define the data related to the output file.</span>
 
 <span class="sd">        The output directory is estimated based on `path`.</span>
@@ -155,7 +165,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">manufact_cons_coord</span> <span class="o">=</span> <span class="n">manufact_cons_coord</span>
 
 
-<div class="viewcode-block" id="SOL200.print_model"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.sol200.SOL200.print_model">[docs]</a>    <span class="k">def</span> <span class="nf">print_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SOL200.print_model"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structMan.sol200.sol200.SOL200.print_model">[docs]</a>    <span class="k">def</span> <span class="nf">print_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print the whole model.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -177,7 +187,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
 </div>
-<div class="viewcode-block" id="SOL200.reset_newprops"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.sol200.SOL200.reset_newprops">[docs]</a>    <span class="k">def</span> <span class="nf">reset_newprops</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SOL200.reset_newprops"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structMan.sol200.sol200.SOL200.reset_newprops">[docs]</a>    <span class="k">def</span> <span class="nf">reset_newprops</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Reset the dictionary `newprops`.</span>
 
 <span class="sd">        This dictionary contains NASTRAN property cards that should be created</span>
@@ -196,7 +206,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">newprops</span><span class="p">[</span><span class="s">&#39;PCOMP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
 </div>
-<div class="viewcode-block" id="SOL200.constrain_pshell"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.sol200.SOL200.constrain_pshell">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_pshell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dcid</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">eltype</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">lallow</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+<div class="viewcode-block" id="SOL200.constrain_pshell"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structMan.sol200.sol200.SOL200.constrain_pshell">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_pshell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dcid</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">eltype</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">lallow</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
             <span class="n">uallow</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add constraints to the bottom and top faces of a shell property.</span>
 
@@ -238,7 +248,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">dconstrs</span><span class="p">[</span><span class="n">dconstr</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dconstr</span>
 
 </div>
-<div class="viewcode-block" id="SOL200.constrain_pbar"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.sol200.SOL200.constrain_pbar">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_pbar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dcid</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">eltype</span><span class="p">,</span> <span class="n">allow_C</span><span class="p">,</span> <span class="n">allow_T</span><span class="p">):</span>
+<div class="viewcode-block" id="SOL200.constrain_pbar"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structMan.sol200.sol200.SOL200.constrain_pbar">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_pbar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dcid</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">eltype</span><span class="p">,</span> <span class="n">allow_C</span><span class="p">,</span> <span class="n">allow_T</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add constraints to all stress recovery points of a bar property.</span>
 
 <span class="sd">        Parameters</span>
@@ -299,7 +309,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">dconstrs</span><span class="p">[</span><span class="n">dconstr</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dconstr</span>
 
 </div>
-<div class="viewcode-block" id="SOL200.constrain_two_vars"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.sol200.SOL200.constrain_two_vars">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_two_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dcid</span><span class="p">,</span> <span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">,</span> <span class="n">maxdiff</span><span class="p">):</span>
+<div class="viewcode-block" id="SOL200.constrain_two_vars"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structMan.sol200.sol200.SOL200.constrain_two_vars">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_two_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dcid</span><span class="p">,</span> <span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">,</span> <span class="n">maxdiff</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constrain two vars in order to keep a maximum relative difference</span>
 
 <span class="sd">        Parameters</span>
@@ -345,7 +355,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dconstrs</span><span class="p">[</span><span class="n">dconstr</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dconstr</span>
 
 </div>
-<div class="viewcode-block" id="SOL200.create_dobj"><a class="viewcode-back" href="../../../lib_python.html#structMan.sol200.sol200.SOL200.create_dobj">[docs]</a>    <span class="k">def</span> <span class="nf">create_dobj</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SOL200.create_dobj"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structMan.sol200.sol200.SOL200.create_dobj">[docs]</a>    <span class="k">def</span> <span class="nf">create_dobj</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Create the design objective.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>

@@ -1,0 +1,958 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Fuselage Section &mdash; structMan 0.1.0 dev documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.0 dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="structMan 0.1.0 dev documentation" href="../index.html" />
+    <link rel="up" title="Examples" href="examples.html" />
+    <link rel="next" title="TODO list" href="../_TODO_list.html" />
+    <link rel="prev" title="Examples" href="examples.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../_TODO_list.html" title="TODO list"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="examples.html" title="Examples"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="examples.html" accesskey="U">Examples</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fuselage-section">
+<h1>Fuselage Section<a class="headerlink" href="#fuselage-section" title="Permalink to this headline">¶</a></h1>
+<p>This example model clearly shows how to use <code class="xref py py-mod docutils literal"><span class="pre">structMan</span></code> functions in
+order to set a sizing optimization problem with the desired constraints.</p>
+<p>The optimization will focus on the stiffened panels, stringers and frames.</p>
+<div class="section" id="model">
+<h2>Model<a class="headerlink" href="#model" title="Permalink to this headline">¶</a></h2>
+<p>Part of a fuselage consisting of many stiffened panels.</p>
+<a class="reference internal image-reference" href="../_images/model.png"><img alt="../_images/model.png" src="../_images/model.png" style="height: 400px;" /></a>
+</div>
+<div class="section" id="mapping-files">
+<h2>Mapping files<a class="headerlink" href="#mapping-files" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="mappingse2fe-txt">
+<h3>MappingSE2FE.txt<a class="headerlink" href="#mappingse2fe-txt" title="Permalink to this headline">¶</a></h3>
+<p>Mapping structural elements to the finite element ids:</p>
+<div class="highlight-python"><div class="highlight"><pre>#
+# Panels
+# ------
+#
+Panel Panel.1.1: 31310101 , 31310102 , 31310103 , 31310104 , 31310105 , 31310106 , 31310107 , 31310108
+Panel Panel.1.2: 31310201 , 31310202 , 31310203 , 31310204 , 31310205 , 31310206 , 31310207 , 31310208
+Panel Panel.1.3: 31310301 , 31310302 , 31310303 , 31310304 , 31310305 , 31310306 , 31310307 , 31310308
+Panel Panel.1.4: 31310401 , 31310402 , 31310403 , 31310404 , 31310405 , 31310406 , 31310407 , 31310408
+Panel Panel.1.5: 31310501 , 31310502 , 31310503 , 31310504 , 31310505 , 31310506 , 31310507 , 31310508
+Panel Panel.1.6: 31310601 , 31310602 , 31310603 , 31310604 , 31310605 , 31310606 , 31310607 , 31310608
+Panel Panel.1.7: 31310701 , 31310702 , 31310703 , 31310704 , 31310705 , 31310706 , 31310707 , 31310708
+Panel Panel.1.8: 31310801 , 31310802 , 31310803 , 31310804 , 31310805 , 31310806 , 31310807 , 31310808
+Panel Panel.1.9: 31310901 , 31310902 , 31310903 , 31310904 , 31310905 , 31310906 , 31310907 , 31310908
+Panel Panel.1.10: 31311001 , 31311002 , 31311003 , 31311004 , 31311005 , 31311006 , 31311007 , 31311008
+Panel Panel.1.11: 31311101 , 31311102 , 31311103 , 31311104 , 31311105 , 31311106 , 31311107 , 31311108
+Panel Panel.1.12: 31311201 , 31311202 , 31311203 , 31311204 , 31311205 , 31311206 , 31311207 , 31311208
+Panel Panel.1.13: 31311301 , 31311302 , 31311303 , 31311304 , 31311305 , 31311306 , 31311307 , 31311308
+Panel Panel.1.14: 31311401 , 31311402 , 31311403 , 31311404 , 31311405 , 31311406 , 31311407 , 31311408
+Panel Panel.1.15: 31311501 , 31311502 , 31311503 , 31311504 , 31311505 , 31311506 , 31311507 , 31311508
+Panel Panel.1.16: 31310001 , 31310002 , 31310003 , 31310004 , 31311601 , 31311602 , 31311603 , 31311604
+Panel Panel.2.1: 31320103 , 31320104 , 31320105 , 31320106 , 31320107 , 31320108 , 37400043 , 37400044
+Panel Panel.2.2: 31320201 , 31320202 , 31320205 , 31320206 , 31320207 , 31320208 , 37400041 , 37400042
+Panel Panel.2.3: 31320301 , 31320302 , 31320305 , 31320306 , 31320307 , 31320308 , 37400039 , 37400040
+Panel Panel.2.4: 31320401 , 31320402 , 31320405 , 31320406 , 31320407 , 31320408 , 37400037 , 37400038
+Panel Panel.2.5: 31320501 , 31320502 , 31320505 , 31320506 , 31320507 , 31320508 , 37400035 , 37400036
+Panel Panel.2.6: 31320601 , 31320602 , 31320603 , 31320604 , 31320605 , 31320606 , 31320607 , 37400034
+Panel Panel.2.7: 31320703 , 31320704 , 31320705 , 31320706 , 31320707 , 31320708 , 37400031 , 37400032
+Panel Panel.2.8: 31320801 , 31320802 , 31320803 , 31320804 , 31320807 , 31320808 , 37400029 , 37400030
+Panel Panel.2.9: 31320901 , 31320902 , 31320903 , 31320904 , 31320905 , 31320906 , 31320907 , 37400028
+Panel Panel.2.10: 31321001 , 31321002 , 31321003 , 31321004 , 31321005 , 31321006 , 31321007 , 37400026
+Panel Panel.2.11: 31321103 , 31321104 , 31321105 , 31321106 , 31321107 , 31321108 , 37400023 , 37400024
+Panel Panel.2.12: 31321201 , 31321202 , 31321203 , 31321204 , 31321207 , 31321208 , 37400021 , 37400022
+Panel Panel.2.13: 31321301 , 31321302 , 31321303 , 31321304 , 31321307 , 31321308 , 37400019 , 37400020
+Panel Panel.2.14: 31321401 , 31321402 , 31321403 , 31321404 , 31321407 , 31321408 , 37400017 , 37400018
+Panel Panel.2.15: 31321501 , 31321502 , 31321503 , 31321504 , 31321507 , 31321508 , 37400015 , 37400016
+Panel Panel.2.16: 31320001 , 31320002 , 31320003 , 31320004 , 31321604 , 31321605 , 31321606 , 37400014
+Panel Panel.3.1: 30019644 , 30019645 , 31320101 , 31320102 , 31330105 , 31330106 , 31330107 , 31330108
+Panel Panel.3.2: 31320203 , 31320204 , 31330202 , 31330203 , 31330204 , 31330206 , 31330207 , 31330208
+Panel Panel.3.3: 30019640 , 30019641 , 31320303 , 31320304 , 31330305 , 31330306 , 31330307 , 31330308
+Panel Panel.3.4: 30019638 , 30019639 , 31320403 , 31320404 , 31330405 , 31330406 , 31330407 , 31330408
+Panel Panel.3.5: 31320503 , 31320504 , 31330501 , 31330502 , 31330503 , 31330504 , 31330505 , 31330506
+Panel Panel.3.6: 30019635 , 31320608 , 31330602 , 31330603 , 31330604 , 31330605 , 31330606 , 37400033
+Panel Panel.3.7: 30019633 , 31320701 , 31320702 , 31330703 , 31330704 , 31330705 , 31330706 , 31330707
+Panel Panel.3.8: 30019631 , 31320805 , 31320806 , 31330801 , 31330802 , 31330806 , 31330807 , 31330808
+Panel Panel.3.9: 30019629 , 31320908 , 31330902 , 31330903 , 31330904 , 31330905 , 31330906 , 37400027
+Panel Panel.3.10: 30019627 , 31321008 , 31331002 , 31331003 , 31331004 , 31331005 , 31331006 , 37400025
+Panel Panel.3.11: 30019625 , 31321101 , 31321102 , 31331103 , 31331104 , 31331105 , 31331106 , 31331107
+Panel Panel.3.12: 30019623 , 31321205 , 31321206 , 31331201 , 31331202 , 31331206 , 31331207 , 31331208
+Panel Panel.3.13: 30019621 , 31321305 , 31321306 , 31331301 , 31331302 , 31331306 , 31331307 , 31331308
+Panel Panel.3.14: 30019619 , 31321405 , 31321406 , 31331401 , 31331402 , 31331406 , 31331407 , 31331408
+Panel Panel.3.15: 30019617 , 31321505 , 31321506 , 31331501 , 31331502 , 31331506 , 31331507 , 31331508
+Panel Panel.3.16: 30019615 , 30019646 , 31321607 , 31330001 , 31330002 , 31331601 , 31331602 , 37400045
+Panel Panel.4.1: 31330101 , 31330102 , 31330103 , 31330104 , 31340105 , 31340106 , 31340107 , 31340108
+Panel Panel.4.2: 30019642 , 30019643 , 31330201 , 31330205 , 31340203 , 31340204 , 31340207 , 31340208
+Panel Panel.4.3: 31330301 , 31330302 , 31330303 , 31330304 , 31340305 , 31340306 , 31340307 , 31340308
+Panel Panel.4.4: 31330401 , 31330402 , 31330403 , 31330404 , 31340405 , 31340406 , 31340407 , 31340408
+Panel Panel.4.5: 30019636 , 30019637 , 31330507 , 31330508 , 31340501 , 31340502 , 31340503 , 31340504
+Panel Panel.4.6: 30019634 , 31330601 , 31330607 , 31330608 , 31340601 , 31340602 , 31340605 , 31340606
+Panel Panel.4.7: 30019632 , 31330701 , 31330702 , 31330708 , 31340704 , 31340705 , 31340706 , 31340707
+Panel Panel.4.8: 30019630 , 31330803 , 31330804 , 31330805 , 31340805 , 31340806 , 31340807 , 31340808
+Panel Panel.4.9: 30019628 , 31330901 , 31330907 , 31330908 , 31340905 , 31340906 , 31340907 , 31340908
+Panel Panel.4.10: 30019626 , 31331001 , 31331007 , 31331008 , 31341003 , 31341004 , 31341005 , 31341006
+Panel Panel.4.11: 30019624 , 31331101 , 31331102 , 31331108 , 31341104 , 31341105 , 31341106 , 31341107
+Panel Panel.4.12: 30019622 , 31331203 , 31331204 , 31331205 , 31341203 , 31341204 , 31341207 , 31341208
+Panel Panel.4.13: 30019620 , 31331303 , 31331304 , 31331305 , 31341305 , 31341306 , 31341307 , 31341308
+Panel Panel.4.14: 30019618 , 31331403 , 31331404 , 31331405 , 31341405 , 31341406 , 31341407 , 31341408
+Panel Panel.4.15: 30019616 , 31331503 , 31331504 , 31331505 , 31341501 , 31341502 , 31341507 , 31341508
+Panel Panel.4.16: 31330003 , 31330004 , 31331603 , 31331604 , 31340001 , 31340002 , 31341601 , 31341602
+#
+# Frame Segments
+# --------------
+#
+InnerFlange InnerFlange.1.1: 36310101 , 36310102
+InnerFlange InnerFlange.1.2: 36310201 , 36310202
+InnerFlange InnerFlange.1.3: 36310302 , 36310301
+InnerFlange InnerFlange.1.4: 36310402 , 36310401
+InnerFlange InnerFlange.1.5: 36310502 , 36310501
+InnerFlange InnerFlange.1.6: 36310601 , 36310602
+InnerFlange InnerFlange.1.7: 36310702 , 36310701
+InnerFlange InnerFlange.1.8: 36310801 , 36310802
+InnerFlange InnerFlange.1.9: 36310902 , 36310901
+InnerFlange InnerFlange.1.10: 36311001 , 36311002
+InnerFlange InnerFlange.1.11: 36311101 , 36311102
+InnerFlange InnerFlange.1.12: 36311201 , 36311202
+InnerFlange InnerFlange.1.13: 36311302 , 36311301
+InnerFlange InnerFlange.1.14: 36311401 , 36311402
+InnerFlange InnerFlange.1.15: 36311502 , 36311501
+InnerFlange InnerFlange.2.1: 36320101 , 36320102
+InnerFlange InnerFlange.2.2: 36320202 , 36320201
+InnerFlange InnerFlange.2.3: 36320302 , 36320301
+InnerFlange InnerFlange.2.4: 36320402 , 36320401
+InnerFlange InnerFlange.2.5: 36320502 , 36320501
+InnerFlange InnerFlange.2.6: 36320601 , 36320602
+InnerFlange InnerFlange.2.7: 36320702 , 36320701
+InnerFlange InnerFlange.2.8: 36320801 , 36320802
+InnerFlange InnerFlange.2.9: 36320902 , 36320901
+InnerFlange InnerFlange.2.10: 36321001 , 36321002
+InnerFlange InnerFlange.2.11: 36321101 , 36321102
+InnerFlange InnerFlange.2.12: 36321201 , 36321202
+InnerFlange InnerFlange.2.13: 36321302 , 36321301
+InnerFlange InnerFlange.2.14: 36321401 , 36321402
+InnerFlange InnerFlange.2.15: 36321502 , 36321501
+InnerFlange InnerFlange.2.16: 36320001 , 36321601
+InnerFlange InnerFlange.3.1: 30018899 , 30018900
+InnerFlange InnerFlange.3.2: 30018902 , 30018901
+InnerFlange InnerFlange.3.3: 30018904 , 30018903
+InnerFlange InnerFlange.3.4: 30018906 , 30018905
+InnerFlange InnerFlange.3.5: 30018908 , 30018907
+InnerFlange InnerFlange.3.6: 30018909 , 30018910
+InnerFlange InnerFlange.3.7: 30018912 , 30018911
+InnerFlange InnerFlange.3.8: 30018913 , 30018914
+InnerFlange InnerFlange.3.9: 30018916 , 30018915
+InnerFlange InnerFlange.3.10: 30018917 , 30018918
+InnerFlange InnerFlange.3.11: 30018919 , 30018920
+InnerFlange InnerFlange.3.12: 30018921 , 30018922
+InnerFlange InnerFlange.3.13: 30018924 , 30018923
+InnerFlange InnerFlange.3.14: 30018925 , 30018926
+InnerFlange InnerFlange.3.15: 30018928 , 30018927
+InnerFlange InnerFlange.3.16: 30018897 , 30018930
+InnerFlange InnerFlange.4.1: 30019422 , 30019423
+InnerFlange InnerFlange.4.2: 30019425 , 30019424
+InnerFlange InnerFlange.4.3: 30019427 , 30019426
+InnerFlange InnerFlange.4.4: 30019429 , 30019428
+InnerFlange InnerFlange.4.5: 30019431 , 30019430
+InnerFlange InnerFlange.4.6: 30019432 , 30019433
+InnerFlange InnerFlange.4.7: 30019435 , 30019434
+InnerFlange InnerFlange.4.8: 30019436 , 30019437
+InnerFlange InnerFlange.4.9: 30019439 , 30019438
+InnerFlange InnerFlange.4.10: 30019440 , 30019441
+InnerFlange InnerFlange.4.11: 30019442 , 30019443
+InnerFlange InnerFlange.4.12: 30019444 , 30019445
+InnerFlange InnerFlange.4.13: 30019447 , 30019446
+InnerFlange InnerFlange.4.14: 30019448 , 30019449
+InnerFlange InnerFlange.4.15: 30019451 , 30019450
+InnerFlange InnerFlange.4.16: 30019420 , 30019453
+InnerFlange InnerFlange.5.1: 30020074 , 30020075
+InnerFlange InnerFlange.5.2: 30020077 , 30020076
+InnerFlange InnerFlange.5.3: 30020079 , 30020078
+InnerFlange InnerFlange.5.4: 30020081 , 30020080
+InnerFlange InnerFlange.5.5: 30020083 , 30020082
+InnerFlange InnerFlange.5.6: 30020084 , 30020085
+InnerFlange InnerFlange.5.7: 30020087 , 30020086
+InnerFlange InnerFlange.5.8: 30020088 , 30020089
+InnerFlange InnerFlange.5.9: 30020091 , 30020090
+InnerFlange InnerFlange.5.10: 30020092 , 30020093
+InnerFlange InnerFlange.5.11: 30020094 , 30020095
+InnerFlange InnerFlange.5.12: 30020096 , 30020097
+InnerFlange InnerFlange.5.13: 30020099 , 30020098
+InnerFlange InnerFlange.5.14: 30020100 , 30020101
+InnerFlange InnerFlange.5.15: 30020103 , 30020102
+InnerFlange InnerFlange.5.16: 30020072 , 30020105
+Web Web.1.1: 34310101 , 34310104 , 34310102 , 34310105 , 34310103 , 34310106
+Web Web.1.2: 34310201 , 34310204 , 34310202 , 34310205 , 34310203 , 34310206
+Web Web.1.3: 34310304 , 34310301 , 34310305 , 34310302
+Web Web.1.4: 34310404 , 34310401 , 34310405 , 34310402
+Web Web.1.5: 34310504 , 34310501 , 34310505 , 34310502
+Web Web.1.6: 34310604 , 34310601 , 34310605 , 34310602
+Web Web.1.7: 34310701 , 34310704 , 34310702 , 34310705
+Web Web.1.8: 34310804 , 34310801 , 34310805 , 34310802
+Web Web.1.9: 34310901 , 34310904 , 34310902 , 34310905
+Web Web.1.10: 34311004 , 34311001 , 34311005 , 34311002
+Web Web.1.11: 34311101 , 34311104 , 34311102 , 34311105
+Web Web.1.12: 34311204 , 34311201 , 34311205 , 34311202
+Web Web.1.13: 34311301 , 34311304 , 34311302 , 34311305
+Web Web.1.14: 34311401 , 34311404 , 34311402 , 34311405
+Web Web.1.15: 34311504 , 34311501 , 34311505 , 34311502
+Web Web.2.1: 34320104 , 34320101 , 34320105 , 34320102 , 34320106 , 34320103
+Web Web.2.2: 34320204 , 34320201 , 34320205 , 34320202 , 34320206 , 34320203
+Web Web.2.3: 34320304 , 34320301 , 34320305 , 34320302 , 34320306 , 34320303
+Web Web.2.4: 34320404 , 34320401 , 34320405 , 34320402 , 34320406 , 34320403
+Web Web.2.5: 34320504 , 34320501 , 34320505 , 34320502 , 34320506 , 34320503
+Web Web.2.6: 34320604 , 34320601 , 34320605 , 34320602 , 34320606 , 34320603
+Web Web.2.7: 34320701 , 34320704 , 34320702 , 34320705 , 34320703 , 34320706
+Web Web.2.8: 34320804 , 34320801 , 34320805 , 34320802 , 34320806 , 34320803
+Web Web.2.9: 34320901 , 34320904 , 34320902 , 34320905 , 34320903 , 34320906
+Web Web.2.10: 34321004 , 34321001 , 34321005 , 34321002 , 34321006 , 34321003
+Web Web.2.11: 34321101 , 34321104 , 34321102 , 34321105 , 34321103 , 34321106
+Web Web.2.12: 34321204 , 34321201 , 34321205 , 34321202 , 34321206 , 34321203
+Web Web.2.13: 34321301 , 34321304 , 34321302 , 34321305 , 34321303 , 34321306
+Web Web.2.14: 34321401 , 34321404 , 34321402 , 34321405 , 34321403 , 34321406
+Web Web.2.15: 34321504 , 34321501 , 34321505 , 34321502 , 34321506 , 34321503
+Web Web.2.16: 34320001 , 34321601 , 34320002 , 34321602 , 34320003 , 34321603
+Web Web.3.1: 30018590 , 30018587 , 30018591 , 30018588
+Web Web.3.2: 30018596 , 30018593 , 30018597 , 30018594
+Web Web.3.3: 30018602 , 30018599 , 30018603 , 30018600
+Web Web.3.4: 30018608 , 30018605 , 30018609 , 30018606
+Web Web.3.5: 30018614 , 30018611 , 30018615 , 30018612
+Web Web.3.6: 30018620 , 30018617 , 30018621 , 30018618
+Web Web.3.7: 30018623 , 30018626 , 30018624 , 30018627
+Web Web.3.8: 30018632 , 30018629 , 30018633 , 30018630
+Web Web.3.9: 30018635 , 30018638 , 30018636 , 30018639
+Web Web.3.10: 30018644 , 30018641 , 30018645 , 30018642
+Web Web.3.11: 30018647 , 30018650 , 30018648 , 30018651
+Web Web.3.12: 30018656 , 30018653 , 30018657 , 30018654
+Web Web.3.13: 30018659 , 30018662 , 30018660 , 30018663
+Web Web.3.14: 30018665 , 30018668 , 30018666 , 30018669
+Web Web.3.15: 30018674 , 30018671 , 30018675 , 30018672
+Web Web.3.16: 30018581 , 30018680 , 30018582 , 30018681
+Web Web.4.1: 30019167 , 30019164 , 30019168 , 30019165
+Web Web.4.2: 30019173 , 30019170 , 30019174 , 30019171
+Web Web.4.3: 30019179 , 30019176 , 30019180 , 30019177
+Web Web.4.4: 30019185 , 30019182 , 30019186 , 30019183
+Web Web.4.5: 30019191 , 30019188 , 30019192 , 30019189
+Web Web.4.6: 30019197 , 30019194 , 30019198 , 30019195
+Web Web.4.7: 30019200 , 30019203 , 30019201 , 30019204
+Web Web.4.8: 30019209 , 30019206 , 30019210 , 30019207
+Web Web.4.9: 30019212 , 30019215 , 30019213 , 30019216
+Web Web.4.10: 30019221 , 30019218 , 30019222 , 30019219
+Web Web.4.11: 30019224 , 30019227 , 30019225 , 30019228
+Web Web.4.12: 30019233 , 30019230 , 30019234 , 30019231
+Web Web.4.13: 30019236 , 30019239 , 30019237 , 30019240
+Web Web.4.14: 30019242 , 30019245 , 30019243 , 30019246
+Web Web.4.15: 30019251 , 30019248 , 30019252 , 30019249
+Web Web.4.16: 30019158 , 30019257 , 30019159 , 30019258
+Web Web.5.1: 30019827 , 30019824 , 30019828 , 30019825
+Web Web.5.2: 30019833 , 30019830 , 30019834 , 30019831
+Web Web.5.3: 30019839 , 30019836 , 30019840 , 30019837
+Web Web.5.4: 30019845 , 30019842 , 30019846 , 30019843
+Web Web.5.5: 30019851 , 30019848 , 30019852 , 30019849
+Web Web.5.6: 30019857 , 30019854 , 30019858 , 30019855
+Web Web.5.7: 30019860 , 30019863 , 30019861 , 30019864
+Web Web.5.8: 30019869 , 30019866 , 30019870 , 30019867
+Web Web.5.9: 30019872 , 30019875 , 30019873 , 30019876
+Web Web.5.10: 30019881 , 30019878 , 30019882 , 30019879
+Web Web.5.11: 30019884 , 30019887 , 30019885 , 30019888
+Web Web.5.12: 30019893 , 30019890 , 30019894 , 30019891
+Web Web.5.13: 30019896 , 30019899 , 30019897 , 30019900
+Web Web.5.14: 30019902 , 30019905 , 30019903 , 30019906
+Web Web.5.15: 30019911 , 30019908 , 30019912 , 30019909
+Web Web.5.16: 30019818 , 30019917 , 30019819 , 30019918
+OuterFlange OuterFlange.1.1: 33310102 , 33310101
+OuterFlange OuterFlange.1.2: 33310201 , 33310202
+OuterFlange OuterFlange.1.3: 37310306 , 37310303
+OuterFlange OuterFlange.1.4: 37310406 , 37310403
+OuterFlange OuterFlange.1.5: 37310506 , 37310503
+OuterFlange OuterFlange.1.6: 37310606 , 37310603
+OuterFlange OuterFlange.1.7: 37310706 , 37310703
+OuterFlange OuterFlange.1.8: 37310803 , 37310806
+OuterFlange OuterFlange.1.9: 37310903 , 37310906
+OuterFlange OuterFlange.1.10: 37311003 , 37311006
+OuterFlange OuterFlange.1.11: 37311106 , 37311103
+OuterFlange OuterFlange.1.12: 37311203 , 37311206
+OuterFlange OuterFlange.1.13: 37311306 , 37311303
+OuterFlange OuterFlange.1.14: 37311403 , 37311406
+OuterFlange OuterFlange.1.15: 37311503 , 37311506
+OuterFlange OuterFlange.2.1: 33320102 , 33320101
+OuterFlange OuterFlange.2.2: 33320202 , 33320201
+OuterFlange OuterFlange.2.3: 33320302 , 33320301
+OuterFlange OuterFlange.2.4: 33320402 , 33320401
+OuterFlange OuterFlange.2.5: 33320502 , 33320501
+OuterFlange OuterFlange.2.6: 33320602 , 33320601
+OuterFlange OuterFlange.2.7: 33320701 , 33320702
+OuterFlange OuterFlange.2.8: 33320802 , 33320801
+OuterFlange OuterFlange.2.9: 33320901 , 33320902
+OuterFlange OuterFlange.2.10: 33321002 , 33321001
+OuterFlange OuterFlange.2.11: 33321101 , 33321102
+OuterFlange OuterFlange.2.12: 33321202 , 33321201
+OuterFlange OuterFlange.2.13: 33321301 , 33321302
+OuterFlange OuterFlange.2.14: 33321401 , 33321402
+OuterFlange OuterFlange.2.15: 33321502 , 33321501
+OuterFlange OuterFlange.2.16: 33320001 , 33321601
+OuterFlange OuterFlange.3.1: 30018983 , 30018984
+OuterFlange OuterFlange.3.2: 30018985 , 30018986
+OuterFlange OuterFlange.3.3: 30018988 , 30018987
+OuterFlange OuterFlange.3.4: 30018990 , 30018989
+OuterFlange OuterFlange.3.5: 30018992 , 30018991
+OuterFlange OuterFlange.3.6: 30018994 , 30018993
+OuterFlange OuterFlange.3.7: 30018996 , 30018995
+OuterFlange OuterFlange.3.8: 30018997 , 30018998
+OuterFlange OuterFlange.3.9: 30018999 , 30019000
+OuterFlange OuterFlange.3.10: 30019001 , 30019002
+OuterFlange OuterFlange.3.11: 30019004 , 30019003
+OuterFlange OuterFlange.3.12: 30019005 , 30019006
+OuterFlange OuterFlange.3.13: 30019008 , 30019007
+OuterFlange OuterFlange.3.14: 30019009 , 30019010
+OuterFlange OuterFlange.3.15: 30019011 , 30019012
+OuterFlange OuterFlange.3.16: 30018981 , 30019014
+OuterFlange OuterFlange.4.1: 30019506 , 30019507
+OuterFlange OuterFlange.4.2: 30019508 , 30019509
+OuterFlange OuterFlange.4.3: 30019511 , 30019510
+OuterFlange OuterFlange.4.4: 30019513 , 30019512
+OuterFlange OuterFlange.4.5: 30019515 , 30019514
+OuterFlange OuterFlange.4.6: 30019517 , 30019516
+OuterFlange OuterFlange.4.7: 30019519 , 30019518
+OuterFlange OuterFlange.4.8: 30019520 , 30019521
+OuterFlange OuterFlange.4.9: 30019522 , 30019523
+OuterFlange OuterFlange.4.10: 30019524 , 30019525
+OuterFlange OuterFlange.4.11: 30019527 , 30019526
+OuterFlange OuterFlange.4.12: 30019528 , 30019529
+OuterFlange OuterFlange.4.13: 30019531 , 30019530
+OuterFlange OuterFlange.4.14: 30019532 , 30019533
+OuterFlange OuterFlange.4.15: 30019534 , 30019535
+OuterFlange OuterFlange.4.16: 30019504 , 30019537
+OuterFlange OuterFlange.5.1: 30020157 , 30020158
+OuterFlange OuterFlange.5.2: 30020159 , 30020160
+OuterFlange OuterFlange.5.3: 30020162 , 30020161
+OuterFlange OuterFlange.5.4: 30020164 , 30020163
+OuterFlange OuterFlange.5.5: 30020166 , 30020165
+OuterFlange OuterFlange.5.6: 30020168 , 30020167
+OuterFlange OuterFlange.5.7: 30020170 , 30020169
+OuterFlange OuterFlange.5.8: 30020171 , 30020172
+OuterFlange OuterFlange.5.9: 30020173 , 30020174
+OuterFlange OuterFlange.5.10: 30020175 , 30020176
+OuterFlange OuterFlange.5.11: 30020178 , 30020177
+OuterFlange OuterFlange.5.12: 30020179 , 30020180
+OuterFlange OuterFlange.5.13: 30020182 , 30020181
+OuterFlange OuterFlange.5.14: 30020183 , 30020184
+OuterFlange OuterFlange.5.15: 30020185 , 30020186
+OuterFlange OuterFlange.5.16: 30020155 , 30020188
+ShearClipSkin ShearClipSkin.1.3: 33310302 , 33310301
+ShearClipSkin ShearClipSkin.1.4: 33310402 , 33310401
+ShearClipSkin ShearClipSkin.1.5: 33310502 , 33310501
+ShearClipSkin ShearClipSkin.1.6: 33310602 , 33310601
+ShearClipSkin ShearClipSkin.1.7: 33310702 , 33310701
+ShearClipSkin ShearClipSkin.1.8: 33310801 , 33310802
+ShearClipSkin ShearClipSkin.1.9: 33310901 , 33310902
+ShearClipSkin ShearClipSkin.1.10: 33311001 , 33311002
+ShearClipSkin ShearClipSkin.1.11: 33311101 , 33311102
+ShearClipSkin ShearClipSkin.1.12: 33311202 , 33311201
+ShearClipSkin ShearClipSkin.1.13: 33311301 , 33311302
+ShearClipSkin ShearClipSkin.1.14: 33311401 , 33311402
+ShearClipSkin ShearClipSkin.1.15: 33311502 , 33311501
+ShearClipSkin ShearClipSkin.3.1: 30018211 , 30018210
+ShearClipSkin ShearClipSkin.3.2: 30018213 , 30018212
+ShearClipSkin ShearClipSkin.3.3: 30018245 , 30018214
+ShearClipSkin ShearClipSkin.3.4: 30018247 , 30018246
+ShearClipSkin ShearClipSkin.3.5: 30018249 , 30018248
+ShearClipSkin ShearClipSkin.3.6: 30018251 , 30018250
+ShearClipSkin ShearClipSkin.3.7: 30018252 , 30018253
+ShearClipSkin ShearClipSkin.3.8: 30018255 , 30018254
+ShearClipSkin ShearClipSkin.3.9: 30018256 , 30018257
+ShearClipSkin ShearClipSkin.3.10: 30018259 , 30018258
+ShearClipSkin ShearClipSkin.3.11: 30018260 , 30018273
+ShearClipSkin ShearClipSkin.3.12: 30018275 , 30018274
+ShearClipSkin ShearClipSkin.3.13: 30018276 , 30018277
+ShearClipSkin ShearClipSkin.3.14: 30018278 , 30018279
+ShearClipSkin ShearClipSkin.3.15: 30018281 , 30018280
+ShearClipSkin ShearClipSkin.3.16: 30018208 , 30018325
+ShearClipSkin ShearClipSkin.4.1: 30019077 , 30019076
+ShearClipSkin ShearClipSkin.4.2: 30019079 , 30019078
+ShearClipSkin ShearClipSkin.4.3: 30019081 , 30019080
+ShearClipSkin ShearClipSkin.4.4: 30019083 , 30019082
+ShearClipSkin ShearClipSkin.4.5: 30019085 , 30019084
+ShearClipSkin ShearClipSkin.4.6: 30019087 , 30019086
+ShearClipSkin ShearClipSkin.4.7: 30019088 , 30019089
+ShearClipSkin ShearClipSkin.4.8: 30019091 , 30019090
+ShearClipSkin ShearClipSkin.4.9: 30019092 , 30019093
+ShearClipSkin ShearClipSkin.4.10: 30019095 , 30019094
+ShearClipSkin ShearClipSkin.4.11: 30019096 , 30019097
+ShearClipSkin ShearClipSkin.4.12: 30019099 , 30019098
+ShearClipSkin ShearClipSkin.4.13: 30019100 , 30019101
+ShearClipSkin ShearClipSkin.4.14: 30019102 , 30019103
+ShearClipSkin ShearClipSkin.4.15: 30019105 , 30019104
+ShearClipSkin ShearClipSkin.4.16: 30019074 , 30019107
+ShearClipSkin ShearClipSkin.5.1: 30019738 , 30019737
+ShearClipSkin ShearClipSkin.5.2: 30019740 , 30019739
+ShearClipSkin ShearClipSkin.5.3: 30019742 , 30019741
+ShearClipSkin ShearClipSkin.5.4: 30019744 , 30019743
+ShearClipSkin ShearClipSkin.5.5: 30019746 , 30019745
+ShearClipSkin ShearClipSkin.5.6: 30019748 , 30019747
+ShearClipSkin ShearClipSkin.5.7: 30019749 , 30019750
+ShearClipSkin ShearClipSkin.5.8: 30019752 , 30019751
+ShearClipSkin ShearClipSkin.5.9: 30019753 , 30019754
+ShearClipSkin ShearClipSkin.5.10: 30019756 , 30019755
+ShearClipSkin ShearClipSkin.5.11: 30019757 , 30019758
+ShearClipSkin ShearClipSkin.5.12: 30019760 , 30019759
+ShearClipSkin ShearClipSkin.5.13: 30019761 , 30019762
+ShearClipSkin ShearClipSkin.5.14: 30019763 , 30019764
+ShearClipSkin ShearClipSkin.5.15: 30019766 , 30019765
+ShearClipSkin ShearClipSkin.5.16: 30019735 , 30019768
+ShearClipFrame ShearClipFrame.1.3: 34310306 , 34310303
+ShearClipFrame ShearClipFrame.1.4: 34310406 , 34310403
+ShearClipFrame ShearClipFrame.1.5: 34310506 , 34310503
+ShearClipFrame ShearClipFrame.1.6: 34310606 , 34310603
+ShearClipFrame ShearClipFrame.1.7: 34310706 , 34310703
+ShearClipFrame ShearClipFrame.1.8: 34310803 , 34310806
+ShearClipFrame ShearClipFrame.1.9: 34310903 , 34310906
+ShearClipFrame ShearClipFrame.1.10: 34311003 , 34311006
+ShearClipFrame ShearClipFrame.1.11: 34311103 , 34311106
+ShearClipFrame ShearClipFrame.1.12: 34311206 , 34311203
+ShearClipFrame ShearClipFrame.1.13: 34311303 , 34311306
+ShearClipFrame ShearClipFrame.1.14: 34311403 , 34311406
+ShearClipFrame ShearClipFrame.1.15: 34311506 , 34311503
+ShearClipFrame ShearClipFrame.3.1: 30018592 , 30018589
+ShearClipFrame ShearClipFrame.3.2: 30018598 , 30018595
+ShearClipFrame ShearClipFrame.3.3: 30018604 , 30018601
+ShearClipFrame ShearClipFrame.3.4: 30018610 , 30018607
+ShearClipFrame ShearClipFrame.3.5: 30018616 , 30018613
+ShearClipFrame ShearClipFrame.3.6: 30018622 , 30018619
+ShearClipFrame ShearClipFrame.3.7: 30018625 , 30018628
+ShearClipFrame ShearClipFrame.3.8: 30018634 , 30018631
+ShearClipFrame ShearClipFrame.3.9: 30018637 , 30018640
+ShearClipFrame ShearClipFrame.3.10: 30018646 , 30018643
+ShearClipFrame ShearClipFrame.3.11: 30018649 , 30018652
+ShearClipFrame ShearClipFrame.3.12: 30018658 , 30018655
+ShearClipFrame ShearClipFrame.3.13: 30018661 , 30018664
+ShearClipFrame ShearClipFrame.3.14: 30018667 , 30018670
+ShearClipFrame ShearClipFrame.3.15: 30018676 , 30018673
+ShearClipFrame ShearClipFrame.3.16: 30018583 , 30018682
+ShearClipFrame ShearClipFrame.4.1: 30019169 , 30019166
+ShearClipFrame ShearClipFrame.4.2: 30019175 , 30019172
+ShearClipFrame ShearClipFrame.4.3: 30019181 , 30019178
+ShearClipFrame ShearClipFrame.4.4: 30019187 , 30019184
+ShearClipFrame ShearClipFrame.4.5: 30019193 , 30019190
+ShearClipFrame ShearClipFrame.4.6: 30019199 , 30019196
+ShearClipFrame ShearClipFrame.4.7: 30019202 , 30019205
+ShearClipFrame ShearClipFrame.4.8: 30019211 , 30019208
+ShearClipFrame ShearClipFrame.4.9: 30019214 , 30019217
+ShearClipFrame ShearClipFrame.4.10: 30019223 , 30019220
+ShearClipFrame ShearClipFrame.4.11: 30019226 , 30019229
+ShearClipFrame ShearClipFrame.4.12: 30019235 , 30019232
+ShearClipFrame ShearClipFrame.4.13: 30019238 , 30019241
+ShearClipFrame ShearClipFrame.4.14: 30019244 , 30019247
+ShearClipFrame ShearClipFrame.4.15: 30019253 , 30019250
+ShearClipFrame ShearClipFrame.4.16: 30019160 , 30019259
+ShearClipFrame ShearClipFrame.5.1: 30019829 , 30019826
+ShearClipFrame ShearClipFrame.5.2: 30019835 , 30019832
+ShearClipFrame ShearClipFrame.5.3: 30019841 , 30019838
+ShearClipFrame ShearClipFrame.5.4: 30019847 , 30019844
+ShearClipFrame ShearClipFrame.5.5: 30019853 , 30019850
+ShearClipFrame ShearClipFrame.5.6: 30019859 , 30019856
+ShearClipFrame ShearClipFrame.5.7: 30019862 , 30019865
+ShearClipFrame ShearClipFrame.5.8: 30019871 , 30019868
+ShearClipFrame ShearClipFrame.5.9: 30019874 , 30019877
+ShearClipFrame ShearClipFrame.5.10: 30019883 , 30019880
+ShearClipFrame ShearClipFrame.5.11: 30019886 , 30019889
+ShearClipFrame ShearClipFrame.5.12: 30019895 , 30019892
+ShearClipFrame ShearClipFrame.5.13: 30019898 , 30019901
+ShearClipFrame ShearClipFrame.5.14: 30019904 , 30019907
+ShearClipFrame ShearClipFrame.5.15: 30019913 , 30019910
+ShearClipFrame ShearClipFrame.5.16: 30019820 , 30019919
+#
+# Stringers Segments
+# ------------------
+#
+Stringer Stringer.1.1: 32310101 , 32310102 , 32310103 , 32310104
+Stringer Stringer.1.2: 32320101 , 32320102 , 32320103 , 37400090
+Stringer Stringer.1.3: 32320104 , 32330101 , 32330102 , 30019676
+Stringer Stringer.1.4: 32330103 , 32330104 , 32340101 , 32340102
+Stringer Stringer.2.1: 32310201 , 32310202 , 32310203 , 32310204
+Stringer Stringer.2.2: 32320201 , 32320202 , 32320203 , 37400091
+Stringer Stringer.2.3: 32320204 , 32330201 , 32330202 , 30019677
+Stringer Stringer.2.4: 32330203 , 32330204 , 32340201 , 32340202
+Stringer Stringer.3.1: 32310301 , 32310302 , 32310303 , 32310304
+Stringer Stringer.3.2: 32320301 , 32320302 , 32320303 , 37400092
+Stringer Stringer.3.3: 32320304 , 32330301 , 32330302 , 30019678
+Stringer Stringer.3.4: 32330303 , 32330304 , 32340301 , 32340302
+Stringer Stringer.4.1: 32310401 , 32310402 , 32310403 , 32310404
+Stringer Stringer.4.2: 32320401 , 32320402 , 32320403 , 37400093
+Stringer Stringer.4.3: 32320404 , 32330401 , 32330402 , 30019679
+Stringer Stringer.4.4: 32330403 , 32330404 , 32340401 , 32340402
+Stringer Stringer.5.1: 32310501 , 32310502 , 32310503 , 32310504
+Stringer Stringer.5.2: 32320501 , 32320502 , 32320503 , 37400094
+Stringer Stringer.5.3: 32320504 , 32330501 , 32330502 , 30019680
+Stringer Stringer.5.4: 32330503 , 32330504 , 32340501 , 32340502
+Stringer Stringer.6.1: 32310601 , 32310602 , 32310603 , 32310604
+Stringer Stringer.6.2: 32320601 , 32320602 , 32320603 , 37400095
+Stringer Stringer.6.3: 32320604 , 32330601 , 32330602 , 30019681
+Stringer Stringer.6.4: 32330603 , 32330604 , 32340601 , 32340602
+Stringer Stringer.7.1: 32310701 , 32310702 , 32310703 , 32310704
+Stringer Stringer.7.2: 32320701 , 32320702 , 32320703 , 37400096
+Stringer Stringer.7.3: 32320704 , 32330701 , 32330702 , 30019682
+Stringer Stringer.7.4: 32330703 , 32330704 , 32340701 , 32340702
+Stringer Stringer.8.1: 32310801 , 32310802 , 32310803 , 32310804
+Stringer Stringer.8.2: 32320801 , 32320802 , 32320803 , 37400097
+Stringer Stringer.8.3: 32320804 , 32330801 , 32330802 , 30019683
+Stringer Stringer.8.4: 32330803 , 32330804 , 32340801 , 32340802
+Stringer Stringer.9.1: 32310901 , 32310902 , 32310903 , 32310904
+Stringer Stringer.9.2: 32320901 , 32320902 , 32320903 , 37400098
+Stringer Stringer.9.3: 32320904 , 32330901 , 32330902 , 30019684
+Stringer Stringer.9.4: 32330903 , 32330904 , 32340901 , 32340902
+Stringer Stringer.10.1: 32311001 , 32311002 , 32311003 , 32311004
+Stringer Stringer.10.2: 32321001 , 32321002 , 32321003 , 37400099
+Stringer Stringer.10.3: 32321004 , 32331001 , 32331002 , 30019685
+Stringer Stringer.10.4: 32331003 , 32331004 , 32341001 , 32341002
+Stringer Stringer.11.1: 32311101 , 32311102 , 32311103 , 32311104
+Stringer Stringer.11.2: 32321101 , 32321102 , 32321103 , 37400100
+Stringer Stringer.11.3: 32321104 , 32331101 , 32331102 , 30019686
+Stringer Stringer.11.4: 32331103 , 32331104 , 32341101 , 32341102
+Stringer Stringer.12.1: 32311201 , 32311202 , 32311203 , 32311204
+Stringer Stringer.12.2: 32321201 , 32321202 , 32321203 , 37400101
+Stringer Stringer.12.3: 32321204 , 32331201 , 32331202 , 30019687
+Stringer Stringer.12.4: 32331203 , 32331204 , 32341201 , 32341202
+Stringer Stringer.13.1: 32311301 , 32311302 , 32311303 , 32311304
+Stringer Stringer.13.2: 32321301 , 32321302 , 32321303 , 37400102
+Stringer Stringer.13.3: 32321304 , 32331301 , 32331302 , 30019688
+Stringer Stringer.13.4: 32331303 , 32331304 , 32341301 , 32341302
+Stringer Stringer.14.1: 32311401 , 32311402 , 32311403 , 32311404
+Stringer Stringer.14.2: 32321401 , 32321402 , 32321403 , 37400103
+Stringer Stringer.14.3: 32321404 , 32331401 , 32331402 , 30019689
+Stringer Stringer.14.4: 32331403 , 32331404 , 32341401 , 32341402
+Stringer Stringer.15.1: 32311501 , 32311502 , 32311503 , 32311504
+Stringer Stringer.15.2: 32321501 , 32321502 , 32321503 , 37400104
+Stringer Stringer.15.3: 32321504 , 32331501 , 32331502 , 30019690
+Stringer Stringer.15.4: 32331503 , 32331504 , 32341501 , 32341502
+Stringer Stringer.16.1: 32311601 , 32311602 , 32311603 , 32311604
+Stringer Stringer.16.2: 32321601 , 32321602 , 32321603 , 37400105
+Stringer Stringer.16.3: 32321604 , 32331601 , 32331602 , 30019691
+Stringer Stringer.16.4: 32331603 , 32331604 , 32341601 , 32341602
+</pre></div>
+</div>
+</div>
+<div class="section" id="mappingsea2se-txt">
+<h3>MappingSEA2SE.txt<a class="headerlink" href="#mappingsea2se-txt" title="Permalink to this headline">¶</a></h3>
+<p>Mapping structural assemblies to the structural elements:</p>
+<div class="highlight-python"><div class="highlight"><pre>#
+# Frame Assemblies
+# ------------------
+#
+FrameAssembly FrameAssembly.1.1: OuterFlange.1.1 , Web.1.1 , InnerFlange.1.1
+FrameAssembly FrameAssembly.1.2: OuterFlange.1.2 , Web.1.2 , InnerFlange.1.2
+FrameFloatingAssembly FrameFloatingAssembly.1.3: ShearClipSkin.1.3 , ShearClipFrame.1.3 , OuterFlange.1.3 , Web.1.3 , InnerFlange.1.3
+FrameFloatingAssembly FrameFloatingAssembly.1.4: ShearClipSkin.1.4 , ShearClipFrame.1.4 , OuterFlange.1.4 , Web.1.4 , InnerFlange.1.4
+FrameFloatingAssembly FrameFloatingAssembly.1.5: ShearClipSkin.1.5 , ShearClipFrame.1.5 , OuterFlange.1.5 , Web.1.5 , InnerFlange.1.5
+FrameFloatingAssembly FrameFloatingAssembly.1.6: ShearClipSkin.1.6 , ShearClipFrame.1.6 , OuterFlange.1.6 , Web.1.6 , InnerFlange.1.6
+FrameFloatingAssembly FrameFloatingAssembly.1.7: ShearClipSkin.1.7 , ShearClipFrame.1.7 , OuterFlange.1.7 , Web.1.7 , InnerFlange.1.7
+FrameFloatingAssembly FrameFloatingAssembly.1.8: ShearClipSkin.1.8 , ShearClipFrame.1.8 , OuterFlange.1.8 , Web.1.8 , InnerFlange.1.8
+FrameFloatingAssembly FrameFloatingAssembly.1.9: ShearClipSkin.1.9 , ShearClipFrame.1.9 , OuterFlange.1.9 , Web.1.9 , InnerFlange.1.9
+FrameFloatingAssembly FrameFloatingAssembly.1.10: ShearClipSkin.1.10 , ShearClipFrame.1.10 , OuterFlange.1.10 , Web.1.10 , InnerFlange.1.10
+FrameFloatingAssembly FrameFloatingAssembly.1.11: ShearClipSkin.1.11 , ShearClipFrame.1.11 , OuterFlange.1.11 , Web.1.11 , InnerFlange.1.11
+FrameFloatingAssembly FrameFloatingAssembly.1.12: ShearClipSkin.1.12 , ShearClipFrame.1.12 , OuterFlange.1.12 , Web.1.12 , InnerFlange.1.12
+FrameFloatingAssembly FrameFloatingAssembly.1.13: ShearClipSkin.1.13 , ShearClipFrame.1.13 , OuterFlange.1.13 , Web.1.13 , InnerFlange.1.13
+FrameFloatingAssembly FrameFloatingAssembly.1.14: ShearClipSkin.1.14 , ShearClipFrame.1.14 , OuterFlange.1.14 , Web.1.14 , InnerFlange.1.14
+FrameFloatingAssembly FrameFloatingAssembly.1.15: ShearClipSkin.1.15 , ShearClipFrame.1.15 , OuterFlange.1.15 , Web.1.15 , InnerFlange.1.15
+FrameAssembly FrameAssembly.2.1: OuterFlange.2.1 , Web.2.1 , InnerFlange.2.1
+FrameAssembly FrameAssembly.2.2: OuterFlange.2.2 , Web.2.2 , InnerFlange.2.2
+FrameAssembly FrameAssembly.2.3: OuterFlange.2.3 , Web.2.3 , InnerFlange.2.3
+FrameAssembly FrameAssembly.2.4: OuterFlange.2.4 , Web.2.4 , InnerFlange.2.4
+FrameAssembly FrameAssembly.2.5: OuterFlange.2.5 , Web.2.5 , InnerFlange.2.5
+FrameAssembly FrameAssembly.2.6: OuterFlange.2.6 , Web.2.6 , InnerFlange.2.6
+FrameAssembly FrameAssembly.2.7: OuterFlange.2.7 , Web.2.7 , InnerFlange.2.7
+FrameAssembly FrameAssembly.2.8: OuterFlange.2.8 , Web.2.8 , InnerFlange.2.8
+FrameAssembly FrameAssembly.2.9: OuterFlange.2.9 , Web.2.9 , InnerFlange.2.9
+FrameAssembly FrameAssembly.2.10: OuterFlange.2.10 , Web.2.10 , InnerFlange.2.10
+FrameAssembly FrameAssembly.2.11: OuterFlange.2.11 , Web.2.11 , InnerFlange.2.11
+FrameAssembly FrameAssembly.2.12: OuterFlange.2.12 , Web.2.12 , InnerFlange.2.12
+FrameAssembly FrameAssembly.2.13: OuterFlange.2.13 , Web.2.13 , InnerFlange.2.13
+FrameAssembly FrameAssembly.2.14: OuterFlange.2.14 , Web.2.14 , InnerFlange.2.14
+FrameAssembly FrameAssembly.2.15: OuterFlange.2.15 , Web.2.15 , InnerFlange.2.15
+FrameAssembly FrameAssembly.2.16: OuterFlange.2.16 , Web.2.16 , InnerFlange.2.16
+FrameFloatingAssembly FrameFloatingAssembly.3.1: ShearClipSkin.3.1 , ShearClipFrame.3.1 , OuterFlange.3.1 , Web.3.1 , InnerFlange.3.1
+FrameFloatingAssembly FrameFloatingAssembly.3.2: ShearClipSkin.3.2 , ShearClipFrame.3.2 , OuterFlange.3.2 , Web.3.2 , InnerFlange.3.2
+FrameFloatingAssembly FrameFloatingAssembly.3.3: ShearClipSkin.3.3 , ShearClipFrame.3.3 , OuterFlange.3.3 , Web.3.3 , InnerFlange.3.3
+FrameFloatingAssembly FrameFloatingAssembly.3.4: ShearClipSkin.3.4 , ShearClipFrame.3.4 , OuterFlange.3.4 , Web.3.4 , InnerFlange.3.4
+FrameFloatingAssembly FrameFloatingAssembly.3.5: ShearClipSkin.3.5 , ShearClipFrame.3.5 , OuterFlange.3.5 , Web.3.5 , InnerFlange.3.5
+FrameFloatingAssembly FrameFloatingAssembly.3.6: ShearClipSkin.3.6 , ShearClipFrame.3.6 , OuterFlange.3.6 , Web.3.6 , InnerFlange.3.6
+FrameFloatingAssembly FrameFloatingAssembly.3.7: ShearClipSkin.3.7 , ShearClipFrame.3.7 , OuterFlange.3.7 , Web.3.7 , InnerFlange.3.7
+FrameFloatingAssembly FrameFloatingAssembly.3.8: ShearClipSkin.3.8 , ShearClipFrame.3.8 , OuterFlange.3.8 , Web.3.8 , InnerFlange.3.8
+FrameFloatingAssembly FrameFloatingAssembly.3.9: ShearClipSkin.3.9 , ShearClipFrame.3.9 , OuterFlange.3.9 , Web.3.9 , InnerFlange.3.9
+FrameFloatingAssembly FrameFloatingAssembly.3.10: ShearClipSkin.3.10 , ShearClipFrame.3.10 , OuterFlange.3.10 , Web.3.10 , InnerFlange.3.10
+FrameFloatingAssembly FrameFloatingAssembly.3.11: ShearClipSkin.3.11 , ShearClipFrame.3.11 , OuterFlange.3.11 , Web.3.11 , InnerFlange.3.11
+FrameFloatingAssembly FrameFloatingAssembly.3.12: ShearClipSkin.3.12 , ShearClipFrame.3.12 , OuterFlange.3.12 , Web.3.12 , InnerFlange.3.12
+FrameFloatingAssembly FrameFloatingAssembly.3.13: ShearClipSkin.3.13 , ShearClipFrame.3.13 , OuterFlange.3.13 , Web.3.13 , InnerFlange.3.13
+FrameFloatingAssembly FrameFloatingAssembly.3.14: ShearClipSkin.3.14 , ShearClipFrame.3.14 , OuterFlange.3.14 , Web.3.14 , InnerFlange.3.14
+FrameFloatingAssembly FrameFloatingAssembly.3.15: ShearClipSkin.3.15 , ShearClipFrame.3.15 , OuterFlange.3.15 , Web.3.15 , InnerFlange.3.15
+FrameFloatingAssembly FrameFloatingAssembly.3.16: ShearClipSkin.3.16 , ShearClipFrame.3.16 , OuterFlange.3.16 , Web.3.16 , InnerFlange.3.16
+FrameFloatingAssembly FrameFloatingAssembly.4.1: ShearClipSkin.4.1 , ShearClipFrame.4.1 , OuterFlange.4.1 , Web.4.1 , InnerFlange.4.1
+FrameFloatingAssembly FrameFloatingAssembly.4.2: ShearClipSkin.4.2 , ShearClipFrame.4.2 , OuterFlange.4.2 , Web.4.2 , InnerFlange.4.2
+FrameFloatingAssembly FrameFloatingAssembly.4.3: ShearClipSkin.4.3 , ShearClipFrame.4.3 , OuterFlange.4.3 , Web.4.3 , InnerFlange.4.3
+FrameFloatingAssembly FrameFloatingAssembly.4.4: ShearClipSkin.4.4 , ShearClipFrame.4.4 , OuterFlange.4.4 , Web.4.4 , InnerFlange.4.4
+FrameFloatingAssembly FrameFloatingAssembly.4.5: ShearClipSkin.4.5 , ShearClipFrame.4.5 , OuterFlange.4.5 , Web.4.5 , InnerFlange.4.5
+FrameFloatingAssembly FrameFloatingAssembly.4.6: ShearClipSkin.4.6 , ShearClipFrame.4.6 , OuterFlange.4.6 , Web.4.6 , InnerFlange.4.6
+FrameFloatingAssembly FrameFloatingAssembly.4.7: ShearClipSkin.4.7 , ShearClipFrame.4.7 , OuterFlange.4.7 , Web.4.7 , InnerFlange.4.7
+FrameFloatingAssembly FrameFloatingAssembly.4.8: ShearClipSkin.4.8 , ShearClipFrame.4.8 , OuterFlange.4.8 , Web.4.8 , InnerFlange.4.8
+FrameFloatingAssembly FrameFloatingAssembly.4.9: ShearClipSkin.4.9 , ShearClipFrame.4.9 , OuterFlange.4.9 , Web.4.9 , InnerFlange.4.9
+FrameFloatingAssembly FrameFloatingAssembly.4.10: ShearClipSkin.4.10 , ShearClipFrame.4.10 , OuterFlange.4.10 , Web.4.10 , InnerFlange.4.10
+FrameFloatingAssembly FrameFloatingAssembly.4.11: ShearClipSkin.4.11 , ShearClipFrame.4.11 , OuterFlange.4.11 , Web.4.11 , InnerFlange.4.11
+FrameFloatingAssembly FrameFloatingAssembly.4.12: ShearClipSkin.4.12 , ShearClipFrame.4.12 , OuterFlange.4.12 , Web.4.12 , InnerFlange.4.12
+FrameFloatingAssembly FrameFloatingAssembly.4.13: ShearClipSkin.4.13 , ShearClipFrame.4.13 , OuterFlange.4.13 , Web.4.13 , InnerFlange.4.13
+FrameFloatingAssembly FrameFloatingAssembly.4.14: ShearClipSkin.4.14 , ShearClipFrame.4.14 , OuterFlange.4.14 , Web.4.14 , InnerFlange.4.14
+FrameFloatingAssembly FrameFloatingAssembly.4.15: ShearClipSkin.4.15 , ShearClipFrame.4.15 , OuterFlange.4.15 , Web.4.15 , InnerFlange.4.15
+FrameFloatingAssembly FrameFloatingAssembly.4.16: ShearClipSkin.4.16 , ShearClipFrame.4.16 , OuterFlange.4.16 , Web.4.16 , InnerFlange.4.16
+FrameFloatingAssembly FrameFloatingAssembly.5.1: ShearClipSkin.5.1 , ShearClipFrame.5.1 , OuterFlange.5.1 , Web.5.1 , InnerFlange.5.1
+FrameFloatingAssembly FrameFloatingAssembly.5.2: ShearClipSkin.5.2 , ShearClipFrame.5.2 , OuterFlange.5.2 , Web.5.2 , InnerFlange.5.2
+FrameFloatingAssembly FrameFloatingAssembly.5.3: ShearClipSkin.5.3 , ShearClipFrame.5.3 , OuterFlange.5.3 , Web.5.3 , InnerFlange.5.3
+FrameFloatingAssembly FrameFloatingAssembly.5.4: ShearClipSkin.5.4 , ShearClipFrame.5.4 , OuterFlange.5.4 , Web.5.4 , InnerFlange.5.4
+FrameFloatingAssembly FrameFloatingAssembly.5.5: ShearClipSkin.5.5 , ShearClipFrame.5.5 , OuterFlange.5.5 , Web.5.5 , InnerFlange.5.5
+FrameFloatingAssembly FrameFloatingAssembly.5.6: ShearClipSkin.5.6 , ShearClipFrame.5.6 , OuterFlange.5.6 , Web.5.6 , InnerFlange.5.6
+FrameFloatingAssembly FrameFloatingAssembly.5.7: ShearClipSkin.5.7 , ShearClipFrame.5.7 , OuterFlange.5.7 , Web.5.7 , InnerFlange.5.7
+FrameFloatingAssembly FrameFloatingAssembly.5.8: ShearClipSkin.5.8 , ShearClipFrame.5.8 , OuterFlange.5.8 , Web.5.8 , InnerFlange.5.8
+FrameFloatingAssembly FrameFloatingAssembly.5.9: ShearClipSkin.5.9 , ShearClipFrame.5.9 , OuterFlange.5.9 , Web.5.9 , InnerFlange.5.9
+FrameFloatingAssembly FrameFloatingAssembly.5.10: ShearClipSkin.5.10 , ShearClipFrame.5.10 , OuterFlange.5.10 , Web.5.10 , InnerFlange.5.10
+FrameFloatingAssembly FrameFloatingAssembly.5.11: ShearClipSkin.5.11 , ShearClipFrame.5.11 , OuterFlange.5.11 , Web.5.11 , InnerFlange.5.11
+FrameFloatingAssembly FrameFloatingAssembly.5.12: ShearClipSkin.5.12 , ShearClipFrame.5.12 , OuterFlange.5.12 , Web.5.12 , InnerFlange.5.12
+FrameFloatingAssembly FrameFloatingAssembly.5.13: ShearClipSkin.5.13 , ShearClipFrame.5.13 , OuterFlange.5.13 , Web.5.13 , InnerFlange.5.13
+FrameFloatingAssembly FrameFloatingAssembly.5.14: ShearClipSkin.5.14 , ShearClipFrame.5.14 , OuterFlange.5.14 , Web.5.14 , InnerFlange.5.14
+FrameFloatingAssembly FrameFloatingAssembly.5.15: ShearClipSkin.5.15 , ShearClipFrame.5.15 , OuterFlange.5.15 , Web.5.15 , InnerFlange.5.15
+FrameFloatingAssembly FrameFloatingAssembly.5.16: ShearClipSkin.5.16 , ShearClipFrame.5.16 , OuterFlange.5.16 , Web.5.16 , InnerFlange.5.16
+#
+# Stiffened Panels
+# ------------------
+#
+StiffenedPanelAssembly StiffenedPanel.1.1: Panel.1.1 , FrameAssembly.2.1 , FrameAssembly.1.1 , Stringer.1.1 , Stringer.2.1
+StiffenedPanelAssembly StiffenedPanel.1.2: Panel.1.2 , FrameAssembly.2.2 , FrameAssembly.1.2 , Stringer.3.1 , Stringer.2.1
+StiffenedPanelAssembly StiffenedPanel.1.3: Panel.1.3 , FrameAssembly.2.3 , FrameFloatingAssembly.1.3 , Stringer.3.1 , Stringer.4.1
+StiffenedPanelAssembly StiffenedPanel.1.4: Panel.1.4 , FrameAssembly.2.4 , FrameFloatingAssembly.1.4 , Stringer.4.1 , Stringer.5.1
+StiffenedPanelAssembly StiffenedPanel.1.5: Panel.1.5 , FrameFloatingAssembly.1.5 , FrameAssembly.2.5 , Stringer.6.1 , Stringer.5.1
+StiffenedPanelAssembly StiffenedPanel.1.6: Panel.1.6 , FrameFloatingAssembly.1.6 , FrameAssembly.2.6 , Stringer.6.1 , Stringer.7.1
+StiffenedPanelAssembly StiffenedPanel.1.7: Panel.1.7 , FrameAssembly.2.7 , FrameFloatingAssembly.1.7 , Stringer.7.1 , Stringer.8.1
+StiffenedPanelAssembly StiffenedPanel.1.8: Panel.1.8 , FrameAssembly.2.8 , FrameFloatingAssembly.1.8 , Stringer.9.1 , Stringer.8.1
+StiffenedPanelAssembly StiffenedPanel.1.9: Panel.1.9 , FrameAssembly.2.9 , FrameFloatingAssembly.1.9 , Stringer.9.1 , Stringer.10.1
+StiffenedPanelAssembly StiffenedPanel.1.10: Panel.1.10 , FrameAssembly.2.10 , FrameFloatingAssembly.1.10 , Stringer.11.1 , Stringer.10.1
+StiffenedPanelAssembly StiffenedPanel.1.11: Panel.1.11 , FrameAssembly.2.11 , FrameFloatingAssembly.1.11 , Stringer.11.1 , Stringer.12.1
+StiffenedPanelAssembly StiffenedPanel.1.12: Panel.1.12 , FrameAssembly.2.12 , FrameFloatingAssembly.1.12 , Stringer.13.1 , Stringer.12.1
+StiffenedPanelAssembly StiffenedPanel.1.13: Panel.1.13 , FrameAssembly.2.13 , FrameFloatingAssembly.1.13 , Stringer.13.1 , Stringer.14.1
+StiffenedPanelAssembly StiffenedPanel.1.14: Panel.1.14 , FrameAssembly.2.14 , FrameFloatingAssembly.1.14 , Stringer.14.1 , Stringer.15.1
+StiffenedPanelAssembly StiffenedPanel.1.15: Panel.1.15 , FrameFloatingAssembly.1.15 , FrameAssembly.2.15 , Stringer.15.1 , Stringer.16.1
+StiffenedPanelAssembly StiffenedPanel.1.16: Panel.1.16 , FrameAssembly.2.16 , FrameAssembly.2.16 , Stringer.1.1 , Stringer.16.1
+StiffenedPanelAssembly StiffenedPanel.2.1: Panel.2.1 , FrameAssembly.2.1 , FrameFloatingAssembly.3.1 , Stringer.1.2 , Stringer.2.2
+StiffenedPanelAssembly StiffenedPanel.2.2: Panel.2.2 , FrameAssembly.2.2 , FrameFloatingAssembly.3.2 , Stringer.3.2 , Stringer.2.2
+StiffenedPanelAssembly StiffenedPanel.2.3: Panel.2.3 , FrameAssembly.2.3 , FrameFloatingAssembly.3.3 , Stringer.4.2 , Stringer.3.2
+StiffenedPanelAssembly StiffenedPanel.2.4: Panel.2.4 , FrameAssembly.2.4 , FrameFloatingAssembly.3.4 , Stringer.5.2 , Stringer.4.2
+StiffenedPanelAssembly StiffenedPanel.2.5: Panel.2.5 , FrameAssembly.2.5 , FrameFloatingAssembly.3.5 , Stringer.6.2 , Stringer.5.2
+StiffenedPanelAssembly StiffenedPanel.2.6: Panel.2.6 , FrameFloatingAssembly.3.6 , FrameAssembly.2.6 , Stringer.7.2 , Stringer.6.2
+StiffenedPanelAssembly StiffenedPanel.2.7: Panel.2.7 , FrameAssembly.2.7 , FrameFloatingAssembly.3.7 , Stringer.8.2 , Stringer.7.2
+StiffenedPanelAssembly StiffenedPanel.2.8: Panel.2.8 , FrameAssembly.2.8 , FrameFloatingAssembly.3.8 , Stringer.9.2 , Stringer.8.2
+StiffenedPanelAssembly StiffenedPanel.2.9: Panel.2.9 , FrameFloatingAssembly.3.9 , FrameAssembly.2.9 , Stringer.10.2 , Stringer.9.2
+StiffenedPanelAssembly StiffenedPanel.2.10: Panel.2.10 , FrameFloatingAssembly.3.10 , FrameAssembly.2.10 , Stringer.11.2 , Stringer.10.2
+StiffenedPanelAssembly StiffenedPanel.2.11: Panel.2.11 , FrameAssembly.2.11 , FrameFloatingAssembly.3.11 , Stringer.12.2 , Stringer.11.2
+StiffenedPanelAssembly StiffenedPanel.2.12: Panel.2.12 , FrameAssembly.2.12 , FrameFloatingAssembly.3.12 , Stringer.13.2 , Stringer.12.2
+StiffenedPanelAssembly StiffenedPanel.2.13: Panel.2.13 , FrameAssembly.2.13 , FrameFloatingAssembly.3.13 , Stringer.14.2 , Stringer.13.2
+StiffenedPanelAssembly StiffenedPanel.2.14: Panel.2.14 , FrameAssembly.2.14 , FrameFloatingAssembly.3.14 , Stringer.15.2 , Stringer.14.2
+StiffenedPanelAssembly StiffenedPanel.2.15: Panel.2.15 , FrameAssembly.2.15 , FrameFloatingAssembly.3.15 , Stringer.16.2 , Stringer.15.2
+StiffenedPanelAssembly StiffenedPanel.2.16: Panel.2.16 , FrameFloatingAssembly.3.16 , FrameAssembly.2.16 , Stringer.1.2 , Stringer.16.2
+StiffenedPanelAssembly StiffenedPanel.3.1: Panel.3.1 , FrameFloatingAssembly.4.1 , FrameFloatingAssembly.3.1 , Stringer.2.3 , Stringer.1.3
+StiffenedPanelAssembly StiffenedPanel.3.2: Panel.3.2 , FrameFloatingAssembly.3.2 , FrameFloatingAssembly.4.2 , Stringer.2.3 , Stringer.3.3
+StiffenedPanelAssembly StiffenedPanel.3.3: Panel.3.3 , FrameFloatingAssembly.4.3 , FrameFloatingAssembly.3.3 , Stringer.4.3 , Stringer.3.3
+StiffenedPanelAssembly StiffenedPanel.3.4: Panel.3.4 , FrameFloatingAssembly.4.4 , FrameFloatingAssembly.3.4 , Stringer.5.3 , Stringer.4.3
+StiffenedPanelAssembly StiffenedPanel.3.5: Panel.3.5 , FrameFloatingAssembly.3.5 , FrameFloatingAssembly.4.5 , Stringer.5.3 , Stringer.6.3
+StiffenedPanelAssembly StiffenedPanel.3.6: Panel.3.6 , FrameFloatingAssembly.4.6 , FrameFloatingAssembly.3.6 , Stringer.6.3 , Stringer.7.3
+StiffenedPanelAssembly StiffenedPanel.3.7: Panel.3.7 , FrameFloatingAssembly.4.7 , FrameFloatingAssembly.3.7 , Stringer.7.3 , Stringer.8.3
+StiffenedPanelAssembly StiffenedPanel.3.8: Panel.3.8 , FrameFloatingAssembly.4.8 , FrameFloatingAssembly.3.8 , Stringer.8.3 , Stringer.9.3
+StiffenedPanelAssembly StiffenedPanel.3.9: Panel.3.9 , FrameFloatingAssembly.4.9 , FrameFloatingAssembly.3.9 , Stringer.9.3 , Stringer.10.3
+StiffenedPanelAssembly StiffenedPanel.3.10: Panel.3.10 , FrameFloatingAssembly.4.10 , FrameFloatingAssembly.3.10 , Stringer.10.3 , Stringer.11.3
+StiffenedPanelAssembly StiffenedPanel.3.11: Panel.3.11 , FrameFloatingAssembly.4.11 , FrameFloatingAssembly.3.11 , Stringer.11.3 , Stringer.12.3
+StiffenedPanelAssembly StiffenedPanel.3.12: Panel.3.12 , FrameFloatingAssembly.4.12 , FrameFloatingAssembly.3.12 , Stringer.12.3 , Stringer.13.3
+StiffenedPanelAssembly StiffenedPanel.3.13: Panel.3.13 , FrameFloatingAssembly.4.13 , FrameFloatingAssembly.3.13 , Stringer.13.3 , Stringer.14.3
+StiffenedPanelAssembly StiffenedPanel.3.14: Panel.3.14 , FrameFloatingAssembly.4.14 , FrameFloatingAssembly.3.14 , Stringer.14.3 , Stringer.15.3
+StiffenedPanelAssembly StiffenedPanel.3.15: Panel.3.15 , FrameFloatingAssembly.4.15 , FrameFloatingAssembly.3.15 , Stringer.15.3 , Stringer.16.3
+StiffenedPanelAssembly StiffenedPanel.3.16: Panel.3.16 , FrameFloatingAssembly.4.16 , FrameFloatingAssembly.3.16 , Stringer.16.3 , Stringer.1.3
+StiffenedPanelAssembly StiffenedPanel.4.1: Panel.4.1 , FrameFloatingAssembly.4.1 , FrameFloatingAssembly.5.1 , Stringer.1.4 , Stringer.2.4
+StiffenedPanelAssembly StiffenedPanel.4.2: Panel.4.2 , FrameFloatingAssembly.4.2 , FrameFloatingAssembly.5.2 , Stringer.3.4 , Stringer.2.4
+StiffenedPanelAssembly StiffenedPanel.4.3: Panel.4.3 , FrameFloatingAssembly.4.3 , FrameFloatingAssembly.5.3 , Stringer.3.4 , Stringer.4.4
+StiffenedPanelAssembly StiffenedPanel.4.4: Panel.4.4 , FrameFloatingAssembly.4.4 , FrameFloatingAssembly.5.4 , Stringer.4.4 , Stringer.5.4
+StiffenedPanelAssembly StiffenedPanel.4.5: Panel.4.5 , FrameFloatingAssembly.4.5 , FrameFloatingAssembly.5.5 , Stringer.6.4 , Stringer.5.4
+StiffenedPanelAssembly StiffenedPanel.4.6: Panel.4.6 , FrameFloatingAssembly.4.6 , FrameFloatingAssembly.5.6 , Stringer.7.4 , Stringer.6.4
+StiffenedPanelAssembly StiffenedPanel.4.7: Panel.4.7 , FrameFloatingAssembly.4.7 , FrameFloatingAssembly.5.7 , Stringer.8.4 , Stringer.7.4
+StiffenedPanelAssembly StiffenedPanel.4.8: Panel.4.8 , FrameFloatingAssembly.4.8 , FrameFloatingAssembly.5.8 , Stringer.9.4 , Stringer.8.4
+StiffenedPanelAssembly StiffenedPanel.4.9: Panel.4.9 , FrameFloatingAssembly.4.9 , FrameFloatingAssembly.5.9 , Stringer.10.4 , Stringer.9.4
+StiffenedPanelAssembly StiffenedPanel.4.10: Panel.4.10 , FrameFloatingAssembly.4.10 , FrameFloatingAssembly.5.10 , Stringer.11.4 , Stringer.10.4
+StiffenedPanelAssembly StiffenedPanel.4.11: Panel.4.11 , FrameFloatingAssembly.4.11 , FrameFloatingAssembly.5.11 , Stringer.12.4 , Stringer.11.4
+StiffenedPanelAssembly StiffenedPanel.4.12: Panel.4.12 , FrameFloatingAssembly.4.12 , FrameFloatingAssembly.5.12 , Stringer.13.4 , Stringer.12.4
+StiffenedPanelAssembly StiffenedPanel.4.13: Panel.4.13 , FrameFloatingAssembly.4.13 , FrameFloatingAssembly.5.13 , Stringer.14.4 , Stringer.13.4
+StiffenedPanelAssembly StiffenedPanel.4.14: Panel.4.14 , FrameFloatingAssembly.4.14 , FrameFloatingAssembly.5.14 , Stringer.15.4 , Stringer.14.4
+StiffenedPanelAssembly StiffenedPanel.4.15: Panel.4.15 , FrameFloatingAssembly.4.15 , FrameFloatingAssembly.5.15 , Stringer.16.4 , Stringer.15.4
+StiffenedPanelAssembly StiffenedPanel.4.16: Panel.4.16 , FrameFloatingAssembly.4.16 , FrameFloatingAssembly.5.16 , Stringer.1.4 , Stringer.16.4
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="create-optimization-cards">
+<h2>Create Optimization Cards<a class="headerlink" href="#create-optimization-cards" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">structMan.model</span> <span class="kn">import</span> <span class="n">Model</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">mod</span> <span class="o">=</span> <span class="n">Model</span><span class="p">()</span>
+    <span class="n">mod</span><span class="o">.</span><span class="n">sefile</span> <span class="o">=</span> <span class="s">&#39;MappingSE2FE.txt&#39;</span>
+    <span class="n">mod</span><span class="o">.</span><span class="n">safile</span> <span class="o">=</span> <span class="s">&#39;MappingSEA2SE.txt&#39;</span>
+    <span class="n">mod</span><span class="o">.</span><span class="n">bdfpath</span> <span class="o">=</span> <span class="s">&#39;fus_section.bdf&#39;</span>
+    <span class="c">#mod.op2path = &#39;model.op2&#39;</span>
+    <span class="n">mod</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+    <span class="c">#mod.read_op2(vectorized=True)</span>
+
+    <span class="n">panel</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">panels</span><span class="p">[</span><span class="s">&#39;Panel.1.1&#39;</span><span class="p">]</span>
+    <span class="n">panel</span><span class="o">.</span><span class="n">t_lb</span> <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="n">panel</span><span class="o">.</span><span class="n">t_ub</span> <span class="o">=</span> <span class="mf">3.3</span>
+    <span class="n">panel</span><span class="o">.</span><span class="n">constrain_vonMises</span><span class="p">(</span><span class="mf">50.</span><span class="p">)</span>
+    <span class="n">panel</span><span class="o">.</span><span class="n">constrain_buckling</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">panel</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">panels</span><span class="p">[</span><span class="s">&#39;Panel.2.1&#39;</span><span class="p">]</span>
+    <span class="n">panel</span><span class="o">.</span><span class="n">t_lb</span> <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="n">panel</span><span class="o">.</span><span class="n">t_ub</span> <span class="o">=</span> <span class="mf">3.3</span>
+    <span class="n">panel</span><span class="o">.</span><span class="n">constrain_vonMises</span><span class="p">(</span><span class="mf">50.</span><span class="p">)</span>
+    <span class="n">panel</span><span class="o">.</span><span class="n">constrain_buckling</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+
+    <span class="c"># Z_t</span>
+    <span class="n">stringer</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">stringers</span><span class="p">[</span><span class="s">&#39;Stringer.1.1&#39;</span><span class="p">]</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">profile</span> <span class="o">=</span> <span class="s">&#39;Z_t&#39;</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">h</span> <span class="o">=</span> <span class="mf">50.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="mf">30.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="mf">1.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">t_lb</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">t_ub</span> <span class="o">=</span> <span class="mf">3.</span>
+
+    <span class="n">stringer</span><span class="o">.</span><span class="n">constrain_stress_tension</span><span class="p">(</span><span class="mf">40.</span><span class="p">)</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">constrain_stress_compression</span><span class="p">(</span><span class="mf">40.</span><span class="p">)</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">constrain_buckling</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c"># Z_t_b</span>
+    <span class="n">stringer</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">stringers</span><span class="p">[</span><span class="s">&#39;Stringer.2.1&#39;</span><span class="p">]</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">profile</span> <span class="o">=</span> <span class="s">&#39;Z_t_b&#39;</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">h</span> <span class="o">=</span> <span class="mf">50.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="mf">30.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">b_lb</span> <span class="o">=</span> <span class="mf">20.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">b_ub</span> <span class="o">=</span> <span class="mf">50.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="mf">1.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">t_lb</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">t_ub</span> <span class="o">=</span> <span class="mf">3.</span>
+
+    <span class="n">stringer</span><span class="o">.</span><span class="n">constrain_stress_tension</span><span class="p">(</span><span class="mf">40.</span><span class="p">)</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">constrain_stress_compression</span><span class="p">(</span><span class="mf">40.</span><span class="p">)</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">constrain_buckling</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c"># Z_t_b_h</span>
+    <span class="n">stringer</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">stringers</span><span class="p">[</span><span class="s">&#39;Stringer.3.1&#39;</span><span class="p">]</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">profile</span> <span class="o">=</span> <span class="s">&#39;Z_t_b_h&#39;</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">h</span> <span class="o">=</span> <span class="mf">50.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">h_lb</span> <span class="o">=</span> <span class="mf">50.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">h_ub</span> <span class="o">=</span> <span class="mf">70.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="mf">30.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">b_lb</span> <span class="o">=</span> <span class="mf">20.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">b_ub</span> <span class="o">=</span> <span class="mf">50.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="mf">1.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">t_lb</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">t_ub</span> <span class="o">=</span> <span class="mf">3.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">constrain_stress_tension</span><span class="p">(</span><span class="mf">40.</span><span class="p">)</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">constrain_stress_compression</span><span class="p">(</span><span class="mf">40.</span><span class="p">)</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">constrain_buckling</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c"># Z_tf_tw_b_h</span>
+    <span class="n">stringer</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">stringers</span><span class="p">[</span><span class="s">&#39;Stringer.4.1&#39;</span><span class="p">]</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">profile</span> <span class="o">=</span> <span class="s">&#39;Z_tf_tw_b_h&#39;</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">h</span> <span class="o">=</span> <span class="mf">50.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">h_lb</span> <span class="o">=</span> <span class="mf">50.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">h_ub</span> <span class="o">=</span> <span class="mf">70.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="mf">30.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">b_lb</span> <span class="o">=</span> <span class="mf">20.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">b_ub</span> <span class="o">=</span> <span class="mf">50.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">tf</span> <span class="o">=</span> <span class="mf">1.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">tf_lb</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">tf_ub</span> <span class="o">=</span> <span class="mf">3.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">tw</span> <span class="o">=</span> <span class="mf">2.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">tw_lb</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">tw_ub</span> <span class="o">=</span> <span class="mf">5.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">constrain_stress_tension</span><span class="p">(</span><span class="mf">40.</span><span class="p">)</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">constrain_stress_compression</span><span class="p">(</span><span class="mf">40.</span><span class="p">)</span>
+    <span class="c">#stringer.constrain_buckling(method=1)</span>
+
+    <span class="c"># B_t</span>
+    <span class="n">stringer</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">stringers</span><span class="p">[</span><span class="s">&#39;Stringer.5.1&#39;</span><span class="p">]</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">profile</span> <span class="o">=</span> <span class="s">&#39;B_t&#39;</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">h</span> <span class="o">=</span> <span class="mf">50.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="mf">1.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">t_lb</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">t_ub</span> <span class="o">=</span> <span class="mf">3.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">constrain_stress_tension</span><span class="p">(</span><span class="mf">40.</span><span class="p">)</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">constrain_stress_compression</span><span class="p">(</span><span class="mf">40.</span><span class="p">)</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">constrain_buckling</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c"># B_t_h</span>
+    <span class="n">stringer</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">stringers</span><span class="p">[</span><span class="s">&#39;Stringer.6.1&#39;</span><span class="p">]</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">profile</span> <span class="o">=</span> <span class="s">&#39;B_t_h&#39;</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">h</span> <span class="o">=</span> <span class="mf">50.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">h_lb</span> <span class="o">=</span> <span class="mf">50.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">h_ub</span> <span class="o">=</span> <span class="mf">70.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="mf">1.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">t_lb</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">t_ub</span> <span class="o">=</span> <span class="mf">3.</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">constrain_stress_tension</span><span class="p">(</span><span class="mf">40.</span><span class="p">)</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">constrain_stress_compression</span><span class="p">(</span><span class="mf">40.</span><span class="p">)</span>
+    <span class="n">stringer</span><span class="o">.</span><span class="n">constrain_buckling</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+
+    <span class="c"># InnerFlange t</span>
+    <span class="n">inner</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">innerflanges</span><span class="p">[</span><span class="s">&#39;InnerFlange.1.1&#39;</span><span class="p">]</span>
+    <span class="n">inner</span><span class="o">.</span><span class="n">profile</span> <span class="o">=</span> <span class="s">&#39;t&#39;</span>
+    <span class="n">inner</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="mf">50.</span>
+    <span class="n">inner</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="mf">1.</span>
+    <span class="n">inner</span><span class="o">.</span><span class="n">t_lb</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">inner</span><span class="o">.</span><span class="n">t_ub</span> <span class="o">=</span> <span class="mf">3.</span>
+    <span class="n">inner</span><span class="o">.</span><span class="n">constrain_stress_tension</span><span class="p">(</span><span class="mf">40.</span><span class="p">)</span>
+    <span class="n">inner</span><span class="o">.</span><span class="n">constrain_stress_compression</span><span class="p">(</span><span class="mf">40.</span><span class="p">)</span>
+    <span class="n">inner</span><span class="o">.</span><span class="n">constrain_buckling</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c"># InnerFlange t_b</span>
+    <span class="n">inner</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">innerflanges</span><span class="p">[</span><span class="s">&#39;InnerFlange.2.1&#39;</span><span class="p">]</span>
+    <span class="n">inner</span><span class="o">.</span><span class="n">profile</span> <span class="o">=</span> <span class="s">&#39;t_b&#39;</span>
+    <span class="n">inner</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="mf">1.</span>
+    <span class="n">inner</span><span class="o">.</span><span class="n">t_lb</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">inner</span><span class="o">.</span><span class="n">t_ub</span> <span class="o">=</span> <span class="mf">3.</span>
+    <span class="n">inner</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="mf">50.</span>
+    <span class="n">inner</span><span class="o">.</span><span class="n">b_lb</span> <span class="o">=</span> <span class="mf">40.</span>
+    <span class="n">inner</span><span class="o">.</span><span class="n">b_ub</span> <span class="o">=</span> <span class="mf">100.</span>
+    <span class="n">inner</span><span class="o">.</span><span class="n">constrain_stress_tension</span><span class="p">(</span><span class="mf">40.</span><span class="p">)</span>
+    <span class="n">inner</span><span class="o">.</span><span class="n">constrain_stress_compression</span><span class="p">(</span><span class="mf">40.</span><span class="p">)</span>
+    <span class="n">inner</span><span class="o">.</span><span class="n">constrain_buckling</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">mod</span><span class="o">.</span><span class="n">optmodel</span><span class="o">.</span><span class="n">set_output_file</span><span class="p">(</span><span class="s">&#39;optcard.bdf&#39;</span><span class="p">)</span>
+    <span class="n">mod</span><span class="o">.</span><span class="n">optmodel</span><span class="o">.</span><span class="n">print_model</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Fuselage Section</a><ul>
+<li><a class="reference internal" href="#model">Model</a></li>
+<li><a class="reference internal" href="#mapping-files">Mapping files</a><ul>
+<li><a class="reference internal" href="#mappingse2fe-txt">MappingSE2FE.txt</a></li>
+<li><a class="reference internal" href="#mappingsea2se-txt">MappingSEA2SE.txt</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#create-optimization-cards">Create Optimization Cards</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="examples.html"
+                        title="previous chapter">Examples</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../_TODO_list.html"
+                        title="next chapter">TODO list</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/examples/fus_section.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../_TODO_list.html" title="TODO list"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="examples.html" title="Examples"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="examples.html" >Examples</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Saullo Castro.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

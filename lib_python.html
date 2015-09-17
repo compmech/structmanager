@@ -2307,7 +2307,7 @@ methods: <a class="reference internal" href="#structMan.ses.ses.SE.add_dvar" tit
 
 <dl class="class">
 <dt id="structMan.sol200.cards_opt.DVPREL1">
-<em class="property">class </em><code class="descclassname">structMan.sol200.cards_opt.</code><code class="descname">DVPREL1</code><span class="sig-paren">(</span><em>type</em>, <em>pid</em>, <em>pname</em>, <em>dvids</em>, <em>coefs</em>, <em>c0=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/sol200/cards_opt.html#DVPREL1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_opt.DVPREL1" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">structMan.sol200.cards_opt.</code><code class="descname">DVPREL1</code><span class="sig-paren">(</span><em>type</em>, <em>pid</em>, <em>pname</em>, <em>dvids</em>, <em>coeffs</em>, <em>c0=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/sol200/cards_opt.html#DVPREL1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_opt.DVPREL1" title="Permalink to this definition">¶</a></dt>
 <dd><p>Design Variable-to-Property relation</p>
 <p>This is a wrapper for the DVPREL1 card in NASTRAN.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -2332,7 +2332,7 @@ property entry.</p>
 <div><p>Ids of the design variables that will be related to this property
 parameter.</p>
 </div></blockquote>
-<p><strong>coefs</strong> : list</p>
+<p><strong>coeffs</strong> : list</p>
 <blockquote>
 <div><p>Multipliers to each corresponding design variable.</p>
 </div></blockquote>
@@ -2604,263 +2604,18 @@ Manual (vol01).</p>
 </dd></dl>
 
 </div>
-<span class="target" id="module-structMan.ses"></span><div class="section" id="structural-elements-ses-structman-ses">
-<h2>Structural Elements - SEs (<a class="reference internal" href="#module-structMan.ses" title="structMan.ses"><code class="xref py py-mod docutils literal"><span class="pre">structMan.ses</span></code></a>)<a class="headerlink" href="#structural-elements-ses-structman-ses" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="structMan.ses.Stringer">
-<em class="property">class </em><code class="descclassname">structMan.ses.</code><code class="descname">Stringer</code><span class="sig-paren">(</span><em>name</em>, <em>*eids</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/ses/stringer.html#Stringer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.Stringer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Each cross-section (profile) dimension is defined according do the PBARL
-entry of Nastran&#8217;s Quick Reference Guide.</p>
-<p class="rubric">Attributes</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="19%" />
-<col width="81%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>profile (<code class="docutils literal"><span class="pre">str</span></code>)</td>
-<td><ul class="first">
-<li><dl class="first docutils">
-<dt><code class="docutils literal"><span class="pre">Z_t_b</span></code> - Z section defined with two variables:</dt>
-<dd><ul class="first last simple">
-<li><code class="docutils literal"><span class="pre">t</span></code> (variable): profile thickness</li>
-<li><code class="docutils literal"><span class="pre">b</span></code> (variable): flange width</li>
-<li><code class="docutils literal"><span class="pre">h</span></code> (constant): height</li>
-</ul>
-</dd>
-</dl>
-</li>
-<li><dl class="first docutils">
-<dt><code class="docutils literal"><span class="pre">Z_t_b_h</span></code> - Z section defined with three variables:</dt>
-<dd><ul class="first last simple">
-<li><code class="docutils literal"><span class="pre">t</span></code> (variable): profile thickness</li>
-<li><code class="docutils literal"><span class="pre">b</span></code> (variable): flange width</li>
-<li><code class="docutils literal"><span class="pre">h</span></code> (variable): height</li>
-</ul>
-</dd>
-</dl>
-</li>
-<li><dl class="first docutils">
-<dt><code class="docutils literal"><span class="pre">Z_tf_tw_b_h</span></code> - Z section defined with four variables:</dt>
-<dd><ul class="first last simple">
-<li><code class="docutils literal"><span class="pre">tf</span></code> (variable): flange thickness</li>
-<li><code class="docutils literal"><span class="pre">tw</span></code> (variable): web thickness</li>
-<li><code class="docutils literal"><span class="pre">b</span></code> (variable): flange width</li>
-<li><code class="docutils literal"><span class="pre">h</span></code> (variable): height</li>
-</ul>
-</dd>
-</dl>
-</li>
-<li><dl class="first docutils">
-<dt><code class="docutils literal"><span class="pre">B_t</span></code> - Blade section defined with one variable:</dt>
-<dd><ul class="first last simple">
-<li><code class="docutils literal"><span class="pre">t</span></code> (variable): thickness</li>
-<li><code class="docutils literal"><span class="pre">h</span></code> (constant): height</li>
-</ul>
-</dd>
-</dl>
-</li>
-<li><dl class="first docutils">
-<dt><code class="docutils literal"><span class="pre">B_t_h</span></code> - Blade section defined with two variables:</dt>
-<dd><ul class="first last simple">
-<li><code class="docutils literal"><span class="pre">t</span></code> (variable): thickness</li>
-<li><code class="docutils literal"><span class="pre">h</span></code> (variable): height</li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
-<p class="last">The stringer&#8217;s attributes will vary from one <code class="docutils literal"><span class="pre">profile</span></code> to another.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Methods</p>
-<table border="1" class="longtable docutils">
-<colgroup>
-<col width="10%" />
-<col width="90%" />
-</colgroup>
-<tbody valign="top">
-</tbody>
-</table>
-<dl class="method">
-<dt id="structMan.ses.Stringer.constrain_buckling">
-<code class="descname">constrain_buckling</code><span class="sig-paren">(</span><em>method=1</em>, <em>ms=0.1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/ses/stringer.html#Stringer.constrain_buckling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.Stringer.constrain_buckling" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add a buckling constraint</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>method</strong> : int, optional</p>
-<blockquote>
-<div><p>Select one of the following methods for  buckling calculation:</p>
-<ul class="simple">
-<li><code class="docutils literal"><span class="pre">1</span></code> : Bruhn&#8217;s method for Channel- and Z-section stiffeners</li>
-<li><code class="docutils literal"><span class="pre">1</span></code> : Bruhn&#8217;s...</li>
-</ul>
-</div></blockquote>
-<p><strong>ms</strong> : float, optional</p>
-<blockquote class="last">
-<div><p>Minimum margin of safety to be used as constraint.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Notes</p>
-<p>Method 1) uses Bruhn&#8217;s method described in Chapter 6, Fig. C6.4</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="structMan.ses.Stringer.constrain_stress">
-<code class="descname">constrain_stress</code><span class="sig-paren">(</span><em>Fy</em>, <em>average=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/ses/stringer.html#Stringer.constrain_stress"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.Stringer.constrain_stress" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add a stress constrain</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Fy</strong> : float</p>
-<blockquote>
-<div><p>The stress threshold to be used in the constraint. The sign of
-<code class="docutils literal"><span class="pre">Fy</span></code> will determine whether this threshold if for tension or
-compression.</p>
-</div></blockquote>
-<p><strong>average</strong> : bool, optional</p>
-<blockquote class="last">
-<div><p>If False the central element is chosen, otherwise ...
-#TODO not implemented</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="structMan.ses.Stringer.constrain_stress_compression">
-<code class="descname">constrain_stress_compression</code><span class="sig-paren">(</span><em>Fcy</em>, <em>average=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/ses/stringer.html#Stringer.constrain_stress_compression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.Stringer.constrain_stress_compression" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add a compressive stress constraint</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Fcy</strong> : float</p>
-<blockquote>
-<div><p>The compression stress threshold to be used in the constraint.</p>
-</div></blockquote>
-<p><strong>average</strong> : bool, optional</p>
-<blockquote class="last">
-<div><p>If False the central element is chosen, otherwise ...
-#TODO not implemented</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="structMan.ses.Stringer.constrain_stress_tension">
-<code class="descname">constrain_stress_tension</code><span class="sig-paren">(</span><em>Fty</em>, <em>average=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/ses/stringer.html#Stringer.constrain_stress_tension"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.Stringer.constrain_stress_tension" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add a tension stress constraint</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Fty</strong> : float</p>
-<blockquote>
-<div><p>The tension stress threshold to be used in the constraint.</p>
-</div></blockquote>
-<p><strong>average</strong> : bool, optional</p>
-<blockquote class="last">
-<div><p>If False the central element is chosen, otherwise ...
-#TODO not implemented</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
-<span class="target" id="module-structMan.ses.ses"></span><dl class="class">
-<dt id="structMan.ses.ses.Panel">
-<em class="property">class </em><code class="descclassname">structMan.ses.ses.</code><code class="descname">Panel</code><span class="sig-paren">(</span><em>name</em>, <em>*eids</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/ses/ses.html#Panel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.Panel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Attributes</p>
-<p class="rubric">Methods</p>
-<table border="1" class="longtable docutils">
-<colgroup>
-<col width="10%" />
-<col width="90%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_constraint</span></code>(dcid,&nbsp;dresp,&nbsp;lb,&nbsp;ub)</td>
-<td>Add a DCONSTR entry to the SE and the optmodel</td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">add_deqatn</span></code>(deqatn)</td>
-<td>Add a DEQATN entry to the SE and the optmodel</td>
-</tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dresp</span></code>(dresp)</td>
-<td>Add a DRESP(123) entry to the SE and the optmodel</td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dtable</span></code>(key,&nbsp;value)</td>
-<td>Add a DTABLE entry to the SE and the optmodel</td>
-</tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dvar</span></code>(dvar)</td>
-<td>Add a DESVAR entry to the SE and the optmodel</td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dvprel</span></code>(dvprel)</td>
-<td>Add a DVPREL(12) entry to the SE and the optmodel</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="#structMan.ses.ses.Panel.constrain_vonMises" title="structMan.ses.ses.Panel.constrain_vonMises"><code class="xref py py-obj docutils literal"><span class="pre">constrain_vonMises</span></code></a>(Fcy[,&nbsp;average])</td>
-<td>Add a von Mises stress constraint</td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">get_central_element</span></code>()</td>
-<td>Return the element closest to the SE center of gravity</td>
-</tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">read_forces</span></code>()</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<dl class="method">
-<dt id="structMan.ses.ses.Panel.constrain_vonMises">
-<code class="descname">constrain_vonMises</code><span class="sig-paren">(</span><em>Fcy</em>, <em>average=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/ses/ses.html#Panel.constrain_vonMises"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.Panel.constrain_vonMises" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add a von Mises stress constraint</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Fcy</strong> : float</p>
-<blockquote>
-<div><p>The stress threshold that will be compared to the von Mises stress
-for this constraint.</p>
-</div></blockquote>
-<p><strong>average</strong> : bool, optional</p>
-<blockquote class="last">
-<div><p>If False the center element is chosen, otherwise ...
-#TODO not implemented</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
+<span class="target" id="module-structMan.ses"></span><div class="section" id="module-structMan.ses.ses">
+<span id="structural-elements-ses-structman-ses"></span><h2>Structural Elements - SEs (<a class="reference internal" href="#module-structMan.ses" title="structMan.ses"><code class="xref py py-mod docutils literal"><span class="pre">structMan.ses</span></code></a>)<a class="headerlink" href="#module-structMan.ses.ses" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="structMan.ses.ses.SE">
-<em class="property">class </em><code class="descclassname">structMan.ses.ses.</code><code class="descname">SE</code><span class="sig-paren">(</span><em>name</em>, <em>*eids</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/ses/ses.html#SE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.SE" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">structMan.ses.ses.</code><code class="descname">SE</code><span class="sig-paren">(</span><em>name</em>, <em>eids</em>, <em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/ses/ses.html#SE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.SE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structural Element</p>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="17%" />
-<col width="5%" />
-<col width="78%" />
+<col width="15%" />
+<col width="15%" />
+<col width="70%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>name</td>
@@ -2871,13 +2626,17 @@ for this constraint.</p>
 <td>list</td>
 <td>A list containing the elements belonging to this structural element.</td>
 </tr>
-<tr class="row-odd"><td>all_constraints</td>
+<tr class="row-odd"><td>model</td>
+<td><a class="reference internal" href="#structMan.model.Model" title="structMan.model.Model"><code class="xref py py-class docutils literal"><span class="pre">Model</span></code></a></td>
+<td>The model containing this SE.</td>
+</tr>
+<tr class="row-even"><td>all_constraints</td>
 <td>list</td>
 <td>A list of strings with all implemented constriants. For each
 constraint &#8216;c&#8217; there must be a method <code class="docutils literal"><span class="pre">self.constrain_c</span></code> that will
 properly handle the creation of each optimization card.</td>
 </tr>
-<tr class="row-even"><td>constraints</td>
+<tr class="row-odd"><td>constraints</td>
 <td>dict</td>
 <td><p class="first">Only the constraints that should be considered. The dictionary should
 have the format:</p>
@@ -3060,8 +2819,166 @@ a sufix to prevent repeated keys.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="structMan.ses.ses.SE1D">
+<em class="property">class </em><code class="descclassname">structMan.ses.ses.</code><code class="descname">SE1D</code><span class="sig-paren">(</span><em>name</em>, <em>eids</em>, <em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/ses/ses.html#SE1D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.SE1D" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for all 1D Structural Elements</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_constraint</span></code>(dcid,&nbsp;dresp,&nbsp;lb,&nbsp;ub)</td>
+<td>Add a DCONSTR entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">add_deqatn</span></code>(deqatn)</td>
+<td>Add a DEQATN entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dresp</span></code>(dresp)</td>
+<td>Add a DRESP(123) entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dtable</span></code>(key,&nbsp;value)</td>
+<td>Add a DTABLE entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dvar</span></code>(dvar)</td>
+<td>Add a DESVAR entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dvprel</span></code>(dvprel)</td>
+<td>Add a DVPREL(12) entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#structMan.ses.ses.SE1D.constrain_stress" title="structMan.ses.ses.SE1D.constrain_stress"><code class="xref py py-obj docutils literal"><span class="pre">constrain_stress</span></code></a>(Fy[,&nbsp;average])</td>
+<td>Add a stress constrain</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#structMan.ses.ses.SE1D.constrain_stress_compression" title="structMan.ses.ses.SE1D.constrain_stress_compression"><code class="xref py py-obj docutils literal"><span class="pre">constrain_stress_compression</span></code></a>(Fcy[,&nbsp;average])</td>
+<td>Add a compressive stress constraint</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#structMan.ses.ses.SE1D.constrain_stress_tension" title="structMan.ses.ses.SE1D.constrain_stress_tension"><code class="xref py py-obj docutils literal"><span class="pre">constrain_stress_tension</span></code></a>(Fty[,&nbsp;average])</td>
+<td>Add a tension stress constraint</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">get_central_element</span></code>()</td>
+<td>Return the element closest to the SE center of gravity</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">read_forces</span></code>()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="structMan.ses.ses.SE1D.constrain_stress">
+<code class="descname">constrain_stress</code><span class="sig-paren">(</span><em>Fy</em>, <em>average=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/ses/ses.html#SE1D.constrain_stress"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.SE1D.constrain_stress" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a stress constrain</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Fy</strong> : float</p>
+<blockquote>
+<div><p>The stress threshold to be used in the constraint. The sign of
+<code class="docutils literal"><span class="pre">Fy</span></code> will determine whether this threshold if for tension or
+compression.</p>
+</div></blockquote>
+<p><strong>average</strong> : bool, optional</p>
+<blockquote class="last">
+<div><p>If False the central element is chosen, otherwise ...
+#TODO not implemented</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.ses.ses.SE1D.constrain_stress_compression">
+<code class="descname">constrain_stress_compression</code><span class="sig-paren">(</span><em>Fcy</em>, <em>average=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/ses/ses.html#SE1D.constrain_stress_compression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.SE1D.constrain_stress_compression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a compressive stress constraint</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Fcy</strong> : float</p>
+<blockquote>
+<div><p>The compression stress threshold to be used in the constraint.</p>
+</div></blockquote>
+<p><strong>average</strong> : bool, optional</p>
+<blockquote class="last">
+<div><p>If False the central element is chosen, otherwise ...
+#TODO not implemented</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.ses.ses.SE1D.constrain_stress_tension">
+<code class="descname">constrain_stress_tension</code><span class="sig-paren">(</span><em>Fty</em>, <em>average=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/ses/ses.html#SE1D.constrain_stress_tension"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.SE1D.constrain_stress_tension" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a tension stress constraint</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Fty</strong> : float</p>
+<blockquote>
+<div><p>The tension stress threshold to be used in the constraint.</p>
+</div></blockquote>
+<p><strong>average</strong> : bool, optional</p>
+<blockquote class="last">
+<div><p>If False the central element is chosen, otherwise ...
+#TODO not implemented</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="structMan.ses.ses.SE2D">
+<em class="property">class </em><code class="descclassname">structMan.ses.ses.</code><code class="descname">SE2D</code><span class="sig-paren">(</span><em>name</em>, <em>eids</em>, <em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/ses/ses.html#SE2D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.SE2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for all 2D Structural Elements</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_constraint</span></code>(dcid,&nbsp;dresp,&nbsp;lb,&nbsp;ub)</td>
+<td>Add a DCONSTR entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">add_deqatn</span></code>(deqatn)</td>
+<td>Add a DEQATN entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dresp</span></code>(dresp)</td>
+<td>Add a DRESP(123) entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dtable</span></code>(key,&nbsp;value)</td>
+<td>Add a DTABLE entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dvar</span></code>(dvar)</td>
+<td>Add a DESVAR entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dvprel</span></code>(dvprel)</td>
+<td>Add a DVPREL(12) entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">get_central_element</span></code>()</td>
+<td>Return the element closest to the SE center of gravity</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">read_forces</span></code>()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
 <dt id="structMan.ses.ses.ShearClipFrame">
-<em class="property">class </em><code class="descclassname">structMan.ses.ses.</code><code class="descname">ShearClipFrame</code><span class="sig-paren">(</span><em>name</em>, <em>*eids</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/ses/ses.html#ShearClipFrame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.ShearClipFrame" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">structMan.ses.ses.</code><code class="descname">ShearClipFrame</code><span class="sig-paren">(</span><em>name</em>, <em>eids</em>, <em>model=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/ses/ses.html#ShearClipFrame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.ShearClipFrame" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shear Clip Attachment to Frame</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
@@ -3100,7 +3017,7 @@ a sufix to prevent repeated keys.</p>
 
 <dl class="class">
 <dt id="structMan.ses.ses.ShearClipSkin">
-<em class="property">class </em><code class="descclassname">structMan.ses.ses.</code><code class="descname">ShearClipSkin</code><span class="sig-paren">(</span><em>name</em>, <em>*eids</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/ses/ses.html#ShearClipSkin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.ShearClipSkin" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">structMan.ses.ses.</code><code class="descname">ShearClipSkin</code><span class="sig-paren">(</span><em>name</em>, <em>eids</em>, <em>model=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/ses/ses.html#ShearClipSkin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.ShearClipSkin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shear Clip Attachment to Skin</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
@@ -3127,14 +3044,390 @@ a sufix to prevent repeated keys.</p>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dvprel</span></code>(dvprel)</td>
 <td>Add a DVPREL(12) entry to the SE and the optmodel</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">get_central_element</span></code>()</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">constrain_stress</span></code>(Fy[,&nbsp;average])</td>
+<td>Add a stress constrain</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">constrain_stress_compression</span></code>(Fcy[,&nbsp;average])</td>
+<td>Add a compressive stress constraint</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">constrain_stress_tension</span></code>(Fty[,&nbsp;average])</td>
+<td>Add a tension stress constraint</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">get_central_element</span></code>()</td>
 <td>Return the element closest to the SE center of gravity</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">read_forces</span></code>()</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">read_forces</span></code>()</td>
 <td></td>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<span class="target" id="module-structMan.ses.flanges"></span><dl class="class">
+<dt id="structMan.ses.flanges.Flange1D">
+<em class="property">class </em><code class="descclassname">structMan.ses.flanges.</code><code class="descname">Flange1D</code><span class="sig-paren">(</span><em>name</em>, <em>eids</em>, <em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/ses/flanges.html#Flange1D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.flanges.Flange1D" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flange1D base class for <a class="reference internal" href="#structMan.ses.flanges.InnerFlange" title="structMan.ses.flanges.InnerFlange"><code class="xref py py-class docutils literal"><span class="pre">InnerFlange</span></code></a> and <a class="reference internal" href="#structMan.ses.flanges.OuterFlange" title="structMan.ses.flanges.OuterFlange"><code class="xref py py-class docutils literal"><span class="pre">OuterFlange</span></code></a></p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#structMan.ses.flanges.Flange1D.constrain_buckling" title="structMan.ses.flanges.Flange1D.constrain_buckling"><code class="xref py py-obj docutils literal"><span class="pre">constrain_buckling</span></code></a>([method,&nbsp;ms])</td>
+<td>Add a buckling constraint</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">create_dvars</span></code>()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="structMan.ses.flanges.Flange1D.constrain_buckling">
+<code class="descname">constrain_buckling</code><span class="sig-paren">(</span><em>method=1</em>, <em>ms=0.1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/ses/flanges.html#Flange1D.constrain_buckling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.flanges.Flange1D.constrain_buckling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a buckling constraint</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>method</strong> : int, optional</p>
+<blockquote>
+<div><p>Select one of the following methods for  buckling calculation:</p>
+<ul>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">1</span></code> <span class="classifier-delimiter">:</span> <span class="classifier">Bruhn&#8217;s method for combined shear and compression, from</span></dt>
+<dd><p class="first">Chapter C5.11.
+- disconsiders bending effects
+- assumes 3 edges simply supported with one free unloaded</p>
+<blockquote>
+<div><p>edge.</p>
+</div></blockquote>
+<ul class="last simple">
+<li>no plasticity correction has been implemented</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p><strong>ms</strong> : float, optional</p>
+<blockquote class="last">
+<div><p>Minimum margin of safety to be used as constraint.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Method 1) uses Bruhn&#8217;s method described in Chapter 6, Fig. C6.4</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="structMan.ses.flanges.InnerFlange">
+<em class="property">class </em><code class="descclassname">structMan.ses.flanges.</code><code class="descname">InnerFlange</code><span class="sig-paren">(</span><em>name</em>, <em>eids</em>, <em>model=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/ses/flanges.html#InnerFlange"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.flanges.InnerFlange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inner Flange</p>
+<p>It is assumed a rectangular section for the inner flange with two
+parameters <code class="docutils literal"><span class="pre">t</span></code> (thickness) and <code class="docutils literal"><span class="pre">b</span></code> (width).</p>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>profile (<code class="docutils literal"><span class="pre">str</span></code>)</td>
+<td><ul class="first">
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">t</span></code> - defined with one variable:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">t</span></code> (variable): thickness</li>
+<li><code class="docutils literal"><span class="pre">b</span></code> (constant): width</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">t_b</span></code> - defined with two variables:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">t</span></code> (variable): thickness</li>
+<li><code class="docutils literal"><span class="pre">b</span></code> (variable): width</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p class="last">The InnerFlange&#8217;s attributes will vary from one <code class="docutils literal"><span class="pre">profile</span></code> to another.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">constrain_buckling</span></code>([method,&nbsp;ms])</td>
+<td>Add a buckling constraint</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">create_dvars</span></code>()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="structMan.ses.flanges.OuterFlange">
+<em class="property">class </em><code class="descclassname">structMan.ses.flanges.</code><code class="descname">OuterFlange</code><span class="sig-paren">(</span><em>name</em>, <em>eids</em>, <em>model=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/ses/flanges.html#OuterFlange"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.flanges.OuterFlange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Outer Flange</p>
+<p>It is assumed a rectangular section for the outer flange with two
+parameters <code class="docutils literal"><span class="pre">t</span></code> (thickness) and <code class="docutils literal"><span class="pre">b</span></code> (width).</p>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>profile (<code class="docutils literal"><span class="pre">str</span></code>)</td>
+<td><ul class="first">
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">t</span></code> - defined with one variable:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">t</span></code> (variable): thickness</li>
+<li><code class="docutils literal"><span class="pre">b</span></code> (constant): width</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">t_b</span></code> - defined with two variables:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">t</span></code> (variable): thickness</li>
+<li><code class="docutils literal"><span class="pre">b</span></code> (variable): width</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p class="last">The OuterFlange&#8217;s attributes will vary from one <code class="docutils literal"><span class="pre">profile</span></code> to another.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">constrain_buckling</span></code>([method,&nbsp;ms])</td>
+<td>Add a buckling constraint</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">create_dvars</span></code>()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="module-structMan.ses.panel"></span><dl class="class">
+<dt id="structMan.ses.panel.Panel">
+<em class="property">class </em><code class="descclassname">structMan.ses.panel.</code><code class="descname">Panel</code><span class="sig-paren">(</span><em>name</em>, <em>eids</em>, <em>model=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/ses/panel.html#Panel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.panel.Panel" title="Permalink to this definition">¶</a></dt>
+<dd><p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#structMan.ses.panel.Panel.constrain_vonMises" title="structMan.ses.panel.Panel.constrain_vonMises"><code class="xref py py-obj docutils literal"><span class="pre">constrain_vonMises</span></code></a>(Fcy[,&nbsp;average])</td>
+<td>Add a von Mises stress constraint</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">create_dvars</span></code>()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="structMan.ses.panel.Panel.constrain_vonMises">
+<code class="descname">constrain_vonMises</code><span class="sig-paren">(</span><em>Fcy</em>, <em>average=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/ses/panel.html#Panel.constrain_vonMises"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.panel.Panel.constrain_vonMises" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a von Mises stress constraint</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Fcy</strong> : float</p>
+<blockquote>
+<div><p>The stress threshold that will be compared to the von Mises stress
+for this constraint.</p>
+</div></blockquote>
+<p><strong>average</strong> : bool, optional</p>
+<blockquote class="last">
+<div><p>If False the center element is chosen, otherwise ...
+#TODO not implemented</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-structMan.ses.stringer"></span><dl class="class">
+<dt id="structMan.ses.stringer.Stringer">
+<em class="property">class </em><code class="descclassname">structMan.ses.stringer.</code><code class="descname">Stringer</code><span class="sig-paren">(</span><em>name</em>, <em>*eids</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/ses/stringer.html#Stringer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.stringer.Stringer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Each cross-section (profile) dimension is defined according do the PBARL
+entry of Nastran&#8217;s Quick Reference Guide.</p>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="81%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>profile (<code class="docutils literal"><span class="pre">str</span></code>)</td>
+<td><ul class="first">
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">Z_t</span></code> - Z section defined with one variable:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">t</span></code> (variable): profile thickness</li>
+<li><code class="docutils literal"><span class="pre">b</span></code> (constant): flange width</li>
+<li><code class="docutils literal"><span class="pre">h</span></code> (constant): height</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">Z_t_b</span></code> - Z section defined with two variables:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">t</span></code> (variable): profile thickness</li>
+<li><code class="docutils literal"><span class="pre">b</span></code> (variable): flange width</li>
+<li><code class="docutils literal"><span class="pre">h</span></code> (constant): height</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">Z_t_b_h</span></code> - Z section defined with three variables:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">t</span></code> (variable): profile thickness</li>
+<li><code class="docutils literal"><span class="pre">b</span></code> (variable): flange width</li>
+<li><code class="docutils literal"><span class="pre">h</span></code> (variable): height</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">Z_tf_tw_b_h</span></code> - Z section defined with four variables:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">tf</span></code> (variable): flange thickness</li>
+<li><code class="docutils literal"><span class="pre">tw</span></code> (variable): web thickness</li>
+<li><code class="docutils literal"><span class="pre">b</span></code> (variable): flange width</li>
+<li><code class="docutils literal"><span class="pre">h</span></code> (variable): height</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">B_t</span></code> - Blade section defined with one variable:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">t</span></code> (variable): thickness</li>
+<li><code class="docutils literal"><span class="pre">h</span></code> (constant): height</li>
+<li><code class="docutils literal"><span class="pre">L</span></code> (constant): length</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">B_t_h</span></code> - Blade section defined with two variables:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">t</span></code> (variable): thickness</li>
+<li><code class="docutils literal"><span class="pre">h</span></code> (variable): height</li>
+<li><code class="docutils literal"><span class="pre">L</span></code> (constant): length</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p class="last">The stringer&#8217;s attributes will vary from one <code class="docutils literal"><span class="pre">profile</span></code> to another.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#structMan.ses.stringer.Stringer.constrain_buckling" title="structMan.ses.stringer.Stringer.constrain_buckling"><code class="xref py py-obj docutils literal"><span class="pre">constrain_buckling</span></code></a>([method,&nbsp;ms])</td>
+<td>Add a buckling constraint</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">create_dvars</span></code>()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="structMan.ses.stringer.Stringer.constrain_buckling">
+<code class="descname">constrain_buckling</code><span class="sig-paren">(</span><em>method=1</em>, <em>ms=0.1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/structMan/ses/stringer.html#Stringer.constrain_buckling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.stringer.Stringer.constrain_buckling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a buckling constraint</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>method</strong> : int, optional</p>
+<blockquote>
+<div><p>Select one of the following methods for buckling calculation:</p>
+<p>For <code class="docutils literal"><span class="pre">profile</span></code>  in [&#8216;Z_t&#8217;, &#8216;Z_t_b&#8217; or &#8216;Z_t_b_h&#8217;]:</p>
+<ul>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">1</span></code> <span class="classifier-delimiter">:</span> <span class="classifier">Bruhn&#8217;s method for Channel- and Z-section stiffeners. From</span></dt>
+<dd><p class="first last">Fig. C6.4 for <code class="docutils literal"><span class="pre">tw=tf</span></code> (thickness web = thickness flange)
+- considers only compressive loads
+- no plasticity correction has been implemented</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>For <code class="docutils literal"><span class="pre">profile</span></code>  in [&#8216;B_t&#8217;, &#8216;B_t_h&#8217;]:</p>
+<ul>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">1</span></code> <span class="classifier-delimiter">:</span> <span class="classifier">Bruhn&#8217;s method for combined shear and compression, from</span></dt>
+<dd><p class="first">Chapter C5.11.
+- disconsiders bending effects
+- assumes 3 edges simply supported with one free unloaded</p>
+<blockquote>
+<div><p>edge.</p>
+</div></blockquote>
+<ul class="last simple">
+<li>no plasticity correction has been implemented</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p><strong>ms</strong> : float, optional</p>
+<blockquote class="last">
+<div><p>Minimum margin of safety to be used as constraint.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Method 1) uses Bruhn&#8217;s method described in Chapter 6, Fig. C6.4</p>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -3187,7 +3480,7 @@ a sufix to prevent repeated keys.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#model-structman-model">Model (<code class="docutils literal"><span class="pre">structMan.model</span></code>)</a></li>
-<li><a class="reference internal" href="#structural-elements-ses-structman-ses">Structural Elements - SEs (<code class="docutils literal"><span class="pre">structMan.ses</span></code>)</a><ul>
+<li><a class="reference internal" href="#module-structMan.ses.ses">Structural Elements - SEs (<code class="docutils literal"><span class="pre">structMan.ses</span></code>)</a><ul>
 </ul>
 </li>
 <li><a class="reference internal" href="#structural-assemblies-sas-structman-sas">Structural Assemblies - SAs (<code class="docutils literal"><span class="pre">structMan.sas</span></code>)</a></li>

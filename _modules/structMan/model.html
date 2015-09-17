@@ -82,7 +82,7 @@
 
 
 
-<div class="viewcode-block" id="Model"><a class="viewcode-back" href="../../lib_python.html#structMan.model.Model">[docs]</a><span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Model"><a class="viewcode-back" href="../../model.html#structMan.model.Model">[docs]</a><span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Model&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bdf</span> <span class="o">=</span> <span class="bp">None</span>
@@ -151,6 +151,15 @@
         <span class="n">frames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">frames</span>
         <span class="n">stiffenedpanels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stiffenedpanels</span>
 
+        <span class="c"># reading bulk data file</span>
+        <span class="n">bdf</span> <span class="o">=</span> <span class="n">BDF</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bdf</span> <span class="o">=</span> <span class="n">bdf</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bdfpath</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&#39;Model.bdfpath must be defined!&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="n">bdf</span><span class="o">.</span><span class="n">read_bdf</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bdfpath</span><span class="p">)</span>
+        <span class="n">treat_bdf_subcases</span><span class="p">(</span><span class="n">bdf</span><span class="p">)</span>
+
         <span class="c"># reading structural elements</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sefile</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">print</span><span class="p">(</span><span class="s">&#39;Model.sefile must be defined!&#39;</span><span class="p">)</span>
@@ -174,8 +183,7 @@
             <span class="n">eids</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">fields</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">))</span>
 
             <span class="n">container</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sename</span> <span class="o">+</span> <span class="s">&#39;s&#39;</span><span class="p">)</span>
-            <span class="n">se</span> <span class="o">=</span> <span class="n">seClass</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">eids</span><span class="p">)</span>
-            <span class="n">se</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="bp">self</span>
+            <span class="n">se</span> <span class="o">=</span> <span class="n">seClass</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">eids</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
             <span class="n">container</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">se</span>
 
         <span class="c"># reading structural assemblies</span>
@@ -212,51 +220,8 @@
             <span class="k">if</span> <span class="n">saname</span> <span class="o">==</span> <span class="s">&#39;stiffenedpanelassembly&#39;</span><span class="p">:</span>
                 <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">n3</span><span class="p">,</span> <span class="n">n4</span><span class="p">,</span> <span class="n">n5</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">strip</span><span class="p">,</span> <span class="n">fields</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">))</span>
                 <span class="n">stiffenedpanels</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">saClass</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">panels</span><span class="p">[</span><span class="n">n1</span><span class="p">],</span> <span class="n">frames</span><span class="p">[</span><span class="n">n2</span><span class="p">],</span>
-                        <span class="n">frames</span><span class="p">[</span><span class="n">n3</span><span class="p">],</span> <span class="n">stringers</span><span class="p">[</span><span class="n">n4</span><span class="p">],</span> <span class="n">stringers</span><span class="p">[</span><span class="n">n5</span><span class="p">])</span>
-
-        <span class="n">bdf</span> <span class="o">=</span> <span class="n">BDF</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bdf</span> <span class="o">=</span> <span class="n">bdf</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bdfpath</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s">&#39;Model.bdfpath must be defined!&#39;</span><span class="p">)</span>
-            <span class="k">return</span>
-        <span class="n">bdf</span><span class="o">.</span><span class="n">read_bdf</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bdfpath</span><span class="p">)</span>
-        <span class="n">treat_bdf_subcases</span><span class="p">(</span><span class="n">bdf</span><span class="p">)</span>
-
-
-        <span class="k">print</span><span class="p">(</span><span class="s">&#39;Building panels...&#39;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">panels</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-            <span class="n">p</span><span class="o">.</span><span class="n">elements</span> <span class="o">=</span> <span class="p">[</span><span class="n">bdf</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="n">eid</span><span class="p">]</span> <span class="k">for</span> <span class="n">eid</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">eids</span><span class="p">]</span>
-
-            <span class="c"># finding corner nodes</span>
-            <span class="c"># assuming that they are those that share only one inner element</span>
-            <span class="n">nodes</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">elements</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">element</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
-                    <span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
-            <span class="n">p</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
-            <span class="n">ccoords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">n</span><span class="o">.</span><span class="n">xyz</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">nodes</span><span class="p">])</span>
-            <span class="n">xs</span> <span class="o">=</span> <span class="n">ccoords</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
-            <span class="n">ys</span> <span class="o">=</span> <span class="n">ccoords</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
-            <span class="n">zs</span> <span class="o">=</span> <span class="n">ccoords</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span>
-            <span class="n">rs</span> <span class="o">=</span> <span class="p">(</span><span class="n">ys</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">zs</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span>
-            <span class="n">thetas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">zs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>
-            <span class="n">p</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="n">xs</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">xs</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
-            <span class="n">p</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="p">(</span><span class="n">thetas</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">thetas</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="o">*</span><span class="n">rs</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-
-            <span class="c"># retrieving panel thickness and material properties</span>
-            <span class="n">p</span><span class="o">.</span><span class="n">pid</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Pid</span><span class="p">()</span>
-            <span class="n">p</span><span class="o">.</span><span class="n">thickness</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">elem</span><span class="o">.</span><span class="n">pid</span><span class="o">.</span><span class="n">t</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">elements</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-            <span class="n">p</span><span class="o">.</span><span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">elem</span><span class="o">.</span><span class="n">mid</span><span class="p">()</span><span class="o">.</span><span class="n">e</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">elements</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-            <span class="n">p</span><span class="o">.</span><span class="n">G</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">elem</span><span class="o">.</span><span class="n">mid</span><span class="p">()</span><span class="o">.</span><span class="n">g</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">elements</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-            <span class="n">p</span><span class="o">.</span><span class="n">nu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">elem</span><span class="o">.</span><span class="n">mid</span><span class="p">()</span><span class="o">.</span><span class="n">nu</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">elements</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">&#39;finished!&#39;</span><span class="p">)</span>
-
-        <span class="k">print</span><span class="p">(</span><span class="s">&#39;Building stringers...&#39;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">stringers</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-            <span class="n">s</span><span class="o">.</span><span class="n">elements</span> <span class="o">=</span> <span class="p">[</span><span class="n">bdf</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="n">eid</span><span class="p">]</span> <span class="k">for</span> <span class="n">eid</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">eids</span><span class="p">]</span>
-            <span class="n">setelements</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">elements</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">&#39;finished!&#39;</span><span class="p">)</span>
-</pre></div></div>
+                        <span class="n">frames</span><span class="p">[</span><span class="n">n3</span><span class="p">],</span> <span class="n">stringers</span><span class="p">[</span><span class="n">n4</span><span class="p">],</span> <span class="n">stringers</span><span class="p">[</span><span class="n">n5</span><span class="p">])</span></div>
+</pre></div>
 
           </div>
         </div>

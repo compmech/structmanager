@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Solver cards (structMan.sol200.cards_solver) &mdash; structMan 0.1.0 dev documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.0 dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="structMan 0.1.0 dev documentation" href="../../index.html" />
+    <link rel="up" title="Nastran’s SOL 200" href="__init__.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../structMan_modules.html" >structMan Modules</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../optimization_solvers.html" >Optimization Solvers</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="__init__.html" accesskey="U">Nastran&#8217;s SOL 200</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="module-structMan.sol200.cards_solver"></span><div class="section" id="solver-cards-structman-sol200-cards-solver">
+<h1>Solver cards (<a class="reference internal" href="#module-structMan.sol200.cards_solver" title="structMan.sol200.cards_solver"><code class="xref py py-mod docutils literal"><span class="pre">structMan.sol200.cards_solver</span></code></a>)<a class="headerlink" href="#solver-cards-structman-sol200-cards-solver" title="Permalink to this headline">¶</a></h1>
+<p>Many input cards related to the finite element solver are wrapped in this
+module.</p>
+<dl class="class">
+<dt id="structMan.sol200.cards_solver.PBARL">
+<em class="property">class </em><code class="descclassname">structMan.sol200.cards_solver.</code><code class="descname">PBARL</code><span class="sig-paren">(</span><em>id</em>, <em>mid</em>, <em>library</em>, <em>type</em>, <em>d_list</em>, <em>nsm=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/structMan/sol200/cards_solver.html#PBARL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_solver.PBARL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="sol200.html#structMan.sol200.sol200.SOL200" title="structMan.sol200.sol200.SOL200"><code class="xref py py-class docutils literal"><span class="pre">structMan.sol200.sol200.SOL200</span></code></a></p>
+<p>Pre-defined sections for bar elements</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">id</span></code></td>
+<td><code class="docutils literal"><span class="pre">int</span></code> - property id</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">mid</span></code></td>
+<td><code class="docutils literal"><span class="pre">int</span></code> - material id</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">library</span></code></td>
+<td><code class="docutils literal"><span class="pre">str</span></code> - the default library used to calculate the section
+properties (<code class="docutils literal"><span class="pre">'CSLIB1'</span></code>, etc)</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">d_list</span></code></td>
+<td><code class="docutils literal"><span class="pre">list</span></code> - design variables</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">type</span></code></td>
+<td><code class="docutils literal"><span class="pre">str</span></code> - section type (<code class="docutils literal"><span class="pre">'RECT'</span></code>, etc)</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">nsm</span></code></td>
+<td><code class="docutils literal"><span class="pre">float</span></code> - non-structural mass in [mass unit]/[metric unit]</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">constrain_pbar</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">constrain_pshell</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">constrain_two_vars</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">create_dobj</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">pickle_dump</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">pickle_load</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">print_card</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">print_model</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">reset_newprops</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">set_output_file</span></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="structMan.sol200.cards_solver.PBARL.print_card">
+<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/structMan/sol200/cards_solver.html#PBARL.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_solver.PBARL.print_card" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints the corresponding input card</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>file</strong> : file</p>
+<blockquote class="last">
+<div><p>File object with a <code class="xref py py-meth docutils literal"><span class="pre">write()</span></code> method.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/optimization_solvers/sol200/cards_solver.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../structMan_modules.html" >structMan Modules</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../optimization_solvers.html" >Optimization Solvers</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="__init__.html" >Nastran&#8217;s SOL 200</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Saullo Castro.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

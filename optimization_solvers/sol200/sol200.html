@@ -1,0 +1,400 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>SOL200 optimization model (structMan.sol200.sol200) &mdash; structMan 0.1.0 dev documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.0 dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="structMan 0.1.0 dev documentation" href="../../index.html" />
+    <link rel="up" title="Nastran’s SOL 200" href="__init__.html" />
+    <link rel="prev" title="Nastran’s SOL 200" href="__init__.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="__init__.html" title="Nastran’s SOL 200"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../structMan_modules.html" >structMan Modules</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../optimization_solvers.html" >Optimization Solvers</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="__init__.html" accesskey="U">Nastran&#8217;s SOL 200</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="module-structMan.sol200.sol200"></span><div class="section" id="sol200-optimization-model-structman-sol200-sol200">
+<h1>SOL200 optimization model (<a class="reference internal" href="#module-structMan.sol200.sol200" title="structMan.sol200.sol200"><code class="xref py py-mod docutils literal"><span class="pre">structMan.sol200.sol200</span></code></a>)<a class="headerlink" href="#sol200-optimization-model-structman-sol200-sol200" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="structMan.sol200.sol200.SOL200">
+<em class="property">class </em><code class="descclassname">structMan.sol200.sol200.</code><code class="descname">SOL200</code><a class="reference internal" href="../../_modules/structMan/sol200/sol200.html#SOL200"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.sol200.SOL200" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>SOL200 optimization model</p>
+<p>This class corresponds to an optimization model.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">dobj</span></code></td>
+<td><code class="xref py py-class docutils literal"><span class="pre">DESOBJ</span></code> object</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">dvprels</span></code></td>
+<td><code class="docutils literal"><span class="pre">dict</span></code> of <a class="reference internal" href="cards_opt.html#structMan.sol200.cards_opt.DVPREL1" title="structMan.sol200.cards_opt.DVPREL1"><code class="xref py py-class docutils literal"><span class="pre">DVPREL1</span></code></a> and <a class="reference internal" href="cards_opt.html#structMan.sol200.cards_opt.DVPREL2" title="structMan.sol200.cards_opt.DVPREL2"><code class="xref py py-class docutils literal"><span class="pre">DVPREL2</span></code></a>
+objects</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">deqatns</span></code></td>
+<td><code class="docutils literal"><span class="pre">dict</span></code> of <a class="reference internal" href="cards_opt.html#structMan.sol200.cards_opt.DEQATN" title="structMan.sol200.cards_opt.DEQATN"><code class="xref py py-class docutils literal"><span class="pre">DEQATN</span></code></a> objects</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">dtable</span></code></td>
+<td><a class="reference internal" href="../genesis.html#structMan.genesis.cards_opt.DTABLE" title="structMan.genesis.cards_opt.DTABLE"><code class="xref py py-class docutils literal"><span class="pre">DTABLE</span></code></a> that will be created based on the
+<code class="docutils literal"><span class="pre">dtables</span></code> dictionary</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">dtables</span></code></td>
+<td><code class="docutils literal"><span class="pre">dict</span></code> that will be used to build a unique DTABLE</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">dtable_prefixes</span></code></td>
+<td><code class="docutils literal"><span class="pre">dict</span></code> carries IDs to prevent repeated DTABLE
+constants.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">dresps</span></code></td>
+<td><code class="docutils literal"><span class="pre">dict</span></code> of <a class="reference internal" href="cards_opt.html#structMan.sol200.cards_opt.DRESP1" title="structMan.sol200.cards_opt.DRESP1"><code class="xref py py-class docutils literal"><span class="pre">DRESP1</span></code></a>, <a class="reference internal" href="cards_opt.html#structMan.sol200.cards_opt.DRESP2" title="structMan.sol200.cards_opt.DRESP2"><code class="xref py py-class docutils literal"><span class="pre">DRESP2</span></code></a> or
+<a class="reference internal" href="cards_opt.html#structMan.sol200.cards_opt.DRESP3" title="structMan.sol200.cards_opt.DRESP3"><code class="xref py py-class docutils literal"><span class="pre">DRESP3</span></code></a> objects</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">groups</span></code></td>
+<td><code class="docutils literal"><span class="pre">set</span></code> containing the externl subroutines that are used
+in the current optimization model</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">dconstrs</span></code></td>
+<td><code class="docutils literal"><span class="pre">dict</span></code> of <a class="reference internal" href="cards_opt.html#structMan.sol200.cards_opt.DCONSTR" title="structMan.sol200.cards_opt.DCONSTR"><code class="xref py py-class docutils literal"><span class="pre">DCONSTR</span></code></a> objects</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">dvars</span></code></td>
+<td><code class="docutils literal"><span class="pre">dict</span></code> of <a class="reference internal" href="../genesis.html#structMan.genesis.cards_opt.DVAR" title="structMan.genesis.cards_opt.DVAR"><code class="xref py py-class docutils literal"><span class="pre">DVAR</span></code></a> objects</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">dvar_codes</span></code></td>
+<td><dl class="first last docutils">
+<dt><code class="docutils literal"><span class="pre">dict</span></code> classifying the <a class="reference internal" href="../genesis.html#structMan.genesis.cards_opt.DVAR" title="structMan.genesis.cards_opt.DVAR"><code class="xref py py-class docutils literal"><span class="pre">DVAR</span></code></a> objects by</dt>
+<dd>their unique codes</dd>
+</dl>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">dlinks</span></code></td>
+<td><code class="docutils literal"><span class="pre">dict</span></code> of <a class="reference internal" href="../genesis.html#structMan.genesis.cards_opt.DLINK" title="structMan.genesis.cards_opt.DLINK"><code class="xref py py-class docutils literal"><span class="pre">DLINK</span></code></a> objects</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">newprops</span></code></td>
+<td><code class="docutils literal"><span class="pre">dict</span></code> with different NASTRAN cards, see
+<a class="reference internal" href="#structMan.sol200.sol200.SOL200.reset_newprops" title="structMan.sol200.sol200.SOL200.reset_newprops"><code class="xref py py-meth docutils literal"><span class="pre">reset_newprops()</span></code></a></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">nodal_displ</span></code></td>
+<td><code class="docutils literal"><span class="pre">dict</span></code> with the nodal displacements constraints as
+detailed in <a class="reference internal" href="../genesis.html#structMan.genesis.genesis.Genesis.nodal_displ_from_excel" title="structMan.genesis.genesis.Genesis.nodal_displ_from_excel"><code class="xref py py-meth docutils literal"><span class="pre">nodal_displ_from_excel()</span></code></a></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">loads_list</span></code></td>
+<td><code class="docutils literal"><span class="pre">list</span></code> containing the load cases&#8217; ids</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">num_cycles</span></code></td>
+<td><code class="docutils literal"><span class="pre">int</span></code> indicating the number of design cycles</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">outputdir</span></code></td>
+<td><code class="docutils literal"><span class="pre">str</span></code> path to the output directory</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">sol200filepath</span></code></td>
+<td><code class="docutils literal"><span class="pre">str</span></code> path to SOL200&#8217;s output file</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">sol200file</span></code></td>
+<td><code class="docutils literal"><span class="pre">file</span></code> handler to SOL200&#8217;s output file</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#structMan.sol200.sol200.SOL200.constrain_pbar" title="structMan.sol200.sol200.SOL200.constrain_pbar"><code class="xref py py-obj docutils literal"><span class="pre">constrain_pbar</span></code></a>(dcid,&nbsp;pid,&nbsp;name,&nbsp;rtype,&nbsp;...)</td>
+<td>Add constraints to all stress recovery points of a bar property.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#structMan.sol200.sol200.SOL200.constrain_pshell" title="structMan.sol200.sol200.SOL200.constrain_pshell"><code class="xref py py-obj docutils literal"><span class="pre">constrain_pshell</span></code></a>(dcid,&nbsp;pid,&nbsp;eltype,&nbsp;rtype,&nbsp;names)</td>
+<td>Add constraints to the bottom and top faces of a shell property.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#structMan.sol200.sol200.SOL200.constrain_two_vars" title="structMan.sol200.sol200.SOL200.constrain_two_vars"><code class="xref py py-obj docutils literal"><span class="pre">constrain_two_vars</span></code></a>(dcid,&nbsp;var1,&nbsp;var2,&nbsp;maxdiff)</td>
+<td>Constrain two vars in order to keep a maximum relative difference</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#structMan.sol200.sol200.SOL200.create_dobj" title="structMan.sol200.sol200.SOL200.create_dobj"><code class="xref py py-obj docutils literal"><span class="pre">create_dobj</span></code></a>()</td>
+<td>Create the design objective.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">pickle_dump</span></code>(path)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">pickle_load</span></code>(path)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#structMan.sol200.sol200.SOL200.print_model" title="structMan.sol200.sol200.SOL200.print_model"><code class="xref py py-obj docutils literal"><span class="pre">print_model</span></code></a>()</td>
+<td>Print the whole model.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#structMan.sol200.sol200.SOL200.reset_newprops" title="structMan.sol200.sol200.SOL200.reset_newprops"><code class="xref py py-obj docutils literal"><span class="pre">reset_newprops</span></code></a>()</td>
+<td>Reset the dictionary <code class="docutils literal"><span class="pre">newprops</span></code>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#structMan.sol200.sol200.SOL200.set_output_file" title="structMan.sol200.sol200.SOL200.set_output_file"><code class="xref py py-obj docutils literal"><span class="pre">set_output_file</span></code></a>(path)</td>
+<td>Define the data related to the output file.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="structMan.sol200.sol200.SOL200.constrain_pbar">
+<code class="descname">constrain_pbar</code><span class="sig-paren">(</span><em>dcid</em>, <em>pid</em>, <em>name</em>, <em>rtype</em>, <em>eltype</em>, <em>allow_C</em>, <em>allow_T</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/structMan/sol200/sol200.html#SOL200.constrain_pbar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.sol200.SOL200.constrain_pbar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add constraints to all stress recovery points of a bar property.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dcid</strong> : int</p>
+<blockquote>
+<div><p>Design constraint set identification number.</p>
+</div></blockquote>
+<p><strong>pid</strong> : int</p>
+<blockquote>
+<div><p>Property id.</p>
+</div></blockquote>
+<p><strong>name</strong> : str or list</p>
+<blockquote>
+<div><p>The name of the constraint.</p>
+</div></blockquote>
+<p><strong>rtype</strong> : str</p>
+<blockquote>
+<div><p>The type of response. For bar elements it is usually <code class="docutils literal"><span class="pre">'STRESS'</span></code>.</p>
+</div></blockquote>
+<p><strong>eltype</strong> : str</p>
+<blockquote>
+<div><p>The section type: <code class="docutils literal"><span class="pre">'RECT'</span></code>, <code class="docutils literal"><span class="pre">'CIRCLE'</span></code>, etc.</p>
+</div></blockquote>
+<p><strong>allow_C</strong> : float</p>
+<blockquote>
+<div><p>The allowable for compression.</p>
+</div></blockquote>
+<p><strong>allow_T</strong> : float</p>
+<blockquote class="last">
+<div><p>The allowable for tension.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.sol200.sol200.SOL200.constrain_pshell">
+<code class="descname">constrain_pshell</code><span class="sig-paren">(</span><em>dcid</em>, <em>pid</em>, <em>eltype</em>, <em>rtype</em>, <em>names</em>, <em>lallow=None</em>, <em>uallow=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/structMan/sol200/sol200.html#SOL200.constrain_pshell"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.sol200.SOL200.constrain_pshell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add constraints to the bottom and top faces of a shell property.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dcid</strong> : int</p>
+<blockquote>
+<div><p>Design constraint set identification number.</p>
+</div></blockquote>
+<p><strong>pid</strong> : int</p>
+<blockquote>
+<div><p>Property id.</p>
+</div></blockquote>
+<p><strong>eltype</strong> : str</p>
+<blockquote>
+<div><p>Element type (&#8216;CQUAD4&#8217;, &#8216;CTRIA3&#8217;, etc).</p>
+</div></blockquote>
+<p><strong>rtype</strong> : str</p>
+<blockquote>
+<div><p>The type of response. For shells it is usually <code class="docutils literal"><span class="pre">'STRESS'</span></code>.</p>
+</div></blockquote>
+<p><strong>names</strong> : str or list of strings</p>
+<blockquote>
+<div><p>The name of the constraint, as in the quick reference guide,
+reproduced in module <code class="xref py py-mod docutils literal"><span class="pre">atd.sol200.output_codes</span></code>.</p>
+</div></blockquote>
+<p><strong>lallow</strong> : float or None, optional</p>
+<blockquote>
+<div><p>Lower bound on the response quantity.</p>
+</div></blockquote>
+<p><strong>uallow</strong> : float or None, optional</p>
+<blockquote class="last">
+<div><p>Upper bound on the response quantity.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.sol200.sol200.SOL200.constrain_two_vars">
+<code class="descname">constrain_two_vars</code><span class="sig-paren">(</span><em>dcid</em>, <em>var1</em>, <em>var2</em>, <em>maxdiff</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/structMan/sol200/sol200.html#SOL200.constrain_two_vars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.sol200.SOL200.constrain_two_vars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constrain two vars in order to keep a maximum relative difference</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dcid</strong> : int</p>
+<blockquote>
+<div><p>Design constraint set identification number.</p>
+</div></blockquote>
+<p><strong>var1, var2</strong> : int or str</p>
+<blockquote>
+<div><p>The variables id (int) or code (str).</p>
+</div></blockquote>
+<p><strong>maxdiff</strong> : float</p>
+<blockquote class="last">
+<div><p>The maximum relative difference that &#8216;var1&#8217; and &#8216;var2&#8217; must
+respect.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.sol200.sol200.SOL200.create_dobj">
+<code class="descname">create_dobj</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/structMan/sol200/sol200.html#SOL200.create_dobj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.sol200.SOL200.create_dobj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the design objective.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.sol200.sol200.SOL200.print_model">
+<code class="descname">print_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/structMan/sol200/sol200.html#SOL200.print_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.sol200.SOL200.print_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the whole model.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.sol200.sol200.SOL200.reset_newprops">
+<code class="descname">reset_newprops</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/structMan/sol200/sol200.html#SOL200.reset_newprops"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.sol200.SOL200.reset_newprops" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the dictionary <code class="docutils literal"><span class="pre">newprops</span></code>.</p>
+<p>This dictionary contains NASTRAN property cards that should be created
+along with the optimization model.</p>
+<p>The supported cards are those corresponding to the classes defined in
+<a class="reference internal" href="cards_solver.html#module-structMan.sol200.cards_solver" title="structMan.sol200.cards_solver"><code class="xref py py-mod docutils literal"><span class="pre">cards_solver</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.sol200.sol200.SOL200.set_output_file">
+<code class="descname">set_output_file</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/structMan/sol200/sol200.html#SOL200.set_output_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.sol200.SOL200.set_output_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the data related to the output file.</p>
+<p>The output directory is estimated based on <code class="docutils literal"><span class="pre">path</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>path</strong> : str</p>
+<blockquote class="last">
+<div><p>The full path of the output file.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="__init__.html"
+                        title="previous chapter">Nastran&#8217;s SOL 200</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/optimization_solvers/sol200/sol200.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="__init__.html" title="Nastran’s SOL 200"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../structMan_modules.html" >structMan Modules</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../optimization_solvers.html" >Optimization Solvers</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="__init__.html" >Nastran&#8217;s SOL 200</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Saullo Castro.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

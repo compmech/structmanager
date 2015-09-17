@@ -61,7 +61,7 @@
 <span class="kn">from</span> <span class="nn">cards_solver</span> <span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="Genesis"><a class="viewcode-back" href="../../../lib_python.html#structMan.genesis.genesis.Genesis">[docs]</a><span class="k">class</span> <span class="nc">Genesis</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Genesis"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.genesis.Genesis">[docs]</a><span class="k">class</span> <span class="nc">Genesis</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;GENESIS optimization model</span>
 
 <span class="sd">    This class corresponds to an optimization model.</span>
@@ -119,7 +119,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">datname</span> <span class="o">=</span> <span class="bp">None</span>
 
 
-<div class="viewcode-block" id="Genesis.nodal_displ_from_excel"><a class="viewcode-back" href="../../../lib_python.html#structMan.genesis.genesis.Genesis.nodal_displ_from_excel">[docs]</a>    <span class="k">def</span> <span class="nf">nodal_displ_from_excel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xls_file</span><span class="p">):</span>
+<div class="viewcode-block" id="Genesis.nodal_displ_from_excel"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.genesis.Genesis.nodal_displ_from_excel">[docs]</a>    <span class="k">def</span> <span class="nf">nodal_displ_from_excel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xls_file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Create nodal displacement constraints based on an Excel file.</span>
 
 <span class="sd">        This function reads the xls file with nodal displacement constraints</span>
@@ -288,7 +288,7 @@
                                                       <span class="n">stress_type</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="Genesis.dlinks_from_excel"><a class="viewcode-back" href="../../../lib_python.html#structMan.genesis.genesis.Genesis.dlinks_from_excel">[docs]</a>    <span class="k">def</span> <span class="nf">dlinks_from_excel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xls_file</span><span class="p">):</span>
+<div class="viewcode-block" id="Genesis.dlinks_from_excel"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.genesis.Genesis.dlinks_from_excel">[docs]</a>    <span class="k">def</span> <span class="nf">dlinks_from_excel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xls_file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Read links between variables from an Excel file.</span>
 
 <span class="sd">        The Excel file should have the following format:</span>
@@ -363,7 +363,7 @@
         <span class="n">ex</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
 </div>
-<div class="viewcode-block" id="Genesis.set_output_file"><a class="viewcode-back" href="../../../lib_python.html#structMan.genesis.genesis.Genesis.set_output_file">[docs]</a>    <span class="k">def</span> <span class="nf">set_output_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<div class="viewcode-block" id="Genesis.set_output_file"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.genesis.Genesis.set_output_file">[docs]</a>    <span class="k">def</span> <span class="nf">set_output_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Define the data related to the output file.</span>
 
 <span class="sd">        The output directory is estimated based on `path`.</span>
@@ -398,7 +398,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dvprops</span><span class="p">[</span><span class="n">dvprop</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dvprop</span>
 
 
-<div class="viewcode-block" id="Genesis.print_model"><a class="viewcode-back" href="../../../lib_python.html#structMan.genesis.genesis.Genesis.print_model">[docs]</a>    <span class="k">def</span> <span class="nf">print_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Genesis.print_model"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.genesis.Genesis.print_model">[docs]</a>    <span class="k">def</span> <span class="nf">print_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print the whole model.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -413,7 +413,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">merge_temp_files</span><span class="p">()</span>
 
 </div>
-<div class="viewcode-block" id="Genesis.reset_newprops"><a class="viewcode-back" href="../../../lib_python.html#structMan.genesis.genesis.Genesis.reset_newprops">[docs]</a>    <span class="k">def</span> <span class="nf">reset_newprops</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Genesis.reset_newprops"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.genesis.Genesis.reset_newprops">[docs]</a>    <span class="k">def</span> <span class="nf">reset_newprops</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Reset the dictionary `newprops`.</span>
 
 <span class="sd">        This dictionary contains NASTRAN property cards that should be created</span>
@@ -432,7 +432,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">newprops</span><span class="p">[</span><span class="s">&#39;PCOMP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
 </div>
-<div class="viewcode-block" id="Genesis.create_dvars"><a class="viewcode-back" href="../../../lib_python.html#structMan.genesis.genesis.Genesis.create_dvars">[docs]</a>    <span class="k">def</span> <span class="nf">create_dvars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Genesis.create_dvars"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.genesis.Genesis.create_dvars">[docs]</a>    <span class="k">def</span> <span class="nf">create_dvars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Create the design variables.</span>
 
 <span class="sd">        The method :meth:`.DVPROP3.create_dvar` of each property contained in</span>
@@ -452,7 +452,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">dvar_codes</span><span class="p">[</span><span class="n">dvar</span><span class="o">.</span><span class="n">code</span><span class="p">]</span> <span class="o">=</span> <span class="n">dvar</span>
 
 </div>
-<div class="viewcode-block" id="Genesis.constrain_pshell"><a class="viewcode-back" href="../../../lib_python.html#structMan.genesis.genesis.Genesis.constrain_pshell">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_pshell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">cname</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">allow_C</span><span class="p">,</span> <span class="n">allow_T</span><span class="p">):</span>
+<div class="viewcode-block" id="Genesis.constrain_pshell"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.genesis.Genesis.constrain_pshell">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_pshell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">cname</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">allow_C</span><span class="p">,</span> <span class="n">allow_T</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add constraints to the bottom and top faces of a shell property.</span>
 
 <span class="sd">        Parameters</span>
@@ -532,7 +532,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">dcons</span><span class="p">[</span><span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcons</span>
 
 </div>
-<div class="viewcode-block" id="Genesis.constrain_pbar"><a class="viewcode-back" href="../../../lib_python.html#structMan.genesis.genesis.Genesis.constrain_pbar">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_pbar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">eltype</span><span class="p">,</span> <span class="n">allow_C</span><span class="p">,</span> <span class="n">allow_T</span><span class="p">):</span>
+<div class="viewcode-block" id="Genesis.constrain_pbar"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.genesis.Genesis.constrain_pbar">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_pbar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">eltype</span><span class="p">,</span> <span class="n">allow_C</span><span class="p">,</span> <span class="n">allow_T</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add constraints to all stress recovery points of a bar property.</span>
 
 <span class="sd">        Parameters</span>
@@ -606,7 +606,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">dcons</span><span class="p">[</span><span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcons</span>
 
 </div>
-<div class="viewcode-block" id="Genesis.constrain_two_vars"><a class="viewcode-back" href="../../../lib_python.html#structMan.genesis.genesis.Genesis.constrain_two_vars">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_two_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">,</span> <span class="n">maxdiff</span><span class="p">):</span>
+<div class="viewcode-block" id="Genesis.constrain_two_vars"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.genesis.Genesis.constrain_two_vars">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_two_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">,</span> <span class="n">maxdiff</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constraint two vars in order to keep a maximum relative difference</span>
 
 <span class="sd">        Parameters</span>
@@ -649,7 +649,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dcons</span><span class="p">[</span><span class="n">dresp2</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcons</span>
 
 </div>
-<div class="viewcode-block" id="Genesis.create_dobj"><a class="viewcode-back" href="../../../lib_python.html#structMan.genesis.genesis.Genesis.create_dobj">[docs]</a>    <span class="k">def</span> <span class="nf">create_dobj</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Genesis.create_dobj"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.genesis.Genesis.create_dobj">[docs]</a>    <span class="k">def</span> <span class="nf">create_dobj</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Create the design objective.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -724,7 +724,7 @@
         <span class="n">simx</span><span class="o">.</span><span class="n">export_current_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nastranfile</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="Genesis.merge_temp_files"><a class="viewcode-back" href="../../../lib_python.html#structMan.genesis.genesis.Genesis.merge_temp_files">[docs]</a>    <span class="k">def</span> <span class="nf">merge_temp_files</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Genesis.merge_temp_files"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.genesis.Genesis.merge_temp_files">[docs]</a>    <span class="k">def</span> <span class="nf">merge_temp_files</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Merge the temporary file handlers into the final input file.</span>
 
 <span class="sd">        The file handlers contained in the attributes `genesisfile` and</span>

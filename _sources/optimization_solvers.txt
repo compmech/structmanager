@@ -1,0 +1,11 @@
+Optimization Solvers
+====================
+
+.. automodule:: structMan.genesis
+    :members:
+    :show-inheritance:
+
+.. automodule:: structMan.sol200
+    :members:
+    :show-inheritance:
+

@@ -1,0 +1,582 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Base classes for SEs (structMan.ses.ses) &mdash; structMan 0.1.0 dev documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.0 dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="structMan 0.1.0 dev documentation" href="../index.html" />
+    <link rel="up" title="Structural Elements - SEs (structMan.ses)" href="__init__.html" />
+    <link rel="prev" title="Structural Elements - SEs (structMan.ses)" href="__init__.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="__init__.html" title="Structural Elements - SEs (structMan.ses)"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../structMan_modules.html" >structMan Modules</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="__init__.html" accesskey="U">Structural Elements - SEs (<code class="docutils literal"><span class="pre">structMan.ses</span></code>)</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="module-structMan.ses.ses"></span><div class="section" id="base-classes-for-ses-structman-ses-ses">
+<h1>Base classes for SEs (<a class="reference internal" href="#module-structMan.ses.ses" title="structMan.ses.ses"><code class="xref py py-mod docutils literal"><span class="pre">structMan.ses.ses</span></code></a>)<a class="headerlink" href="#base-classes-for-ses-structman-ses-ses" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="structMan.ses.ses.SE">
+<em class="property">class </em><code class="descclassname">structMan.ses.ses.</code><code class="descname">SE</code><span class="sig-paren">(</span><em>name</em>, <em>eids</em>, <em>model</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/ses/ses.html#SE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.SE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Structural Element</p>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="15%" />
+<col width="70%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>name</td>
+<td>str</td>
+<td>Name.</td>
+</tr>
+<tr class="row-even"><td>eids</td>
+<td>list</td>
+<td>A list containing the elements belonging to this structural element.</td>
+</tr>
+<tr class="row-odd"><td>model</td>
+<td><a class="reference internal" href="../model.html#structMan.model.Model" title="structMan.model.Model"><code class="xref py py-class docutils literal"><span class="pre">Model</span></code></a></td>
+<td>The model containing this SE.</td>
+</tr>
+<tr class="row-even"><td>all_constraints</td>
+<td>list</td>
+<td>A list of strings with all implemented constriants. For each
+constraint &#8216;c&#8217; there must be a method <code class="docutils literal"><span class="pre">self.constrain_c</span></code> that will
+properly handle the creation of each optimization card.</td>
+</tr>
+<tr class="row-odd"><td>constraints</td>
+<td>dict</td>
+<td><p class="first">Only the constraints that should be considered. The dictionary should
+have the format:</p>
+<div class="highlight-python"><div class="highlight"><pre>constraints{&#39;vonMises&#39;: 1, &#39;buckling&#39;: 3}
+</pre></div>
+</div>
+<p class="last">where <code class="docutils literal"><span class="pre">1</span></code> and <code class="docutils literal"><span class="pre">3</span></code> indicate the design constraint set ids for which
+each respective constraint should be applied.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#structMan.ses.ses.SE.add_constraint" title="structMan.ses.ses.SE.add_constraint"><code class="xref py py-obj docutils literal"><span class="pre">add_constraint</span></code></a>(dcid,&nbsp;dresp,&nbsp;lb,&nbsp;ub)</td>
+<td>Add a DCONSTR entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#structMan.ses.ses.SE.add_deqatn" title="structMan.ses.ses.SE.add_deqatn"><code class="xref py py-obj docutils literal"><span class="pre">add_deqatn</span></code></a>(deqatn)</td>
+<td>Add a DEQATN entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#structMan.ses.ses.SE.add_dresp" title="structMan.ses.ses.SE.add_dresp"><code class="xref py py-obj docutils literal"><span class="pre">add_dresp</span></code></a>(dresp)</td>
+<td>Add a DRESP(123) entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#structMan.ses.ses.SE.add_dtable" title="structMan.ses.ses.SE.add_dtable"><code class="xref py py-obj docutils literal"><span class="pre">add_dtable</span></code></a>(key,&nbsp;value)</td>
+<td>Add a DTABLE entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#structMan.ses.ses.SE.add_dvar" title="structMan.ses.ses.SE.add_dvar"><code class="xref py py-obj docutils literal"><span class="pre">add_dvar</span></code></a>(dvar)</td>
+<td>Add a DESVAR entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#structMan.ses.ses.SE.add_dvprel" title="structMan.ses.ses.SE.add_dvprel"><code class="xref py py-obj docutils literal"><span class="pre">add_dvprel</span></code></a>(dvprel)</td>
+<td>Add a DVPREL(12) entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#structMan.ses.ses.SE.get_central_element" title="structMan.ses.ses.SE.get_central_element"><code class="xref py py-obj docutils literal"><span class="pre">get_central_element</span></code></a>()</td>
+<td>Return the element closest to the SE center of gravity</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="structMan.ses.ses.SE.add_constraint">
+<code class="descname">add_constraint</code><span class="sig-paren">(</span><em>dcid</em>, <em>dresp</em>, <em>lb</em>, <em>ub</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/ses/ses.html#SE.add_constraint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.SE.add_constraint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a DCONSTR entry to the SE and the optmodel</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dcid</strong> : int</p>
+<blockquote>
+<div><p>Design constraint set id.</p>
+</div></blockquote>
+<p><strong>dresp</strong> : <code class="xref py py-class docutils literal"><span class="pre">DRESP1</span></code>, <code class="xref py py-class docutils literal"><span class="pre">DRESP2</span></code> or <code class="xref py py-class docutils literal"><span class="pre">DRESP3</span></code></p>
+<blockquote>
+<div><p>The response object.</p>
+</div></blockquote>
+<p><strong>lb</strong> : float or None</p>
+<blockquote>
+<div><p>Lower boundary for the constraint.</p>
+</div></blockquote>
+<p><strong>ub</strong> : float or None</p>
+<blockquote class="last">
+<div><p>Upper boundary for the constraint.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.ses.ses.SE.add_deqatn">
+<code class="descname">add_deqatn</code><span class="sig-paren">(</span><em>deqatn</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/ses/ses.html#SE.add_deqatn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.SE.add_deqatn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a DEQATN entry to the SE and the optmodel</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>deqatn</strong> : <code class="xref py py-class docutils literal"><span class="pre">DEQATN</span></code></p>
+<blockquote class="last">
+<div><p>The equation to be added.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.ses.ses.SE.add_dresp">
+<code class="descname">add_dresp</code><span class="sig-paren">(</span><em>dresp</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/ses/ses.html#SE.add_dresp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.SE.add_dresp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a DRESP(123) entry to the SE and the optmodel</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dresp</strong> : <code class="xref py py-class docutils literal"><span class="pre">DRESP1</span></code>, <code class="xref py py-class docutils literal"><span class="pre">DRESP2</span></code> or <code class="xref py py-class docutils literal"><span class="pre">DRESP3</span></code></p>
+<blockquote class="last">
+<div><p>The response object.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.ses.ses.SE.add_dtable">
+<code class="descname">add_dtable</code><span class="sig-paren">(</span><em>key</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/ses/ses.html#SE.add_dtable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.SE.add_dtable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a DTABLE entry to the SE and the optmodel</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>key</strong> : str</p>
+<blockquote>
+<div><p>The DTABLE unique key. The algorithm automatically attempts to add
+a sufix to prevent repeated keys.</p>
+</div></blockquote>
+<p><strong>value</strong> : float</p>
+<blockquote>
+<div><p>The value corresponding to <code class="docutils literal"><span class="pre">key</span></code>.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>key</strong> : str</p>
+<blockquote class="last">
+<div><p>The resulting key.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.ses.ses.SE.add_dvar">
+<code class="descname">add_dvar</code><span class="sig-paren">(</span><em>dvar</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/ses/ses.html#SE.add_dvar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.SE.add_dvar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a DESVAR entry to the SE and the optmodel</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dvar</strong> : <code class="xref py py-class docutils literal"><span class="pre">DESVAR</span></code></p>
+<blockquote class="last">
+<div><p>Design variable object.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.ses.ses.SE.add_dvprel">
+<code class="descname">add_dvprel</code><span class="sig-paren">(</span><em>dvprel</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/ses/ses.html#SE.add_dvprel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.SE.add_dvprel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a DVPREL(12) entry to the SE and the optmodel</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dvprel</strong> : <code class="xref py py-class docutils literal"><span class="pre">DVPREL1</span></code> or <code class="xref py py-class docutils literal"><span class="pre">DVPREL2</span></code></p>
+<blockquote class="last">
+<div><p>Design property-to-variable object.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.ses.ses.SE.get_central_element">
+<code class="descname">get_central_element</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/ses/ses.html#SE.get_central_element"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.SE.get_central_element" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the element closest to the SE center of gravity</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="structMan.ses.ses.SE1D">
+<em class="property">class </em><code class="descclassname">structMan.ses.ses.</code><code class="descname">SE1D</code><span class="sig-paren">(</span><em>name</em>, <em>eids</em>, <em>model</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/ses/ses.html#SE1D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.SE1D" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#structMan.ses.ses.SE" title="structMan.ses.ses.SE"><code class="xref py py-class docutils literal"><span class="pre">structMan.ses.ses.SE</span></code></a></p>
+<p>Base class for all 1D Structural Elements</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_constraint</span></code>(dcid,&nbsp;dresp,&nbsp;lb,&nbsp;ub)</td>
+<td>Add a DCONSTR entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">add_deqatn</span></code>(deqatn)</td>
+<td>Add a DEQATN entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dresp</span></code>(dresp)</td>
+<td>Add a DRESP(123) entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dtable</span></code>(key,&nbsp;value)</td>
+<td>Add a DTABLE entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dvar</span></code>(dvar)</td>
+<td>Add a DESVAR entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dvprel</span></code>(dvprel)</td>
+<td>Add a DVPREL(12) entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#structMan.ses.ses.SE1D.constrain_stress" title="structMan.ses.ses.SE1D.constrain_stress"><code class="xref py py-obj docutils literal"><span class="pre">constrain_stress</span></code></a>(Fy[,&nbsp;average])</td>
+<td>Add a stress constrain</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#structMan.ses.ses.SE1D.constrain_stress_compression" title="structMan.ses.ses.SE1D.constrain_stress_compression"><code class="xref py py-obj docutils literal"><span class="pre">constrain_stress_compression</span></code></a>(Fcy[,&nbsp;average])</td>
+<td>Add a compressive stress constraint</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#structMan.ses.ses.SE1D.constrain_stress_tension" title="structMan.ses.ses.SE1D.constrain_stress_tension"><code class="xref py py-obj docutils literal"><span class="pre">constrain_stress_tension</span></code></a>(Fty[,&nbsp;average])</td>
+<td>Add a tension stress constraint</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">get_central_element</span></code>()</td>
+<td>Return the element closest to the SE center of gravity</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">read_forces</span></code>()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="structMan.ses.ses.SE1D.constrain_stress">
+<code class="descname">constrain_stress</code><span class="sig-paren">(</span><em>Fy</em>, <em>average=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/ses/ses.html#SE1D.constrain_stress"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.SE1D.constrain_stress" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a stress constrain</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Fy</strong> : float</p>
+<blockquote>
+<div><p>The stress threshold to be used in the constraint. The sign of
+<code class="docutils literal"><span class="pre">Fy</span></code> will determine whether this threshold if for tension or
+compression.</p>
+</div></blockquote>
+<p><strong>average</strong> : bool, optional</p>
+<blockquote class="last">
+<div><p>If False the central element is chosen, otherwise ...
+#TODO not implemented</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.ses.ses.SE1D.constrain_stress_compression">
+<code class="descname">constrain_stress_compression</code><span class="sig-paren">(</span><em>Fcy</em>, <em>average=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/ses/ses.html#SE1D.constrain_stress_compression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.SE1D.constrain_stress_compression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a compressive stress constraint</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Fcy</strong> : float</p>
+<blockquote>
+<div><p>The compression stress threshold to be used in the constraint.</p>
+</div></blockquote>
+<p><strong>average</strong> : bool, optional</p>
+<blockquote class="last">
+<div><p>If False the central element is chosen, otherwise ...
+#TODO not implemented</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.ses.ses.SE1D.constrain_stress_tension">
+<code class="descname">constrain_stress_tension</code><span class="sig-paren">(</span><em>Fty</em>, <em>average=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/ses/ses.html#SE1D.constrain_stress_tension"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.SE1D.constrain_stress_tension" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a tension stress constraint</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Fty</strong> : float</p>
+<blockquote>
+<div><p>The tension stress threshold to be used in the constraint.</p>
+</div></blockquote>
+<p><strong>average</strong> : bool, optional</p>
+<blockquote class="last">
+<div><p>If False the central element is chosen, otherwise ...
+#TODO not implemented</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="structMan.ses.ses.SE2D">
+<em class="property">class </em><code class="descclassname">structMan.ses.ses.</code><code class="descname">SE2D</code><span class="sig-paren">(</span><em>name</em>, <em>eids</em>, <em>model</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/ses/ses.html#SE2D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.SE2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#structMan.ses.ses.SE" title="structMan.ses.ses.SE"><code class="xref py py-class docutils literal"><span class="pre">structMan.ses.ses.SE</span></code></a></p>
+<p>Base class for all 2D Structural Elements</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_constraint</span></code>(dcid,&nbsp;dresp,&nbsp;lb,&nbsp;ub)</td>
+<td>Add a DCONSTR entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">add_deqatn</span></code>(deqatn)</td>
+<td>Add a DEQATN entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dresp</span></code>(dresp)</td>
+<td>Add a DRESP(123) entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dtable</span></code>(key,&nbsp;value)</td>
+<td>Add a DTABLE entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dvar</span></code>(dvar)</td>
+<td>Add a DESVAR entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dvprel</span></code>(dvprel)</td>
+<td>Add a DVPREL(12) entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">get_central_element</span></code>()</td>
+<td>Return the element closest to the SE center of gravity</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">read_forces</span></code>()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="structMan.ses.ses.ShearClipFrame">
+<em class="property">class </em><code class="descclassname">structMan.ses.ses.</code><code class="descname">ShearClipFrame</code><span class="sig-paren">(</span><em>name</em>, <em>eids</em>, <em>model=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/ses/ses.html#ShearClipFrame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.ShearClipFrame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#structMan.ses.ses.SE2D" title="structMan.ses.ses.SE2D"><code class="xref py py-class docutils literal"><span class="pre">structMan.ses.ses.SE2D</span></code></a></p>
+<p>Shear Clip Attachment to Frame</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_constraint</span></code>(dcid,&nbsp;dresp,&nbsp;lb,&nbsp;ub)</td>
+<td>Add a DCONSTR entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">add_deqatn</span></code>(deqatn)</td>
+<td>Add a DEQATN entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dresp</span></code>(dresp)</td>
+<td>Add a DRESP(123) entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dtable</span></code>(key,&nbsp;value)</td>
+<td>Add a DTABLE entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dvar</span></code>(dvar)</td>
+<td>Add a DESVAR entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dvprel</span></code>(dvprel)</td>
+<td>Add a DVPREL(12) entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">get_central_element</span></code>()</td>
+<td>Return the element closest to the SE center of gravity</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">read_forces</span></code>()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="structMan.ses.ses.ShearClipSkin">
+<em class="property">class </em><code class="descclassname">structMan.ses.ses.</code><code class="descname">ShearClipSkin</code><span class="sig-paren">(</span><em>name</em>, <em>eids</em>, <em>model=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/ses/ses.html#ShearClipSkin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.ses.ses.ShearClipSkin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#structMan.ses.ses.SE1D" title="structMan.ses.ses.SE1D"><code class="xref py py-class docutils literal"><span class="pre">structMan.ses.ses.SE1D</span></code></a></p>
+<p>Shear Clip Attachment to Skin</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_constraint</span></code>(dcid,&nbsp;dresp,&nbsp;lb,&nbsp;ub)</td>
+<td>Add a DCONSTR entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">add_deqatn</span></code>(deqatn)</td>
+<td>Add a DEQATN entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dresp</span></code>(dresp)</td>
+<td>Add a DRESP(123) entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dtable</span></code>(key,&nbsp;value)</td>
+<td>Add a DTABLE entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dvar</span></code>(dvar)</td>
+<td>Add a DESVAR entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dvprel</span></code>(dvprel)</td>
+<td>Add a DVPREL(12) entry to the SE and the optmodel</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">constrain_stress</span></code>(Fy[,&nbsp;average])</td>
+<td>Add a stress constrain</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">constrain_stress_compression</span></code>(Fcy[,&nbsp;average])</td>
+<td>Add a compressive stress constraint</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">constrain_stress_tension</span></code>(Fty[,&nbsp;average])</td>
+<td>Add a tension stress constraint</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">get_central_element</span></code>()</td>
+<td>Return the element closest to the SE center of gravity</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">read_forces</span></code>()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="__init__.html"
+                        title="previous chapter">Structural Elements - SEs (<code class="docutils literal"><span class="pre">structMan.ses</span></code>)</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/ses/ses.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="__init__.html" title="Structural Elements - SEs (structMan.ses)"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../structMan_modules.html" >structMan Modules</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="__init__.html" >Structural Elements - SEs (<code class="docutils literal"><span class="pre">structMan.ses</span></code>)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Saullo Castro.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

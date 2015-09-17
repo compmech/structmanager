@@ -1,0 +1,1477 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Genesis (structMan.genesis) &mdash; structMan 0.1.0 dev documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.0 dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="structMan 0.1.0 dev documentation" href="../index.html" />
+    <link rel="up" title="Optimization Solvers" href="optimization_solvers.html" />
+    <link rel="prev" title="Optimization Solvers" href="optimization_solvers.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="optimization_solvers.html" title="Optimization Solvers"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../structMan_modules.html" >structMan Modules</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="optimization_solvers.html" accesskey="U">Optimization Solvers</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="module-structMan.genesis"></span><div class="section" id="genesis-structman-genesis">
+<h1>Genesis (<a class="reference internal" href="#module-structMan.genesis" title="structMan.genesis"><code class="xref py py-mod docutils literal"><span class="pre">structMan.genesis</span></code></a>)<a class="headerlink" href="#genesis-structman-genesis" title="Permalink to this headline">¶</a></h1>
+<p>This module contains useful functions for exporting optimization models to
+GENESIS.</p>
+<span class="target" id="module-structMan.genesis.genesis"></span><dl class="class">
+<dt id="structMan.genesis.genesis.Genesis">
+<em class="property">class </em><code class="descclassname">structMan.genesis.genesis.</code><code class="descname">Genesis</code><a class="reference internal" href="../_modules/structMan/genesis/genesis.html#Genesis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.genesis.Genesis" title="Permalink to this definition">¶</a></dt>
+<dd><p>GENESIS optimization model</p>
+<p>This class corresponds to an optimization model.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">dvprops</span></code></td>
+<td><code class="docutils literal"><span class="pre">dict</span></code> of <a class="reference internal" href="#structMan.genesis.cards_opt.DVPROP3" title="structMan.genesis.cards_opt.DVPROP3"><code class="xref py py-class docutils literal"><span class="pre">DVPROP3</span></code></a> objects</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">deqatns</span></code></td>
+<td><code class="docutils literal"><span class="pre">dict</span></code> of <a class="reference internal" href="sol200/cards_opt.html#structMan.sol200.cards_opt.DEQATN" title="structMan.sol200.cards_opt.DEQATN"><code class="xref py py-class docutils literal"><span class="pre">DEQATN</span></code></a> objects</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">dtables</span></code></td>
+<td><code class="docutils literal"><span class="pre">dict</span></code> of <a class="reference internal" href="#structMan.genesis.cards_opt.DTABLE" title="structMan.genesis.cards_opt.DTABLE"><code class="xref py py-class docutils literal"><span class="pre">DTABLE</span></code></a></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">dresps</span></code></td>
+<td><code class="docutils literal"><span class="pre">dict</span></code> of <a class="reference internal" href="sol200/cards_opt.html#structMan.sol200.cards_opt.DRESP1" title="structMan.sol200.cards_opt.DRESP1"><code class="xref py py-class docutils literal"><span class="pre">DRESP1</span></code></a> or <a class="reference internal" href="#structMan.genesis.cards_opt.DRESP23" title="structMan.genesis.cards_opt.DRESP23"><code class="xref py py-class docutils literal"><span class="pre">DRESP23</span></code></a>
+objects</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">dcons</span></code></td>
+<td><code class="docutils literal"><span class="pre">dict</span></code> of <a class="reference internal" href="#structMan.genesis.cards_opt.DCONS" title="structMan.genesis.cards_opt.DCONS"><code class="xref py py-class docutils literal"><span class="pre">DCONS</span></code></a> objects</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">dvars</span></code></td>
+<td><code class="docutils literal"><span class="pre">dict</span></code> of <a class="reference internal" href="#structMan.genesis.cards_opt.DVAR" title="structMan.genesis.cards_opt.DVAR"><code class="xref py py-class docutils literal"><span class="pre">DVAR</span></code></a> objects</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">dvar_codes</span></code></td>
+<td><dl class="first last docutils">
+<dt><code class="docutils literal"><span class="pre">dict</span></code> classifying the <a class="reference internal" href="#structMan.genesis.cards_opt.DVAR" title="structMan.genesis.cards_opt.DVAR"><code class="xref py py-class docutils literal"><span class="pre">DVAR</span></code></a> objects by</dt>
+<dd>their unique codes</dd>
+</dl>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">dlinks</span></code></td>
+<td><code class="docutils literal"><span class="pre">dict</span></code> of <a class="reference internal" href="#structMan.genesis.cards_opt.DLINK" title="structMan.genesis.cards_opt.DLINK"><code class="xref py py-class docutils literal"><span class="pre">DLINK</span></code></a> objects</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">newprops</span></code></td>
+<td><dl class="first last docutils">
+<dt><code class="docutils literal"><span class="pre">dict</span></code> with different NASTRAN cards, see</dt>
+<dd><a class="reference internal" href="#structMan.genesis.genesis.Genesis.reset_newprops" title="structMan.genesis.genesis.Genesis.reset_newprops"><code class="xref py py-meth docutils literal"><span class="pre">reset_newprops()</span></code></a></dd>
+</dl>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">nodal_displ</span></code></td>
+<td><dl class="first last docutils">
+<dt><code class="docutils literal"><span class="pre">dict</span></code> with the nodal displacements constraints as</dt>
+<dd>detailed in <a class="reference internal" href="#structMan.genesis.genesis.Genesis.nodal_displ_from_excel" title="structMan.genesis.genesis.Genesis.nodal_displ_from_excel"><code class="xref py py-meth docutils literal"><span class="pre">nodal_displ_from_excel()</span></code></a></dd>
+</dl>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">loads_list</span></code></td>
+<td><code class="docutils literal"><span class="pre">list</span></code> containing the load cases&#8217; ids</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">spcs_list</span></code></td>
+<td><dl class="first last docutils">
+<dt><code class="docutils literal"><span class="pre">list</span></code> containing the single point constraint id</dt>
+<dd>for each load case</dd>
+</dl>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">num_cycles</span></code></td>
+<td><code class="docutils literal"><span class="pre">int</span></code> indicating the number of design cycles</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">outputdir</span></code></td>
+<td><code class="docutils literal"><span class="pre">str</span></code> path to the output directory</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">genesisfile</span></code></td>
+<td><code class="docutils literal"><span class="pre">file</span></code> handler to GENESIS&#8217;s output file</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">nastranfile</span></code></td>
+<td><code class="docutils literal"><span class="pre">file</span></code> handler to NASTRAN&#8217;s output file</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dvprop</span></code>(*args)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#structMan.genesis.genesis.Genesis.constrain_pbar" title="structMan.genesis.genesis.Genesis.constrain_pbar"><code class="xref py py-obj docutils literal"><span class="pre">constrain_pbar</span></code></a>(pid,&nbsp;name,&nbsp;rtype,&nbsp;eltype,&nbsp;...)</td>
+<td>Add constraints to all stress recovery points of a bar property.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#structMan.genesis.genesis.Genesis.constrain_pshell" title="structMan.genesis.genesis.Genesis.constrain_pshell"><code class="xref py py-obj docutils literal"><span class="pre">constrain_pshell</span></code></a>(pid,&nbsp;cname,&nbsp;rtype,&nbsp;allow_C,&nbsp;...)</td>
+<td>Add constraints to the bottom and top faces of a shell property.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#structMan.genesis.genesis.Genesis.constrain_two_vars" title="structMan.genesis.genesis.Genesis.constrain_two_vars"><code class="xref py py-obj docutils literal"><span class="pre">constrain_two_vars</span></code></a>(var1,&nbsp;var2,&nbsp;maxdiff)</td>
+<td>Constraint two vars in order to keep a maximum relative difference</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#structMan.genesis.genesis.Genesis.create_dobj" title="structMan.genesis.genesis.Genesis.create_dobj"><code class="xref py py-obj docutils literal"><span class="pre">create_dobj</span></code></a>()</td>
+<td>Create the design objective.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#structMan.genesis.genesis.Genesis.create_dvars" title="structMan.genesis.genesis.Genesis.create_dvars"><code class="xref py py-obj docutils literal"><span class="pre">create_dvars</span></code></a>()</td>
+<td>Create the design variables.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">create_topometric_data</span></code>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#structMan.genesis.genesis.Genesis.dlinks_from_excel" title="structMan.genesis.genesis.Genesis.dlinks_from_excel"><code class="xref py py-obj docutils literal"><span class="pre">dlinks_from_excel</span></code></a>(xls_file)</td>
+<td>Read links between variables from an Excel file.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#structMan.genesis.genesis.Genesis.merge_temp_files" title="structMan.genesis.genesis.Genesis.merge_temp_files"><code class="xref py py-obj docutils literal"><span class="pre">merge_temp_files</span></code></a>()</td>
+<td>Merge the temporary file handlers into the final input file.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#structMan.genesis.genesis.Genesis.nodal_displ_from_excel" title="structMan.genesis.genesis.Genesis.nodal_displ_from_excel"><code class="xref py py-obj docutils literal"><span class="pre">nodal_displ_from_excel</span></code></a>(xls_file)</td>
+<td>Create nodal displacement constraints based on an Excel file.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">pickle_dump</span></code>(path)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">pickle_load</span></code>(path)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#structMan.genesis.genesis.Genesis.print_model" title="structMan.genesis.genesis.Genesis.print_model"><code class="xref py py-obj docutils literal"><span class="pre">print_model</span></code></a>()</td>
+<td>Print the whole model.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#structMan.genesis.genesis.Genesis.reset_newprops" title="structMan.genesis.genesis.Genesis.reset_newprops"><code class="xref py py-obj docutils literal"><span class="pre">reset_newprops</span></code></a>()</td>
+<td>Reset the dictionary <code class="docutils literal"><span class="pre">newprops</span></code>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#structMan.genesis.genesis.Genesis.set_output_file" title="structMan.genesis.genesis.Genesis.set_output_file"><code class="xref py py-obj docutils literal"><span class="pre">set_output_file</span></code></a>(path)</td>
+<td>Define the data related to the output file.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">simx_create_output_file</span></code>()</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">simx_export_nastran_file</span></code>()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="structMan.genesis.genesis.Genesis.constrain_pbar">
+<code class="descname">constrain_pbar</code><span class="sig-paren">(</span><em>pid</em>, <em>name</em>, <em>rtype</em>, <em>eltype</em>, <em>allow_C</em>, <em>allow_T</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/genesis.html#Genesis.constrain_pbar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.genesis.Genesis.constrain_pbar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add constraints to all stress recovery points of a bar property.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>pid</strong> : int</p>
+<blockquote>
+<div><p>Property id.</p>
+</div></blockquote>
+<p><strong>name</strong> : str or list</p>
+<blockquote>
+<div><p>The name of the constraint, as described in <code class="xref py py-mod docutils literal"><span class="pre">output_codes</span></code>,
+with only the prefix (<code class="docutils literal"><span class="pre">'Shear'</span></code>, <code class="docutils literal"><span class="pre">'Normal'</span></code>, etc).</p>
+</div></blockquote>
+<p><strong>rtype</strong> : str</p>
+<blockquote>
+<div><p>The type of response. For bar elements it is usually <code class="docutils literal"><span class="pre">'STRESS'</span></code>.</p>
+</div></blockquote>
+<p><strong>eltype</strong> : str</p>
+<blockquote>
+<div><p>The section type: <code class="docutils literal"><span class="pre">'RECT'</span></code>, <code class="docutils literal"><span class="pre">'CIRCLE'</span></code>, etc.</p>
+</div></blockquote>
+<p><strong>allow_C</strong> : float</p>
+<blockquote>
+<div><p>The allowable for compression.</p>
+</div></blockquote>
+<p><strong>allow_T</strong> : float</p>
+<blockquote class="last">
+<div><p>The allowable for tension.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.genesis.genesis.Genesis.constrain_pshell">
+<code class="descname">constrain_pshell</code><span class="sig-paren">(</span><em>pid</em>, <em>cname</em>, <em>rtype</em>, <em>allow_C</em>, <em>allow_T</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/genesis.html#Genesis.constrain_pshell"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.genesis.Genesis.constrain_pshell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add constraints to the bottom and top faces of a shell property.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>pid</strong> : int</p>
+<blockquote>
+<div><p>Property id.</p>
+</div></blockquote>
+<p><strong>cname</strong> : str or list</p>
+<blockquote>
+<div><p>The name of the constraint, as described in <code class="xref py py-mod docutils literal"><span class="pre">output_codes</span></code>,
+without the sufix <code class="docutils literal"><span class="pre">'Bottom'</span></code>  or <code class="docutils literal"><span class="pre">'Top'</span></code>.</p>
+</div></blockquote>
+<p><strong>rtype</strong> : str</p>
+<blockquote>
+<div><p>The type of response. For shells it is usually <code class="docutils literal"><span class="pre">'STRESS'</span></code>.</p>
+</div></blockquote>
+<p><strong>allow_C</strong> : float</p>
+<blockquote>
+<div><p>The allowable for compression.</p>
+</div></blockquote>
+<p><strong>allow_T</strong> : float</p>
+<blockquote class="last">
+<div><p>The allowable for tension.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.genesis.genesis.Genesis.constrain_two_vars">
+<code class="descname">constrain_two_vars</code><span class="sig-paren">(</span><em>var1</em>, <em>var2</em>, <em>maxdiff</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/genesis.html#Genesis.constrain_two_vars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.genesis.Genesis.constrain_two_vars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constraint two vars in order to keep a maximum relative difference</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>var1, var2</strong> : int or str</p>
+<blockquote>
+<div><p>The variables id (int) or code (str).</p>
+</div></blockquote>
+<p><strong>maxdiff</strong> : float</p>
+<blockquote class="last">
+<div><p>The maximum relative difference that &#8216;var1&#8217; and &#8216;var2&#8217; must
+respect.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.genesis.genesis.Genesis.create_dobj">
+<code class="descname">create_dobj</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/genesis.html#Genesis.create_dobj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.genesis.Genesis.create_dobj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the design objective.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.genesis.genesis.Genesis.create_dvars">
+<code class="descname">create_dvars</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/genesis.html#Genesis.create_dvars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.genesis.Genesis.create_dvars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the design variables.</p>
+<p>The method <code class="xref py py-meth docutils literal"><span class="pre">DVPROP3.create_dvar()</span></code> of each property contained in
+the dictionary <code class="docutils literal"><span class="pre">dvprops</span></code> is called.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.genesis.genesis.Genesis.dlinks_from_excel">
+<code class="descname">dlinks_from_excel</code><span class="sig-paren">(</span><em>xls_file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/genesis.html#Genesis.dlinks_from_excel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.genesis.Genesis.dlinks_from_excel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read links between variables from an Excel file.</p>
+<p>The Excel file should have the following format:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="10%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">.</th>
+<th class="head">col j</th>
+<th class="head">col j+1</th>
+<th class="head">col j+2</th>
+<th class="head">col j+3</th>
+<th class="head">col j+4</th>
+<th class="head">col j+5</th>
+<th class="head">col j+6</th>
+<th class="head">col j+7</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>row i</td>
+<td>DLINK</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>row i+1</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>row i+2</td>
+<td>dvar</td>
+<td>c0</td>
+<td>c</td>
+<td>ivar1</td>
+<td>c1</td>
+<td>ivar2</td>
+<td>c2</td>
+<td>...</td>
+</tr>
+<tr class="row-odd"><td>row i+3</td>
+<td>LP.1.1</td>
+<td><ol class="first last arabic simple" start="0">
+<li></li>
+</ol>
+</td>
+<td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+<td>LS.1.1</td>
+<td>0.4</td>
+<td>LS.1.2</td>
+<td>0.6</td>
+<td>...</td>
+</tr>
+</tbody>
+</table>
+<p>where the relative position between the cell with <code class="docutils literal"><span class="pre">DLINK</span></code> and the
+others must be held.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>xls_file</strong> : str</p>
+<blockquote class="last">
+<div><p>The full path of the Excel file.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.genesis.genesis.Genesis.merge_temp_files">
+<code class="descname">merge_temp_files</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/genesis.html#Genesis.merge_temp_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.genesis.Genesis.merge_temp_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge the temporary file handlers into the final input file.</p>
+<p>The file handlers contained in the attributes <code class="docutils literal"><span class="pre">genesisfile</span></code> and
+<code class="docutils literal"><span class="pre">nastranfile</span></code> are used to write a unique output file given by the
+attribute <code class="docutils literal"><span class="pre">datname</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.genesis.genesis.Genesis.nodal_displ_from_excel">
+<code class="descname">nodal_displ_from_excel</code><span class="sig-paren">(</span><em>xls_file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/genesis.html#Genesis.nodal_displ_from_excel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.genesis.Genesis.nodal_displ_from_excel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create nodal displacement constraints based on an Excel file.</p>
+<p>This function reads the xls file with nodal displacement constraints
+and returns a dictionary with the format:</p>
+<div class="highlight-python"><div class="highlight"><pre>nd = {load_case_id1 : {grid_1 : {output : [minvalue, maxvalue],
+                       grid_2 :  output : [minvalue, maxvalue],
+                       grid_3 :  output : [minvalue, maxvalue]}}
+      load_case_id2 : {grid_1 : {output : [minvalue, maxvalue],
+                       grid_3 :  outout : [minvalue, maxvalue]}}}
+</pre></div>
+</div>
+<p>where <code class="docutils literal"><span class="pre">minvalue</span></code> and <code class="docutils literal"><span class="pre">maxvalue</span></code> are the minimum and maximum
+displacement values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>xls_file</strong> : str</p>
+<blockquote>
+<div><p>The full path to the Excel file.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : str</p>
+<blockquote class="last">
+<div><p>A string with one of the values:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">'Translation</span> <span class="pre">X'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'Translation</span> <span class="pre">Y'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'Translation</span> <span class="pre">Z'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'Rotation</span> <span class="pre">X'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'Rotation</span> <span class="pre">Y'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'Rotation</span> <span class="pre">Z'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'Translation</span> <span class="pre">Total'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'Absolute</span> <span class="pre">X'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'Absolute</span> <span class="pre">Y'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'Absolute</span> <span class="pre">Z'</span></code></li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.genesis.genesis.Genesis.print_model">
+<code class="descname">print_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/genesis.html#Genesis.print_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.genesis.Genesis.print_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the whole model.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.genesis.genesis.Genesis.reset_newprops">
+<code class="descname">reset_newprops</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/genesis.html#Genesis.reset_newprops"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.genesis.Genesis.reset_newprops" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the dictionary <code class="docutils literal"><span class="pre">newprops</span></code>.</p>
+<p>This dictionary contains NASTRAN property cards that should be created
+along with the optimization model.</p>
+<p>The supported cards are those corresponding to the classes defined in
+<a class="reference internal" href="sol200/cards_solver.html#module-structMan.sol200.cards_solver" title="structMan.sol200.cards_solver"><code class="xref py py-mod docutils literal"><span class="pre">cards_solver</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.genesis.genesis.Genesis.set_output_file">
+<code class="descname">set_output_file</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/genesis.html#Genesis.set_output_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.genesis.Genesis.set_output_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the data related to the output file.</p>
+<p>The output directory is estimated based on <code class="docutils literal"><span class="pre">path</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>path</strong> : str</p>
+<blockquote class="last">
+<div><p>The full path of the output file.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-structMan.genesis.cards_opt"></span><div class="section" id="optimization-cards-structman-genesis-cards-opt">
+<h2>Optimization cards (<a class="reference internal" href="#module-structMan.genesis.cards_opt" title="structMan.genesis.cards_opt"><code class="xref py py-mod docutils literal"><span class="pre">structMan.genesis.cards_opt</span></code></a>)<a class="headerlink" href="#optimization-cards-structman-genesis-cards-opt" title="Permalink to this headline">¶</a></h2>
+<p>Many input cards related to the optimization problem are wrapped in this
+module. The input cards more related to the solver are contained in module
+<a class="reference internal" href="#module-structMan.genesis.cards_solver" title="structMan.genesis.cards_solver"><code class="xref py py-mod docutils literal"><span class="pre">structMan.genesis.cards_solver</span></code></a>.</p>
+<p class="rubric">Classes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#structMan.genesis.cards_opt.DCONS" title="structMan.genesis.cards_opt.DCONS"><code class="xref py py-obj docutils literal"><span class="pre">structMan.genesis.cards_opt.DCONS</span></code></a>(drespid,&nbsp;...)</td>
+<td>Design constraint</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#structMan.genesis.cards_opt.DEQATN" title="structMan.genesis.cards_opt.DEQATN"><code class="xref py py-obj docutils literal"><span class="pre">structMan.genesis.cards_opt.DEQATN</span></code></a>(eq)</td>
+<td>Equation to calculate customized responses</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#structMan.genesis.cards_opt.DLINK" title="structMan.genesis.cards_opt.DLINK"><code class="xref py py-obj docutils literal"><span class="pre">structMan.genesis.cards_opt.DLINK</span></code></a>(dep_var,&nbsp;...)</td>
+<td>Link between design variables</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#structMan.genesis.cards_opt.DOBJ" title="structMan.genesis.cards_opt.DOBJ"><code class="xref py py-obj docutils literal"><span class="pre">structMan.genesis.cards_opt.DOBJ</span></code></a>(drespid)</td>
+<td>Design objective</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#structMan.genesis.cards_opt.DRESP1" title="structMan.genesis.cards_opt.DRESP1"><code class="xref py py-obj docutils literal"><span class="pre">structMan.genesis.cards_opt.DRESP1</span></code></a>(label,&nbsp;...)</td>
+<td>Design response DRESP1</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#structMan.genesis.cards_opt.DRESP2" title="structMan.genesis.cards_opt.DRESP2"><code class="xref py py-obj docutils literal"><span class="pre">structMan.genesis.cards_opt.DRESP2</span></code></a>(label,&nbsp;eqid)</td>
+<td>Design response DRESP2</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#structMan.genesis.cards_opt.DRESP3" title="structMan.genesis.cards_opt.DRESP3"><code class="xref py py-obj docutils literal"><span class="pre">structMan.genesis.cards_opt.DRESP3</span></code></a>(label,&nbsp;libid)</td>
+<td>Design response DRESP3</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#structMan.genesis.cards_opt.DSPLIT" title="structMan.genesis.cards_opt.DSPLIT"><code class="xref py py-obj docutils literal"><span class="pre">structMan.genesis.cards_opt.DSPLIT</span></code></a>(label,&nbsp;...)</td>
+<td>Defines a region for topometry optimization.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#structMan.genesis.cards_opt.DTABLE" title="structMan.genesis.cards_opt.DTABLE"><code class="xref py py-obj docutils literal"><span class="pre">structMan.genesis.cards_opt.DTABLE</span></code></a>([input_dict])</td>
+<td>Design Table used to define many constants</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#structMan.genesis.cards_opt.DVAR" title="structMan.genesis.cards_opt.DVAR"><code class="xref py py-obj docutils literal"><span class="pre">structMan.genesis.cards_opt.DVAR</span></code></a>(label,&nbsp;...)</td>
+<td>Design Variable</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#structMan.genesis.cards_opt.DVPROP3" title="structMan.genesis.cards_opt.DVPROP3"><code class="xref py py-obj docutils literal"><span class="pre">structMan.genesis.cards_opt.DVPROP3</span></code></a>(...[,&nbsp;...])</td>
+<td>Design Variable-to-Property relation</td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="structMan.genesis.cards_opt.DCONS">
+<em class="property">class </em><code class="descclassname">structMan.genesis.cards_opt.</code><code class="descname">DCONS</code><span class="sig-paren">(</span><em>drespid</em>, <em>lid_lb_ub</em>, <em>stress_type</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/cards_opt.html#DCONS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_opt.DCONS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Design constraint</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">print_card</span></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="structMan.genesis.cards_opt.DCONS.print_card">
+<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/cards_opt.html#DCONS.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_opt.DCONS.print_card" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the corresponding input card</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>file</strong> : file</p>
+<blockquote class="last">
+<div><p>File object with a <code class="xref py py-meth docutils literal"><span class="pre">write()</span></code> method.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="structMan.genesis.cards_opt.DEQATN">
+<em class="property">class </em><code class="descclassname">structMan.genesis.cards_opt.</code><code class="descname">DEQATN</code><span class="sig-paren">(</span><em>eq</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/cards_opt.html#DEQATN"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_opt.DEQATN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Equation to calculate customized responses</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>eq</strong> : str</p>
+<blockquote class="last">
+<div><p>A string containing the equation. For example, the following equation:</p>
+<div class="math">
+\[T(x_1, x_2, x_3) = \sqrt{x_1^2 + x_2^2 + x_3^2}\]</div>
+<p>can be written as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">eq</span> <span class="o">=</span> <span class="s">&#39;T(x1,x2,x3)=SQRT(x1**2+x2**2+x3**2)&#39;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <a class="reference internal" href="sol200/cards_opt.html#structMan.sol200.cards_opt.DEQATN.print_card" title="structMan.sol200.cards_opt.DEQATN.print_card"><code class="xref py py-meth docutils literal"><span class="pre">DEQATN.print_card()</span></code></a> method will split the
+equation, when necessary, in order to keep the limit length up to
+62 characters in the first line, and 70 characters for the
+subsequent lines.</p>
+</div>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">print_card</span></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="structMan.genesis.cards_opt.DEQATN.print_card">
+<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/cards_opt.html#DEQATN.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_opt.DEQATN.print_card" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the corresponding input card</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>file</strong> : file</p>
+<blockquote class="last">
+<div><p>File object with a <code class="xref py py-meth docutils literal"><span class="pre">write()</span></code> method.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="structMan.genesis.cards_opt.DLINK">
+<em class="property">class </em><code class="descclassname">structMan.genesis.cards_opt.</code><code class="descname">DLINK</code><span class="sig-paren">(</span><em>dep_var</em>, <em>dvi_ci</em>, <em>c0=0.0</em>, <em>cmult=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/cards_opt.html#DLINK"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_opt.DLINK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Link between design variables</p>
+<p>DLINK creates links among variables using the form:</p>
+<div class="math">
+\[dvar_{dependent} = c_0 + c_{mult} \times (c_1 \times {dvar}_1
+                                        + c_2 \times {dvar}_2)\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">dvar_{dependent}</span></code> is the dependent variable</li>
+<li><code class="docutils literal"><span class="pre">{dvar}_i</span></code> the <code class="docutils literal"><span class="pre">i^{th}</span></code> design variable</li>
+<li><code class="docutils literal"><span class="pre">c_0</span></code> is a constant</li>
+<li><code class="docutils literal"><span class="pre">c_{mult}</span></code> is a common multiplier</li>
+<li><code class="docutils literal"><span class="pre">c_i</span></code> is an individual multiplier for <code class="docutils literal"><span class="pre">{dvar}_i</span></code></li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>ddvid</strong> : int</p>
+<blockquote>
+<div><p>Dependent design variable identification number.</p>
+</div></blockquote>
+<p><strong>c0</strong> : float</p>
+<blockquote>
+<div><p>Constant term.</p>
+</div></blockquote>
+<p><strong>cmult</strong> : float</p>
+<blockquote>
+<div><p>Constant multiplier.</p>
+</div></blockquote>
+<p><strong>idvs</strong> : list</p>
+<blockquote>
+<div><p>The independent variables.</p>
+</div></blockquote>
+<p><strong>cs</strong> : list</p>
+<blockquote class="last">
+<div><p>The multipliers for each variable.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Be sure that no dependent variables are being used as independent
+variables.</p>
+<p>By default <code class="docutils literal"><span class="pre">c0</span> <span class="pre">=</span> <span class="pre">0</span></code> and <code class="docutils literal"><span class="pre">cmult</span> <span class="pre">=</span> <span class="pre">1</span></code>.</p>
+<p>The values of <code class="docutils literal"><span class="pre">dvi</span></code> and <code class="docutils literal"><span class="pre">ci</span></code> are inputed as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">indep_dv_c</span> <span class="o">=</span> <span class="p">[</span><span class="n">dv1</span><span class="p">,</span> <span class="n">c1</span><span class="p">,</span> <span class="n">dv2</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+<span class="n">indep_dv_c</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1000000</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mi">1000001</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">print_card</span></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="structMan.genesis.cards_opt.DLINK.print_card">
+<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/cards_opt.html#DLINK.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_opt.DLINK.print_card" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the corresponding input card</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>file</strong> : file</p>
+<blockquote class="last">
+<div><p>File object with a <code class="xref py py-meth docutils literal"><span class="pre">write()</span></code> method.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="structMan.genesis.cards_opt.DOBJ">
+<em class="property">class </em><code class="descclassname">structMan.genesis.cards_opt.</code><code class="descname">DOBJ</code><span class="sig-paren">(</span><em>drespid</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/cards_opt.html#DOBJ"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_opt.DOBJ" title="Permalink to this definition">¶</a></dt>
+<dd><p>Design objective</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">defaults</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">print_card</span></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="structMan.genesis.cards_opt.DOBJ.print_card">
+<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/cards_opt.html#DOBJ.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_opt.DOBJ.print_card" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the corresponding input card</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>file</strong> : file</p>
+<blockquote class="last">
+<div><p>File object with a <code class="xref py py-meth docutils literal"><span class="pre">write()</span></code> method.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="structMan.genesis.cards_opt.DRESP1">
+<em class="property">class </em><code class="descclassname">structMan.genesis.cards_opt.</code><code class="descname">DRESP1</code><span class="sig-paren">(</span><em>label</em>, <em>rtype</em>, <em>ptype</em>, <em>region</em>, <em>atta</em>, <em>atti</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/cards_opt.html#DRESP1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_opt.DRESP1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Design response DRESP1</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>label</strong> : str</p>
+<blockquote>
+<div><p>User defined label.</p>
+</div></blockquote>
+<p><strong>rtype</strong> : str</p>
+<blockquote>
+<div><p>Response type (&#8216;DISP&#8217;, &#8216;STRESS&#8217;, &#8216;FREQ&#8217; etc).</p>
+</div></blockquote>
+<p><strong>ptype</strong> : str</p>
+<blockquote>
+<div><p>If <code class="docutils literal"><span class="pre">ptype='ELEM'</span></code> the ATTi are element IDs, if <code class="docutils literal"><span class="pre">ptype='PSHELL'</span></code> etc
+the ATTi are property IDs (see design manual for more info).</p>
+</div></blockquote>
+<p><strong>region</strong> : int</p>
+<blockquote>
+<div><p>Region identifier for constraint screening.</p>
+</div></blockquote>
+<p><strong>atta</strong> : int</p>
+<blockquote>
+<div><p>Displacement component number, item number or eigenvector component.</p>
+</div></blockquote>
+<p><strong>atti</strong> : list</p>
+<blockquote class="last">
+<div><p>Grid, spoint, field point, property, element or material ids.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">print_card</span></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="structMan.genesis.cards_opt.DRESP1.print_card">
+<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/cards_opt.html#DRESP1.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_opt.DRESP1.print_card" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the corresponding input card</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="structMan.genesis.cards_opt.DRESP2">
+<em class="property">class </em><code class="descclassname">structMan.genesis.cards_opt.</code><code class="descname">DRESP2</code><span class="sig-paren">(</span><em>label</em>, <em>eqid</em>, <em>region=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/cards_opt.html#DRESP2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_opt.DRESP2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Design response DRESP2</p>
+<p>Define equation responses that are used in the design, either as an
+objective function or as constraints.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>label</strong> : str</p>
+<blockquote>
+<div><p>User-defined label.</p>
+</div></blockquote>
+<p><strong>eqid</strong> : int</p>
+<blockquote>
+<div><p><a class="reference internal" href="sol200/cards_opt.html#structMan.sol200.cards_opt.DEQATN" title="structMan.sol200.cards_opt.DEQATN"><code class="xref py py-class docutils literal"><span class="pre">DEQATN</span></code></a> entry identification number.</p>
+</div></blockquote>
+<p><strong>region</strong> : int or None, optional</p>
+<blockquote class="last">
+<div><p>Region used for constraint screening.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>To add variables, table entries or other <a class="reference internal" href="sol200/cards_opt.html#structMan.sol200.cards_opt.DRESP1" title="structMan.sol200.cards_opt.DRESP1"><code class="xref py py-class docutils literal"><span class="pre">DRESP1</span></code></a> responses use the
+methods: <a class="reference internal" href="../ses/ses.html#structMan.ses.ses.SE.add_dvar" title="structMan.ses.ses.SE.add_dvar"><code class="xref py py-meth docutils literal"><span class="pre">add_dvar()</span></code></a>, <a class="reference internal" href="../ses/ses.html#structMan.ses.ses.SE.add_dtable" title="structMan.ses.ses.SE.add_dtable"><code class="xref py py-meth docutils literal"><span class="pre">add_dtable()</span></code></a> and <code class="xref py py-meth docutils literal"><span class="pre">add_dresp1()</span></code>.</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dresp1</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dtable</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dvar</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">print_aux</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">print_card</span></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="structMan.genesis.cards_opt.DRESP2.print_card">
+<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/cards_opt.html#DRESP2.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_opt.DRESP2.print_card" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the corresponding input card</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>file</strong> : file</p>
+<blockquote class="last">
+<div><p>File object with a <code class="xref py py-meth docutils literal"><span class="pre">write()</span></code> method.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="structMan.genesis.cards_opt.DRESP23">
+<em class="property">class </em><code class="descclassname">structMan.genesis.cards_opt.</code><code class="descname">DRESP23</code><a class="reference internal" href="../_modules/structMan/genesis/cards_opt.html#DRESP23"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_opt.DRESP23" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for DRESP2 and DRESP3</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dresp1</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dtable</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dvar</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">print_aux</span></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="structMan.genesis.cards_opt.DRESP3">
+<em class="property">class </em><code class="descclassname">structMan.genesis.cards_opt.</code><code class="descname">DRESP3</code><span class="sig-paren">(</span><em>label</em>, <em>libid</em>, <em>region=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/cards_opt.html#DRESP3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_opt.DRESP3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Design response DRESP3</p>
+<p>Define use-subroutine or built-in responses that can be used in the design
+either as constraint or as an objective.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>label</strong> : str</p>
+<blockquote>
+<div><p>User-defined label.</p>
+</div></blockquote>
+<p><strong>libid</strong> : int</p>
+<blockquote>
+<div><p>Library identification number or a built-in function name (see design
+manual).</p>
+</div></blockquote>
+<p><strong>region</strong> : int or None, optional</p>
+<blockquote class="last">
+<div><p>Region used for constraint screening.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>To add variables, table entries or other <a class="reference internal" href="sol200/cards_opt.html#structMan.sol200.cards_opt.DRESP1" title="structMan.sol200.cards_opt.DRESP1"><code class="xref py py-class docutils literal"><span class="pre">DRESP1</span></code></a> responses use the
+methods: <a class="reference internal" href="../ses/ses.html#structMan.ses.ses.SE.add_dvar" title="structMan.ses.ses.SE.add_dvar"><code class="xref py py-meth docutils literal"><span class="pre">add_dvar()</span></code></a>, <a class="reference internal" href="../ses/ses.html#structMan.ses.ses.SE.add_dtable" title="structMan.ses.ses.SE.add_dtable"><code class="xref py py-meth docutils literal"><span class="pre">add_dtable()</span></code></a> and <code class="xref py py-meth docutils literal"><span class="pre">add_dresp1()</span></code>.</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dresp1</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dtable</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dvar</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">print_aux</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">print_card</span></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="structMan.genesis.cards_opt.DRESP3.print_card">
+<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/cards_opt.html#DRESP3.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_opt.DRESP3.print_card" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the corresponding input card</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>file</strong> : file</p>
+<blockquote class="last">
+<div><p>File object with a <code class="xref py py-meth docutils literal"><span class="pre">write()</span></code> method.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="structMan.genesis.cards_opt.DSPLIT">
+<em class="property">class </em><code class="descclassname">structMan.genesis.cards_opt.</code><code class="descname">DSPLIT</code><span class="sig-paren">(</span><em>label</em>, <em>ptype</em>, <em>pid</em>, <em>cvalue</em>, <em>cid</em>, <em>manufact_cons_input</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/cards_opt.html#DSPLIT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_opt.DSPLIT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a region for topometry optimization.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>label</strong> : str</p>
+<blockquote>
+<div><p>User defined name for output purposes.</p>
+</div></blockquote>
+<p><strong>ptype</strong> : str</p>
+<blockquote>
+<div><p>Designable region type (&#8216;PROD&#8217;, &#8216;PBAR&#8217;, &#8216;PSHELL&#8217; etc).</p>
+</div></blockquote>
+<p><strong>pid</strong> : int</p>
+<blockquote>
+<div><p>Property identification number.</p>
+</div></blockquote>
+<p><strong>cvalue</strong> : int</p>
+<blockquote>
+<div><p>Desired maximum number of elements per group.</p>
+</div></blockquote>
+<p><strong>cid</strong> : int</p>
+<blockquote>
+<div><p>Coordinate system identification number.</p>
+</div></blockquote>
+<p><strong>manufact_cons_input</strong> : list</p>
+<blockquote class="last">
+<div><p>A list of strings defining the type1, type2 and type3 of fabrication
+constraints.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">defaults</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">manufact_cons</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">print_card</span></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="structMan.genesis.cards_opt.DSPLIT.manufact_cons">
+<code class="descname">manufact_cons</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/cards_opt.html#DSPLIT.manufact_cons"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_opt.DSPLIT.manufact_cons" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create manufacture constraints following GENESIS Design Reference</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.genesis.cards_opt.DSPLIT.print_card">
+<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/cards_opt.html#DSPLIT.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_opt.DSPLIT.print_card" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the corresponding input card</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>file</strong> : file</p>
+<blockquote class="last">
+<div><p>File object with a <code class="xref py py-meth docutils literal"><span class="pre">write()</span></code> method.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="structMan.genesis.cards_opt.DTABLE">
+<em class="property">class </em><code class="descclassname">structMan.genesis.cards_opt.</code><code class="descname">DTABLE</code><span class="sig-paren">(</span><em>input_dict={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/cards_opt.html#DTABLE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_opt.DTABLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Design Table used to define many constants</p>
+<p>Hints:</p>
+<ul class="simple">
+<li>There can be any number of DTABLE entries in the bulk data.</li>
+<li>The user must avoid repeated labels for constants</li>
+<li>The constant label must be &lt;= 8 characters.</li>
+</ul>
+<p>All values for the constants must be of the &#8216;Real&#8217; type.  Ex:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">input_dict</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;c1&#39;</span><span class="p">:</span><span class="mf">1.</span> <span class="p">,</span> <span class="s">&#39;c2&#39;</span><span class="p">:</span><span class="mf">2.</span><span class="p">,</span> <span class="s">&#39;max8char&#39;</span><span class="p">:</span><span class="mf">999.</span><span class="p">}</span>
+</pre></div>
+</div>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">print_card</span></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="structMan.genesis.cards_opt.DTABLE.print_card">
+<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/cards_opt.html#DTABLE.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_opt.DTABLE.print_card" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the corresponding input card</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>file</strong> : file</p>
+<blockquote class="last">
+<div><p>File object with a <code class="xref py py-meth docutils literal"><span class="pre">write()</span></code> method.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="structMan.genesis.cards_opt.DVAR">
+<em class="property">class </em><code class="descclassname">structMan.genesis.cards_opt.</code><code class="descname">DVAR</code><span class="sig-paren">(</span><em>label</em>, <em>init</em>, <em>lb</em>, <em>ub</em>, <em>dvsid</em>, <em>dvprop=None</em>, <em>code=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/cards_opt.html#DVAR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_opt.DVAR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Design Variable</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>label</strong> : str</p>
+<blockquote>
+<div><p>User-supplied name for printing purposes.</p>
+</div></blockquote>
+<p><strong>init</strong> : float</p>
+<blockquote>
+<div><p>Initial value.</p>
+</div></blockquote>
+<p><strong>lb</strong> : float</p>
+<blockquote>
+<div><p>Lower bound.</p>
+</div></blockquote>
+<p><strong>ub</strong> : float</p>
+<blockquote>
+<div><p>Upper bound.</p>
+</div></blockquote>
+<p><strong>dvprop</strong> : <a class="reference internal" href="#structMan.genesis.cards_opt.DVPROP3" title="structMan.genesis.cards_opt.DVPROP3"><code class="xref py py-class docutils literal"><span class="pre">DVPROP3</span></code></a> or None, optional</p>
+<blockquote>
+<div><p>The corresponding design variable-to-property relation.</p>
+</div></blockquote>
+<p><strong>code</strong> : str or None, optional</p>
+<blockquote class="last">
+<div><p>An additional code to identify the design varible.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">defaults</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">print_card</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">show_card</span></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="structMan.genesis.cards_opt.DVAR.print_card">
+<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/cards_opt.html#DVAR.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_opt.DVAR.print_card" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the corresponding input card</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>file</strong> : file</p>
+<blockquote class="last">
+<div><p>File object with a <code class="xref py py-meth docutils literal"><span class="pre">write()</span></code> method.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="structMan.genesis.cards_opt.DVPROP3">
+<em class="property">class </em><code class="descclassname">structMan.genesis.cards_opt.</code><code class="descname">DVPROP3</code><span class="sig-paren">(</span><em>sizing_data</em>, <em>pid</em>, <em>ptype</em>, <em>eltype</em>, <em>dvar_labels=None</em>, <em>dvar_codes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/cards_opt.html#DVPROP3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_opt.DVPROP3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Design Variable-to-Property relation</p>
+<p>This is a wrapper for the DVPROP3 card in Genesis.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>sizing_data</strong> : TODO</p>
+<blockquote>
+<div><p>The sizing data for this entry.</p>
+</div></blockquote>
+<p class="last"><strong>id :</strong> :</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">create_dvars</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">defaults</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">print_card</span></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="structMan.genesis.cards_opt.DVPROP3.create_dvars">
+<code class="descname">create_dvars</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/cards_opt.html#DVPROP3.create_dvars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_opt.DVPROP3.create_dvars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the design variables for the current DVPROP3</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="structMan.genesis.cards_opt.DVPROP3.print_card">
+<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/cards_opt.html#DVPROP3.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_opt.DVPROP3.print_card" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the corresponding input card</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>file</strong> : file</p>
+<blockquote class="last">
+<div><p>File object with a <code class="xref py py-meth docutils literal"><span class="pre">write()</span></code> method.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<span class="target" id="module-structMan.genesis.cards_solver"></span><div class="section" id="optimization-cards-feopt-genesis-cards-solver">
+<h2>Optimization cards (<code class="xref py py-mod docutils literal"><span class="pre">feopt.genesis.cards_solver</span></code>)<a class="headerlink" href="#optimization-cards-feopt-genesis-cards-solver" title="Permalink to this headline">¶</a></h2>
+<p>Many input cards related to the finite element solver are wrapped in this
+module.</p>
+<dl class="class">
+<dt id="structMan.genesis.cards_solver.PBARL">
+<em class="property">class </em><code class="descclassname">structMan.genesis.cards_solver.</code><code class="descname">PBARL</code><span class="sig-paren">(</span><em>id</em>, <em>mid</em>, <em>library</em>, <em>type</em>, <em>d_list</em>, <em>nsm=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/cards_solver.html#PBARL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_solver.PBARL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pre-defined sections for bar elements</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">id</span></code></td>
+<td><code class="docutils literal"><span class="pre">int</span></code> - property id</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">mid</span></code></td>
+<td><code class="docutils literal"><span class="pre">int</span></code> - material id</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">library</span></code></td>
+<td><code class="docutils literal"><span class="pre">str</span></code> - the default library used to calculate the section
+properties (<code class="docutils literal"><span class="pre">'CSLIB1'</span></code>, etc)</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">d_list</span></code></td>
+<td><code class="docutils literal"><span class="pre">list</span></code> - design variables</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">type</span></code></td>
+<td><code class="docutils literal"><span class="pre">str</span></code> - section type (<code class="docutils literal"><span class="pre">'RECT'</span></code>, etc)</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">nsm</span></code></td>
+<td><code class="docutils literal"><span class="pre">float</span></code> - non-structural mass in [mass unit]/[metric unit]</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_dvprop</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">constrain_pbar</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">constrain_pshell</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">constrain_two_vars</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">create_dobj</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">create_dvars</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">create_topometric_data</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">dlinks_from_excel</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">merge_temp_files</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">nodal_displ_from_excel</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">pickle_dump</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">pickle_load</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">print_card</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">print_model</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">reset_newprops</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">set_output_file</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">simx_create_output_file</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">simx_export_nastran_file</span></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="structMan.genesis.cards_solver.PBARL.print_card">
+<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/genesis/cards_solver.html#PBARL.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.genesis.cards_solver.PBARL.print_card" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints the corresponding input card</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>file</strong> : file</p>
+<blockquote class="last">
+<div><p>File object with a <code class="xref py py-meth docutils literal"><span class="pre">write()</span></code> method.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<span class="target" id="module-structMan.genesis.sizing_data"></span><div class="section" id="sizing-data-feopt-genesis-sizing-data">
+<h2>Sizing data (<code class="xref py py-mod docutils literal"><span class="pre">feopt.genesis.sizing_data</span></code>)<a class="headerlink" href="#sizing-data-feopt-genesis-sizing-data" title="Permalink to this headline">¶</a></h2>
+<p>In this module it is defined the dictionary <code class="docutils literal"><span class="pre">SDATA</span></code> containing the definition
+of the sizing variables for each property accordingly to GENESIS Analysis
+Manual (vol01).</p>
+<p>It should be used as <code class="docutils literal"><span class="pre">SDATA[ptype][etype]</span></code>, where:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">ptype</span></code> is <code class="docutils literal"><span class="pre">'PSHELL'</span></code>, <code class="docutils literal"><span class="pre">'PBARL'</span></code>, etc</li>
+<li><code class="docutils literal"><span class="pre">etype</span></code> for a shell is <code class="docutils literal"><span class="pre">'SOLID'</span></code>, <code class="docutils literal"><span class="pre">'SAND'</span></code>, etc</li>
+<li><code class="docutils literal"><span class="pre">etype</span></code> for a bar is <code class="docutils literal"><span class="pre">'SQUARE'</span></code>, <code class="docutils literal"><span class="pre">'TUBE'</span></code>, <code class="docutils literal"><span class="pre">'Z'</span></code>, etc</li>
+</ul>
+<p>The currently available values are:</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Genesis (<code class="docutils literal"><span class="pre">structMan.genesis</span></code>)</a><ul>
+<li><a class="reference internal" href="#optimization-cards-structman-genesis-cards-opt">Optimization cards (<code class="docutils literal"><span class="pre">structMan.genesis.cards_opt</span></code>)</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#optimization-cards-feopt-genesis-cards-solver">Optimization cards (<code class="docutils literal"><span class="pre">feopt.genesis.cards_solver</span></code>)</a></li>
+<li><a class="reference internal" href="#sizing-data-feopt-genesis-sizing-data">Sizing data (<code class="docutils literal"><span class="pre">feopt.genesis.sizing_data</span></code>)</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="optimization_solvers.html"
+                        title="previous chapter">Optimization Solvers</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/optimization_solvers/genesis.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="optimization_solvers.html" title="Optimization Solvers"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../structMan_modules.html" >structMan Modules</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="optimization_solvers.html" >Optimization Solvers</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Saullo Castro.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>
