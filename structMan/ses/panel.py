@@ -98,27 +98,57 @@ class Panel(SE2D):
             The stress threshold that will be compared to the von Mises stress
             for this constraint.
         average : bool, optional
-            If False the center element is chosen, otherwise ...
-            #TODO not implemented
+            If False the center element is chosen, otherwise it will check each
+            element individually and compute the average von Mises stress of
+            the panel.
 
         """
         self.create_dvars()
-        eid = self.get_central_element().eid
+        if not average:
+            eid = self.get_central_element().eid
 
-        dcid = self.constraints['vonMises']
-        OUTC = output_codes_SOL200.OUTC
+            dcid = self.constraints['vonMises']
+            OUTC = output_codes_SOL200.OUTC
 
-        atta = OUTC['STRESS']['CQUAD4']['von Mises or maximum shear at Z1']
-        dresp1 = DRESP1('PANZ1VM', 'STRESS', 'ELEM', None, atta=atta,
-                        attb=None, atti=eid)
-        self.add_dresp(dresp1)
-        self.add_constraint(dcid, dresp1, None, Fcy)
+            atta = OUTC['STRESS']['CQUAD4']['von Mises or maximum shear at Z1']
+            dresp1 = DRESP1('PANZ1VM', 'STRESS', 'ELEM', None, atta=atta,
+                            attb=None, atti=eid)
+            self.add_dresp(dresp1)
+            self.add_constraint(dcid, dresp1, None, Fcy)
 
-        atta = OUTC['STRESS']['CQUAD4']['von Mises or maximum shear at Z2']
-        dresp1 = DRESP1('PANZ2VM', 'STRESS', 'ELEM', None, atta=atta,
-                        attb=None, atti=eid)
-        self.add_dresp(dresp1)
-        self.add_constraint(dcid, dresp1, None, Fcy)
+            atta = OUTC['STRESS']['CQUAD4']['von Mises or maximum shear at Z2']
+            dresp1 = DRESP1('PANZ2VM', 'STRESS', 'ELEM', None, atta=atta,
+                            attb=None, atti=eid)
+            self.add_dresp(dresp1)
+            self.add_constraint(dcid, dresp1, None, Fcy)
+
+        else:
+            dcid = self.constraints['vonMises']
+            OUTC = output_codes_SOL200.OUTC
+            atta = OUTC['STRESS']['CQUAD4']['von Mises or maximum shear at Z1']
+            dresp1_bot = []
+            dresp1_top = []
+            for eid in self.eids:
+                dresp1 = DRESP1('PANZ1VM', 'STRESS', 'ELEM', None, atta=atta,
+                                attb=None, atti=eid)
+                self.add_dresp(dresp1)
+                dresp1_bot.append(dresp1)
+
+                atta = OUTC['STRESS']['CQUAD4']['von Mises or maximum shear at Z2']
+                dresp1 = DRESP1('PANZ2VM', 'STRESS', 'ELEM', None, atta=atta,
+                                attb=None, atti=eid)
+                self.add_dresp(dresp1)
+                dresp1_top.append(dresp1)
+
+            dresp2_bot = DRESP2('PANZ1VMA', eqid='AVG')
+            dresp2_bot.dresp1 = dresp1_bot[:]
+            self.add_dresp(dresp2_bot)
+            self.add_constraint(dcid, dresp2_bot, None, Fcy)
+
+            dresp2_top = DRESP2('PANZ2VMA', eqid='AVG')
+            dresp2_top.dresp1 = dresp1_top[:]
+            self.add_dresp(dresp2_top)
+            self.add_constraint(dcid, dresp2_top, None, Fcy)
 
 
     def constrain_buckling(self, method=1, ms=0.1):
