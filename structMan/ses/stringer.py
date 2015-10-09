@@ -459,11 +459,6 @@ class Stringer(SE1D):
         ms : float, optional
             Minimum margin of safety to be used as constraint.
 
-        Notes
-        -----
-
-        Method 1) uses Bruhn's method described in Chapter 6, Fig. C6.4
-
         """
         self.create_dvars()
         eltype = self.elements[0].type
