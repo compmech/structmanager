@@ -5,9 +5,7 @@ if __name__ == '__main__':
     mod.sefile = 'MappingSE2FE.txt'
     mod.safile = 'MappingSEA2SE.txt'
     mod.bdfpath = 'fus_section.bdf'
-    #mod.op2path = 'model.op2'
     mod.build()
-    #mod.read_op2(vectorized=True)
 
     panel = mod.panels['Panel.1.1']
     panel.t_lb = 0.1
