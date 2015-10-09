@@ -102,8 +102,8 @@ subroutine R3SVALS(GRPID, TYPNAM, NITEMS, ARGLIS, NSIZE, ARGVAL, &
         Nxx = ARGVAL(7) ! Nxx membrane force
         Nxy = ARGVAL(8) ! Nxy membrane force
 
-        FC = Nxx/t ! Nxx membrane force
-        FS = Nxy/t ! Nxy membrane force
+        FC = Nxx/t ! FC compressive stress
+        FS = Nxy/t ! FS shear stress
         
         FC = FC
         FS = ABS(FS)
