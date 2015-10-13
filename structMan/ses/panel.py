@@ -30,12 +30,12 @@ class Panel(SE2D):
     def __init__(self, name, eids, model=None):
         super(Panel, self).__init__(name, eids, model)
         # geometric parameters
-        self.radius1 = None
-        self.radius2 = None
+        self.r = None
         self.a = None
         self.b = None
         self.t = None
-        self.xaxis = 'stringer'
+        self.t_lb = None
+        self.t_ub = None
         # material properties
         # ...
         self.is_isotropic = True
@@ -160,6 +160,7 @@ class Panel(SE2D):
             Select one of the following methods for buckling calculation:
 
             - `1` : Bruhn's method using Equation C9.4:
+
                     - considers compressive and shear loads
                     - no plasticity correction has been implemented
 
