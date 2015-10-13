@@ -468,11 +468,6 @@ class SE2D(SE):
         self.ty = self.forces[7]
 
 
-class Web(SE2D):
-    def __init__(self, name, eids, model=None):
-        super(Web, self).__init__(name, eids, model)
-
-
 class ShearClipFrame(SE2D):
     """Shear Clip Attachment to Frame
 
