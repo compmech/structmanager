@@ -217,7 +217,7 @@ class Web(SE2D):
                                atta=code_Nxx, attb=None, atti=eid)
             self.add_dresp(dresp_Nxx)
             # reading membrane force Nxy
-            code_Nxy = OUTC['FORCE']['CQUAD4']['Membrane force xy']
+            code Nxy = OUTC['FORCE']['CQUAD4']['Membrane force xy']
             dresp_Nxy = DRESP1('WEBfNxy', 'FORCE', 'ELEM', region=None,
                                atta=code_Nxy, attb=None, atti=eid)
             self.add_dresp(dresp_Nxy)
