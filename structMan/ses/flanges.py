@@ -224,14 +224,15 @@ class Flange1D(SE1D):
             # - disconsiders bending effects
             # - assumes 3 edges simply supported and one free unloaded edge
             deqatn = DEQATN('kc(t, b, L, E, nu, PC, PS) = 0.456 + (b/L)**2;'
-                            'FCcr = kc*PI(1)**2*E*t**2/(12.*(1.-nu**2)*b**2);'
+                            'D = 12.*(1. - nu**2)*b**2;'
+                            'FCcr = kc*PI(1)**2*E*t**2/D;'
                             'FC = PC/(t*b);'
                             'Rc = FC/FCcr;'
                             'x = L/b;'
                             'ks = 0.0648*x**6 - 1.2338*x**5 + 9.4869*x**4 -'
                             '37.697*x**3 + 81.88*x**2 - 93.218*x + 50.411;'
                             'ks = MAX(ks, 5.42);'
-                            'FScr = ks*PI(1)**2*E*t**2/(12.*(1.-nu**2)*b**2);'
+                            'FScr = ks*PI(1)**2*E*t**2/D;'
                             'FS = PS/(t*b);'
                             'Rs = FS/FScr;'
                             'MS = 2./(Rc + SQRT(Rc**2 + 4*Rs**2)) - 1.')
