@@ -13,8 +13,8 @@ from pyNastran.bdf.bdf import BDF
 from pyNastran.op2.op2 import OP2
 
 from sol200 import SOL200, DESVAR, DVPREL1, DRESP1, DCONSTR
-from ses import (Panel, InnerFlange, Web, OuterFlange, ShearClipFrame,
-                 ShearClipSkin, Stringer)
+from ses import (Panel, PanelComp, InnerFlange, Web, OuterFlange,
+        ShearClipFrame, ShearClipSkin, Stringer)
 from sas import FrameAssembly, FrameShearClipAssembly, StiffenedPanelAssembly
 
 
@@ -46,6 +46,7 @@ class Model(object):
         self.shearclipskins = {}
         self.stringers = {}
         self.ses = {'panel': Panel,
+                    'panelcomp': PanelComp,
                     'innerflange': InnerFlange,
                     'web': Web,
                     'outerflange': OuterFlange,
