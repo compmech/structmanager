@@ -15,7 +15,7 @@ from pyNastran.op2.op2 import OP2
 from sol200 import SOL200, DESVAR, DVPREL1, DRESP1, DCONSTR
 from ses import (Panel, PanelComp, InnerFlange, Web, OuterFlange,
         ShearClipFrame, ShearClipSkin, Stringer)
-from sas import FrameAssembly, FrameShearClipAssembly, StiffenedPanelAssembly
+from sas import FrameAssembly, FrameShearClipAssembly, StiffenedPanelAssembly, StiffenedPanelCutout
 
 
 def treat_bdf_subcases(bdf):
@@ -39,14 +39,17 @@ class Model(object):
         # structural elements
         self.sefile = None
         self.panels = {}
+        self.panelcomps = {}
         self.innerflanges = {}
         self.webs = {}
         self.outerflanges = {}
         self.shearclipframes = {}
         self.shearclipskins = {}
         self.stringers = {}
+		#self.panelcutout = {}
+		#self.stringersegment = {}
         self.ses = {'panel': Panel,
-                    'panelcomp': PanelComp,
+					'panelcomp': PanelComp,
                     'innerflange': InnerFlange,
                     'web': Web,
                     'outerflange': OuterFlange,
@@ -57,10 +60,11 @@ class Model(object):
         self.safile = None
         self.frames = {}
         self.stiffenedpanels = {}
+		#self.stiffenedpanelcutout = {}
         self.sas = {'stiffenedpanelassembly': StiffenedPanelAssembly,
                     'frameshearclipassembly': FrameShearClipAssembly,
                     'frameassembly': FrameAssembly,
-                    }
+                    'stiffenedpanelcutout': StiffenedPanelCutout,}
         # optimization related
         self.optmodel = SOL200()
 
@@ -98,6 +102,12 @@ class Model(object):
         stringers = self.stringers
         frames = self.frames
         stiffenedpanels = self.stiffenedpanels
+		#compositepanels = self.panelcutout
+        compositepanels = self.panels
+		#compositestringers = self.stringersegment
+        compositestringers = self.stringers
+		#compositestiffenedpanels = self.stiffenedpanelcutout
+        compositestiffenedpanels = self.stiffenedpanels
 
         # reading bulk data file
         bdf = BDF()
@@ -169,3 +179,7 @@ class Model(object):
                 n1, n2, n3, n4, n5 = map(strip, fields[1].split(','))
                 stiffenedpanels[name] = saClass(name, panels[n1], frames[n2],
                         frames[n3], stringers[n4], stringers[n5])
+			#TODO
+			#if saname == 'stiffenedpanelcuotut':
+            #    n1, n2, n3 = map(strip, fields[1].split(','))
+            #    compositestiffenedpanels[name] = saClass(name, panels[n1], stringers[n2], stringers[n3])

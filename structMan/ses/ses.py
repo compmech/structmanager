@@ -66,7 +66,14 @@ class SE(object):
             refel = self.elements[0]
             self.ptype = refel.pid.type
             self.pid = refel.Pid()
-            mat = self.model.bdf.materials[refel.pid.Mid()]
+            if self.ptype == 'PSHELL':
+                mat = self.model.bdf.materials[refel.pid.Mid()]
+            if self.ptype == 'PBAR':
+                mat = self.model.bdf.materials[refel.pid.Mid()]
+            if self.ptype == 'PBARL':
+                mat = self.model.bdf.materials[refel.pid.Mid()]
+            if self.ptype == 'PCOMP':
+                mat = self.model.bdf.materials[refel.pid.Mid(0)]
             self.mtype = mat.type
             if True:
                 if self.mtype == 'MAT1':
@@ -82,6 +89,22 @@ class SE(object):
                     self.G = mat.g
                     self.nu = mat.nu
                     if None in [self.E, self.G, self.nu]:
+                        raise ValueError('Invalid Material')
+                if self.mtype == 'MAT8':
+                    if mat.e11 is None:
+                        raise ValueError('Invalid Material')
+                    if mat.e22 is None:
+                        raise ValueError('Invalid Material')
+                    if mat.g12 is None:
+                        raise ValueError('Invalid Material')
+                    if mat.nu12 is None:
+                        raise ValueError('Invalid Material')
+                    self.E1 = mat.e11
+                    self.E2 = mat.e22
+                    self.G12 = mat.g12
+                    self.nu12 = mat.nu12
+                    self.nu21 = mat.nu12*(mat.e22/mat.e11)
+                    if None in [self.E1, self.E2, self.G12, self.nu12, self.nu21]:
                         raise ValueError('Invalid Material')
                 else:
                     raise NotImplementedError('%s not supported!' % self.mtype)

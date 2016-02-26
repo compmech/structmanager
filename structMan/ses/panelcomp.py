@@ -9,7 +9,7 @@ import numpy as np
 
 from ses import SE2D
 
-from structMan.sol200 import (DRESP1, DCONSTR, DEQATN, DRESP2, DRESP3, DESVAR,
+from structMan.sol200 import (DRESP1, DCONSTR, DEQATN, DRESP2, DRESP3, DESVAR, DTABLE,
                               DVPREL1, DVPREL2)
 
 import structMan.sol200.output_codes as output_codes_SOL200
@@ -28,7 +28,7 @@ class PanelComp(SE2D):
 
     """
     def __init__(self, name, eids, model=None):
-        super(Panel, self).__init__(name, eids, model)
+        super(PanelComp, self).__init__(name, eids, model) #change to super(PanelComp, self)?
         # geometric parameters
         self.r = None
         self.a = None
@@ -36,13 +36,14 @@ class PanelComp(SE2D):
         self.t = None
         self.t_lb = None
         self.t_ub = None
-        self.aml = None
-        self.aml_lb = None
-        self.aml_ub = None
-        self.aml90 = 0.1
+        self.p45 = None
+        self.p45_lb = 0.1
+        self.p45_ub = None
+        self.p90 = 0.1
         # material properties
-        # ...
-        self.is_isotropic = None
+        # all material properties are got from FE model at ses.py
+
+        self.is_isotropic = None #change to orthotropic?
         # optimization constraints
         self.all_constraints = ['vonMises', 'buckling']
         self.constraints = {'vonMises': 1,
@@ -67,8 +68,14 @@ class PanelComp(SE2D):
             self.a = xs.max() - xs.min()
             self.b = (thetas.max() - thetas.min())*self.r
 
-            # retrieving panel thickness and material properties
-            self.t = self.elements[0].pid.t
+            # retrieving plies thicknesses from panel
+            self.t0 = self.elements[0].pid.Thickness(0)
+            self.t45 = self.elements[0].pid.Thickness(1) + self.elements[0].pid.Thickness(2)
+            self.t90 = self.elements[0].pid.Thickness(3)
+            self.t = self.t0 + self.t45 + self.t90
+
+            # calculating the thickness ratio
+            self.p45 = self.t45/self.t
 
 
     def create_dvars(self):
@@ -81,52 +88,62 @@ class PanelComp(SE2D):
         if ptype == 'PCOMP':
             dvar_t = DESVAR('PCt', self.t, self.t_lb, self.t_ub)
             self.add_dvar(dvar_t)
-            dvar_aml = DESVAR('PCaml', self.aml, self.aml_lb, self.aml_ub)
-            self.add_dvar(dvar_aml)
-
-            deqatn0 = DEQATN('T0(t,aml,aml90) = (1.-aml90-aml)*t')
-            dvprel2 = DVPREL2('PCOMP', pid=pid, pname='T1', deqatn0.id)
-            dvprel2.dvars = [dvar_t.id, dvar_aml.id]
-            dvprel2.dtable = [self.aml90]
-            self.add_dvprel(dvprel2)
-
-            #TODO
-            deqatn45 = DEQATN('T45(t,aml) = aml*t')
-
-            #TODO
-            deqatn90 = DEQATN('T90(t,aml90) = aml90*t')
-
-            self.add_dtable('AML90', self.aml90)
-            #TODO
+            dvar_p45 = DESVAR('PCp45', self.p45, self.p45_lb, self.p45_ub)
+            self.add_dvar(dvar_p45)
+            self.add_dtable('P90', self.p90)
+            #DONE
             self.add_dtable('PCa', self.a)
             self.add_dtable('PCb', self.b)
+            self.add_dtable('PCr', self.r)
             self.add_dtable('PCE1', self.E1)
             self.add_dtable('PCE2', self.E2)
-            self.add_dtable('PCnu', self.nu)
+            self.add_dtable('PCG12', self.G12)
+            self.add_dtable('PCn12', self.nu12)
+            self.add_dtable('PCn21', self.nu21)
+
+            deqatn0 = DEQATN('T0(t,p45,p90) = (1.-p45-p90)*t')
+            self.add_deqatn(deqatn0)
+            dvprel2 = DVPREL2('PCOMP', pid, 'T1', deqatn0.id)
+            dvprel2.add_dvar(dvar_t.id)
+            dvprel2.add_dvar(dvar_p45.id)
+            dvprel2.add_dtable(self.dtables['P90'][0])
+            self.add_dvprel(dvprel2)
+
+            #DONE
+            deqatn45 = DEQATN('T45(t,p45) = (p45/2.)*t')
+            self.add_deqatn(deqatn45)
+            dvprel2 = DVPREL2('PCOMP', pid, 'T2', deqatn45.id)
+            #dvprel2.dvars = [dvar_t.id, dvar_p45.id]
+            dvprel2.add_dvar(dvar_t.id)
+            dvprel2.add_dvar(dvar_p45.id)
+            self.add_dvprel(dvprel2)
+
+            #DONE
+            dvprel2 = DVPREL2('PCOMP', pid, 'T3', deqatn45.id)
+            #dvprel2.dvars = [dvar_t.id, dvar_p45.id]
+            dvprel2.add_dvar(dvar_t.id)
+            dvprel2.add_dvar(dvar_p45.id)
+            self.add_dvprel(dvprel2)
+
+            #DONE
+            deqatn90 = DEQATN('T90(t,p90) = p90*t')
+            self.add_deqatn(deqatn90)
+            dvprel2 = DVPREL2('PCOMP', pid, 'T4', deqatn90.id)
+            #dvprel2.dvars = [dvar_t.id]
+            dvprel2.add_dvar(dvar_t.id)
+            dvprel2.add_dtable(self.dtables['P90'][0])
+            self.add_dvprel(dvprel2)
+
         else:
             raise NotImplementedError('%s not supported!' % ptype)
 
+    def constrain_buckling(self, eig=1.0):
 
-    def constrain_buckling(self, method=1, ms=0.1):
-        """Add a buckling constraint
-
-        Parameters
-        ----------
-        method : int, optional
-            Select one of the following methods for buckling calculation:
-
-            - `1` : Bruhn's method using Equation C9.4:
-
-                    - considers compressive and shear loads
-                    - no plasticity correction has been implemented
-
-        ms : float, optional
-            Minimum margin of safety to be used as constraint.
-
-        """
         OUTC = output_codes_SOL200.OUTC
 
         eid = self.get_central_element().eid
+
+        dcid = self.constraints['buckling']
 
         # reading membrane force Nxx
         code_Nxx = OUTC['FORCE']['CQUAD4']['Membrane force x']
@@ -135,7 +152,7 @@ class PanelComp(SE2D):
         self.add_dresp(dresp_Nxx)
 
         # reading membrane force Nyy
-        code_Nyy = OUTC['FORCE']['CQUAD4']['Membrane force xy']
+        code_Nyy = OUTC['FORCE']['CQUAD4']['Membrane force y']
         dresp_Nyy = DRESP1('PCfNyy', 'FORCE', 'ELEM', region=None,
                            atta=code_Nyy, attb=None, atti=eid)
         self.add_dresp(dresp_Nyy)
@@ -146,16 +163,24 @@ class PanelComp(SE2D):
                            atta=code_Nxy, attb=None, atti=eid)
         self.add_dresp(dresp_Nxy)
 
-        # calculating the margin of safety using an external subroutine
-        dresp = DRESP3('PANBUCK1', 'PANBUCK', 'METHOD1')
-        dresp.add_dvar(self.dvars['PANt'].id)
-        dresp.add_dtable(self.dtables['PANr'][0])
-        dresp.add_dtable(self.dtables['PANa'][0])
-        dresp.add_dtable(self.dtables['PANb'][0])
-        dresp.add_dtable(self.dtables['PANE'][0])
-        dresp.add_dtable(self.dtables['PANnu'][0])
-        dresp.add_dresp2(dresp_Nxx.id)
-        dresp.add_dresp2(dresp_Nxy.id)
+        # calculating buckling eigenvalue using an external subroutine
+        # all parameters (desvars, dtables, dresp's) that this DRESP3 needs to run are listed below
+        # creating DRESP3
+        dresp = DRESP3('PCBUCK1', 'PCBUCK', 'BUCK_PC')
+        dresp.add_dvar(self.dvars['PCt'].id)
+        #dresp.add_dvar(dvar_t.id)
+        dresp.add_dtable(self.dtables['PCa'][0])
+        dresp.add_dtable(self.dtables['PCb'][0])
+        dresp.add_dtable(self.dtables['PCr'][0])
+        dresp.add_dtable(self.dtables['PCE1'][0])
+        dresp.add_dtable(self.dtables['PCE2'][0])
+        dresp.add_dtable(self.dtables['PCG12'][0])
+        dresp.add_dtable(self.dtables['PCn12'][0])
+        dresp.add_dtable(self.dtables['PCn21'][0])
+        dresp.add_dresp1(dresp_Nxx.id)
+        dresp.add_dresp1(dresp_Nyy.id)
+        dresp.add_dresp1(dresp_Nxy.id)
         self.add_dresp(dresp)
-
+        # applying constraint of buckling: lower eigenvalue >= 1.0
+        self.add_constraint(dcid, dresp, eig, None)
 

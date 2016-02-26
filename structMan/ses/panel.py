@@ -190,8 +190,8 @@ class Panel(SE2D):
         dresp.add_dtable(self.dtables['PANb'][0])
         dresp.add_dtable(self.dtables['PANE'][0])
         dresp.add_dtable(self.dtables['PANnu'][0])
-        dresp.add_dresp2(dresp_Nxx.id)
-        dresp.add_dresp2(dresp_Nxy.id)
+        dresp.add_dresp1(dresp_Nxx.id)
+        dresp.add_dresp1(dresp_Nxy.id)
         self.add_dresp(dresp)
 
 
