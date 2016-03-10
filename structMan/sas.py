@@ -1,8 +1,8 @@
 """
-Structural Assemblies - SAs (:mod:`structMan.sas`)
-==================================================
+Structural Assemblies - SAs (:mod:`structmanager.sas`)
+======================================================
 
-.. currentmodule:: structMan.sas
+.. currentmodule:: structmanager.sas
 
 """
 class FrameAssembly(object):

@@ -1,26 +1,26 @@
 """
-Optimization cards (:mod:`structMan.sol200.cards_opt`)
-======================================================
+Optimization cards (:mod:`structmanager.sol200.cards_opt`)
+==========================================================
 
-.. currentmodule:: structMan.sol200.cards_opt`
+.. currentmodule:: structmanager.sol200.cards_opt`
 
 Many input cards related to the optimization problem are wrapped in this
 module. The input cards more related to the solver are contained in module
-:mod:`structMan.sol200.cards_solver`.
+:mod:`structmanager.sol200.cards_solver`.
 
 .. rubric:: Classes
 
 .. autosummary::
 
-    structMan.sol200.cards_opt.DCONSTR
-    structMan.sol200.cards_opt.DEQATN
-    structMan.sol200.cards_opt.DESVAR
-    structMan.sol200.cards_opt.DLINK
-    structMan.sol200.cards_opt.DRESP1
-    structMan.sol200.cards_opt.DRESP2
-    structMan.sol200.cards_opt.DRESP3
-    structMan.sol200.cards_opt.DTABLE
-    structMan.sol200.cards_opt.DVPREL1
+    structmanager.sol200.cards_opt.DCONSTR
+    structmanager.sol200.cards_opt.DEQATN
+    structmanager.sol200.cards_opt.DESVAR
+    structmanager.sol200.cards_opt.DLINK
+    structmanager.sol200.cards_opt.DRESP1
+    structmanager.sol200.cards_opt.DRESP2
+    structmanager.sol200.cards_opt.DRESP3
+    structmanager.sol200.cards_opt.DTABLE
+    structmanager.sol200.cards_opt.DVPREL1
 
 """
 from sizing_data import SDATA

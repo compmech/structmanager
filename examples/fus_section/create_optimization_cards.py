@@ -1,4 +1,4 @@
-from structMan.model import Model
+from structmanager.model import Model
 
 if __name__ == '__main__':
     mod = Model()

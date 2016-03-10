@@ -1,5 +1,5 @@
-structMan Modules
-=================
+structmanager Modules
+=====================
 
 .. toctree::
     :maxdepth: 4

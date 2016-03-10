@@ -1,8 +1,8 @@
 """
-Structure Manager (:mod:`structMan`)
-====================================
+Structure Manager (:mod:`structmanager`)
+========================================
 
-.. currentmodule:: structMan
+.. currentmodule:: structmanager
 
 """
 __version__ = '0.1.0 dev'

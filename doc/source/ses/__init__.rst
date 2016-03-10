@@ -1,5 +1,5 @@
-Structural Elements - SEs (:mod:`structMan.ses`)
-================================================
+Structural Elements - SEs (:mod:`structmanager.ses`)
+====================================================
 
 .. toctree::
     :maxdepth: 4

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# structMan documentation build configuration file, created by
+# structmanager documentation build configuration file, created by
 # sphinx-quickstart on Wed Feb 04 06:45:16 2015.
 #
 # This file is execfile()d with the current directory set to its
@@ -26,7 +26,7 @@ print '\n'.join(sys.path)
 print 'os.path.realpath()', os.path.realpath('.')
 
 import utils
-import structMan
+import structmanager
 
 # -- General configuration ------------------------------------------------
 
@@ -62,7 +62,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'structMan'
+project = u'structmanager'
 copyright = u'2015, Saullo Castro'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -70,7 +70,7 @@ copyright = u'2015, Saullo Castro'
 # built documents.
 #
 # The short X.Y version.
-version = structMan.__version__
+version = structmanager.__version__
 
 # The full version, including alpha/beta/rc tags.
 release = version
@@ -197,7 +197,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'structMan'
+htmlhelp_basename = 'structmanager'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -217,7 +217,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'structMan.tex', u'structMan Documentation',
+  ('index', 'structmanager.tex', u'structmanager Documentation',
    u'Saullo Castro', 'manual'),
 ]
 
@@ -247,7 +247,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'structMan', u'structMan Documentation',
+    ('index', 'structmanager', u'structmanager Documentation',
      [u'Saullo Castro'], 1)
 ]
 
@@ -261,8 +261,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'structMan', u'structMan Documentation',
-   u'Saullo Castro', 'structMan', 'One line description of project.',
+  ('index', 'structmanager', u'structmanager Documentation',
+   u'Saullo Castro', 'structmanager', 'One line description of project.',
    'Miscellaneous'),
 ]
 
@@ -282,13 +282,13 @@ texinfo_documents = [
 # -- Options for Epub output ----------------------------------------------
 
 # Bibliographic Dublin Core info.
-epub_title = u'structMan'
+epub_title = u'structmanager'
 epub_author = u'Saullo Castro'
 epub_publisher = u'Saullo Castro'
 epub_copyright = u'2015, Saullo Castro'
 
 # The basename for the epub file. It defaults to the project name.
-#epub_basename = u'structMan'
+#epub_basename = u'structmanager'
 
 # The HTML theme for the epub output. Since the default themes are not optimized
 # for small screen space, using the same theme for HTML and epub output is

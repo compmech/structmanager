@@ -1,6 +1,6 @@
 """
 Output codes (:mod:`feopt.genesis.output_codes`)
-==========================================
+================================================
 
 .. currentmodule:: feopt.genesis.output_codes
 

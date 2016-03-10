@@ -1,18 +1,18 @@
 """
-Panel SEs (:mod:`structMan.ses.panel`)
-======================================
+Panel SEs (:mod:`structmanager.ses.panel`)
+==========================================
 
-.. currentmodule:: structMan.ses.panel
+.. currentmodule:: structmanager.ses.panel
 
 """
 import numpy as np
 
 from ses import SE2D
 
-from structMan.sol200 import (DRESP1, DCONSTR, DEQATN, DRESP2, DRESP3, DESVAR,
+from structmanager.sol200 import (DRESP1, DCONSTR, DEQATN, DRESP2, DRESP3, DESVAR,
                               DVPREL1, DVPREL2)
 
-import structMan.sol200.output_codes as output_codes_SOL200
+import structmanager.sol200.output_codes as output_codes_SOL200
 
 
 class PanelComp(SE2D):
@@ -97,7 +97,7 @@ class PanelComp(SE2D):
             #DONE
             deqatn45 = DEQATN('T45(t,p45) = p45*t')
             dvprel2 = DVPREL2('PCOMP', pid=pid, pname='T2', deqatn45.id)
-            dvprel2.dvars = [dvar_t.id, dvar_p45.id]            
+            dvprel2.dvars = [dvar_t.id, dvar_p45.id]
             self.add_dvprel(dvprel2)
 
             #DONE
@@ -116,13 +116,13 @@ class PanelComp(SE2D):
             self.add_dtable('PCE2', self.E2)
             self.add_dtable('PCG12', self.G12)
             self.add_dtable('PCnu12', self.nu12)
-            self.add_dtable('PCnu21', self.nu21)            
+            self.add_dtable('PCnu21', self.nu21)
         else:
             raise NotImplementedError('%s not supported!' % ptype)
 
 
     def constrain_buckling(self, eig=1.0):
-        
+
         OUTC = output_codes_SOL200.OUTC
 
         eid = self.get_central_element().eid

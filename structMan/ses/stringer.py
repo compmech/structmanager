@@ -1,17 +1,17 @@
 """
-Stringer SEs (:mod:`structMan.ses.stringer`)
-============================================
+Stringer SEs (:mod:`structmanager.ses.stringer`)
+================================================
 
-.. currentmodule:: structMan.ses.stringer
+.. currentmodule:: structmanager.ses.stringer
 
 """
 import numpy as np
 
 from ses import SE1D
 
-from structMan.sol200 import (DRESP1, DCONSTR, DEQATN, DRESP2, DESVAR,
+from structmanager.sol200 import (DRESP1, DCONSTR, DEQATN, DRESP2, DESVAR,
                               DVPREL1, DVPREL2)
-import structMan.sol200.output_codes as output_codes_SOL200
+import structmanager.sol200.output_codes as output_codes_SOL200
 
 
 class Stringer(SE1D):

@@ -1,12 +1,12 @@
-Welcome to Structure Manager (structMan) documentation!
-=======================================================
+Welcome to Structure Manager (structmanager) documentation!
+===========================================================
 
 Contents:
 
 .. toctree::
     :maxdepth: 4
 
-    structMan_modules.rst
+    structmanager_modules.rst
     examples/examples.rst
 
 Please help!:

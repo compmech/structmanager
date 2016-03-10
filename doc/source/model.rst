@@ -1,3 +1,3 @@
-.. automodule:: structMan.model
+.. automodule:: structmanager.model
     :members:
     :show-inheritance:

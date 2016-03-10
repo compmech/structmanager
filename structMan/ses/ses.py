@@ -1,17 +1,17 @@
 """
-Base classes for SEs (:mod:`structMan.ses.ses`)
-===================================================================
+Base classes for SEs (:mod:`structmanager.ses.ses`)
+=====================================================
 
-.. currentmodule:: structMan.ses.ses
+.. currentmodule:: structmanager.ses.ses
 
 """
 from operator import itemgetter
 
 import numpy as np
 
-from structMan.sol200 import (DRESP1, DCONSTR, DEQATN, DRESP2, DRESP3, DESVAR,
+from structmanager.sol200 import (DRESP1, DCONSTR, DEQATN, DRESP2, DRESP3, DESVAR,
                               DVPREL1, DVPREL2)
-import structMan.sol200.output_codes as output_codes_SOL200
+import structmanager.sol200.output_codes as output_codes_SOL200
 
 
 class SE(object):

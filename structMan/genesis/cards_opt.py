@@ -1,28 +1,28 @@
 """
-Optimization cards (:mod:`structMan.genesis.cards_opt`)
-=======================================================
+Optimization cards (:mod:`structmanager.genesis.cards_opt`)
+===========================================================
 
-.. currentmodule:: structMan.genesis.cards_opt`
+.. currentmodule:: structmanager.genesis.cards_opt`
 
 Many input cards related to the optimization problem are wrapped in this
 module. The input cards more related to the solver are contained in module
-:mod:`structMan.genesis.cards_solver`.
+:mod:`structmanager.genesis.cards_solver`.
 
 .. rubric:: Classes
 
 .. autosummary::
 
-    structMan.genesis.cards_opt.DCONS
-    structMan.genesis.cards_opt.DEQATN
-    structMan.genesis.cards_opt.DLINK
-    structMan.genesis.cards_opt.DOBJ
-    structMan.genesis.cards_opt.DRESP1
-    structMan.genesis.cards_opt.DRESP2
-    structMan.genesis.cards_opt.DRESP3
-    structMan.genesis.cards_opt.DSPLIT
-    structMan.genesis.cards_opt.DTABLE
-    structMan.genesis.cards_opt.DVAR
-    structMan.genesis.cards_opt.DVPROP3
+    structmanager.genesis.cards_opt.DCONS
+    structmanager.genesis.cards_opt.DEQATN
+    structmanager.genesis.cards_opt.DLINK
+    structmanager.genesis.cards_opt.DOBJ
+    structmanager.genesis.cards_opt.DRESP1
+    structmanager.genesis.cards_opt.DRESP2
+    structmanager.genesis.cards_opt.DRESP3
+    structmanager.genesis.cards_opt.DSPLIT
+    structmanager.genesis.cards_opt.DTABLE
+    structmanager.genesis.cards_opt.DVAR
+    structmanager.genesis.cards_opt.DVPROP3
 
 """
 from pprint import pformat

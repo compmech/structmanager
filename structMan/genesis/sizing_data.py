@@ -1,6 +1,6 @@
 """
 Sizing data (:mod:`feopt.genesis.sizing_data`)
-========================================
+==============================================
 
 In this module it is defined the dictionary ``SDATA`` containing the definition
 of the sizing variables for each property accordingly to GENESIS Analysis

@@ -1,22 +1,22 @@
 """
-Genesis (:mod:`structMan.genesis`)
-==================================
+Genesis (:mod:`structmanager.genesis`)
+======================================
 
-.. currentmodule:: structMan.genesis
+.. currentmodule:: structmanager.genesis
 
 This module contains useful functions for exporting optimization models to
 GENESIS.
 
-.. automodule:: structMan.genesis.genesis
+.. automodule:: structmanager.genesis.genesis
     :members:
 
-.. automodule:: structMan.genesis.cards_opt
+.. automodule:: structmanager.genesis.cards_opt
     :members:
 
-.. automodule:: structMan.genesis.cards_solver
+.. automodule:: structmanager.genesis.cards_solver
     :members:
 
-.. automodule:: structMan.genesis.sizing_data
+.. automodule:: structmanager.genesis.sizing_data
     :members:
 
 """

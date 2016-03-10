@@ -1,8 +1,8 @@
 """
-Excel (:mod:`structMan.excel`)
-==============================
+Excel (:mod:`structmanager.excel`)
+==================================
 
-.. currentmodule:: structMan.excel
+.. currentmodule:: structmanager.excel
 
 Derived from "Python Programming on Win32" by Mark Hammond and Andy Robinson.
 

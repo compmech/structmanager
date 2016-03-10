@@ -1,8 +1,8 @@
 """
-Model (:mod:`structMan.model`)
-==============================
+Model (:mod:`structmanager.model`)
+==================================
 
-.. currentmodule:: structMan.model
+.. currentmodule:: structmanager.model
 
 """
 from collections import defaultdict

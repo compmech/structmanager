@@ -1,3 +1,3 @@
-.. automodule:: structMan.ses.flanges
+.. automodule:: structmanager.ses.flanges
     :members:
     :show-inheritance:

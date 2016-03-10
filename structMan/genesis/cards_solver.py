@@ -1,6 +1,6 @@
 """
 Optimization cards (:mod:`feopt.genesis.cards_solver`)
-================================================
+======================================================
 
 .. currentmodule:: feopt.genesis.cards_solver`
 

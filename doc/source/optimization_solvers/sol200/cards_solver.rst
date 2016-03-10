@@ -1,3 +1,3 @@
-.. automodule:: structMan.sol200.cards_solver
+.. automodule:: structmanager.sol200.cards_solver
     :members:
     :show-inheritance:

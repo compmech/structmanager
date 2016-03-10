@@ -1,17 +1,17 @@
 """
-Ring frame flanges (:mod:`structMan.ses.flanges`)
-=================================================
+Ring frame flanges (:mod:`structmanager.ses.flanges`)
+=====================================================
 
-.. currentmodule:: structMan.ses.flanges
+.. currentmodule:: structmanager.ses.flanges
 
 """
 import numpy as np
 
 from ses import SE1D
 
-from structMan.sol200 import (DRESP1, DCONSTR, DEQATN, DRESP2, DESVAR,
+from structmanager.sol200 import (DRESP1, DCONSTR, DEQATN, DRESP2, DESVAR,
                               DVPREL1, DVPREL2)
-import structMan.sol200.output_codes as output_codes_SOL200
+import structmanager.sol200.output_codes as output_codes_SOL200
 
 
 class Flange1D(SE1D):

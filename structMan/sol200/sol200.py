@@ -1,8 +1,8 @@
 """
-SOL200 optimization model (:mod:`structMan.sol200.sol200`)
-==========================================================
+SOL200 optimization model (:mod:`structmanager.sol200.sol200`)
+==============================================================
 
-.. currentmodule:: structMan.sol200.sol200
+.. currentmodule:: structmanager.sol200.sol200
 
 """
 import os

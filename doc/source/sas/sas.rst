@@ -1,3 +1,3 @@
-.. automodule:: structMan.sas
+.. automodule:: structmanager.sas
     :members:
     :show-inheritance:
