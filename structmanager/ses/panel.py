@@ -9,8 +9,8 @@ import numpy as np
 
 from ses import SE2D
 
-from structmanager.sol200 import (DRESP1, DCONSTR, DEQATN, DRESP2, DRESP3, DESVAR,
-                              DVPREL1, DVPREL2)
+from structmanager.sol200 import (DRESP1, DCONSTR, DEQATN, DRESP2, DRESP3,
+        DESVAR, DVPREL1, DVPREL2)
 
 import structmanager.sol200.output_codes as output_codes_SOL200
 
