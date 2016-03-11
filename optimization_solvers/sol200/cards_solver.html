@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Solver cards (structMan.sol200.cards_solver) &mdash; structMan 0.1.0 dev documentation</title>
+    <title>Solver cards (structmanager.sol200.cards_solver) &mdash; structmanager 0.2.0 dev documentation</title>
     
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.1.0 dev',
+        VERSION:     '0.2.0 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="structMan 0.1.0 dev documentation" href="../../index.html" />
+    <link rel="top" title="structmanager 0.2.0 dev documentation" href="../../index.html" />
     <link rel="up" title="Nastran’s SOL 200" href="__init__.html" /> 
   </head>
   <body role="document">
@@ -40,8 +40,8 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../../structMan_modules.html" >structMan Modules</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">structmanager 0.2.0 dev documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../structmanager_modules.html" >structmanager Modules</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="../optimization_solvers.html" >Optimization Solvers</a> &raquo;</li>
           <li class="nav-item nav-item-3"><a href="__init__.html" accesskey="U">Nastran&#8217;s SOL 200</a> &raquo;</li> 
       </ul>
@@ -52,14 +52,14 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <span class="target" id="module-structMan.sol200.cards_solver"></span><div class="section" id="solver-cards-structman-sol200-cards-solver">
-<h1>Solver cards (<a class="reference internal" href="#module-structMan.sol200.cards_solver" title="structMan.sol200.cards_solver"><code class="xref py py-mod docutils literal"><span class="pre">structMan.sol200.cards_solver</span></code></a>)<a class="headerlink" href="#solver-cards-structman-sol200-cards-solver" title="Permalink to this headline">¶</a></h1>
+  <span class="target" id="module-structmanager.sol200.cards_solver"></span><div class="section" id="solver-cards-structmanager-sol200-cards-solver">
+<h1>Solver cards (<a class="reference internal" href="#module-structmanager.sol200.cards_solver" title="structmanager.sol200.cards_solver"><code class="xref py py-mod docutils literal"><span class="pre">structmanager.sol200.cards_solver</span></code></a>)<a class="headerlink" href="#solver-cards-structmanager-sol200-cards-solver" title="Permalink to this headline">¶</a></h1>
 <p>Many input cards related to the finite element solver are wrapped in this
 module.</p>
 <dl class="class">
-<dt id="structMan.sol200.cards_solver.PBARL">
-<em class="property">class </em><code class="descclassname">structMan.sol200.cards_solver.</code><code class="descname">PBARL</code><span class="sig-paren">(</span><em>id</em>, <em>mid</em>, <em>library</em>, <em>type</em>, <em>d_list</em>, <em>nsm=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/structMan/sol200/cards_solver.html#PBARL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_solver.PBARL" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sol200.html#structMan.sol200.sol200.SOL200" title="structMan.sol200.sol200.SOL200"><code class="xref py py-class docutils literal"><span class="pre">structMan.sol200.sol200.SOL200</span></code></a></p>
+<dt id="structmanager.sol200.cards_solver.PBARL">
+<em class="property">class </em><code class="descclassname">structmanager.sol200.cards_solver.</code><code class="descname">PBARL</code><span class="sig-paren">(</span><em>id</em>, <em>mid</em>, <em>library</em>, <em>type</em>, <em>d_list</em>, <em>nsm=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/structmanager/sol200/cards_solver.html#PBARL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_solver.PBARL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="sol200.html#structmanager.sol200.sol200.SOL200" title="structmanager.sol200.sol200.SOL200"><code class="xref py py-class docutils literal"><span class="pre">structmanager.sol200.sol200.SOL200</span></code></a></p>
 <p>Pre-defined sections for bar elements</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -103,38 +103,41 @@ properties (<code class="docutils literal"><span class="pre">'CSLIB1'</span></co
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">constrain_pbar</span></code></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">constrain_pshell</span></code></td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">constrain_pcomp</span></code></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">constrain_two_vars</span></code></td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">constrain_pshell</span></code></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">create_dobj</span></code></td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">constrain_two_vars</span></code></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">pickle_dump</span></code></td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">create_dobj</span></code></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">pickle_load</span></code></td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">pickle_dump</span></code></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">print_card</span></code></td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">pickle_load</span></code></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">print_model</span></code></td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">print_card</span></code></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">reset_newprops</span></code></td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">print_model</span></code></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">set_output_file</span></code></td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">reset_newprops</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">set_output_file</span></code></td>
 <td></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
-<dt id="structMan.sol200.cards_solver.PBARL.print_card">
-<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/structMan/sol200/cards_solver.html#PBARL.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_solver.PBARL.print_card" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.cards_solver.PBARL.print_card">
+<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/structmanager/sol200/cards_solver.html#PBARL.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_solver.PBARL.print_card" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prints the corresponding input card</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -196,8 +199,8 @@ properties (<code class="docutils literal"><span class="pre">'CSLIB1'</span></co
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../../structMan_modules.html" >structMan Modules</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">structmanager 0.2.0 dev documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../structmanager_modules.html" >structmanager Modules</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="../optimization_solvers.html" >Optimization Solvers</a> &raquo;</li>
           <li class="nav-item nav-item-3"><a href="__init__.html" >Nastran&#8217;s SOL 200</a> &raquo;</li> 
       </ul>

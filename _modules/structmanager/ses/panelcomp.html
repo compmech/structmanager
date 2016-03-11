@@ -1,0 +1,284 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>structmanager.ses.panelcomp &mdash; structmanager 0.2.0 dev documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2.0 dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="structmanager 0.2.0 dev documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">structmanager 0.2.0 dev documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for structmanager.ses.panelcomp</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Composite Panel SEs (:mod:`structmanager.ses.panelcomp`)</span>
+<span class="sd">========================================================</span>
+
+<span class="sd">.. currentmodule:: structmanager.ses.panelcomp</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">ses</span> <span class="kn">import</span> <span class="n">SE2D</span>
+
+<span class="kn">from</span> <span class="nn">structmanager.sol200</span> <span class="kn">import</span> <span class="p">(</span><span class="n">DRESP1</span><span class="p">,</span> <span class="n">DCONSTR</span><span class="p">,</span> <span class="n">DEQATN</span><span class="p">,</span> <span class="n">DRESP2</span><span class="p">,</span> <span class="n">DRESP3</span><span class="p">,</span>
+        <span class="n">DESVAR</span><span class="p">,</span> <span class="n">DTABLE</span><span class="p">,</span> <span class="n">DVPREL1</span><span class="p">,</span> <span class="n">DVPREL2</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">structmanager.sol200.output_codes</span> <span class="kn">as</span> <span class="nn">output_codes_SOL200</span>
+
+
+<div class="viewcode-block" id="PanelComp"><a class="viewcode-back" href="../../../ses/panelcomp.html#structmanager.ses.panelcomp.PanelComp">[docs]</a><span class="k">class</span> <span class="nc">PanelComp</span><span class="p">(</span><span class="n">SE2D</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Composite Panel</span>
+
+<span class="sd">    This class should be used for cylindrical panels (i.e. fuselage panels).</span>
+<span class="sd">    For plates please refer to :class:`.Plate`.</span>
+
+<span class="sd">    For wing panels this class should also be adopted.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">eids</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PanelComp</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">eids</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span> <span class="c">#change to super(PanelComp, self)?</span>
+        <span class="c"># geometric parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_lb</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_ub</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p45</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p45_lb</span> <span class="o">=</span> <span class="mf">0.1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p45_ub</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p90</span> <span class="o">=</span> <span class="mf">0.1</span>
+        <span class="c"># material properties</span>
+        <span class="c"># all material properties are got from FE model at ses.py</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_isotropic</span> <span class="o">=</span> <span class="bp">None</span> <span class="c">#change to orthotropic?</span>
+        <span class="c"># optimization constraints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_constraints</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;vonMises&#39;</span><span class="p">,</span> <span class="s">&#39;buckling&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;vonMises&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                            <span class="s">&#39;buckling&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+
+        <span class="c"># finding corner nodes</span>
+        <span class="c"># - assuming that they are those that share only one inner element</span>
+        <span class="c"># - radius calculated assuming the panel has a common center</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">nodes</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">element</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                    <span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+            <span class="n">ccoords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">n</span><span class="o">.</span><span class="n">xyz</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">])</span>
+            <span class="n">xs</span> <span class="o">=</span> <span class="n">ccoords</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="n">ys</span> <span class="o">=</span> <span class="n">ccoords</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">zs</span> <span class="o">=</span> <span class="n">ccoords</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span>
+            <span class="n">rs</span> <span class="o">=</span> <span class="p">(</span><span class="n">ys</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">zs</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span>
+            <span class="n">thetas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">zs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">xs</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">xs</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">thetas</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">thetas</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">r</span>
+
+            <span class="c"># retrieving plies thicknesses from panel</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">t0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pid</span><span class="o">.</span><span class="n">Thickness</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">t45</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pid</span><span class="o">.</span><span class="n">Thickness</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pid</span><span class="o">.</span><span class="n">Thickness</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">t90</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pid</span><span class="o">.</span><span class="n">Thickness</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t0</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">t45</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">t90</span>
+
+            <span class="c"># calculating the thickness ratio</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">p45</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t45</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span>
+
+
+    <span class="k">def</span> <span class="nf">create_dvars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvars_created</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvars_created</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="n">pid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pid</span>
+        <span class="n">ptype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ptype</span>
+
+        <span class="k">if</span> <span class="n">ptype</span> <span class="o">==</span> <span class="s">&#39;PCOMP&#39;</span><span class="p">:</span>
+            <span class="n">dvar_t</span> <span class="o">=</span> <span class="n">DESVAR</span><span class="p">(</span><span class="s">&#39;PCt&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_lb</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_ub</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_dvar</span><span class="p">(</span><span class="n">dvar_t</span><span class="p">)</span>
+            <span class="n">dvar_p45</span> <span class="o">=</span> <span class="n">DESVAR</span><span class="p">(</span><span class="s">&#39;PCp45&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p45</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p45_lb</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p45_ub</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_dvar</span><span class="p">(</span><span class="n">dvar_p45</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_dtable</span><span class="p">(</span><span class="s">&#39;P90&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p90</span><span class="p">)</span>
+            <span class="c">#DONE</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_dtable</span><span class="p">(</span><span class="s">&#39;PCa&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_dtable</span><span class="p">(</span><span class="s">&#39;PCb&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_dtable</span><span class="p">(</span><span class="s">&#39;PCr&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_dtable</span><span class="p">(</span><span class="s">&#39;PCE1&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">E1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_dtable</span><span class="p">(</span><span class="s">&#39;PCE2&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">E2</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_dtable</span><span class="p">(</span><span class="s">&#39;PCG12&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">G12</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_dtable</span><span class="p">(</span><span class="s">&#39;PCn12&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nu12</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_dtable</span><span class="p">(</span><span class="s">&#39;PCn21&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nu21</span><span class="p">)</span>
+
+            <span class="n">deqatn0</span> <span class="o">=</span> <span class="n">DEQATN</span><span class="p">(</span><span class="s">&#39;T0(t,p45,p90) = (1.-p45-p90)*t&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_deqatn</span><span class="p">(</span><span class="n">deqatn0</span><span class="p">)</span>
+            <span class="n">dvprel2</span> <span class="o">=</span> <span class="n">DVPREL2</span><span class="p">(</span><span class="s">&#39;PCOMP&#39;</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="s">&#39;T1&#39;</span><span class="p">,</span> <span class="n">deqatn0</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="n">dvprel2</span><span class="o">.</span><span class="n">add_dvar</span><span class="p">(</span><span class="n">dvar_t</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="n">dvprel2</span><span class="o">.</span><span class="n">add_dvar</span><span class="p">(</span><span class="n">dvar_p45</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="n">dvprel2</span><span class="o">.</span><span class="n">add_dtable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtables</span><span class="p">[</span><span class="s">&#39;P90&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_dvprel</span><span class="p">(</span><span class="n">dvprel2</span><span class="p">)</span>
+
+            <span class="c">#DONE</span>
+            <span class="n">deqatn45</span> <span class="o">=</span> <span class="n">DEQATN</span><span class="p">(</span><span class="s">&#39;T45(t,p45) = (p45/2.)*t&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_deqatn</span><span class="p">(</span><span class="n">deqatn45</span><span class="p">)</span>
+            <span class="n">dvprel2</span> <span class="o">=</span> <span class="n">DVPREL2</span><span class="p">(</span><span class="s">&#39;PCOMP&#39;</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="s">&#39;T2&#39;</span><span class="p">,</span> <span class="n">deqatn45</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="c">#dvprel2.dvars = [dvar_t.id, dvar_p45.id]</span>
+            <span class="n">dvprel2</span><span class="o">.</span><span class="n">add_dvar</span><span class="p">(</span><span class="n">dvar_t</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="n">dvprel2</span><span class="o">.</span><span class="n">add_dvar</span><span class="p">(</span><span class="n">dvar_p45</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_dvprel</span><span class="p">(</span><span class="n">dvprel2</span><span class="p">)</span>
+
+            <span class="c">#DONE</span>
+            <span class="n">dvprel2</span> <span class="o">=</span> <span class="n">DVPREL2</span><span class="p">(</span><span class="s">&#39;PCOMP&#39;</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="s">&#39;T3&#39;</span><span class="p">,</span> <span class="n">deqatn45</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="c">#dvprel2.dvars = [dvar_t.id, dvar_p45.id]</span>
+            <span class="n">dvprel2</span><span class="o">.</span><span class="n">add_dvar</span><span class="p">(</span><span class="n">dvar_t</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="n">dvprel2</span><span class="o">.</span><span class="n">add_dvar</span><span class="p">(</span><span class="n">dvar_p45</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_dvprel</span><span class="p">(</span><span class="n">dvprel2</span><span class="p">)</span>
+
+            <span class="c">#DONE</span>
+            <span class="n">deqatn90</span> <span class="o">=</span> <span class="n">DEQATN</span><span class="p">(</span><span class="s">&#39;T90(t,p90) = p90*t&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_deqatn</span><span class="p">(</span><span class="n">deqatn90</span><span class="p">)</span>
+            <span class="n">dvprel2</span> <span class="o">=</span> <span class="n">DVPREL2</span><span class="p">(</span><span class="s">&#39;PCOMP&#39;</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="s">&#39;T4&#39;</span><span class="p">,</span> <span class="n">deqatn90</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="c">#dvprel2.dvars = [dvar_t.id]</span>
+            <span class="n">dvprel2</span><span class="o">.</span><span class="n">add_dvar</span><span class="p">(</span><span class="n">dvar_t</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="n">dvprel2</span><span class="o">.</span><span class="n">add_dtable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtables</span><span class="p">[</span><span class="s">&#39;P90&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_dvprel</span><span class="p">(</span><span class="n">dvprel2</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> not supported!&#39;</span> <span class="o">%</span> <span class="n">ptype</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">constrain_buckling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eig</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+
+        <span class="n">OUTC</span> <span class="o">=</span> <span class="n">output_codes_SOL200</span><span class="o">.</span><span class="n">OUTC</span>
+
+        <span class="n">eid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_central_element</span><span class="p">()</span><span class="o">.</span><span class="n">eid</span>
+
+        <span class="n">dcid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s">&#39;buckling&#39;</span><span class="p">]</span>
+
+        <span class="c"># reading membrane force Nxx</span>
+        <span class="n">code_Nxx</span> <span class="o">=</span> <span class="n">OUTC</span><span class="p">[</span><span class="s">&#39;FORCE&#39;</span><span class="p">][</span><span class="s">&#39;CQUAD4&#39;</span><span class="p">][</span><span class="s">&#39;Membrane force x&#39;</span><span class="p">]</span>
+        <span class="n">dresp_Nxx</span> <span class="o">=</span> <span class="n">DRESP1</span><span class="p">(</span><span class="s">&#39;PCfNxx&#39;</span><span class="p">,</span> <span class="s">&#39;FORCE&#39;</span><span class="p">,</span> <span class="s">&#39;ELEM&#39;</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                           <span class="n">atta</span><span class="o">=</span><span class="n">code_Nxx</span><span class="p">,</span> <span class="n">attb</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">atti</span><span class="o">=</span><span class="n">eid</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_dresp</span><span class="p">(</span><span class="n">dresp_Nxx</span><span class="p">)</span>
+
+        <span class="c"># reading membrane force Nyy</span>
+        <span class="n">code_Nyy</span> <span class="o">=</span> <span class="n">OUTC</span><span class="p">[</span><span class="s">&#39;FORCE&#39;</span><span class="p">][</span><span class="s">&#39;CQUAD4&#39;</span><span class="p">][</span><span class="s">&#39;Membrane force y&#39;</span><span class="p">]</span>
+        <span class="n">dresp_Nyy</span> <span class="o">=</span> <span class="n">DRESP1</span><span class="p">(</span><span class="s">&#39;PCfNyy&#39;</span><span class="p">,</span> <span class="s">&#39;FORCE&#39;</span><span class="p">,</span> <span class="s">&#39;ELEM&#39;</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                           <span class="n">atta</span><span class="o">=</span><span class="n">code_Nyy</span><span class="p">,</span> <span class="n">attb</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">atti</span><span class="o">=</span><span class="n">eid</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_dresp</span><span class="p">(</span><span class="n">dresp_Nyy</span><span class="p">)</span>
+
+        <span class="c"># reading membrane force Nxy</span>
+        <span class="n">code_Nxy</span> <span class="o">=</span> <span class="n">OUTC</span><span class="p">[</span><span class="s">&#39;FORCE&#39;</span><span class="p">][</span><span class="s">&#39;CQUAD4&#39;</span><span class="p">][</span><span class="s">&#39;Membrane force xy&#39;</span><span class="p">]</span>
+        <span class="n">dresp_Nxy</span> <span class="o">=</span> <span class="n">DRESP1</span><span class="p">(</span><span class="s">&#39;PCfNxy&#39;</span><span class="p">,</span> <span class="s">&#39;FORCE&#39;</span><span class="p">,</span> <span class="s">&#39;ELEM&#39;</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                           <span class="n">atta</span><span class="o">=</span><span class="n">code_Nxy</span><span class="p">,</span> <span class="n">attb</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">atti</span><span class="o">=</span><span class="n">eid</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_dresp</span><span class="p">(</span><span class="n">dresp_Nxy</span><span class="p">)</span>
+
+        <span class="c"># calculating buckling eigenvalue using an external subroutine</span>
+        <span class="c"># all parameters (desvars, dtables, dresp&#39;s) that this DRESP3 needs to run are listed below</span>
+        <span class="c"># creating DRESP3</span>
+        <span class="n">dresp</span> <span class="o">=</span> <span class="n">DRESP3</span><span class="p">(</span><span class="s">&#39;PCBUCK1&#39;</span><span class="p">,</span> <span class="s">&#39;PCBUCK&#39;</span><span class="p">,</span> <span class="s">&#39;BUCK_PC&#39;</span><span class="p">)</span>
+        <span class="n">dresp</span><span class="o">.</span><span class="n">add_dvar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dvars</span><span class="p">[</span><span class="s">&#39;PCt&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="c">#dresp.add_dvar(dvar_t.id)</span>
+        <span class="n">dresp</span><span class="o">.</span><span class="n">add_dtable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtables</span><span class="p">[</span><span class="s">&#39;PCa&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">dresp</span><span class="o">.</span><span class="n">add_dtable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtables</span><span class="p">[</span><span class="s">&#39;PCb&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">dresp</span><span class="o">.</span><span class="n">add_dtable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtables</span><span class="p">[</span><span class="s">&#39;PCr&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">dresp</span><span class="o">.</span><span class="n">add_dtable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtables</span><span class="p">[</span><span class="s">&#39;PCE1&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">dresp</span><span class="o">.</span><span class="n">add_dtable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtables</span><span class="p">[</span><span class="s">&#39;PCE2&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">dresp</span><span class="o">.</span><span class="n">add_dtable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtables</span><span class="p">[</span><span class="s">&#39;PCG12&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">dresp</span><span class="o">.</span><span class="n">add_dtable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtables</span><span class="p">[</span><span class="s">&#39;PCn12&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">dresp</span><span class="o">.</span><span class="n">add_dtable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtables</span><span class="p">[</span><span class="s">&#39;PCn21&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">dresp</span><span class="o">.</span><span class="n">add_dresp1</span><span class="p">(</span><span class="n">dresp_Nxx</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="n">dresp</span><span class="o">.</span><span class="n">add_dresp1</span><span class="p">(</span><span class="n">dresp_Nyy</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="n">dresp</span><span class="o">.</span><span class="n">add_dresp1</span><span class="p">(</span><span class="n">dresp_Nxy</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_dresp</span><span class="p">(</span><span class="n">dresp</span><span class="p">)</span>
+        <span class="c"># applying constraint of buckling: lower eigenvalue &gt;= 1.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="n">dcid</span><span class="p">,</span> <span class="n">dresp</span><span class="p">,</span> <span class="n">eig</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+</pre></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">structmanager 0.2.0 dev documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Saullo Castro.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

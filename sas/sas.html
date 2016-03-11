@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Structural Assemblies - SAs (structMan.sas) &mdash; structMan 0.1.0 dev documentation</title>
+    <title>Structural Assemblies - SAs (structmanager.sas) &mdash; structmanager 0.2.0 dev documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.1.0 dev',
+        VERSION:     '0.2.0 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,9 +24,10 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="structMan 0.1.0 dev documentation" href="../index.html" />
-    <link rel="up" title="structMan Modules" href="../structMan_modules.html" />
-    <link rel="next" title="Optimization Solvers" href="../optimization_solvers.html" /> 
+    <link rel="top" title="structmanager 0.2.0 dev documentation" href="../index.html" />
+    <link rel="up" title="structmanager Modules" href="../structmanager_modules.html" />
+    <link rel="next" title="Optimization Solvers" href="../optimization_solvers/optimization_solvers.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="../ses/web.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -42,10 +43,13 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../optimization_solvers.html" title="Optimization Solvers"
+          <a href="../optimization_solvers/optimization_solvers.html" title="Optimization Solvers"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../structMan_modules.html" accesskey="U">structMan Modules</a> &raquo;</li> 
+        <li class="right" >
+          <a href="../ses/web.html" title="&lt;no title&gt;"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">structmanager 0.2.0 dev documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../structmanager_modules.html" accesskey="U">structmanager Modules</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -54,27 +58,34 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <span class="target" id="module-structMan.sas"></span><div class="section" id="structural-assemblies-sas-structman-sas">
-<h1>Structural Assemblies - SAs (<a class="reference internal" href="#module-structMan.sas" title="structMan.sas"><code class="xref py py-mod docutils literal"><span class="pre">structMan.sas</span></code></a>)<a class="headerlink" href="#structural-assemblies-sas-structman-sas" title="Permalink to this headline">¶</a></h1>
+  <span class="target" id="module-structmanager.sas"></span><div class="section" id="structural-assemblies-sas-structmanager-sas">
+<h1>Structural Assemblies - SAs (<a class="reference internal" href="#module-structmanager.sas" title="structmanager.sas"><code class="xref py py-mod docutils literal"><span class="pre">structmanager.sas</span></code></a>)<a class="headerlink" href="#structural-assemblies-sas-structmanager-sas" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="structMan.sas.FrameAssembly">
-<em class="property">class </em><code class="descclassname">structMan.sas.</code><code class="descname">FrameAssembly</code><span class="sig-paren">(</span><em>name</em>, <em>outerflange</em>, <em>web</em>, <em>innerflange</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sas.html#FrameAssembly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sas.FrameAssembly" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sas.FrameAssembly">
+<em class="property">class </em><code class="descclassname">structmanager.sas.</code><code class="descname">FrameAssembly</code><span class="sig-paren">(</span><em>name</em>, <em>outerflange</em>, <em>web</em>, <em>innerflange</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sas.html#FrameAssembly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sas.FrameAssembly" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Frame Assembly</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="structMan.sas.FrameShearClipAssembly">
-<em class="property">class </em><code class="descclassname">structMan.sas.</code><code class="descname">FrameShearClipAssembly</code><span class="sig-paren">(</span><em>name</em>, <em>shearclipskin</em>, <em>shearclipframe</em>, <em>outerflange</em>, <em>web</em>, <em>innerflange</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sas.html#FrameShearClipAssembly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sas.FrameShearClipAssembly" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sas.FrameShearClipAssembly">
+<em class="property">class </em><code class="descclassname">structmanager.sas.</code><code class="descname">FrameShearClipAssembly</code><span class="sig-paren">(</span><em>name</em>, <em>shearclipskin</em>, <em>shearclipframe</em>, <em>outerflange</em>, <em>web</em>, <em>innerflange</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sas.html#FrameShearClipAssembly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sas.FrameShearClipAssembly" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Frame Assembly with Shear Clip</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="structMan.sas.StiffenedPanelAssembly">
-<em class="property">class </em><code class="descclassname">structMan.sas.</code><code class="descname">StiffenedPanelAssembly</code><span class="sig-paren">(</span><em>name</em>, <em>panel</em>, <em>fr1</em>, <em>fr2</em>, <em>str1</em>, <em>str2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sas.html#StiffenedPanelAssembly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sas.StiffenedPanelAssembly" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sas.StiffenedPanelAssembly">
+<em class="property">class </em><code class="descclassname">structmanager.sas.</code><code class="descname">StiffenedPanelAssembly</code><span class="sig-paren">(</span><em>name</em>, <em>panel</em>, <em>fr1</em>, <em>fr2</em>, <em>str1</em>, <em>str2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sas.html#StiffenedPanelAssembly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sas.StiffenedPanelAssembly" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Stiffened Panel Assembly</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="structmanager.sas.StiffenedPanelCutout">
+<em class="property">class </em><code class="descclassname">structmanager.sas.</code><code class="descname">StiffenedPanelCutout</code><span class="sig-paren">(</span><em>name</em>, <em>panelcutout</em>, <em>str1</em>, <em>str2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sas.html#StiffenedPanelCutout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sas.StiffenedPanelCutout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Stiffened Panel Cutout</p>
 </dd></dl>
 
 </div>
@@ -85,8 +96,11 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../ses/web.html"
+                        title="previous chapter">&lt;no title&gt;</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="../optimization_solvers.html"
+  <p class="topless"><a href="../optimization_solvers/optimization_solvers.html"
                         title="next chapter">Optimization Solvers</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -125,10 +139,13 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../optimization_solvers.html" title="Optimization Solvers"
+          <a href="../optimization_solvers/optimization_solvers.html" title="Optimization Solvers"
              >next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../structMan_modules.html" >structMan Modules</a> &raquo;</li> 
+        <li class="right" >
+          <a href="../ses/web.html" title="&lt;no title&gt;"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">structmanager 0.2.0 dev documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../structmanager_modules.html" >structmanager Modules</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

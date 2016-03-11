@@ -1,3 +1,3 @@
-.. automodule:: structMan.genesis
+.. automodule:: structmanager.genesis
     :members:
     :show-inheritance:

@@ -1,3 +1,3 @@
-.. automodule:: structMan.ses.ses
+.. automodule:: structmanager.ses.ses
     :members:
     :show-inheritance:

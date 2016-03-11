@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>structMan.sol200.sol200 &mdash; structMan 0.1.0 dev documentation</title>
+    <title>structmanager.sol200.sol200 &mdash; structmanager 0.1.0 dev documentation</title>
     
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="structMan 0.1.0 dev documentation" href="../../../index.html" />
+    <link rel="top" title="structmanager 0.1.0 dev documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body role="document">
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">structmanager 0.1.0 dev documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -50,12 +50,12 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <h1>Source code for structMan.sol200.sol200</h1><div class="highlight"><pre>
+  <h1>Source code for structmanager.sol200.sol200</h1><div class="highlight"><pre>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SOL200 optimization model (:mod:`structMan.sol200.sol200`)</span>
+<span class="sd">SOL200 optimization model (:mod:`structmanager.sol200.sol200`)</span>
 <span class="sd">==========================================================</span>
 
-<span class="sd">.. currentmodule:: structMan.sol200.sol200</span>
+<span class="sd">.. currentmodule:: structmanager.sol200.sol200</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -74,7 +74,7 @@
     <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;$</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="SOL200"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structMan.sol200.sol200.SOL200">[docs]</a><span class="k">class</span> <span class="nc">SOL200</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="SOL200"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structmanager.sol200.sol200.SOL200">[docs]</a><span class="k">class</span> <span class="nc">SOL200</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;SOL200 optimization model</span>
 
 <span class="sd">    This class corresponds to an optimization model.</span>
@@ -141,7 +141,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span> <span class="o">=</span> <span class="bp">None</span>
 
 
-<div class="viewcode-block" id="SOL200.set_output_file"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structMan.sol200.sol200.SOL200.set_output_file">[docs]</a>    <span class="k">def</span> <span class="nf">set_output_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<div class="viewcode-block" id="SOL200.set_output_file"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structmanager.sol200.sol200.SOL200.set_output_file">[docs]</a>    <span class="k">def</span> <span class="nf">set_output_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Define the data related to the output file.</span>
 
 <span class="sd">        The output directory is estimated based on `path`.</span>
@@ -165,7 +165,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">manufact_cons_coord</span> <span class="o">=</span> <span class="n">manufact_cons_coord</span>
 
 
-<div class="viewcode-block" id="SOL200.print_model"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structMan.sol200.sol200.SOL200.print_model">[docs]</a>    <span class="k">def</span> <span class="nf">print_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SOL200.print_model"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structmanager.sol200.sol200.SOL200.print_model">[docs]</a>    <span class="k">def</span> <span class="nf">print_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print the whole model.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -187,7 +187,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
 </div>
-<div class="viewcode-block" id="SOL200.reset_newprops"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structMan.sol200.sol200.SOL200.reset_newprops">[docs]</a>    <span class="k">def</span> <span class="nf">reset_newprops</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SOL200.reset_newprops"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structmanager.sol200.sol200.SOL200.reset_newprops">[docs]</a>    <span class="k">def</span> <span class="nf">reset_newprops</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Reset the dictionary `newprops`.</span>
 
 <span class="sd">        This dictionary contains NASTRAN property cards that should be created</span>
@@ -206,7 +206,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">newprops</span><span class="p">[</span><span class="s">&#39;PCOMP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
 </div>
-<div class="viewcode-block" id="SOL200.constrain_pshell"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structMan.sol200.sol200.SOL200.constrain_pshell">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_pshell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dcid</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">eltype</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">lallow</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+<div class="viewcode-block" id="SOL200.constrain_pshell"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structmanager.sol200.sol200.SOL200.constrain_pshell">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_pshell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dcid</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">eltype</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">lallow</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
             <span class="n">uallow</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add constraints to the bottom and top faces of a shell property.</span>
 
@@ -248,7 +248,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">dconstrs</span><span class="p">[</span><span class="n">dconstr</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dconstr</span>
 
 </div>
-<div class="viewcode-block" id="SOL200.constrain_pbar"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structMan.sol200.sol200.SOL200.constrain_pbar">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_pbar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dcid</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">eltype</span><span class="p">,</span> <span class="n">allow_C</span><span class="p">,</span> <span class="n">allow_T</span><span class="p">):</span>
+<div class="viewcode-block" id="SOL200.constrain_pbar"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structmanager.sol200.sol200.SOL200.constrain_pbar">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_pbar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dcid</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">eltype</span><span class="p">,</span> <span class="n">allow_C</span><span class="p">,</span> <span class="n">allow_T</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add constraints to all stress recovery points of a bar property.</span>
 
 <span class="sd">        Parameters</span>
@@ -309,7 +309,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">dconstrs</span><span class="p">[</span><span class="n">dconstr</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dconstr</span>
 
 </div>
-<div class="viewcode-block" id="SOL200.constrain_two_vars"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structMan.sol200.sol200.SOL200.constrain_two_vars">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_two_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dcid</span><span class="p">,</span> <span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">,</span> <span class="n">maxdiff</span><span class="p">):</span>
+<div class="viewcode-block" id="SOL200.constrain_two_vars"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structmanager.sol200.sol200.SOL200.constrain_two_vars">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_two_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dcid</span><span class="p">,</span> <span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">,</span> <span class="n">maxdiff</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constrain two vars in order to keep a maximum relative difference</span>
 
 <span class="sd">        Parameters</span>
@@ -355,7 +355,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dconstrs</span><span class="p">[</span><span class="n">dconstr</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dconstr</span>
 
 </div>
-<div class="viewcode-block" id="SOL200.create_dobj"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structMan.sol200.sol200.SOL200.create_dobj">[docs]</a>    <span class="k">def</span> <span class="nf">create_dobj</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SOL200.create_dobj"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structmanager.sol200.sol200.SOL200.create_dobj">[docs]</a>    <span class="k">def</span> <span class="nf">create_dobj</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Create the design objective.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -485,7 +485,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">structmanager 0.1.0 dev documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>structMan.sol200.cards_opt &mdash; structMan 0.1.0 dev documentation</title>
+    <title>structmanager.sol200.cards_opt &mdash; structmanager 0.1.0 dev documentation</title>
     
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="structMan 0.1.0 dev documentation" href="../../../index.html" />
+    <link rel="top" title="structmanager 0.1.0 dev documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body role="document">
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">structmanager 0.1.0 dev documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -50,47 +50,47 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <h1>Source code for structMan.sol200.cards_opt</h1><div class="highlight"><pre>
+  <h1>Source code for structmanager.sol200.cards_opt</h1><div class="highlight"><pre>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Optimization cards (:mod:`structMan.sol200.cards_opt`)</span>
+<span class="sd">Optimization cards (:mod:`structmanager.sol200.cards_opt`)</span>
 <span class="sd">======================================================</span>
 
-<span class="sd">.. currentmodule:: structMan.sol200.cards_opt`</span>
+<span class="sd">.. currentmodule:: structmanager.sol200.cards_opt`</span>
 
 <span class="sd">Many input cards related to the optimization problem are wrapped in this</span>
 <span class="sd">module. The input cards more related to the solver are contained in module</span>
-<span class="sd">:mod:`structMan.sol200.cards_solver`.</span>
+<span class="sd">:mod:`structmanager.sol200.cards_solver`.</span>
 
 <span class="sd">.. rubric:: Classes</span>
 
 <span class="sd">.. autosummary::</span>
 
-<span class="sd">    structMan.sol200.cards_opt.DCONSTR</span>
-<span class="sd">    structMan.sol200.cards_opt.DEQATN</span>
-<span class="sd">    structMan.sol200.cards_opt.DESVAR</span>
-<span class="sd">    structMan.sol200.cards_opt.DLINK</span>
-<span class="sd">    structMan.sol200.cards_opt.DRESP1</span>
-<span class="sd">    structMan.sol200.cards_opt.DRESP2</span>
-<span class="sd">    structMan.sol200.cards_opt.DRESP3</span>
-<span class="sd">    structMan.sol200.cards_opt.DTABLE</span>
-<span class="sd">    structMan.sol200.cards_opt.DVPREL1</span>
+<span class="sd">    structmanager.sol200.cards_opt.DCONSTR</span>
+<span class="sd">    structmanager.sol200.cards_opt.DEQATN</span>
+<span class="sd">    structmanager.sol200.cards_opt.DESVAR</span>
+<span class="sd">    structmanager.sol200.cards_opt.DLINK</span>
+<span class="sd">    structmanager.sol200.cards_opt.DRESP1</span>
+<span class="sd">    structmanager.sol200.cards_opt.DRESP2</span>
+<span class="sd">    structmanager.sol200.cards_opt.DRESP3</span>
+<span class="sd">    structmanager.sol200.cards_opt.DTABLE</span>
+<span class="sd">    structmanager.sol200.cards_opt.DVPREL1</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">sizing_data</span> <span class="kn">import</span> <span class="n">SDATA</span>
 <span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">format_float</span> <span class="k">as</span> <span class="n">ff</span>
 
 
-<div class="viewcode-block" id="DVPREL"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structMan.sol200.cards_opt.DVPREL">[docs]</a><span class="k">class</span> <span class="nc">DVPREL</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="DVPREL"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structmanager.sol200.cards_opt.DVPREL">[docs]</a><span class="k">class</span> <span class="nc">DVPREL</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Base class to guarantee an unique id among all DVPRELs&quot;&quot;&quot;</span>
     <span class="n">uniqueid</span> <span class="o">=</span> <span class="mi">9000000</span>
 
 </div>
-<div class="viewcode-block" id="DRESP"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structMan.sol200.cards_opt.DRESP">[docs]</a><span class="k">class</span> <span class="nc">DRESP</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="DRESP"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structmanager.sol200.cards_opt.DRESP">[docs]</a><span class="k">class</span> <span class="nc">DRESP</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Base class to guarantee an unique id among all DRESPs&quot;&quot;&quot;</span>
     <span class="n">uniqueid</span> <span class="o">=</span> <span class="mi">9000000</span>
 
 </div>
-<div class="viewcode-block" id="DRESP1"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structMan.sol200.cards_opt.DRESP1">[docs]</a><span class="k">class</span> <span class="nc">DRESP1</span><span class="p">(</span><span class="n">DRESP</span><span class="p">):</span>
+<div class="viewcode-block" id="DRESP1"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structmanager.sol200.cards_opt.DRESP1">[docs]</a><span class="k">class</span> <span class="nc">DRESP1</span><span class="p">(</span><span class="n">DRESP</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Design response DRESP1</span>
 
 <span class="sd">    Parameters</span>
@@ -129,7 +129,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">attb</span> <span class="o">=</span> <span class="n">attb</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">atti</span> <span class="o">=</span> <span class="n">atti</span>
 
-<div class="viewcode-block" id="DRESP1.print_card"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structMan.sol200.cards_opt.DRESP1.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+<div class="viewcode-block" id="DRESP1.print_card"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structmanager.sol200.cards_opt.DRESP1.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -150,7 +150,7 @@
         <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dresp1str</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
 
 </div></div>
-<div class="viewcode-block" id="PRINTAUX"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structMan.sol200.cards_opt.PRINTAUX">[docs]</a><span class="k">class</span> <span class="nc">PRINTAUX</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="PRINTAUX"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structmanager.sol200.cards_opt.PRINTAUX">[docs]</a><span class="k">class</span> <span class="nc">PRINTAUX</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Base class for :class:`DRESP23` and :class:`BASEDV2`</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -170,7 +170,7 @@
         <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">auxstr</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="DRESP23"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structMan.sol200.cards_opt.DRESP23">[docs]</a><span class="k">class</span> <span class="nc">DRESP23</span><span class="p">(</span><span class="n">PRINTAUX</span><span class="p">):</span>
+<div class="viewcode-block" id="DRESP23"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structmanager.sol200.cards_opt.DRESP23">[docs]</a><span class="k">class</span> <span class="nc">DRESP23</span><span class="p">(</span><span class="n">PRINTAUX</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Base class for DVPREL2, DVCREL2, DVMREL2, DRESP2, DRESP3 etc</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -194,7 +194,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dresp2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dresp2_id</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="DRESP2"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structMan.sol200.cards_opt.DRESP2">[docs]</a><span class="k">class</span> <span class="nc">DRESP2</span><span class="p">(</span><span class="n">DRESP23</span><span class="p">):</span>
+<div class="viewcode-block" id="DRESP2"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structmanager.sol200.cards_opt.DRESP2">[docs]</a><span class="k">class</span> <span class="nc">DRESP2</span><span class="p">(</span><span class="n">DRESP23</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Design response DRESP2</span>
 
 <span class="sd">    Define equation responses that are used in the design, either as an</span>
@@ -226,7 +226,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">eqid</span> <span class="o">=</span> <span class="n">eqid</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">region</span> <span class="o">=</span> <span class="n">region</span>
 
-<div class="viewcode-block" id="DRESP2.print_card"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structMan.sol200.cards_opt.DRESP2.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+<div class="viewcode-block" id="DRESP2.print_card"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structmanager.sol200.cards_opt.DRESP2.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
 
 <span class="sd">        Parameters</span>
@@ -250,7 +250,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">print_aux</span><span class="p">(</span><span class="s">&#39;DRESP2&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dresp2</span><span class="p">,</span> <span class="nb">file</span><span class="p">)</span>
 
 </div></div>
-<div class="viewcode-block" id="DRESP3"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structMan.sol200.cards_opt.DRESP3">[docs]</a><span class="k">class</span> <span class="nc">DRESP3</span><span class="p">(</span><span class="n">DRESP23</span><span class="p">):</span>
+<div class="viewcode-block" id="DRESP3"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structmanager.sol200.cards_opt.DRESP3">[docs]</a><span class="k">class</span> <span class="nc">DRESP3</span><span class="p">(</span><span class="n">DRESP23</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Design response DRESP3</span>
 
 <span class="sd">    Define use-subroutine or built-in responses that can be used in the design</span>
@@ -282,7 +282,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">type</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">region</span> <span class="o">=</span> <span class="n">region</span>
 
-<div class="viewcode-block" id="DRESP3.print_card"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structMan.sol200.cards_opt.DRESP3.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+<div class="viewcode-block" id="DRESP3.print_card"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structmanager.sol200.cards_opt.DRESP3.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
 
 <span class="sd">        Parameters</span>
@@ -305,7 +305,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">print_aux</span><span class="p">(</span><span class="s">&#39;DRESP2&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dresp2</span><span class="p">,</span> <span class="nb">file</span><span class="p">)</span>
 
 </div></div>
-<div class="viewcode-block" id="DESVAR"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structMan.sol200.cards_opt.DESVAR">[docs]</a><span class="k">class</span> <span class="nc">DESVAR</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="DESVAR"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structmanager.sol200.cards_opt.DESVAR">[docs]</a><span class="k">class</span> <span class="nc">DESVAR</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Design Variable</span>
 
 <span class="sd">    Parameters</span>
@@ -341,7 +341,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">delx</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ddval</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
 
-<div class="viewcode-block" id="DESVAR.print_card"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structMan.sol200.cards_opt.DESVAR.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+<div class="viewcode-block" id="DESVAR.print_card"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structmanager.sol200.cards_opt.DESVAR.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
 
 <span class="sd">        Parameters</span>
@@ -362,7 +362,7 @@
               <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delx</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ddval</span><span class="p">)))</span>
 
 </div>
-<div class="viewcode-block" id="BASEDV2"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structMan.sol200.cards_opt.BASEDV2">[docs]</a><span class="k">class</span> <span class="nc">BASEDV2</span><span class="p">(</span><span class="n">PRINTAUX</span><span class="p">):</span>
+<div class="viewcode-block" id="BASEDV2"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structmanager.sol200.cards_opt.BASEDV2">[docs]</a><span class="k">class</span> <span class="nc">BASEDV2</span><span class="p">(</span><span class="n">PRINTAUX</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Base class for DVPREL2, DVCREL2 and DVMREL2</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -378,7 +378,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dtable</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cons_label</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="DVPREL1"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structMan.sol200.cards_opt.DVPREL1">[docs]</a><span class="k">class</span> <span class="nc">DVPREL1</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="DVPREL1"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structmanager.sol200.cards_opt.DVPREL1">[docs]</a><span class="k">class</span> <span class="nc">DVPREL1</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Design Variable-to-Property relation</span>
 
 <span class="sd">    This is a wrapper for the DVPREL1 card in NASTRAN.</span>
@@ -415,7 +415,7 @@
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">dvids</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;At least one variable must be related&#39;</span>
 
 
-<div class="viewcode-block" id="DVPREL1.print_card"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structMan.sol200.cards_opt.DVPREL1.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+<div class="viewcode-block" id="DVPREL1.print_card"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structmanager.sol200.cards_opt.DVPREL1.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
 
 <span class="sd">        Parameters</span>
@@ -440,7 +440,7 @@
         <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dvprel1str</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
 
 </div></div>
-<div class="viewcode-block" id="DVPREL2"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structMan.sol200.cards_opt.DVPREL2">[docs]</a><span class="k">class</span> <span class="nc">DVPREL2</span><span class="p">(</span><span class="n">BASEDV2</span><span class="p">):</span>
+<div class="viewcode-block" id="DVPREL2"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structmanager.sol200.cards_opt.DVPREL2">[docs]</a><span class="k">class</span> <span class="nc">DVPREL2</span><span class="p">(</span><span class="n">BASEDV2</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Design Variable-to-Property relation</span>
 
 <span class="sd">    This is a wrapper for the DVPREL1 card in NASTRAN.</span>
@@ -468,7 +468,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">pname</span> <span class="o">=</span> <span class="n">pname</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">eqid</span> <span class="o">=</span> <span class="n">eqid</span>
 
-<div class="viewcode-block" id="DVPREL2.print_card"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structMan.sol200.cards_opt.DVPREL2.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+<div class="viewcode-block" id="DVPREL2.print_card"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structmanager.sol200.cards_opt.DVPREL2.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
 
 <span class="sd">        Parameters</span>
@@ -489,7 +489,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">print_aux</span><span class="p">(</span><span class="s">&#39;DTABLE&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtable</span><span class="p">,</span> <span class="nb">file</span><span class="p">)</span>
 
 </div></div>
-<div class="viewcode-block" id="DCONSTR"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structMan.sol200.cards_opt.DCONSTR">[docs]</a><span class="k">class</span> <span class="nc">DCONSTR</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="DCONSTR"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structmanager.sol200.cards_opt.DCONSTR">[docs]</a><span class="k">class</span> <span class="nc">DCONSTR</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Design constraint</span>
 
 <span class="sd">    Parameters</span>
@@ -514,7 +514,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">lallow</span> <span class="o">=</span> <span class="n">lallow</span> <span class="k">if</span> <span class="n">lallow</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="s">&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">uallow</span> <span class="o">=</span> <span class="n">uallow</span> <span class="k">if</span> <span class="n">uallow</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="s">&#39;&#39;</span>
 
-<div class="viewcode-block" id="DCONSTR.print_card"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structMan.sol200.cards_opt.DCONSTR.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+<div class="viewcode-block" id="DCONSTR.print_card"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structmanager.sol200.cards_opt.DCONSTR.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
 
 <span class="sd">        Parameters</span>
@@ -528,7 +528,7 @@
         <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dconstr</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
 
 </div></div>
-<div class="viewcode-block" id="DLINK"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structMan.sol200.cards_opt.DLINK">[docs]</a><span class="k">class</span> <span class="nc">DLINK</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="DLINK"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structmanager.sol200.cards_opt.DLINK">[docs]</a><span class="k">class</span> <span class="nc">DLINK</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">r&quot;&quot;&quot;Link between design variables</span>
 
 <span class="sd">    DLINK creates links among variables using the form:</span>
@@ -585,7 +585,7 @@
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">idvs</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">cs</span><span class="p">),</span> <span class="s">&#39;Lengths must be the same&#39;</span>
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">idvs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;At least one independent variable required&#39;</span>
 
-<div class="viewcode-block" id="DLINK.print_card"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structMan.sol200.cards_opt.DLINK.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+<div class="viewcode-block" id="DLINK.print_card"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structmanager.sol200.cards_opt.DLINK.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
 
 <span class="sd">        Parameters</span>
@@ -608,7 +608,7 @@
         <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dlinkstr</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
 
 </div></div>
-<div class="viewcode-block" id="DEQATN"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structMan.sol200.cards_opt.DEQATN">[docs]</a><span class="k">class</span> <span class="nc">DEQATN</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="DEQATN"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structmanager.sol200.cards_opt.DEQATN">[docs]</a><span class="k">class</span> <span class="nc">DEQATN</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Equation to calculate customized responses</span>
 
 <span class="sd">    Parameters</span>
@@ -638,7 +638,7 @@
         <span class="n">DEQATN</span><span class="o">.</span><span class="n">uniqueid</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">eq</span> <span class="o">=</span> <span class="s">&#39;  &#39;</span> <span class="o">+</span> <span class="n">eq</span>
 
-<div class="viewcode-block" id="DEQATN.print_card"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structMan.sol200.cards_opt.DEQATN.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+<div class="viewcode-block" id="DEQATN.print_card"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structmanager.sol200.cards_opt.DEQATN.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
 
 <span class="sd">        Parameters</span>
@@ -667,7 +667,7 @@
             <span class="n">eq</span> <span class="o">=</span> <span class="n">eq</span><span class="p">[</span><span class="n">check</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
 
 </div></div>
-<div class="viewcode-block" id="DTABLE"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structMan.sol200.cards_opt.DTABLE">[docs]</a><span class="k">class</span> <span class="nc">DTABLE</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="DTABLE"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structmanager.sol200.cards_opt.DTABLE">[docs]</a><span class="k">class</span> <span class="nc">DTABLE</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Design Table used to define many constants</span>
 
 <span class="sd">    Hints:</span>
@@ -684,7 +684,7 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dict</span><span class="o">=</span><span class="p">{}):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input_dict</span> <span class="o">=</span> <span class="n">input_dict</span>
 
-<div class="viewcode-block" id="DTABLE.print_card"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structMan.sol200.cards_opt.DTABLE.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+<div class="viewcode-block" id="DTABLE.print_card"><a class="viewcode-back" href="../../../optimization_solvers/sol200/cards_opt.html#structmanager.sol200.cards_opt.DTABLE.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
 
 <span class="sd">        Parameters</span>
@@ -751,7 +751,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">structmanager 0.1.0 dev documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

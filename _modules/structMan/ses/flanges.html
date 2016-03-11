@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>structMan.ses.flanges &mdash; structMan 0.1.0 dev documentation</title>
+    <title>structmanager.ses.flanges &mdash; structmanager 0.1.0 dev documentation</title>
     
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="structMan 0.1.0 dev documentation" href="../../../index.html" />
-    <link rel="up" title="structMan.ses" href="../ses.html" /> 
+    <link rel="top" title="structmanager 0.1.0 dev documentation" href="../../../index.html" />
+    <link rel="up" title="structmanager.ses" href="../ses.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -40,9 +40,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">structmanager 0.1.0 dev documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../ses.html" accesskey="U">structMan.ses</a> &raquo;</li> 
+          <li class="nav-item nav-item-2"><a href="../ses.html" accesskey="U">structmanager.ses</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -51,24 +51,24 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <h1>Source code for structMan.ses.flanges</h1><div class="highlight"><pre>
+  <h1>Source code for structmanager.ses.flanges</h1><div class="highlight"><pre>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Ring frame flanges (:mod:`structMan.ses.flanges`)</span>
+<span class="sd">Ring frame flanges (:mod:`structmanager.ses.flanges`)</span>
 <span class="sd">=================================================</span>
 
-<span class="sd">.. currentmodule:: structMan.ses.flanges</span>
+<span class="sd">.. currentmodule:: structmanager.ses.flanges</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">ses</span> <span class="kn">import</span> <span class="n">SE1D</span>
 
-<span class="kn">from</span> <span class="nn">structMan.sol200</span> <span class="kn">import</span> <span class="p">(</span><span class="n">DRESP1</span><span class="p">,</span> <span class="n">DCONSTR</span><span class="p">,</span> <span class="n">DEQATN</span><span class="p">,</span> <span class="n">DRESP2</span><span class="p">,</span> <span class="n">DESVAR</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">structmanager.sol200</span> <span class="kn">import</span> <span class="p">(</span><span class="n">DRESP1</span><span class="p">,</span> <span class="n">DCONSTR</span><span class="p">,</span> <span class="n">DEQATN</span><span class="p">,</span> <span class="n">DRESP2</span><span class="p">,</span> <span class="n">DESVAR</span><span class="p">,</span>
                               <span class="n">DVPREL1</span><span class="p">,</span> <span class="n">DVPREL2</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">structMan.sol200.output_codes</span> <span class="kn">as</span> <span class="nn">output_codes_SOL200</span>
+<span class="kn">import</span> <span class="nn">structmanager.sol200.output_codes</span> <span class="kn">as</span> <span class="nn">output_codes_SOL200</span>
 
 
-<div class="viewcode-block" id="Flange1D"><a class="viewcode-back" href="../../../ses/flanges.html#structMan.ses.flanges.Flange1D">[docs]</a><span class="k">class</span> <span class="nc">Flange1D</span><span class="p">(</span><span class="n">SE1D</span><span class="p">):</span>
+<div class="viewcode-block" id="Flange1D"><a class="viewcode-back" href="../../../ses/flanges.html#structmanager.ses.flanges.Flange1D">[docs]</a><span class="k">class</span> <span class="nc">Flange1D</span><span class="p">(</span><span class="n">SE1D</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Flange1D base class for :class:`.InnerFlange` and :class:`.OuterFlange`</span>
 
 <span class="sd">    .. autoattribute:: Flange1D.profile</span>
@@ -191,7 +191,7 @@
                 <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> not supported!&#39;</span> <span class="o">%</span> <span class="n">ptype</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="Flange1D.constrain_buckling"><a class="viewcode-back" href="../../../ses/flanges.html#structMan.ses.flanges.Flange1D.constrain_buckling">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_buckling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+<div class="viewcode-block" id="Flange1D.constrain_buckling"><a class="viewcode-back" href="../../../ses/flanges.html#structmanager.ses.flanges.Flange1D.constrain_buckling">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_buckling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add a buckling constraint</span>
 
 <span class="sd">        Parameters</span>
@@ -325,7 +325,7 @@
                                       <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="p">)</span>
 
 </div></div>
-<div class="viewcode-block" id="InnerFlange"><a class="viewcode-back" href="../../../ses/flanges.html#structMan.ses.flanges.InnerFlange">[docs]</a><span class="k">class</span> <span class="nc">InnerFlange</span><span class="p">(</span><span class="n">Flange1D</span><span class="p">):</span>
+<div class="viewcode-block" id="InnerFlange"><a class="viewcode-back" href="../../../ses/flanges.html#structmanager.ses.flanges.InnerFlange">[docs]</a><span class="k">class</span> <span class="nc">InnerFlange</span><span class="p">(</span><span class="n">Flange1D</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Inner Flange</span>
 
 <span class="sd">    It is assumed a rectangular section for the inner flange with two</span>
@@ -350,7 +350,7 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">InnerFlange</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">eids</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="OuterFlange"><a class="viewcode-back" href="../../../ses/flanges.html#structMan.ses.flanges.OuterFlange">[docs]</a><span class="k">class</span> <span class="nc">OuterFlange</span><span class="p">(</span><span class="n">Flange1D</span><span class="p">):</span>
+<div class="viewcode-block" id="OuterFlange"><a class="viewcode-back" href="../../../ses/flanges.html#structmanager.ses.flanges.OuterFlange">[docs]</a><span class="k">class</span> <span class="nc">OuterFlange</span><span class="p">(</span><span class="n">Flange1D</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Outer Flange</span>
 
 <span class="sd">    It is assumed a rectangular section for the outer flange with two</span>
@@ -409,9 +409,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">structmanager 0.1.0 dev documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../ses.html" >structMan.ses</a> &raquo;</li> 
+          <li class="nav-item nav-item-2"><a href="../ses.html" >structmanager.ses</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

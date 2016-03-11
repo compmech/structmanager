@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>structMan.ses &mdash; structMan 0.1.0 dev documentation</title>
+    <title>structmanager.ses &mdash; structmanager 0.1.0 dev documentation</title>
     
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="structMan 0.1.0 dev documentation" href="../../index.html" />
+    <link rel="top" title="structmanager 0.1.0 dev documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body role="document">
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">structmanager 0.1.0 dev documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -50,12 +50,12 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <h1>Source code for structMan.ses</h1><div class="highlight"><pre>
+  <h1>Source code for structmanager.ses</h1><div class="highlight"><pre>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Structural Elements - SEs (:mod:`structMan.ses`)</span>
+<span class="sd">Structural Elements - SEs (:mod:`structmanager.ses`)</span>
 <span class="sd">================================================</span>
 
-<span class="sd">.. currentmodule:: structMan.ses</span>
+<span class="sd">.. currentmodule:: structmanager.ses</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">itemgetter</span>
@@ -66,7 +66,7 @@
 <span class="kn">import</span> <span class="nn">sol200.output_codes</span> <span class="kn">as</span> <span class="nn">output_codes_SOL200</span>
 
 
-<div class="viewcode-block" id="SE"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.SE">[docs]</a><span class="k">class</span> <span class="nc">SE</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="SE"><a class="viewcode-back" href="../../lib_python.html#structmanager.ses.SE">[docs]</a><span class="k">class</span> <span class="nc">SE</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Structural Element</span>
 
 <span class="sd">    Attributes</span>
@@ -115,7 +115,7 @@
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="SE.add_dtable"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.SE.add_dtable">[docs]</a>    <span class="k">def</span> <span class="nf">add_dtable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SE.add_dtable"><a class="viewcode-back" href="../../lib_python.html#structmanager.ses.SE.add_dtable">[docs]</a>    <span class="k">def</span> <span class="nf">add_dtable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add a DTABLE entry to the SE and the optmodel</span>
 
 <span class="sd">        Parameters</span>
@@ -133,7 +133,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">optmodel</span><span class="o">.</span><span class="n">dtables</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="SE.add_dresp"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.SE.add_dresp">[docs]</a>    <span class="k">def</span> <span class="nf">add_dresp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dresp</span><span class="p">):</span>
+<div class="viewcode-block" id="SE.add_dresp"><a class="viewcode-back" href="../../lib_python.html#structmanager.ses.SE.add_dresp">[docs]</a>    <span class="k">def</span> <span class="nf">add_dresp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dresp</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add a DRESP(123) entry to the SE and the optmodel</span>
 
 <span class="sd">        Parameters</span>
@@ -146,7 +146,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">optmodel</span><span class="o">.</span><span class="n">dresps</span><span class="p">[</span><span class="n">dresp</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dresp</span>
 
 </div>
-<div class="viewcode-block" id="SE.add_constraint"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.SE.add_constraint">[docs]</a>    <span class="k">def</span> <span class="nf">add_constraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dcid</span><span class="p">,</span> <span class="n">dresp</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">):</span>
+<div class="viewcode-block" id="SE.add_constraint"><a class="viewcode-back" href="../../lib_python.html#structmanager.ses.SE.add_constraint">[docs]</a>    <span class="k">def</span> <span class="nf">add_constraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dcid</span><span class="p">,</span> <span class="n">dresp</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add a DCONSTR entry to the SE and the optmodel</span>
 
 <span class="sd">        Parameters</span>
@@ -166,7 +166,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">optmodel</span><span class="o">.</span><span class="n">dconstrs</span><span class="p">[</span><span class="n">dconstr</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dconstr</span>
 
 </div>
-<div class="viewcode-block" id="SE.get_central_element"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.SE.get_central_element">[docs]</a>    <span class="k">def</span> <span class="nf">get_central_element</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SE.get_central_element"><a class="viewcode-back" href="../../lib_python.html#structmanager.ses.SE.get_central_element">[docs]</a>    <span class="k">def</span> <span class="nf">get_central_element</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return the element closest to the SE center of gravity</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -337,7 +337,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">ty</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="Panel"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.Panel">[docs]</a><span class="k">class</span> <span class="nc">Panel</span><span class="p">(</span><span class="n">SE2D</span><span class="p">):</span>
+<div class="viewcode-block" id="Panel"><a class="viewcode-back" href="../../lib_python.html#structmanager.ses.Panel">[docs]</a><span class="k">class</span> <span class="nc">Panel</span><span class="p">(</span><span class="n">SE2D</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Panel</span>
 
 <span class="sd">    Attributes</span>
@@ -365,7 +365,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;vonMises&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
 
 
-<div class="viewcode-block" id="Panel.constrain_vonMises"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.Panel.constrain_vonMises">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_vonMises</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Fcy</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Panel.constrain_vonMises"><a class="viewcode-back" href="../../lib_python.html#structmanager.ses.Panel.constrain_vonMises">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_vonMises</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Fcy</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add a von Mises stress constraint</span>
 
 <span class="sd">        Parameters</span>
@@ -423,7 +423,7 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">OuterFlange</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">eids</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="ShearClipFrame"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.ShearClipFrame">[docs]</a><span class="k">class</span> <span class="nc">ShearClipFrame</span><span class="p">(</span><span class="n">SE2D</span><span class="p">):</span>
+<div class="viewcode-block" id="ShearClipFrame"><a class="viewcode-back" href="../../lib_python.html#structmanager.ses.ShearClipFrame">[docs]</a><span class="k">class</span> <span class="nc">ShearClipFrame</span><span class="p">(</span><span class="n">SE2D</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Shear Clip Attachment to Frame</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -435,7 +435,7 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">ShearClipFrame</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">eids</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="ShearClipSkin"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.ShearClipSkin">[docs]</a><span class="k">class</span> <span class="nc">ShearClipSkin</span><span class="p">(</span><span class="n">SE1D</span><span class="p">):</span>
+<div class="viewcode-block" id="ShearClipSkin"><a class="viewcode-back" href="../../lib_python.html#structmanager.ses.ShearClipSkin">[docs]</a><span class="k">class</span> <span class="nc">ShearClipSkin</span><span class="p">(</span><span class="n">SE1D</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Shear Clip Attachment to Skin</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -447,7 +447,7 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">ShearClipSkin</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">eids</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="Stringer"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.Stringer">[docs]</a><span class="k">class</span> <span class="nc">Stringer</span><span class="p">(</span><span class="n">SE1D</span><span class="p">):</span>
+<div class="viewcode-block" id="Stringer"><a class="viewcode-back" href="../../lib_python.html#structmanager.ses.Stringer">[docs]</a><span class="k">class</span> <span class="nc">Stringer</span><span class="p">(</span><span class="n">SE1D</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Stringer</span>
 
 <span class="sd">    Attributes</span>
@@ -496,7 +496,7 @@
                             <span class="s">&#39;stress_compression&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
 
 
-<div class="viewcode-block" id="Stringer.constrain_stress"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.Stringer.constrain_stress">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_stress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Fy</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Stringer.constrain_stress"><a class="viewcode-back" href="../../lib_python.html#structmanager.ses.Stringer.constrain_stress">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_stress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Fy</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add a stress constrain</span>
 
 <span class="sd">        Parameters</span>
@@ -531,7 +531,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="n">dcid</span><span class="p">,</span> <span class="n">dresp1</span><span class="p">,</span> <span class="n">Fy</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="Stringer.constrain_stress_tension"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.Stringer.constrain_stress_tension">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_stress_tension</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Fty</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Stringer.constrain_stress_tension"><a class="viewcode-back" href="../../lib_python.html#structmanager.ses.Stringer.constrain_stress_tension">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_stress_tension</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Fty</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add a tension stress constraint</span>
 
 <span class="sd">        Parameters</span>
@@ -545,7 +545,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">constrain_stress</span><span class="p">(</span><span class="n">Fy</span><span class="o">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">Fty</span><span class="p">),</span> <span class="n">average</span><span class="o">=</span><span class="n">average</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="Stringer.constrain_stress_compression"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.Stringer.constrain_stress_compression">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_stress_compression</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Fcy</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Stringer.constrain_stress_compression"><a class="viewcode-back" href="../../lib_python.html#structmanager.ses.Stringer.constrain_stress_compression">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_stress_compression</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Fcy</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add a compressive stress constraint</span>
 
 <span class="sd">        Parameters</span>
@@ -560,7 +560,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">constrain_stress</span><span class="p">(</span><span class="n">Fy</span><span class="o">=-</span><span class="nb">abs</span><span class="p">(</span><span class="n">Fcy</span><span class="p">),</span> <span class="n">average</span><span class="o">=</span><span class="n">average</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="Stringer.constrain_buckling"><a class="viewcode-back" href="../../lib_python.html#structMan.ses.Stringer.constrain_buckling">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_buckling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="Stringer.constrain_buckling"><a class="viewcode-back" href="../../lib_python.html#structmanager.ses.Stringer.constrain_buckling">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_buckling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add a buckling constraint</span>
 
 <span class="sd">        Parameters</span>
@@ -628,7 +628,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">structmanager 0.1.0 dev documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

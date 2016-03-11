@@ -1,0 +1,812 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>structmanager.genesis.genesis &mdash; structmanager 0.2.0 dev documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2.0 dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="structmanager 0.2.0 dev documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">structmanager 0.2.0 dev documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for structmanager.genesis.genesis</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">cPickle</span> <span class="kn">as</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pformat</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Iterable</span>
+
+<span class="kn">from</span> <span class="nn">output_codes</span> <span class="kn">import</span> <span class="n">OUTC</span><span class="p">,</span> <span class="n">get_output_code</span>
+<span class="kn">from</span> <span class="nn">cards_opt</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">cards_solver</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="Genesis"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.genesis.Genesis">[docs]</a><span class="k">class</span> <span class="nc">Genesis</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;GENESIS optimization model</span>
+
+<span class="sd">    This class corresponds to an optimization model.</span>
+
+<span class="sd">    ==================  ======================================================</span>
+<span class="sd">    Attribute           Description</span>
+<span class="sd">    ==================  ======================================================</span>
+<span class="sd">    `dvprops`           `dict` of :class:`.DVPROP3` objects</span>
+<span class="sd">    `deqatns`           `dict` of :class:`.DEQATN` objects</span>
+<span class="sd">    `dtables`           `dict` of :class:`.DTABLE`</span>
+<span class="sd">    `dresps`            `dict` of :class:`.DRESP1` or :class:`.DRESP23`</span>
+<span class="sd">                        objects</span>
+<span class="sd">    `dcons`             `dict` of :class:`.DCONS` objects</span>
+<span class="sd">    `dvars`             `dict` of :class:`.DVAR` objects</span>
+<span class="sd">    `dvar_codes`        `dict` classifying the :class:`.DVAR` objects by</span>
+<span class="sd">                          their unique codes</span>
+<span class="sd">    `dlinks`            `dict` of :class:`.DLINK` objects</span>
+<span class="sd">    `newprops`          `dict` with different NASTRAN cards, see</span>
+<span class="sd">                          :meth:`.reset_newprops`</span>
+<span class="sd">    `nodal_displ`       `dict` with the nodal displacements constraints as</span>
+<span class="sd">                          detailed in :meth:`.nodal_displ_from_excel`</span>
+<span class="sd">    `loads_list`        `list` containing the load cases&#39; ids</span>
+<span class="sd">    `spcs_list`         `list` containing the single point constraint id</span>
+<span class="sd">                          for each load case</span>
+<span class="sd">    `num_cycles`        `int` indicating the number of design cycles</span>
+<span class="sd">    `outputdir`         `str` path to the output directory</span>
+<span class="sd">    `genesisfile`       `file` handler to GENESIS&#39;s output file</span>
+<span class="sd">    `nastranfile`       `file` handler to NASTRAN&#39;s output file</span>
+<span class="sd">    ==================  ======================================================</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvprops</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_newprops</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deqatns</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtables</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dresps</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dcons</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvars</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvar_codes</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dlinks</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c">#TODO future implementation</span>
+        <span class="c">#self.externalDRESP3 = {}</span>
+        <span class="c"># Description</span>
+        <span class="c"># `externalDRESP3`  `dict` of :class:`.DRESP23` objects, containing</span>
+        <span class="c">#                     external design responses to be considered</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">topocheck</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodal_displ</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loads_list</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spcs_list</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_cycles</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outputdir</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">genesisfile</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nastranfile</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datname</span> <span class="o">=</span> <span class="bp">None</span>
+
+
+<div class="viewcode-block" id="Genesis.nodal_displ_from_excel"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.genesis.Genesis.nodal_displ_from_excel">[docs]</a>    <span class="k">def</span> <span class="nf">nodal_displ_from_excel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xls_file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create nodal displacement constraints based on an Excel file.</span>
+
+<span class="sd">        This function reads the xls file with nodal displacement constraints</span>
+<span class="sd">        and returns a dictionary with the format::</span>
+
+<span class="sd">            nd = {load_case_id1 : {grid_1 : {output : [minvalue, maxvalue],</span>
+<span class="sd">                                   grid_2 :  output : [minvalue, maxvalue],</span>
+<span class="sd">                                   grid_3 :  output : [minvalue, maxvalue]}}</span>
+<span class="sd">                  load_case_id2 : {grid_1 : {output : [minvalue, maxvalue],</span>
+<span class="sd">                                   grid_3 :  outout : [minvalue, maxvalue]}}}</span>
+
+<span class="sd">        where `minvalue` and `maxvalue` are the minimum and maximum</span>
+<span class="sd">        displacement values.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        xls_file : str</span>
+<span class="sd">            The full path to the Excel file.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        output : str</span>
+<span class="sd">            A string with one of the values:</span>
+
+<span class="sd">            - `&#39;Translation X&#39;`</span>
+<span class="sd">            - `&#39;Translation Y&#39;`</span>
+<span class="sd">            - `&#39;Translation Z&#39;`</span>
+<span class="sd">            - `&#39;Rotation X&#39;`</span>
+<span class="sd">            - `&#39;Rotation Y&#39;`</span>
+<span class="sd">            - `&#39;Rotation Z&#39;`</span>
+<span class="sd">            - `&#39;Translation Total&#39;`</span>
+<span class="sd">            - `&#39;Absolute X&#39;`</span>
+<span class="sd">            - `&#39;Absolute Y&#39;`</span>
+<span class="sd">            - `&#39;Absolute Z&#39;`</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">excel</span> <span class="kn">import</span> <span class="n">Excel</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">xls_file</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+
+        <span class="n">ex</span> <span class="o">=</span> <span class="n">Excel</span><span class="p">(</span><span class="n">xls_file</span><span class="p">)</span>
+        <span class="n">found</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">23</span><span class="p">):</span>
+                <span class="n">refvalue</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">ex</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">refvalue</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;DISPLACEMENT CONSTRAINTS&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">found</span> <span class="o">=</span> <span class="bp">True</span>
+                    <span class="k">break</span>
+            <span class="k">if</span> <span class="n">found</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="n">nd</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">irow</span> <span class="o">=</span> <span class="n">row</span> <span class="o">+</span> <span class="mi">2</span>
+        <span class="c">#TODO this try/except block is mainly to avoid Excel from being</span>
+        <span class="c">#     a defunct</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">irow</span><span class="p">,</span> <span class="mi">65536</span><span class="p">):</span>
+                <span class="n">load_id</span> <span class="o">=</span> <span class="n">ex</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">load_id</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;NoneType&#39;</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="c">#</span>
+                <span class="n">load_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">load_id</span><span class="p">)</span>
+                <span class="n">node_id</span> <span class="o">=</span> <span class="n">ex</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">node_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">node_id</span><span class="p">)</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="n">ex</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+                <span class="n">minvalue</span> <span class="o">=</span> <span class="n">ex</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>
+                <span class="n">minvalue</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">minvalue</span><span class="p">)</span>
+                <span class="n">maxvalue</span> <span class="o">=</span> <span class="n">ex</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">+</span> <span class="mi">4</span><span class="p">)</span>
+                <span class="n">maxvalue</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">maxvalue</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">load_id</span> <span class="ow">in</span> <span class="n">nd</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">nd</span><span class="p">[</span><span class="n">load_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">node_id</span> <span class="ow">in</span> <span class="n">nd</span><span class="p">[</span><span class="n">load_id</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">nd</span><span class="p">[</span><span class="n">load_id</span><span class="p">][</span><span class="n">node_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="n">nd</span><span class="p">[</span><span class="n">load_id</span><span class="p">][</span><span class="n">node_id</span><span class="p">][</span><span class="n">output</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">minvalue</span><span class="p">,</span> <span class="n">maxvalue</span><span class="p">]</span>
+            <span class="n">ex</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nodal_displ</span> <span class="o">=</span> <span class="n">nd</span>
+
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">ex</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&#39;nodal_displ_from_excel() failed!&#39;</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="bp">None</span>
+
+        <span class="k">for</span> <span class="n">load_id</span> <span class="ow">in</span> <span class="n">nd</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">node_id</span> <span class="ow">in</span> <span class="n">nd</span><span class="p">[</span><span class="n">load_id</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">con_name</span> <span class="ow">in</span> <span class="n">nd</span><span class="p">[</span><span class="n">load_id</span><span class="p">][</span><span class="n">node_id</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">con_minvalue</span> <span class="o">=</span> <span class="n">nd</span><span class="p">[</span><span class="n">load_id</span><span class="p">][</span><span class="n">node_id</span><span class="p">][</span><span class="n">con_name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">con_maxvalue</span> <span class="o">=</span> <span class="n">nd</span><span class="p">[</span><span class="n">load_id</span><span class="p">][</span><span class="n">node_id</span><span class="p">][</span><span class="n">con_name</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+
+                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">OUTC</span><span class="p">[</span><span class="s">&#39;DISP&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+                        <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">con_name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                            <span class="n">code</span> <span class="o">=</span> <span class="n">k</span>
+                            <span class="k">break</span>
+
+                    <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="mi">7</span><span class="p">:</span>
+                        <span class="c">#DRESP1 x</span>
+                        <span class="n">labelx</span> <span class="o">=</span> <span class="s">&#39;x&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">node_id</span><span class="p">)</span>
+                        <span class="n">dresp1</span> <span class="o">=</span> <span class="n">DRESP1</span><span class="p">(</span><span class="n">labelx</span><span class="p">,</span> <span class="s">&#39;DISP&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="n">node_id</span><span class="p">])</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">dresps</span><span class="p">[</span><span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dresp1</span>
+                        <span class="n">dresp1xid</span> <span class="o">=</span> <span class="n">dresp1</span><span class="o">.</span><span class="n">id</span>
+
+                        <span class="c">#DRESP1 y</span>
+                        <span class="n">labely</span> <span class="o">=</span> <span class="s">&#39;y&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">node_id</span><span class="p">)</span>
+                        <span class="n">dresp1</span> <span class="o">=</span> <span class="n">DRESP1</span><span class="p">(</span><span class="n">labely</span><span class="p">,</span> <span class="s">&#39;DISP&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="n">node_id</span><span class="p">])</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">dresps</span><span class="p">[</span><span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dresp1</span>
+                        <span class="n">dresp1yid</span> <span class="o">=</span> <span class="n">dresp1</span><span class="o">.</span><span class="n">id</span>
+
+                        <span class="c">#DRESP1 z</span>
+                        <span class="n">labelz</span> <span class="o">=</span> <span class="s">&#39;z&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">node_id</span><span class="p">)</span>
+                        <span class="n">dresp1</span> <span class="o">=</span> <span class="n">DRESP1</span><span class="p">(</span><span class="n">labelz</span><span class="p">,</span> <span class="s">&#39;DISP&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">[</span><span class="n">node_id</span><span class="p">])</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">dresps</span><span class="p">[</span><span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dresp1</span>
+                        <span class="n">dresp1zid</span> <span class="o">=</span> <span class="n">dresp1</span><span class="o">.</span><span class="n">id</span>
+
+                        <span class="c">#DEQATN</span>
+                        <span class="n">eq</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;T(</span><span class="si">%s</span><span class="s">,</span><span class="si">%s</span><span class="s">,</span><span class="si">%s</span><span class="s">)=SQRT(</span><span class="si">%s</span><span class="s">**2+</span><span class="si">%s</span><span class="s">**2+</span><span class="si">%s</span><span class="s">**2)&#39;</span> <span class="o">%</span>
+                        <span class="p">(</span><span class="n">labelx</span><span class="p">,</span> <span class="n">labely</span><span class="p">,</span> <span class="n">labelz</span><span class="p">,</span> <span class="n">labelx</span><span class="p">,</span> <span class="n">labely</span><span class="p">,</span> <span class="n">labelz</span><span class="p">))</span>
+                        <span class="n">deqatn</span> <span class="o">=</span> <span class="n">DEQATN</span><span class="p">(</span><span class="n">eq</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">deqatns</span><span class="p">[</span><span class="n">deqatn</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">deqatn</span>
+
+                        <span class="c">#DRESP23</span>
+                        <span class="n">label</span> <span class="o">=</span> <span class="s">&#39;r&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">node_id</span><span class="p">)</span>
+                        <span class="n">dresp23</span> <span class="o">=</span>  <span class="n">DRESP23</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">deqatn</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+                        <span class="n">dresp23</span><span class="o">.</span><span class="n">add_dresp1</span><span class="p">(</span><span class="n">dresp1xid</span><span class="p">)</span>
+                        <span class="n">dresp23</span><span class="o">.</span><span class="n">add_dresp1</span><span class="p">(</span><span class="n">dresp1yid</span><span class="p">)</span>
+                        <span class="n">dresp23</span><span class="o">.</span><span class="n">add_dresp1</span><span class="p">(</span><span class="n">dresp1zid</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">dresps</span><span class="p">[</span><span class="n">dresp23</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dresp23</span>
+
+                        <span class="c">#DCONS</span>
+                        <span class="n">stress_type</span> <span class="o">=</span> <span class="s">&#39;positive&#39;</span>
+                        <span class="n">lid_lb_ub</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">load_id</span><span class="p">),</span> <span class="n">con_minvalue</span><span class="p">,</span> <span class="n">con_maxvalue</span><span class="p">]</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">dcons</span><span class="p">[</span><span class="n">dresp23</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">DCONS</span><span class="p">(</span><span class="n">dresp23</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">lid_lb_ub</span><span class="p">,</span>
+                                                       <span class="n">stress_type</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="p">(</span><span class="n">code</span> <span class="o">==</span> <span class="mi">8</span> <span class="ow">or</span> <span class="n">code</span> <span class="o">==</span> <span class="mi">9</span> <span class="ow">or</span> <span class="n">code</span> <span class="o">==</span> <span class="mi">10</span><span class="p">):</span>
+                        <span class="c">#DRESP1</span>
+                        <span class="n">label</span> <span class="o">=</span> <span class="s">&#39;a&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">node_id</span><span class="p">)</span>
+                        <span class="n">dresp1</span> <span class="o">=</span> <span class="n">DRESP1</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="s">&#39;DISP&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="p">[</span><span class="n">node_id</span><span class="p">])</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">dresps</span><span class="p">[</span><span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dresp1</span>
+
+                        <span class="c">#DEQATN</span>
+                        <span class="n">eq</span> <span class="o">=</span> <span class="s">&#39;D(</span><span class="si">%s</span><span class="s">)=ABS(</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+                        <span class="n">deqatn</span> <span class="o">=</span> <span class="n">DEQATN</span><span class="p">(</span><span class="n">eq</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">deqatns</span><span class="p">[</span><span class="n">deqatn</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">deqatn</span>
+
+                        <span class="c">#DRESP23</span>
+                        <span class="n">label</span> <span class="o">=</span> <span class="s">&#39;r&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">node_id</span><span class="p">)</span>
+                        <span class="n">dresp23</span> <span class="o">=</span> <span class="n">DRESP23</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">deqatn</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+                        <span class="n">dresp23</span><span class="o">.</span><span class="n">add_dresp1</span><span class="p">(</span><span class="n">dresp23</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">dresps</span><span class="p">[</span><span class="n">dresp23</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dresp23</span>
+
+                        <span class="c">#DCONS</span>
+                        <span class="n">stress_type</span> <span class="o">=</span> <span class="s">&#39;positive&#39;</span>
+                        <span class="n">lid_lb_ub</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">load_id</span><span class="p">),</span> <span class="n">con_minvalue</span><span class="p">,</span> <span class="n">con_maxvalue</span><span class="p">]</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">dcons</span><span class="p">[</span><span class="n">dresp23</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">DCONS</span><span class="p">(</span><span class="n">dresp23</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">lid_lb_ub</span><span class="p">,</span>
+                                                       <span class="n">stress_type</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="c">#DRESP1</span>
+                        <span class="n">label</span> <span class="o">=</span> <span class="s">&#39;r&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">node_id</span><span class="p">)</span>
+                        <span class="n">dresp1</span> <span class="o">=</span> <span class="n">DRESP1</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="s">&#39;DISP&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="p">[</span><span class="n">node_id</span><span class="p">])</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">dresps</span><span class="p">[</span><span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dresp1</span>
+
+                        <span class="c">#DCONS</span>
+                        <span class="n">stress_type</span> <span class="o">=</span> <span class="s">&#39;both&#39;</span>
+                        <span class="n">lid_lb_ub</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">load_id</span><span class="p">),</span> <span class="n">con_minvalue</span><span class="p">,</span> <span class="n">con_maxvalue</span><span class="p">]</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">dcons</span><span class="p">[</span><span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">DCONS</span><span class="p">(</span><span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">lid_lb_ub</span><span class="p">,</span>
+                                                      <span class="n">stress_type</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="Genesis.dlinks_from_excel"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.genesis.Genesis.dlinks_from_excel">[docs]</a>    <span class="k">def</span> <span class="nf">dlinks_from_excel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xls_file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Read links between variables from an Excel file.</span>
+
+<span class="sd">        The Excel file should have the following format:</span>
+
+<span class="sd">        ======= ====== ======= ======= ======= ======= ======= ======= =======</span>
+<span class="sd">        .       col j  col j+1 col j+2 col j+3 col j+4 col j+5 col j+6 col j+7</span>
+<span class="sd">        ======= ====== ======= ======= ======= ======= ======= ======= =======</span>
+<span class="sd">        row i   DLINK</span>
+<span class="sd">        row i+1</span>
+<span class="sd">        row i+2 dvar   c0      c       ivar1   c1      ivar2   c2      ...</span>
+<span class="sd">        row i+3 LP.1.1 0.      1.      LS.1.1  0.4     LS.1.2  0.6     ...</span>
+<span class="sd">        ======= ====== ======= ======= ======= ======= ======= ======= =======</span>
+
+<span class="sd">        where the relative position between the cell with `DLINK` and the</span>
+<span class="sd">        others must be held.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        xls_file : str</span>
+<span class="sd">            The full path of the Excel file.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">excel</span> <span class="kn">import</span> <span class="n">Excel</span>
+
+        <span class="n">ex</span> <span class="o">=</span> <span class="n">Excel</span><span class="p">(</span><span class="n">xls_file</span><span class="p">)</span>
+        <span class="n">found</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;Reading Excel File </span><span class="si">%s</span><span class="s">...&#39;</span> <span class="o">%</span> <span class="n">xls_file</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">256</span><span class="p">):</span>
+                <span class="n">rvalue</span> <span class="o">=</span> <span class="n">ex</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span>
+                <span class="k">if</span> <span class="s">&#39;DLINK&#39;</span> <span class="o">==</span> <span class="n">rvalue</span><span class="p">:</span>
+                    <span class="n">found</span> <span class="o">=</span> <span class="bp">True</span>
+                    <span class="k">break</span>
+            <span class="k">if</span> <span class="n">found</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="n">dlinks</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">irow</span> <span class="o">=</span> <span class="n">row</span> <span class="o">+</span> <span class="mi">3</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">irow</span><span class="p">,</span> <span class="mi">65536</span><span class="p">):</span>
+            <span class="n">dvar_code</span> <span class="o">=</span> <span class="n">ex</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">dvar_code</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&#39;    creating DLINK for variable: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">dvar_code</span><span class="p">)</span>
+            <span class="n">c0</span> <span class="o">=</span> <span class="n">ex</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">ex</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">ivar_code_1</span> <span class="o">=</span> <span class="n">ex</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="n">c_1</span> <span class="o">=</span> <span class="n">ex</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">+</span> <span class="mi">4</span><span class="p">)</span>
+            <span class="n">ivar_code_2</span> <span class="o">=</span> <span class="n">ex</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>
+            <span class="n">c_2</span> <span class="o">=</span> <span class="n">ex</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">+</span> <span class="mi">6</span><span class="p">)</span>
+            <span class="n">ivar_code_3</span> <span class="o">=</span> <span class="n">ex</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">+</span> <span class="mi">7</span><span class="p">)</span>
+            <span class="n">c_3</span> <span class="o">=</span> <span class="n">ex</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">+</span> <span class="mi">8</span><span class="p">)</span>
+
+            <span class="n">dvar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvar_codes</span><span class="p">[</span><span class="n">dvar_code</span><span class="p">]</span>
+            <span class="n">ivar_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvar_codes</span><span class="p">[</span><span class="n">ivar_code_1</span><span class="p">]</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">dvi_ci</span> <span class="o">=</span> <span class="p">[</span><span class="n">ivar_1</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">c_1</span><span class="p">)]</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">dvi_ci</span> <span class="o">=</span> <span class="p">[</span><span class="n">ivar_1</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">c_1</span><span class="p">)]</span>
+
+            <span class="k">if</span> <span class="n">ivar_code_2</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span> <span class="o">&lt;&gt;</span> <span class="s">&#39;NoneType&#39;</span><span class="p">:</span>
+                <span class="n">ivar_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvar_codes</span><span class="p">[</span><span class="n">ivar_code_2</span><span class="p">]</span>
+                <span class="n">dvi_ci</span> <span class="o">=</span> <span class="n">dvi_ci</span> <span class="o">+</span> <span class="p">[</span><span class="n">ivar_2</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">c_2</span><span class="p">)]</span>
+
+            <span class="k">if</span> <span class="n">ivar_code_3</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span> <span class="o">&lt;&gt;</span> <span class="s">&#39;NoneType&#39;</span><span class="p">:</span>
+                <span class="n">ivar_3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvar_codes</span><span class="p">[</span><span class="n">ivar_code_3</span><span class="p">]</span>
+                <span class="n">dvi_ci</span> <span class="o">=</span> <span class="n">dvi_ci</span> <span class="o">+</span> <span class="p">[</span><span class="n">ivar_3</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">c_3</span><span class="p">)]</span>
+
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dlinks</span><span class="p">[</span><span class="n">count</span><span class="p">]</span> <span class="o">=</span> <span class="n">DLINK</span><span class="p">(</span><span class="n">dvar</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">dvi_ci</span><span class="p">,</span> <span class="n">c0</span><span class="o">=</span><span class="n">c0</span><span class="p">,</span> <span class="n">cmult</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+
+        <span class="n">ex</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="Genesis.set_output_file"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.genesis.Genesis.set_output_file">[docs]</a>    <span class="k">def</span> <span class="nf">set_output_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Define the data related to the output file.</span>
+
+<span class="sd">        The output directory is estimated based on `path`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path : str</span>
+<span class="sd">            The full path of the output file.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outputdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datname</span> <span class="o">=</span> <span class="n">path</span>
+
+        <span class="n">tmppath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputdir</span><span class="p">,</span> <span class="s">&#39;genesis.temp&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">genesisfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmppath</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
+
+        <span class="n">tmppath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputdir</span><span class="p">,</span> <span class="s">&#39;nastran.temp&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nastranfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmppath</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
+
+</div>
+    <span class="k">def</span> <span class="nf">_read_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topocheck</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">topo_max_elem</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">manufact_cons_input</span><span class="o">=</span><span class="p">[],</span> <span class="n">manufact_cons_coord</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="c">#TODO probably remove this method</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">topocheck</span> <span class="o">=</span> <span class="n">topocheck</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">topo_max_elem</span> <span class="o">=</span> <span class="n">topo_max_elem</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manufact_cons_input</span> <span class="o">=</span> <span class="n">manufact_cons_input</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manufact_cons_coord</span> <span class="o">=</span> <span class="n">manufact_cons_coord</span>
+
+
+    <span class="k">def</span> <span class="nf">add_dvprop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="n">dvprop</span> <span class="o">=</span> <span class="n">DVPROP3</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvprops</span><span class="p">[</span><span class="n">dvprop</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dvprop</span>
+
+
+<div class="viewcode-block" id="Genesis.print_model"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.genesis.Genesis.print_model">[docs]</a>    <span class="k">def</span> <span class="nf">print_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print the whole model.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print_dvprops</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print_dvars</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print_dresps</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print_deqatns</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print_dcons</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print_dobj</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print_dlinks</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print_newprops</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">merge_temp_files</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="Genesis.reset_newprops"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.genesis.Genesis.reset_newprops">[docs]</a>    <span class="k">def</span> <span class="nf">reset_newprops</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reset the dictionary `newprops`.</span>
+
+<span class="sd">        This dictionary contains NASTRAN property cards that should be created</span>
+<span class="sd">        along with the optimization model.</span>
+
+<span class="sd">        The supported cards are those corresponding to the classes defined in</span>
+<span class="sd">        :mod:`.cards_solver`.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newprops</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newprops</span><span class="p">[</span><span class="s">&#39;PSHELL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newprops</span><span class="p">[</span><span class="s">&#39;PBAR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newprops</span><span class="p">[</span><span class="s">&#39;PBARL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newprops</span><span class="p">[</span><span class="s">&#39;PBEAM&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newprops</span><span class="p">[</span><span class="s">&#39;PBEAML&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newprops</span><span class="p">[</span><span class="s">&#39;PCOMP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+</div>
+<div class="viewcode-block" id="Genesis.create_dvars"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.genesis.Genesis.create_dvars">[docs]</a>    <span class="k">def</span> <span class="nf">create_dvars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create the design variables.</span>
+
+<span class="sd">        The method :meth:`.DVPROP3.create_dvar` of each property contained in</span>
+<span class="sd">        the dictionary `dvprops` is called.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvars</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvar_codes</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dvprops</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&#39;No DVPROPs defined!&#39;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">dvprop</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvprops</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">dvprop</span><span class="o">.</span><span class="n">create_dvars</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">dvar</span> <span class="ow">in</span> <span class="n">dvprop</span><span class="o">.</span><span class="n">dvars</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dvars</span><span class="p">[</span><span class="n">dvar</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dvar</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dvar_codes</span><span class="p">[</span><span class="n">dvar</span><span class="o">.</span><span class="n">code</span><span class="p">]</span> <span class="o">=</span> <span class="n">dvar</span>
+
+</div>
+<div class="viewcode-block" id="Genesis.constrain_pshell"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.genesis.Genesis.constrain_pshell">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_pshell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">cname</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">allow_C</span><span class="p">,</span> <span class="n">allow_T</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add constraints to the bottom and top faces of a shell property.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pid : int</span>
+<span class="sd">            Property id.</span>
+<span class="sd">        cname : str or list</span>
+<span class="sd">            The name of the constraint, as described in :mod:`.output_codes`,</span>
+<span class="sd">            without the sufix `&#39;Bottom&#39;`  or `&#39;Top&#39;`.</span>
+<span class="sd">        rtype : str</span>
+<span class="sd">            The type of response. For shells it is usually `&#39;STRESS&#39;`.</span>
+<span class="sd">        allow_C : float</span>
+<span class="sd">            The allowable for compression.</span>
+<span class="sd">        allow_T : float</span>
+<span class="sd">            The allowable for tension.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">rtype</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;STRESS&#39;</span><span class="p">:</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="s">&#39;minmaxS&#39;</span>
+        <span class="n">ptype</span> <span class="o">=</span> <span class="s">&#39;PSHELL&#39;</span>
+        <span class="n">eltype</span> <span class="o">=</span> <span class="s">&#39;SOLID&#39;</span>
+        <span class="n">region</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="n">lid_lb_ub</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">lid_lb_ub</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;ALL&#39;</span><span class="p">)</span>
+        <span class="n">lid_lb_ub</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">allow_C</span><span class="p">)</span>
+        <span class="n">lid_lb_ub</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">allow_T</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cname</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
+            <span class="n">cname</span> <span class="o">=</span> <span class="p">[</span><span class="n">cname</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">cname</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+            <span class="c"># Bottom Face</span>
+            <span class="n">namebot</span> <span class="o">=</span> <span class="n">name</span> <span class="o">+</span> <span class="s">&#39; Bottom&#39;</span>
+            <span class="n">atta</span> <span class="o">=</span> <span class="n">get_output_code</span><span class="p">(</span><span class="n">rtype</span><span class="p">,</span> <span class="n">eltype</span><span class="p">,</span> <span class="n">namebot</span><span class="p">)</span>
+            <span class="n">output_name</span> <span class="o">=</span> <span class="n">OUTC</span><span class="p">[</span><span class="n">rtype</span><span class="p">][</span><span class="n">eltype</span><span class="p">][</span><span class="n">atta</span><span class="p">]</span>
+
+            <span class="n">stress_type</span> <span class="o">=</span> <span class="s">&#39;positive&#39;</span>
+            <span class="k">if</span> <span class="n">output_name</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;Minor&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">stress_type</span> <span class="o">=</span> <span class="s">&#39;negative&#39;</span>
+            <span class="k">elif</span> <span class="n">output_name</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;Normal&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">stress_type</span> <span class="o">=</span> <span class="s">&#39;both&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c">#TODO perhaps we need a shear allowable</span>
+                <span class="k">if</span> <span class="n">output_name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;SHEAR&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">stress_type</span> <span class="o">=</span> <span class="s">&#39;positive&#39;</span>
+                    <span class="n">lid_lb_ub</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">lid_lb_ub</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mf">2.</span>
+                    <span class="n">lid_lb_ub</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">lid_lb_ub</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="mf">2.</span>
+
+            <span class="n">dresp1</span> <span class="o">=</span> <span class="n">DRESP1</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">ptype</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">atta</span><span class="p">,</span> <span class="n">pid</span><span class="p">)</span>
+            <span class="n">dcons</span> <span class="o">=</span> <span class="n">DCONS</span><span class="p">(</span><span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">lid_lb_ub</span><span class="p">,</span> <span class="n">stress_type</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dresps</span><span class="p">[</span><span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dresp1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dcons</span><span class="p">[</span><span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcons</span>
+
+            <span class="c"># Top Face</span>
+            <span class="n">nametop</span> <span class="o">=</span> <span class="n">name</span> <span class="o">+</span> <span class="s">&#39; Top&#39;</span>
+            <span class="n">atta</span> <span class="o">=</span> <span class="n">get_output_code</span><span class="p">(</span><span class="n">rtype</span><span class="p">,</span> <span class="n">eltype</span><span class="p">,</span> <span class="n">nametop</span><span class="p">)</span>
+            <span class="n">output_name</span> <span class="o">=</span> <span class="n">OUTC</span><span class="p">[</span><span class="n">rtype</span><span class="p">][</span><span class="n">eltype</span><span class="p">][</span><span class="n">atta</span><span class="p">]</span>
+
+            <span class="n">stress_type</span> <span class="o">=</span> <span class="s">&#39;positive&#39;</span>
+            <span class="k">if</span> <span class="n">output_name</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;Minor&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">stress_type</span> <span class="o">=</span> <span class="s">&#39;negative&#39;</span>
+            <span class="k">elif</span> <span class="n">output_name</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;Normal&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">stress_type</span> <span class="o">=</span> <span class="s">&#39;both&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c">#TODO perhaps we need a shear allowable</span>
+                <span class="k">if</span> <span class="n">output_name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;SHEAR&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">stress_type</span> <span class="o">=</span> <span class="s">&#39;positive&#39;</span>
+                    <span class="n">lid_lb_ub</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">lid_lb_ub</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mf">2.</span>
+                    <span class="n">lid_lb_ub</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">lid_lb_ub</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="mf">2.</span>
+
+            <span class="n">region</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+            <span class="n">dresp1</span> <span class="o">=</span> <span class="n">DRESP1</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">ptype</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">atta</span><span class="p">,</span> <span class="n">pid</span><span class="p">)</span>
+            <span class="n">dcons</span> <span class="o">=</span> <span class="n">DCONS</span><span class="p">(</span><span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">lid_lb_ub</span><span class="p">,</span> <span class="n">stress_type</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dresps</span><span class="p">[</span><span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dresp1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dcons</span><span class="p">[</span><span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcons</span>
+
+</div>
+<div class="viewcode-block" id="Genesis.constrain_pbar"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.genesis.Genesis.constrain_pbar">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_pbar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">eltype</span><span class="p">,</span> <span class="n">allow_C</span><span class="p">,</span> <span class="n">allow_T</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add constraints to all stress recovery points of a bar property.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pid : int</span>
+<span class="sd">            Property id.</span>
+<span class="sd">        name : str or list</span>
+<span class="sd">            The name of the constraint, as described in :mod:`.output_codes`,</span>
+<span class="sd">            with only the prefix (`&#39;Shear&#39;`, `&#39;Normal&#39;`, etc).</span>
+<span class="sd">        rtype : str</span>
+<span class="sd">            The type of response. For bar elements it is usually `&#39;STRESS&#39;`.</span>
+<span class="sd">        eltype : str</span>
+<span class="sd">            The section type: `&#39;RECT&#39;`, `&#39;CIRCLE&#39;`, etc.</span>
+<span class="sd">        allow_C : float</span>
+<span class="sd">            The allowable for compression.</span>
+<span class="sd">        allow_T : float</span>
+<span class="sd">            The allowable for tension.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">rtype</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;STRESS&#39;</span><span class="p">:</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="s">&#39;minmaxS&#39;</span>
+        <span class="n">region</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="n">lid_lb_ub</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">lid_lb_ub</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;ALL&#39;</span><span class="p">)</span>
+        <span class="n">lid_lb_ub</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">allow_C</span><span class="p">)</span>
+        <span class="n">lid_lb_ub</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">allow_T</span><span class="p">)</span>
+
+
+        <span class="k">for</span> <span class="n">namei</span> <span class="ow">in</span> <span class="n">name</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s">&#39;Normal X&#39;</span> <span class="ow">in</span> <span class="n">namei</span><span class="p">:</span>
+                <span class="n">cons_names</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Normal X Point 1 at end A&#39;</span><span class="p">,</span>
+                              <span class="s">&#39;Normal X Point 2 at end A&#39;</span><span class="p">,</span>
+                              <span class="s">&#39;Normal X Point 3 at end A&#39;</span><span class="p">,</span>
+                              <span class="s">&#39;Normal X Point 4 at end A&#39;</span><span class="p">,</span>
+                              <span class="s">&#39;Normal X Point 9 at end B&#39;</span><span class="p">,</span>
+                              <span class="s">&#39;Normal X Point 10 at end B&#39;</span><span class="p">,</span>
+                              <span class="s">&#39;Normal X Point 11 at end B&#39;</span><span class="p">,</span>
+                              <span class="s">&#39;Normal X Point 12 at end B&#39;</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="s">&#39;Shear&#39;</span> <span class="ow">in</span> <span class="n">namei</span><span class="p">:</span>
+                <span class="n">cons_names</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Shear XZ Point 5 at end A&#39;</span><span class="p">,</span>
+                              <span class="s">&#39;Shear XY Point 6 at end A&#39;</span><span class="p">,</span>
+                              <span class="s">&#39;Shear XZ Point 7 at end A&#39;</span><span class="p">,</span>
+                              <span class="s">&#39;Shear XY Point 8 at end A&#39;</span><span class="p">,</span>
+                              <span class="s">&#39;Shear XZ Point 13 at end B&#39;</span><span class="p">,</span>
+                              <span class="s">&#39;Shear XY Point 14 at end B&#39;</span><span class="p">,</span>
+                              <span class="s">&#39;Shear XZ Point 15 at end B&#39;</span><span class="p">,</span>
+                              <span class="s">&#39;Shear XY Point 16 at end B&#39;</span><span class="p">]</span>
+            <span class="n">ptype</span> <span class="o">=</span> <span class="s">&#39;PBARL&#39;</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cons_names</span><span class="p">)):</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">cons_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">atta</span> <span class="o">=</span> <span class="n">get_output_code</span><span class="p">(</span><span class="n">rtype</span><span class="p">,</span> <span class="n">eltype</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+                <span class="n">output_name</span> <span class="o">=</span> <span class="n">OUTC</span><span class="p">[</span><span class="n">rtype</span><span class="p">][</span><span class="n">eltype</span><span class="p">][</span><span class="n">atta</span><span class="p">]</span>
+
+                <span class="n">stress_type</span> <span class="o">=</span> <span class="s">&#39;positive&#39;</span>
+                <span class="k">if</span> <span class="n">output_name</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;Minor&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">stress_type</span> <span class="o">=</span> <span class="s">&#39;negative&#39;</span>
+                <span class="k">elif</span> <span class="n">output_name</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;Normal&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">stress_type</span> <span class="o">=</span> <span class="s">&#39;both&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c">#TODO perhaps we need a shear allowable</span>
+                    <span class="k">if</span> <span class="n">output_name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;SHEAR&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                        <span class="n">stress_type</span> <span class="o">=</span> <span class="s">&#39;positive&#39;</span>
+                        <span class="n">lid_lb_ub</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">lid_lb_ub</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mf">2.</span>
+                        <span class="n">lid_lb_ub</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">lid_lb_ub</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="mf">2.</span>
+
+                <span class="n">dresp1</span> <span class="o">=</span> <span class="n">DRESP1</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">ptype</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">atta</span><span class="p">,</span> <span class="n">pid</span><span class="p">)</span>
+                <span class="n">dcons</span> <span class="o">=</span> <span class="n">DCONS</span><span class="p">(</span><span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">lid_lb_ub</span><span class="p">,</span> <span class="n">stress_type</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dresps</span><span class="p">[</span><span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dresp1</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dcons</span><span class="p">[</span><span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcons</span>
+
+</div>
+<div class="viewcode-block" id="Genesis.constrain_two_vars"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.genesis.Genesis.constrain_two_vars">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_two_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">,</span> <span class="n">maxdiff</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constraint two vars in order to keep a maximum relative difference</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        var1, var2 : int or str</span>
+<span class="sd">            The variables id (int) or code (str).</span>
+<span class="sd">        maxdiff : float</span>
+<span class="sd">            The maximum relative difference that &#39;var1&#39; and &#39;var2&#39; must</span>
+<span class="sd">            respect.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var1</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">var1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvars</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var1</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var1</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">var1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvar_codes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Invalid data type for &#39;var1&#39;&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var2</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">var2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvars</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var2</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var2</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">var2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvar_codes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var2</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Invalid data type for &#39;var2&#39;&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">var1</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;&#39;var1&#39; not found!&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">var2</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;&#39;var2&#39; not found!&quot;</span><span class="p">)</span>
+
+        <span class="n">deqatn</span> <span class="o">=</span> <span class="n">DEQATN</span><span class="p">(</span><span class="s">&#39;T(v1,v2)=ABS(v2-v1)/ABS(v1)&#39;</span><span class="p">)</span>
+        <span class="n">dresp2</span> <span class="o">=</span> <span class="n">DRESP23</span><span class="p">(</span><span class="s">&#39;tmplabel&#39;</span><span class="p">,</span> <span class="n">deqatn</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">dresp2</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="s">&#39;v1v2{0:d}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dresp2</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="n">dresp2</span><span class="o">.</span><span class="n">add_dvar</span><span class="p">(</span><span class="n">var1</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="n">dresp2</span><span class="o">.</span><span class="n">add_dvar</span><span class="p">(</span><span class="n">var2</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="n">dcons</span> <span class="o">=</span> <span class="n">DCONS</span><span class="p">(</span><span class="n">dresp2</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;ALL&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">maxdiff</span><span class="p">],</span> <span class="s">&#39;positive&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">deqatns</span><span class="p">[</span><span class="n">deqatn</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">deqatn</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dresps</span><span class="p">[</span><span class="n">dresp2</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dresp2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dcons</span><span class="p">[</span><span class="n">dresp2</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcons</span>
+
+</div>
+<div class="viewcode-block" id="Genesis.create_dobj"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.genesis.Genesis.create_dobj">[docs]</a>    <span class="k">def</span> <span class="nf">create_dobj</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create the design objective.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dresp1</span> <span class="o">=</span>  <span class="n">DRESP1</span><span class="p">(</span><span class="s">&#39;mass&#39;</span><span class="p">,</span><span class="s">&#39;MASS&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dresps</span><span class="p">[</span><span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dresp1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dobj</span> <span class="o">=</span> <span class="n">DOBJ</span><span class="p">(</span><span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+
+        <span class="c">#TODO move away from here</span>
+        <span class="c"># defining spc[i] = spc[0] if the number of spc is</span>
+        <span class="c"># lower than the number of load cases</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loads_list</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spcs_list</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">spcs_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spcs_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+</div>
+    <span class="k">def</span> <span class="nf">create_topometric_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c">#TODO method intended to be used with any FE model</span>
+        <span class="k">for</span> <span class="n">dvprop</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvprops</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">dvpropid</span> <span class="o">=</span> <span class="n">dvprop</span><span class="o">.</span><span class="n">id</span>
+            <span class="n">dsplit</span> <span class="o">=</span> <span class="n">DSPLIT</span><span class="p">(</span><span class="n">dvpropid</span><span class="p">,</span> <span class="n">dvprop</span><span class="o">.</span><span class="n">ptype</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">topo_max_elem</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">manufact_cons_input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">manufact_cons_coord</span><span class="p">)</span>
+            <span class="n">dsplit</span><span class="o">.</span><span class="n">print_card</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">genesisfile</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_print_newprops</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">pcard</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">newprops</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">newprop</span> <span class="ow">in</span> <span class="n">pcard</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="n">newprop</span><span class="o">.</span><span class="n">print_card</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">genesisfile</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_print_dvars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">dvar</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvars</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">dvar</span><span class="o">.</span><span class="n">print_card</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">genesisfile</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_print_dvprops</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">dvprop</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvprops</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">dvprop</span><span class="o">.</span><span class="n">print_card</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">genesisfile</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_print_dresps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">dresp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dresps</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">dresp</span><span class="o">.</span><span class="n">print_card</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">genesisfile</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_print_deqatns</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">deqatn</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">deqatns</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">deqatn</span><span class="o">.</span><span class="n">print_card</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">genesisfile</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_print_dcons</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">dcons</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dcons</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">dcons</span><span class="o">.</span><span class="n">print_card</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">genesisfile</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_print_dobj</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dobj</span><span class="o">.</span><span class="n">print_card</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">genesisfile</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_print_dlinks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">dlink</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dlinks</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">dlink</span><span class="o">.</span><span class="n">print_card</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">genesisfile</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">simx_create_output_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simx_export_nastran_file</span><span class="p">()</span>
+
+
+    <span class="k">def</span> <span class="nf">simx_export_nastran_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">simx</span>
+
+        <span class="n">simx</span><span class="o">.</span><span class="n">export_current_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nastranfile</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Genesis.merge_temp_files"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.genesis.Genesis.merge_temp_files">[docs]</a>    <span class="k">def</span> <span class="nf">merge_temp_files</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Merge the temporary file handlers into the final input file.</span>
+
+<span class="sd">        The file handlers contained in the attributes `genesisfile` and</span>
+<span class="sd">        `nastranfile` are used to write a unique output file given by the</span>
+<span class="sd">        attribute `datname`.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">files</span>
+
+        <span class="n">files</span><span class="o">.</span><span class="n">merge_temp_files</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+</div>
+    <span class="k">def</span> <span class="nf">pickle_dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="n">file1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">genesisfile</span>
+        <span class="n">file2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nastranfile</span>
+        <span class="c"># clearing file handlers that cannot be pickled</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">genesisfile</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nastranfile</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mergedfile</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">))</span>
+        <span class="c"># recovering file handlers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">genesisfile</span> <span class="o">=</span> <span class="n">file1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nastranfile</span> <span class="o">=</span> <span class="n">file2</span>
+
+        <span class="k">return</span> <span class="bp">True</span>
+
+
+    <span class="k">def</span> <span class="nf">pickle_load</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="bp">self</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">))</span>
+        <span class="c">#FIXME see if these file handlers below need to be reloaded</span>
+        <span class="c">#create a method to recover them and call this method when</span>
+        <span class="c">#necessary</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputdir</span><span class="p">,</span> <span class="s">&#39;genesis.temp&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">genesisfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
+
+        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputdir</span><span class="p">,</span> <span class="s">&#39;nastran.temp&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nastranfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">structmanager 0.2.0 dev documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Saullo Castro.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>structMan.genesis.cards_opt &mdash; structMan 0.1.0 dev documentation</title>
+    <title>structmanager.genesis.cards_opt &mdash; structmanager 0.1.0 dev documentation</title>
     
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="structMan 0.1.0 dev documentation" href="../../../index.html" />
+    <link rel="top" title="structmanager 0.1.0 dev documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body role="document">
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">structmanager 0.1.0 dev documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -50,32 +50,32 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <h1>Source code for structMan.genesis.cards_opt</h1><div class="highlight"><pre>
+  <h1>Source code for structmanager.genesis.cards_opt</h1><div class="highlight"><pre>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Optimization cards (:mod:`structMan.genesis.cards_opt`)</span>
+<span class="sd">Optimization cards (:mod:`structmanager.genesis.cards_opt`)</span>
 <span class="sd">=======================================================</span>
 
-<span class="sd">.. currentmodule:: structMan.genesis.cards_opt`</span>
+<span class="sd">.. currentmodule:: structmanager.genesis.cards_opt`</span>
 
 <span class="sd">Many input cards related to the optimization problem are wrapped in this</span>
 <span class="sd">module. The input cards more related to the solver are contained in module</span>
-<span class="sd">:mod:`structMan.genesis.cards_solver`.</span>
+<span class="sd">:mod:`structmanager.genesis.cards_solver`.</span>
 
 <span class="sd">.. rubric:: Classes</span>
 
 <span class="sd">.. autosummary::</span>
 
-<span class="sd">    structMan.genesis.cards_opt.DCONS</span>
-<span class="sd">    structMan.genesis.cards_opt.DEQATN</span>
-<span class="sd">    structMan.genesis.cards_opt.DLINK</span>
-<span class="sd">    structMan.genesis.cards_opt.DOBJ</span>
-<span class="sd">    structMan.genesis.cards_opt.DRESP1</span>
-<span class="sd">    structMan.genesis.cards_opt.DRESP2</span>
-<span class="sd">    structMan.genesis.cards_opt.DRESP3</span>
-<span class="sd">    structMan.genesis.cards_opt.DSPLIT</span>
-<span class="sd">    structMan.genesis.cards_opt.DTABLE</span>
-<span class="sd">    structMan.genesis.cards_opt.DVAR</span>
-<span class="sd">    structMan.genesis.cards_opt.DVPROP3</span>
+<span class="sd">    structmanager.genesis.cards_opt.DCONS</span>
+<span class="sd">    structmanager.genesis.cards_opt.DEQATN</span>
+<span class="sd">    structmanager.genesis.cards_opt.DLINK</span>
+<span class="sd">    structmanager.genesis.cards_opt.DOBJ</span>
+<span class="sd">    structmanager.genesis.cards_opt.DRESP1</span>
+<span class="sd">    structmanager.genesis.cards_opt.DRESP2</span>
+<span class="sd">    structmanager.genesis.cards_opt.DRESP3</span>
+<span class="sd">    structmanager.genesis.cards_opt.DSPLIT</span>
+<span class="sd">    structmanager.genesis.cards_opt.DTABLE</span>
+<span class="sd">    structmanager.genesis.cards_opt.DVAR</span>
+<span class="sd">    structmanager.genesis.cards_opt.DVPROP3</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pformat</span>
@@ -84,7 +84,7 @@
 <span class="kn">from</span> <span class="nn">sizing_data</span> <span class="kn">import</span> <span class="n">SDATA</span>
 
 
-<div class="viewcode-block" id="DSPLIT"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.cards_opt.DSPLIT">[docs]</a><span class="k">class</span> <span class="nc">DSPLIT</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="DSPLIT"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.cards_opt.DSPLIT">[docs]</a><span class="k">class</span> <span class="nc">DSPLIT</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Defines a region for topometry optimization.</span>
 
 <span class="sd">    Parameters</span>
@@ -135,7 +135,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">manufact_cons_input</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="s">&#39;None&#39;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">type3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">manufact_cons</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">manufact_cons_input</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span>
 
-<div class="viewcode-block" id="DSPLIT.manufact_cons"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.cards_opt.DSPLIT.manufact_cons">[docs]</a>    <span class="k">def</span> <span class="nf">manufact_cons</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DSPLIT.manufact_cons"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.cards_opt.DSPLIT.manufact_cons">[docs]</a>    <span class="k">def</span> <span class="nf">manufact_cons</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Create manufacture constraints following GENESIS Design Reference</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -151,7 +151,7 @@
         <span class="n">manufact_cons</span><span class="p">[</span><span class="s">&#39;Extrusion along the Z axis&#39;</span><span class="p">]</span><span class="o">=</span><span class="s">&#39;EZ&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">manufact_cons</span> <span class="o">=</span> <span class="n">manufact_cons</span>
 </div>
-<div class="viewcode-block" id="DSPLIT.print_card"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.cards_opt.DSPLIT.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+<div class="viewcode-block" id="DSPLIT.print_card"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.cards_opt.DSPLIT.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
 
 <span class="sd">        Parameters</span>
@@ -171,7 +171,7 @@
                         <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">symtol</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">symmet</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">angtype</span><span class="p">))</span>
 
 </div></div>
-<div class="viewcode-block" id="DRESP1"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.cards_opt.DRESP1">[docs]</a><span class="k">class</span> <span class="nc">DRESP1</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="DRESP1"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.cards_opt.DRESP1">[docs]</a><span class="k">class</span> <span class="nc">DRESP1</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Design response DRESP1</span>
 
 <span class="sd">    Parameters</span>
@@ -204,7 +204,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">atta</span> <span class="o">=</span> <span class="n">atta</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">atti</span> <span class="o">=</span> <span class="n">atti</span>
 
-<div class="viewcode-block" id="DRESP1.print_card"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.cards_opt.DRESP1.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+<div class="viewcode-block" id="DRESP1.print_card"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.cards_opt.DRESP1.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -225,7 +225,7 @@
         <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dresp1str</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
 
 </div></div>
-<div class="viewcode-block" id="DRESP23"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.cards_opt.DRESP23">[docs]</a><span class="k">class</span> <span class="nc">DRESP23</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="DRESP23"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.cards_opt.DRESP23">[docs]</a><span class="k">class</span> <span class="nc">DRESP23</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Base class for DRESP2 and DRESP3</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -256,7 +256,7 @@
         <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">auxstr</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="DRESP2"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.cards_opt.DRESP2">[docs]</a><span class="k">class</span> <span class="nc">DRESP2</span><span class="p">(</span><span class="n">DRESP23</span><span class="p">):</span>
+<div class="viewcode-block" id="DRESP2"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.cards_opt.DRESP2">[docs]</a><span class="k">class</span> <span class="nc">DRESP2</span><span class="p">(</span><span class="n">DRESP23</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Design response DRESP2</span>
 
 <span class="sd">    Define equation responses that are used in the design, either as an</span>
@@ -289,7 +289,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">eqid</span> <span class="o">=</span> <span class="n">eqid</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">region</span> <span class="o">=</span> <span class="n">region</span>
 
-<div class="viewcode-block" id="DRESP2.print_card"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.cards_opt.DRESP2.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+<div class="viewcode-block" id="DRESP2.print_card"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.cards_opt.DRESP2.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
 
 <span class="sd">        Parameters</span>
@@ -313,7 +313,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">print_aux</span><span class="p">(</span><span class="s">&#39;DRESP1&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dresp1</span><span class="p">,</span> <span class="nb">file</span><span class="p">)</span>
 
 </div></div>
-<div class="viewcode-block" id="DRESP3"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.cards_opt.DRESP3">[docs]</a><span class="k">class</span> <span class="nc">DRESP3</span><span class="p">(</span><span class="n">DRESP23</span><span class="p">):</span>
+<div class="viewcode-block" id="DRESP3"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.cards_opt.DRESP3">[docs]</a><span class="k">class</span> <span class="nc">DRESP3</span><span class="p">(</span><span class="n">DRESP23</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Design response DRESP3</span>
 
 <span class="sd">    Define use-subroutine or built-in responses that can be used in the design</span>
@@ -347,7 +347,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">libid</span> <span class="o">=</span> <span class="n">libid</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">region</span> <span class="o">=</span> <span class="n">region</span>
 
-<div class="viewcode-block" id="DRESP3.print_card"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.cards_opt.DRESP3.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+<div class="viewcode-block" id="DRESP3.print_card"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.cards_opt.DRESP3.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
 
 <span class="sd">        Parameters</span>
@@ -371,7 +371,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">print_aux</span><span class="p">(</span><span class="s">&#39;DRESP1&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dresp1</span><span class="p">,</span> <span class="nb">file</span><span class="p">)</span>
 
 </div></div>
-<div class="viewcode-block" id="DVAR"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.cards_opt.DVAR">[docs]</a><span class="k">class</span> <span class="nc">DVAR</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="DVAR"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.cards_opt.DVAR">[docs]</a><span class="k">class</span> <span class="nc">DVAR</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Design Variable</span>
 
 <span class="sd">    Parameters</span>
@@ -408,7 +408,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">delx</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dxmin</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
 
-<div class="viewcode-block" id="DVAR.print_card"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.cards_opt.DVAR.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+<div class="viewcode-block" id="DVAR.print_card"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.cards_opt.DVAR.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
 
 <span class="sd">        Parameters</span>
@@ -436,7 +436,7 @@
             <span class="k">print</span><span class="p">(</span><span class="s">&#39;+,&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dvsid</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="DVPROP3"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.cards_opt.DVPROP3">[docs]</a><span class="k">class</span> <span class="nc">DVPROP3</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="DVPROP3"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.cards_opt.DVPROP3">[docs]</a><span class="k">class</span> <span class="nc">DVPROP3</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Design Variable-to-Property relation</span>
 
 <span class="sd">    This is a wrapper for the DVPROP3 card in Genesis.</span>
@@ -489,7 +489,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dpmin</span> <span class="o">=</span> <span class="mf">0.1</span>
 
 
-<div class="viewcode-block" id="DVPROP3.create_dvars"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.cards_opt.DVPROP3.create_dvars">[docs]</a>    <span class="k">def</span> <span class="nf">create_dvars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DVPROP3.create_dvars"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.cards_opt.DVPROP3.create_dvars">[docs]</a>    <span class="k">def</span> <span class="nf">create_dvars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Create the design variables for the current DVPROP3</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -527,7 +527,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">dvars_by_code</span><span class="p">[</span><span class="n">dvar_code</span><span class="p">]</span> <span class="o">=</span> <span class="n">dvar</span>
 
 </div>
-<div class="viewcode-block" id="DVPROP3.print_card"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.cards_opt.DVPROP3.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+<div class="viewcode-block" id="DVPROP3.print_card"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.cards_opt.DVPROP3.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
 
 <span class="sd">        Parameters</span>
@@ -562,7 +562,7 @@
         <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cdsstr</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
 
 </div></div>
-<div class="viewcode-block" id="DOBJ"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.cards_opt.DOBJ">[docs]</a><span class="k">class</span> <span class="nc">DOBJ</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="DOBJ"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.cards_opt.DOBJ">[docs]</a><span class="k">class</span> <span class="nc">DOBJ</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Design objective</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -575,7 +575,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">lid</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">minmax</span> <span class="o">=</span> <span class="s">&#39;MIN&#39;</span>
 
-<div class="viewcode-block" id="DOBJ.print_card"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.cards_opt.DOBJ.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+<div class="viewcode-block" id="DOBJ.print_card"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.cards_opt.DOBJ.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
 
 <span class="sd">        Parameters</span>
@@ -589,7 +589,7 @@
         <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dobjstr</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
 
 </div></div>
-<div class="viewcode-block" id="DCONS"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.cards_opt.DCONS">[docs]</a><span class="k">class</span> <span class="nc">DCONS</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="DCONS"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.cards_opt.DCONS">[docs]</a><span class="k">class</span> <span class="nc">DCONS</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Design constraint</span>
 
 <span class="sd">    Attributes</span>
@@ -610,7 +610,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">lid_lb_ub</span> <span class="o">=</span> <span class="n">lid_lb_ub</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stress_type</span> <span class="o">=</span> <span class="n">stress_type</span>
 
-<div class="viewcode-block" id="DCONS.print_card"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.cards_opt.DCONS.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+<div class="viewcode-block" id="DCONS.print_card"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.cards_opt.DCONS.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
 
 <span class="sd">        Parameters</span>
@@ -641,7 +641,7 @@
         <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dconsstr</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
 
 </div></div>
-<div class="viewcode-block" id="DLINK"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.cards_opt.DLINK">[docs]</a><span class="k">class</span> <span class="nc">DLINK</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="DLINK"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.cards_opt.DLINK">[docs]</a><span class="k">class</span> <span class="nc">DLINK</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">r&quot;&quot;&quot;Link between design variables</span>
 
 <span class="sd">    DLINK creates links among variables using the form:</span>
@@ -694,7 +694,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">cmult</span> <span class="o">=</span> <span class="n">cmult</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dvi_ci</span> <span class="o">=</span> <span class="n">dvi_ci</span>
 
-<div class="viewcode-block" id="DLINK.print_card"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.cards_opt.DLINK.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+<div class="viewcode-block" id="DLINK.print_card"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.cards_opt.DLINK.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
 
 <span class="sd">        Parameters</span>
@@ -724,7 +724,7 @@
         <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dlinkstr</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
 
 </div></div>
-<div class="viewcode-block" id="DEQATN"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.cards_opt.DEQATN">[docs]</a><span class="k">class</span> <span class="nc">DEQATN</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="DEQATN"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.cards_opt.DEQATN">[docs]</a><span class="k">class</span> <span class="nc">DEQATN</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Equation to calculate customized responses</span>
 
 <span class="sd">    Parameters</span>
@@ -754,7 +754,7 @@
         <span class="n">DEQATN</span><span class="o">.</span><span class="n">uniqueid</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">eq</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">eq</span><span class="p">)</span>
 
-<div class="viewcode-block" id="DEQATN.print_card"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.cards_opt.DEQATN.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+<div class="viewcode-block" id="DEQATN.print_card"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.cards_opt.DEQATN.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
 
 <span class="sd">        Parameters</span>
@@ -777,7 +777,7 @@
             <span class="n">eq</span> <span class="o">=</span> <span class="n">eq</span><span class="p">[</span><span class="mi">70</span><span class="p">:]</span>
 
 </div></div>
-<div class="viewcode-block" id="DTABLE"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.cards_opt.DTABLE">[docs]</a><span class="k">class</span> <span class="nc">DTABLE</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="DTABLE"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.cards_opt.DTABLE">[docs]</a><span class="k">class</span> <span class="nc">DTABLE</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Design Table used to define many constants</span>
 
 <span class="sd">    Hints:</span>
@@ -798,7 +798,7 @@
         <span class="n">DTABLE</span><span class="o">.</span><span class="n">uniqueid</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input_dict</span> <span class="o">=</span> <span class="n">input_dict</span>
 
-<div class="viewcode-block" id="DTABLE.print_card"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structMan.genesis.cards_opt.DTABLE.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+<div class="viewcode-block" id="DTABLE.print_card"><a class="viewcode-back" href="../../../optimization_solvers/genesis.html#structmanager.genesis.cards_opt.DTABLE.print_card">[docs]</a>    <span class="k">def</span> <span class="nf">print_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print the corresponding input card</span>
 
 <span class="sd">        Parameters</span>
@@ -862,7 +862,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">structmanager 0.1.0 dev documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

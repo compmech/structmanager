@@ -1,0 +1,539 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>structmanager.sol200.sol200 &mdash; structmanager 0.2.0 dev documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2.0 dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="structmanager 0.2.0 dev documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">structmanager 0.2.0 dev documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for structmanager.sol200.sol200</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SOL200 optimization model (:mod:`structmanager.sol200.sol200`)</span>
+<span class="sd">==============================================================</span>
+
+<span class="sd">.. currentmodule:: structmanager.sol200.sol200</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">cPickle</span> <span class="kn">as</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Iterable</span>
+
+<span class="kn">from</span> <span class="nn">output_codes</span> <span class="kn">import</span> <span class="n">OUTC</span><span class="p">,</span> <span class="n">get_output_code</span>
+<span class="kn">from</span> <span class="nn">cards_opt</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">cards_solver</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<span class="k">def</span> <span class="nf">section</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+    <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;$ </span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;_&#39;</span><span class="o">*</span><span class="mi">72</span><span class="p">))</span>
+    <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;$ </span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39; &#39;</span><span class="o">*</span><span class="mi">72</span><span class="p">))</span>
+    <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;$ </span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">text</span><span class="p">)</span>
+    <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;$</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="SOL200"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structmanager.sol200.sol200.SOL200">[docs]</a><span class="k">class</span> <span class="nc">SOL200</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;SOL200 optimization model</span>
+
+<span class="sd">    This class corresponds to an optimization model.</span>
+
+<span class="sd">    ==================  ======================================================</span>
+<span class="sd">    Attribute           Description</span>
+<span class="sd">    ==================  ======================================================</span>
+<span class="sd">    `dobj`              :class:`.DESOBJ` object</span>
+<span class="sd">    `dvprels`           `dict` of :class:`.DVPREL1` and :class:`.DVPREL2`</span>
+<span class="sd">                        objects</span>
+<span class="sd">    `deqatns`           `dict` of :class:`.DEQATN` objects</span>
+<span class="sd">    `dtable`            :class:`.DTABLE` that will be created based on the</span>
+<span class="sd">                        `dtables` dictionary</span>
+<span class="sd">    `dtables`           `dict` that will be used to build a unique DTABLE</span>
+<span class="sd">    `dtable_prefixes`   `dict` carries IDs to prevent repeated DTABLE</span>
+<span class="sd">                        constants.</span>
+<span class="sd">    `dresps`            `dict` of :class:`.DRESP1`, :class:`.DRESP2` or</span>
+<span class="sd">                        :class:`.DRESP3` objects</span>
+<span class="sd">    `groups`            `set` containing the externl subroutines that are used</span>
+<span class="sd">                        in the current optimization model</span>
+<span class="sd">    `dconstrs`          `dict` of :class:`.DCONSTR` objects</span>
+<span class="sd">    `dvars`             `dict` of :class:`.DVAR` objects</span>
+<span class="sd">    `dvar_codes`        `dict` classifying the :class:`.DVAR` objects by</span>
+<span class="sd">                          their unique codes</span>
+<span class="sd">    `dlinks`            `dict` of :class:`.DLINK` objects</span>
+<span class="sd">    `newprops`          `dict` with different NASTRAN cards, see</span>
+<span class="sd">                        :meth:`.reset_newprops`</span>
+<span class="sd">    `nodal_displ`       `dict` with the nodal displacements constraints as</span>
+<span class="sd">                        detailed in :meth:`.nodal_displ_from_excel`</span>
+<span class="sd">    `loads_list`        `list` containing the load cases&#39; ids</span>
+<span class="sd">    `num_cycles`        `int` indicating the number of design cycles</span>
+<span class="sd">    `outputdir`         `str` path to the output directory</span>
+<span class="sd">    `sol200filepath`    `str` path to SOL200&#39;s output file</span>
+<span class="sd">    `sol200file`        `file` handler to SOL200&#39;s output file</span>
+<span class="sd">    ==================  ======================================================</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dobj</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvprels</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_newprops</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deqatns</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtable</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtables</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtable_prefixes</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dresps</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">groups</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dconstrs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dcids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvars</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dvar_codes</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dlinks</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c">#TODO future implementation</span>
+        <span class="c">#self.externalDRESP3 = {}</span>
+        <span class="c"># Description</span>
+        <span class="c"># `externalDRESP3`  `dict` of :class:`.DRESP3` objects, containing</span>
+        <span class="c">#                     external design responses to be considered</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">topocheck</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodal_displ</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loads_list</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_cycles</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outputdir</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol200filepath</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span> <span class="o">=</span> <span class="bp">None</span>
+
+
+<div class="viewcode-block" id="SOL200.set_output_file"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structmanager.sol200.sol200.SOL200.set_output_file">[docs]</a>    <span class="k">def</span> <span class="nf">set_output_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Define the data related to the output file.</span>
+
+<span class="sd">        The output directory is estimated based on `path`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path : str</span>
+<span class="sd">            The full path of the output file.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outputdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol200filepath</span> <span class="o">=</span> <span class="n">path</span>
+
+</div>
+    <span class="k">def</span> <span class="nf">_read_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topocheck</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">topo_max_elem</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">manufact_cons_input</span><span class="o">=</span><span class="p">[],</span> <span class="n">manufact_cons_coord</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="c">#TODO probably remove this method</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">topocheck</span> <span class="o">=</span> <span class="n">topocheck</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">topo_max_elem</span> <span class="o">=</span> <span class="n">topo_max_elem</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manufact_cons_input</span> <span class="o">=</span> <span class="n">manufact_cons_input</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manufact_cons_coord</span> <span class="o">=</span> <span class="n">manufact_cons_coord</span>
+
+
+<div class="viewcode-block" id="SOL200.print_model"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structmanager.sol200.sol200.SOL200.print_model">[docs]</a>    <span class="k">def</span> <span class="nf">print_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print the whole model.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sol200filepath</span><span class="p">,</span> <span class="s">&#39;wb&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtables</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">section</span><span class="p">(</span><span class="s">&#39;DESIGN CONSTRAINTS&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dtable</span> <span class="o">=</span> <span class="n">DTABLE</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtables</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dtable</span><span class="o">.</span><span class="n">print_card</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print_dvars</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print_dlinks</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print_dvprels</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print_dresps</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print_deqatns</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print_dcons</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print_dobj</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print_newprops</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="SOL200.reset_newprops"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structmanager.sol200.sol200.SOL200.reset_newprops">[docs]</a>    <span class="k">def</span> <span class="nf">reset_newprops</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reset the dictionary `newprops`.</span>
+
+<span class="sd">        This dictionary contains NASTRAN property cards that should be created</span>
+<span class="sd">        along with the optimization model.</span>
+
+<span class="sd">        The supported cards are those corresponding to the classes defined in</span>
+<span class="sd">        :mod:`.cards_solver`.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newprops</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newprops</span><span class="p">[</span><span class="s">&#39;PSHELL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newprops</span><span class="p">[</span><span class="s">&#39;PBAR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newprops</span><span class="p">[</span><span class="s">&#39;PBARL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newprops</span><span class="p">[</span><span class="s">&#39;PBEAM&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newprops</span><span class="p">[</span><span class="s">&#39;PBEAML&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newprops</span><span class="p">[</span><span class="s">&#39;PCOMP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+</div>
+<div class="viewcode-block" id="SOL200.constrain_pshell"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structmanager.sol200.sol200.SOL200.constrain_pshell">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_pshell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dcid</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">eltype</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">lallow</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+            <span class="n">uallow</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add constraints to the bottom and top faces of a shell property.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dcid : int</span>
+<span class="sd">            Design constraint set identification number.</span>
+<span class="sd">        pid : int</span>
+<span class="sd">            Property id.</span>
+<span class="sd">        eltype : str</span>
+<span class="sd">            Element type (&#39;CQUAD4&#39;, &#39;CTRIA3&#39;, etc).</span>
+<span class="sd">        rtype : str</span>
+<span class="sd">            The type of response. For shells it is usually `&#39;STRESS&#39;`.</span>
+<span class="sd">        names : str or list of strings</span>
+<span class="sd">            The name of the constraint, as in the quick reference guide,</span>
+<span class="sd">            reproduced in module :mod:`.atd.sol200.output_codes`.</span>
+<span class="sd">        lallow : float or None, optional</span>
+<span class="sd">            Lower bound on the response quantity.</span>
+<span class="sd">        uallow : float or None, optional</span>
+<span class="sd">            Upper bound on the response quantity.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ptype</span> <span class="o">=</span> <span class="s">&#39;PSHELL&#39;</span>
+        <span class="n">region</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">lallow</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">lallow</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">uallow</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">uallow</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">names</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">dcids</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dcid</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+            <span class="n">atta</span> <span class="o">=</span> <span class="n">get_output_code</span><span class="p">(</span><span class="n">rtype</span><span class="p">,</span> <span class="n">eltype</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="n">dresp1</span> <span class="o">=</span> <span class="n">DRESP1</span><span class="p">(</span><span class="n">name</span><span class="p">[:</span><span class="mi">8</span><span class="p">],</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">ptype</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">atta</span><span class="p">,</span> <span class="n">pid</span><span class="p">)</span>
+            <span class="n">dconstr</span> <span class="o">=</span> <span class="n">DCONSTR</span><span class="p">(</span><span class="n">dcid</span><span class="p">,</span> <span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">lallow</span><span class="p">,</span> <span class="n">uallow</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dresps</span><span class="p">[</span><span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dresp1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dconstrs</span><span class="p">[</span><span class="n">dconstr</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dconstr</span>
+
+</div>
+<div class="viewcode-block" id="SOL200.constrain_pcomp"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structmanager.sol200.sol200.SOL200.constrain_pcomp">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_pcomp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dcid</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">eltype</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">lallow</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+            <span class="n">uallow</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add constraints to the bottom and top faces of a pcomp property.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dcid : int</span>
+<span class="sd">            Design constraint set identification number.</span>
+<span class="sd">        pid : int</span>
+<span class="sd">            Property id.</span>
+<span class="sd">        eltype : str</span>
+<span class="sd">            Element type (&#39;CQUAD4&#39;, &#39;CTRIA3&#39;, etc).</span>
+<span class="sd">        rtype : str</span>
+<span class="sd">            The type of response. For shells it is usually `&#39;STRESS&#39;`.</span>
+<span class="sd">        names : str or list of strings</span>
+<span class="sd">            The name of the constraint, as in the quick reference guide,</span>
+<span class="sd">            reproduced in module :mod:`.atd.sol200.output_codes`.</span>
+<span class="sd">        lallow : float or None, optional</span>
+<span class="sd">            Lower bound on the response quantity.</span>
+<span class="sd">        uallow : float or None, optional</span>
+<span class="sd">            Upper bound on the response quantity.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ptype</span> <span class="o">=</span> <span class="s">&#39;PCOMP&#39;</span>
+        <span class="n">region</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">lallow</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">lallow</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">uallow</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">uallow</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">names</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">dcids</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dcid</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+            <span class="n">atta</span> <span class="o">=</span> <span class="n">get_output_code</span><span class="p">(</span><span class="n">rtype</span><span class="p">,</span> <span class="n">eltype</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="n">dresp1</span> <span class="o">=</span> <span class="n">DRESP1</span><span class="p">(</span><span class="n">name</span><span class="p">[:</span><span class="mi">8</span><span class="p">],</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">ptype</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">atta</span><span class="p">,</span> <span class="n">pid</span><span class="p">)</span>
+            <span class="n">dconstr</span> <span class="o">=</span> <span class="n">DCONSTR</span><span class="p">(</span><span class="n">dcid</span><span class="p">,</span> <span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">lallow</span><span class="p">,</span> <span class="n">uallow</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dresps</span><span class="p">[</span><span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dresp1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dconstrs</span><span class="p">[</span><span class="n">dconstr</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dconstr</span>
+
+            </div>
+<div class="viewcode-block" id="SOL200.constrain_pbar"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structmanager.sol200.sol200.SOL200.constrain_pbar">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_pbar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dcid</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">eltype</span><span class="p">,</span> <span class="n">allow_C</span><span class="p">,</span> <span class="n">allow_T</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add constraints to all stress recovery points of a bar property.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dcid : int</span>
+<span class="sd">            Design constraint set identification number.</span>
+<span class="sd">        pid : int</span>
+<span class="sd">            Property id.</span>
+<span class="sd">        name : str or list</span>
+<span class="sd">            The name of the constraint.</span>
+<span class="sd">        rtype : str</span>
+<span class="sd">            The type of response. For bar elements it is usually `&#39;STRESS&#39;`.</span>
+<span class="sd">        eltype : str</span>
+<span class="sd">            The section type: `&#39;RECT&#39;`, `&#39;CIRCLE&#39;`, etc.</span>
+<span class="sd">        allow_C : float</span>
+<span class="sd">            The allowable for compression.</span>
+<span class="sd">        allow_T : float</span>
+<span class="sd">            The allowable for tension.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">rtype</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;STRESS&#39;</span><span class="p">:</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="s">&#39;minmaxS&#39;</span>
+        <span class="n">region</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="n">lid_lb_ub</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">lid_lb_ub</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;ALL&#39;</span><span class="p">)</span>
+        <span class="n">lid_lb_ub</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">allow_C</span><span class="p">)</span>
+        <span class="n">lid_lb_ub</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">allow_T</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">dcids</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dcid</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">namei</span> <span class="ow">in</span> <span class="n">name</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s">&#39;Axial&#39;</span> <span class="ow">in</span> <span class="n">namei</span><span class="p">:</span>
+                <span class="n">cons_names</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;End A-Point C&#39;</span><span class="p">,</span>
+                              <span class="s">&#39;End A-Point D&#39;</span><span class="p">,</span>
+                              <span class="s">&#39;End A-Point E&#39;</span><span class="p">,</span>
+                              <span class="s">&#39;End A-Point F&#39;</span><span class="p">,</span>
+                              <span class="s">&#39;End B-Point C&#39;</span><span class="p">,</span>
+                              <span class="s">&#39;End B-Point D&#39;</span><span class="p">,</span>
+                              <span class="s">&#39;End B-Point E&#39;</span><span class="p">,</span>
+                              <span class="s">&#39;End B-Point F&#39;</span><span class="p">]</span>
+            <span class="n">ptype</span> <span class="o">=</span> <span class="s">&#39;PBARL&#39;</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cons_names</span><span class="p">)):</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">cons_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">atta</span> <span class="o">=</span> <span class="n">get_output_code</span><span class="p">(</span><span class="n">rtype</span><span class="p">,</span> <span class="n">eltype</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+                <span class="n">output_name</span> <span class="o">=</span> <span class="n">OUTC</span><span class="p">[</span><span class="n">rtype</span><span class="p">][</span><span class="n">eltype</span><span class="p">][</span><span class="n">atta</span><span class="p">]</span>
+
+                <span class="n">stress_type</span> <span class="o">=</span> <span class="s">&#39;positive&#39;</span>
+                <span class="k">if</span> <span class="n">output_name</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;Minor&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">stress_type</span> <span class="o">=</span> <span class="s">&#39;negative&#39;</span>
+                <span class="k">elif</span> <span class="n">output_name</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;Normal&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">stress_type</span> <span class="o">=</span> <span class="s">&#39;both&#39;</span>
+
+                <span class="n">dresp1</span> <span class="o">=</span> <span class="n">DRESP1</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">ptype</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">atta</span><span class="p">,</span> <span class="n">pid</span><span class="p">)</span>
+                <span class="n">dconstr</span> <span class="o">=</span> <span class="n">DCONSTR</span><span class="p">(</span><span class="n">dcid</span><span class="p">,</span> <span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">lid_lb_ub</span><span class="p">,</span> <span class="n">stress_type</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dresps</span><span class="p">[</span><span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dresp1</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dconstrs</span><span class="p">[</span><span class="n">dconstr</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dconstr</span>
+
+</div>
+<div class="viewcode-block" id="SOL200.constrain_two_vars"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structmanager.sol200.sol200.SOL200.constrain_two_vars">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_two_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dcid</span><span class="p">,</span> <span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">,</span> <span class="n">maxdiff</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constrain two vars in order to keep a maximum relative difference</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dcid : int</span>
+<span class="sd">            Design constraint set identification number.</span>
+<span class="sd">        var1, var2 : int or str</span>
+<span class="sd">            The variables id (int) or code (str).</span>
+<span class="sd">        maxdiff : float</span>
+<span class="sd">            The maximum relative difference that &#39;var1&#39; and &#39;var2&#39; must</span>
+<span class="sd">            respect.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var1</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">var1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvars</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var1</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var1</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">var1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvar_codes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Invalid data type for &#39;var1&#39;&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var2</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">var2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvars</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var2</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var2</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">var2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvar_codes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var2</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Invalid data type for &#39;var2&#39;&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">var1</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;&#39;var1&#39; not found!&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">var2</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;&#39;var2&#39; not found!&quot;</span><span class="p">)</span>
+
+        <span class="n">deqatn</span> <span class="o">=</span> <span class="n">DEQATN</span><span class="p">(</span><span class="s">&#39;T(v1,v2)=ABS(v2-v1)/ABS(v1)&#39;</span><span class="p">)</span>
+        <span class="n">dresp2</span> <span class="o">=</span> <span class="n">DRESP2</span><span class="p">(</span><span class="s">&#39;tmplabel&#39;</span><span class="p">,</span> <span class="n">deqatn</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">dresp2</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="s">&#39;v1v2{0:d}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dresp2</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="n">dresp2</span><span class="o">.</span><span class="n">add_dvar</span><span class="p">(</span><span class="n">var1</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="n">dresp2</span><span class="o">.</span><span class="n">add_dvar</span><span class="p">(</span><span class="n">var2</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dcids</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dcid</span><span class="p">)</span>
+        <span class="n">dconstr</span> <span class="o">=</span> <span class="n">DCONSTR</span><span class="p">(</span><span class="n">dcid</span><span class="p">,</span> <span class="n">dresp2</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;ALL&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">maxdiff</span><span class="p">],</span> <span class="s">&#39;positive&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">deqatns</span><span class="p">[</span><span class="n">deqatn</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">deqatn</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dresps</span><span class="p">[</span><span class="n">dresp2</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dresp2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dconstrs</span><span class="p">[</span><span class="n">dconstr</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dconstr</span>
+
+</div>
+<div class="viewcode-block" id="SOL200.create_dobj"><a class="viewcode-back" href="../../../optimization_solvers/sol200/sol200.html#structmanager.sol200.sol200.SOL200.create_dobj">[docs]</a>    <span class="k">def</span> <span class="nf">create_dobj</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create the design objective.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dresp1</span> <span class="o">=</span>  <span class="n">DRESP1</span><span class="p">(</span><span class="s">&#39;mass&#39;</span><span class="p">,</span><span class="s">&#39;MASS&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dresps</span><span class="p">[</span><span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dresp1</span>
+
+        <span class="c">#TODO move to the case control section</span>
+        <span class="k">if</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dobj</span> <span class="o">=</span> <span class="n">DOBJ</span><span class="p">(</span><span class="n">dresp1</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+
+            <span class="c">#TODO move away from here</span>
+            <span class="c"># defining spc[i] = spc[0] if the number of spc is</span>
+            <span class="c"># lower than the number of load cases</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loads_list</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spcs_list</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">spcs_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spcs_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+</div>
+    <span class="k">def</span> <span class="nf">_print_newprops</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">pcard</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">newprops</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">newprop</span> <span class="ow">in</span> <span class="n">pcard</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="n">newprop</span><span class="o">.</span><span class="n">print_card</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_print_dvars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dvars</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">section</span><span class="p">(</span><span class="s">&#39;DESIGN VARIABLES&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">dvar</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvars</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">dvar</span><span class="o">.</span><span class="n">print_card</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_print_dvprels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dvprels</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">section</span><span class="p">(</span><span class="s">&#39;DESIGN VARIABLE-TO-PROPERTY RELATIONS&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">dvprel</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvprels</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">dvprel</span><span class="o">.</span><span class="n">print_card</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_print_dresps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dresps</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">section</span><span class="p">(</span><span class="s">&#39;DESIGN RESPONSES&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">dresp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dresps</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">dresp</span><span class="o">.</span><span class="n">print_card</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_print_deqatns</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">deqatns</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">section</span><span class="p">(</span><span class="s">&#39;DESIGN EQUATIONS&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">deqatn</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">deqatns</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">deqatn</span><span class="o">.</span><span class="n">print_card</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_print_dcons</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dconstrs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">section</span><span class="p">(</span><span class="s">&#39;DESIGN CONSTRAINTS&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">dconstr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dconstrs</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">dconstr</span><span class="o">.</span><span class="n">print_card</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_print_dobj</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dobj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">section</span><span class="p">(</span><span class="s">&#39;DESIGN OBJECTIVE&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dobj</span><span class="o">.</span><span class="n">print_card</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_print_dlinks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dlinks</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">section</span><span class="p">(</span><span class="s">&#39;DESIGN LINKS&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">dlink</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dlinks</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">dlink</span><span class="o">.</span><span class="n">print_card</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">pickle_dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="n">file1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span>
+        <span class="c"># clearing file handlers that cannot be pickled</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mergedfile</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">))</span>
+        <span class="c"># recovering file handlers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span> <span class="o">=</span> <span class="n">file1</span>
+
+        <span class="k">return</span> <span class="bp">True</span>
+
+
+    <span class="k">def</span> <span class="nf">pickle_load</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="bp">self</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">))</span>
+        <span class="c">#FIXME see if these file handlers below need to be reloaded</span>
+        <span class="c">#create a method to recover them and call this method when</span>
+        <span class="c">#necessary</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputdir</span><span class="p">,</span> <span class="s">&#39;sol200.temp&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol200file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">structmanager 0.2.0 dev documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Saullo Castro.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

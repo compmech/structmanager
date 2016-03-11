@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>structMan.ses.ses &mdash; structMan 0.1.0 dev documentation</title>
+    <title>structmanager.ses.ses &mdash; structmanager 0.1.0 dev documentation</title>
     
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="structMan 0.1.0 dev documentation" href="../../../index.html" />
-    <link rel="up" title="structMan.ses" href="../ses.html" /> 
+    <link rel="top" title="structmanager 0.1.0 dev documentation" href="../../../index.html" />
+    <link rel="up" title="structmanager.ses" href="../ses.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -40,9 +40,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">structmanager 0.1.0 dev documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../ses.html" accesskey="U">structMan.ses</a> &raquo;</li> 
+          <li class="nav-item nav-item-2"><a href="../ses.html" accesskey="U">structmanager.ses</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -51,24 +51,24 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <h1>Source code for structMan.ses.ses</h1><div class="highlight"><pre>
+  <h1>Source code for structmanager.ses.ses</h1><div class="highlight"><pre>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Base classes for SEs (:mod:`structMan.ses.ses`)</span>
+<span class="sd">Base classes for SEs (:mod:`structmanager.ses.ses`)</span>
 <span class="sd">===================================================================</span>
 
-<span class="sd">.. currentmodule:: structMan.ses.ses</span>
+<span class="sd">.. currentmodule:: structmanager.ses.ses</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">itemgetter</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">structMan.sol200</span> <span class="kn">import</span> <span class="p">(</span><span class="n">DRESP1</span><span class="p">,</span> <span class="n">DCONSTR</span><span class="p">,</span> <span class="n">DEQATN</span><span class="p">,</span> <span class="n">DRESP2</span><span class="p">,</span> <span class="n">DRESP3</span><span class="p">,</span> <span class="n">DESVAR</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">structmanager.sol200</span> <span class="kn">import</span> <span class="p">(</span><span class="n">DRESP1</span><span class="p">,</span> <span class="n">DCONSTR</span><span class="p">,</span> <span class="n">DEQATN</span><span class="p">,</span> <span class="n">DRESP2</span><span class="p">,</span> <span class="n">DRESP3</span><span class="p">,</span> <span class="n">DESVAR</span><span class="p">,</span>
                               <span class="n">DVPREL1</span><span class="p">,</span> <span class="n">DVPREL2</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">structMan.sol200.output_codes</span> <span class="kn">as</span> <span class="nn">output_codes_SOL200</span>
+<span class="kn">import</span> <span class="nn">structmanager.sol200.output_codes</span> <span class="kn">as</span> <span class="nn">output_codes_SOL200</span>
 
 
-<div class="viewcode-block" id="SE"><a class="viewcode-back" href="../../../ses/ses.html#structMan.ses.ses.SE">[docs]</a><span class="k">class</span> <span class="nc">SE</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="SE"><a class="viewcode-back" href="../../../ses/ses.html#structmanager.ses.ses.SE">[docs]</a><span class="k">class</span> <span class="nc">SE</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Structural Element</span>
 
 <span class="sd">    Attributes</span>
@@ -150,7 +150,7 @@
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="SE.add_dtable"><a class="viewcode-back" href="../../../ses/ses.html#structMan.ses.ses.SE.add_dtable">[docs]</a>    <span class="k">def</span> <span class="nf">add_dtable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SE.add_dtable"><a class="viewcode-back" href="../../../ses/ses.html#structmanager.ses.ses.SE.add_dtable">[docs]</a>    <span class="k">def</span> <span class="nf">add_dtable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add a DTABLE entry to the SE and the optmodel</span>
 
 <span class="sd">        Parameters</span>
@@ -190,7 +190,7 @@
         <span class="k">return</span> <span class="n">key</span>
 
 </div>
-<div class="viewcode-block" id="SE.add_dresp"><a class="viewcode-back" href="../../../ses/ses.html#structMan.ses.ses.SE.add_dresp">[docs]</a>    <span class="k">def</span> <span class="nf">add_dresp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dresp</span><span class="p">):</span>
+<div class="viewcode-block" id="SE.add_dresp"><a class="viewcode-back" href="../../../ses/ses.html#structmanager.ses.ses.SE.add_dresp">[docs]</a>    <span class="k">def</span> <span class="nf">add_dresp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dresp</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add a DRESP(123) entry to the SE and the optmodel</span>
 
 <span class="sd">        Parameters</span>
@@ -205,7 +205,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">optmodel</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dresp</span><span class="o">.</span><span class="n">group</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="SE.add_deqatn"><a class="viewcode-back" href="../../../ses/ses.html#structMan.ses.ses.SE.add_deqatn">[docs]</a>    <span class="k">def</span> <span class="nf">add_deqatn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deqatn</span><span class="p">):</span>
+<div class="viewcode-block" id="SE.add_deqatn"><a class="viewcode-back" href="../../../ses/ses.html#structmanager.ses.ses.SE.add_deqatn">[docs]</a>    <span class="k">def</span> <span class="nf">add_deqatn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deqatn</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add a DEQATN entry to the SE and the optmodel</span>
 
 <span class="sd">        Parameters</span>
@@ -218,7 +218,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">optmodel</span><span class="o">.</span><span class="n">deqatns</span><span class="p">[</span><span class="n">deqatn</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">deqatn</span>
 
 </div>
-<div class="viewcode-block" id="SE.add_dvar"><a class="viewcode-back" href="../../../ses/ses.html#structMan.ses.ses.SE.add_dvar">[docs]</a>    <span class="k">def</span> <span class="nf">add_dvar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dvar</span><span class="p">):</span>
+<div class="viewcode-block" id="SE.add_dvar"><a class="viewcode-back" href="../../../ses/ses.html#structmanager.ses.ses.SE.add_dvar">[docs]</a>    <span class="k">def</span> <span class="nf">add_dvar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dvar</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add a DESVAR entry to the SE and the optmodel</span>
 
 <span class="sd">        Parameters</span>
@@ -233,7 +233,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">optmodel</span><span class="o">.</span><span class="n">dvars</span><span class="p">[</span><span class="n">dvar</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dvar</span>
 
 </div>
-<div class="viewcode-block" id="SE.add_dvprel"><a class="viewcode-back" href="../../../ses/ses.html#structMan.ses.ses.SE.add_dvprel">[docs]</a>    <span class="k">def</span> <span class="nf">add_dvprel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dvprel</span><span class="p">):</span>
+<div class="viewcode-block" id="SE.add_dvprel"><a class="viewcode-back" href="../../../ses/ses.html#structmanager.ses.ses.SE.add_dvprel">[docs]</a>    <span class="k">def</span> <span class="nf">add_dvprel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dvprel</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add a DVPREL(12) entry to the SE and the optmodel</span>
 
 <span class="sd">        Parameters</span>
@@ -246,7 +246,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">optmodel</span><span class="o">.</span><span class="n">dvprels</span><span class="p">[</span><span class="n">dvprel</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dvprel</span>
 
 </div>
-<div class="viewcode-block" id="SE.add_constraint"><a class="viewcode-back" href="../../../ses/ses.html#structMan.ses.ses.SE.add_constraint">[docs]</a>    <span class="k">def</span> <span class="nf">add_constraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dcid</span><span class="p">,</span> <span class="n">dresp</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">):</span>
+<div class="viewcode-block" id="SE.add_constraint"><a class="viewcode-back" href="../../../ses/ses.html#structmanager.ses.ses.SE.add_constraint">[docs]</a>    <span class="k">def</span> <span class="nf">add_constraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dcid</span><span class="p">,</span> <span class="n">dresp</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add a DCONSTR entry to the SE and the optmodel</span>
 
 <span class="sd">        Parameters</span>
@@ -266,7 +266,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">optmodel</span><span class="o">.</span><span class="n">dconstrs</span><span class="p">[</span><span class="n">dconstr</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">dconstr</span>
 
 </div>
-<div class="viewcode-block" id="SE.get_central_element"><a class="viewcode-back" href="../../../ses/ses.html#structMan.ses.ses.SE.get_central_element">[docs]</a>    <span class="k">def</span> <span class="nf">get_central_element</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SE.get_central_element"><a class="viewcode-back" href="../../../ses/ses.html#structmanager.ses.ses.SE.get_central_element">[docs]</a>    <span class="k">def</span> <span class="nf">get_central_element</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return the element closest to the SE center of gravity</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -278,7 +278,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(((</span><span class="n">x</span><span class="o">-</span><span class="n">cg</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))]</span>
 
 </div></div>
-<div class="viewcode-block" id="SE1D"><a class="viewcode-back" href="../../../ses/ses.html#structMan.ses.ses.SE1D">[docs]</a><span class="k">class</span> <span class="nc">SE1D</span><span class="p">(</span><span class="n">SE</span><span class="p">):</span>
+<div class="viewcode-block" id="SE1D"><a class="viewcode-back" href="../../../ses/ses.html#structmanager.ses.ses.SE1D">[docs]</a><span class="k">class</span> <span class="nc">SE1D</span><span class="p">(</span><span class="n">SE</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Base class for all 1D Structural Elements</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -353,7 +353,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">torque</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="SE1D.constrain_stress"><a class="viewcode-back" href="../../../ses/ses.html#structMan.ses.ses.SE1D.constrain_stress">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_stress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Fy</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="SE1D.constrain_stress"><a class="viewcode-back" href="../../../ses/ses.html#structmanager.ses.ses.SE1D.constrain_stress">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_stress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Fy</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add a stress constrain</span>
 
 <span class="sd">        Parameters</span>
@@ -397,7 +397,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="n">dcid</span><span class="p">,</span> <span class="n">dresp1</span><span class="p">,</span> <span class="n">Fy</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="SE1D.constrain_stress_tension"><a class="viewcode-back" href="../../../ses/ses.html#structMan.ses.ses.SE1D.constrain_stress_tension">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_stress_tension</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Fty</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="SE1D.constrain_stress_tension"><a class="viewcode-back" href="../../../ses/ses.html#structmanager.ses.ses.SE1D.constrain_stress_tension">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_stress_tension</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Fty</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add a tension stress constraint</span>
 
 <span class="sd">        Parameters</span>
@@ -412,7 +412,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">constrain_stress</span><span class="p">(</span><span class="n">Fy</span><span class="o">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">Fty</span><span class="p">),</span> <span class="n">average</span><span class="o">=</span><span class="n">average</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="SE1D.constrain_stress_compression"><a class="viewcode-back" href="../../../ses/ses.html#structMan.ses.ses.SE1D.constrain_stress_compression">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_stress_compression</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Fcy</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="SE1D.constrain_stress_compression"><a class="viewcode-back" href="../../../ses/ses.html#structmanager.ses.ses.SE1D.constrain_stress_compression">[docs]</a>    <span class="k">def</span> <span class="nf">constrain_stress_compression</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Fcy</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add a compressive stress constraint</span>
 
 <span class="sd">        Parameters</span>
@@ -428,7 +428,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">constrain_stress</span><span class="p">(</span><span class="n">Fy</span><span class="o">=-</span><span class="nb">abs</span><span class="p">(</span><span class="n">Fcy</span><span class="p">),</span> <span class="n">average</span><span class="o">=</span><span class="n">average</span><span class="p">)</span>
 
 </div></div>
-<div class="viewcode-block" id="SE2D"><a class="viewcode-back" href="../../../ses/ses.html#structMan.ses.ses.SE2D">[docs]</a><span class="k">class</span> <span class="nc">SE2D</span><span class="p">(</span><span class="n">SE</span><span class="p">):</span>
+<div class="viewcode-block" id="SE2D"><a class="viewcode-back" href="../../../ses/ses.html#structmanager.ses.ses.SE2D">[docs]</a><span class="k">class</span> <span class="nc">SE2D</span><span class="p">(</span><span class="n">SE</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Base class for all 2D Structural Elements</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -527,7 +527,7 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">Web</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">eids</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="ShearClipFrame"><a class="viewcode-back" href="../../../ses/ses.html#structMan.ses.ses.ShearClipFrame">[docs]</a><span class="k">class</span> <span class="nc">ShearClipFrame</span><span class="p">(</span><span class="n">SE2D</span><span class="p">):</span>
+<div class="viewcode-block" id="ShearClipFrame"><a class="viewcode-back" href="../../../ses/ses.html#structmanager.ses.ses.ShearClipFrame">[docs]</a><span class="k">class</span> <span class="nc">ShearClipFrame</span><span class="p">(</span><span class="n">SE2D</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Shear Clip Attachment to Frame</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -535,7 +535,7 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">ShearClipFrame</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">eids</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="ShearClipSkin"><a class="viewcode-back" href="../../../ses/ses.html#structMan.ses.ses.ShearClipSkin">[docs]</a><span class="k">class</span> <span class="nc">ShearClipSkin</span><span class="p">(</span><span class="n">SE1D</span><span class="p">):</span>
+<div class="viewcode-block" id="ShearClipSkin"><a class="viewcode-back" href="../../../ses/ses.html#structmanager.ses.ses.ShearClipSkin">[docs]</a><span class="k">class</span> <span class="nc">ShearClipSkin</span><span class="p">(</span><span class="n">SE1D</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Shear Clip Attachment to Skin</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -577,9 +577,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">structmanager 0.1.0 dev documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../ses.html" >structMan.ses</a> &raquo;</li> 
+          <li class="nav-item nav-item-2"><a href="../ses.html" >structmanager.ses</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

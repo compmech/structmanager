@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>SOL 200 (structMan.sol200) &mdash; structMan 0.1.0 dev documentation</title>
+    <title>SOL 200 (structmanager.sol200) &mdash; structmanager 0.1.0 dev documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="structMan 0.1.0 dev documentation" href="../index.html" /> 
+    <link rel="top" title="structmanager 0.1.0 dev documentation" href="../index.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -39,7 +39,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">structmanager 0.1.0 dev documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -48,13 +48,13 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <span class="target" id="module-structMan.sol200"></span><div class="section" id="sol-200-structman-sol200">
-<h1>SOL 200 (<a class="reference internal" href="#module-structMan.sol200" title="structMan.sol200"><code class="xref py py-mod docutils literal"><span class="pre">structMan.sol200</span></code></a>)<a class="headerlink" href="#sol-200-structman-sol200" title="Permalink to this headline">¶</a></h1>
+  <span class="target" id="module-structmanager.sol200"></span><div class="section" id="sol-200-structman-sol200">
+<h1>SOL 200 (<a class="reference internal" href="#module-structmanager.sol200" title="structmanager.sol200"><code class="xref py py-mod docutils literal"><span class="pre">structmanager.sol200</span></code></a>)<a class="headerlink" href="#sol-200-structman-sol200" title="Permalink to this headline">¶</a></h1>
 <p>This module contains useful functions for exporting optimization models to
 NASTRAN&#8217;s SOL 200.</p>
-<span class="target" id="module-structMan.sol200.sol200"></span><dl class="class">
-<dt id="structMan.sol200.sol200.SOL200">
-<em class="property">class </em><code class="descclassname">structMan.sol200.sol200.</code><code class="descname">SOL200</code><a class="reference internal" href="../_modules/structMan/sol200/sol200.html#SOL200"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.sol200.SOL200" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="module-structmanager.sol200.sol200"></span><dl class="class">
+<dt id="structmanager.sol200.sol200.SOL200">
+<em class="property">class </em><code class="descclassname">structmanager.sol200.sol200.</code><code class="descname">SOL200</code><a class="reference internal" href="../_modules/structmanager/sol200/sol200.html#SOL200"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.sol200.SOL200" title="Permalink to this definition">¶</a></dt>
 <dd><p>SOL200 optimization model</p>
 <p>This class corresponds to an optimization model.</p>
 <table border="1" class="docutils">
@@ -72,14 +72,14 @@ NASTRAN&#8217;s SOL 200.</p>
 <td><code class="xref py py-class docutils literal"><span class="pre">DESOBJ</span></code> object</td>
 </tr>
 <tr class="row-odd"><td><code class="docutils literal"><span class="pre">dvprels</span></code></td>
-<td><code class="docutils literal"><span class="pre">dict</span></code> of <a class="reference internal" href="#structMan.sol200.cards_opt.DVPREL1" title="structMan.sol200.cards_opt.DVPREL1"><code class="xref py py-class docutils literal"><span class="pre">DVPREL1</span></code></a> and <a class="reference internal" href="#structMan.sol200.cards_opt.DVPREL2" title="structMan.sol200.cards_opt.DVPREL2"><code class="xref py py-class docutils literal"><span class="pre">DVPREL2</span></code></a>
+<td><code class="docutils literal"><span class="pre">dict</span></code> of <a class="reference internal" href="#structmanager.sol200.cards_opt.DVPREL1" title="structmanager.sol200.cards_opt.DVPREL1"><code class="xref py py-class docutils literal"><span class="pre">DVPREL1</span></code></a> and <a class="reference internal" href="#structmanager.sol200.cards_opt.DVPREL2" title="structmanager.sol200.cards_opt.DVPREL2"><code class="xref py py-class docutils literal"><span class="pre">DVPREL2</span></code></a>
 objects</td>
 </tr>
 <tr class="row-even"><td><code class="docutils literal"><span class="pre">deqatns</span></code></td>
-<td><code class="docutils literal"><span class="pre">dict</span></code> of <a class="reference internal" href="#structMan.sol200.cards_opt.DEQATN" title="structMan.sol200.cards_opt.DEQATN"><code class="xref py py-class docutils literal"><span class="pre">DEQATN</span></code></a> objects</td>
+<td><code class="docutils literal"><span class="pre">dict</span></code> of <a class="reference internal" href="#structmanager.sol200.cards_opt.DEQATN" title="structmanager.sol200.cards_opt.DEQATN"><code class="xref py py-class docutils literal"><span class="pre">DEQATN</span></code></a> objects</td>
 </tr>
 <tr class="row-odd"><td><code class="docutils literal"><span class="pre">dtable</span></code></td>
-<td><a class="reference internal" href="genesis.html#structMan.genesis.cards_opt.DTABLE" title="structMan.genesis.cards_opt.DTABLE"><code class="xref py py-class docutils literal"><span class="pre">DTABLE</span></code></a> that will be created based on the
+<td><a class="reference internal" href="genesis.html#structmanager.genesis.cards_opt.DTABLE" title="structmanager.genesis.cards_opt.DTABLE"><code class="xref py py-class docutils literal"><span class="pre">DTABLE</span></code></a> that will be created based on the
 <code class="docutils literal"><span class="pre">dtables</span></code> dictionary</td>
 </tr>
 <tr class="row-even"><td><code class="docutils literal"><span class="pre">dtables</span></code></td>
@@ -90,32 +90,32 @@ objects</td>
 constants.</td>
 </tr>
 <tr class="row-even"><td><code class="docutils literal"><span class="pre">dresps</span></code></td>
-<td><code class="docutils literal"><span class="pre">dict</span></code> of <a class="reference internal" href="#structMan.sol200.cards_opt.DRESP1" title="structMan.sol200.cards_opt.DRESP1"><code class="xref py py-class docutils literal"><span class="pre">DRESP1</span></code></a>, <a class="reference internal" href="#structMan.sol200.cards_opt.DRESP2" title="structMan.sol200.cards_opt.DRESP2"><code class="xref py py-class docutils literal"><span class="pre">DRESP2</span></code></a> or
-<a class="reference internal" href="#structMan.sol200.cards_opt.DRESP3" title="structMan.sol200.cards_opt.DRESP3"><code class="xref py py-class docutils literal"><span class="pre">DRESP3</span></code></a> objects</td>
+<td><code class="docutils literal"><span class="pre">dict</span></code> of <a class="reference internal" href="#structmanager.sol200.cards_opt.DRESP1" title="structmanager.sol200.cards_opt.DRESP1"><code class="xref py py-class docutils literal"><span class="pre">DRESP1</span></code></a>, <a class="reference internal" href="#structmanager.sol200.cards_opt.DRESP2" title="structmanager.sol200.cards_opt.DRESP2"><code class="xref py py-class docutils literal"><span class="pre">DRESP2</span></code></a> or
+<a class="reference internal" href="#structmanager.sol200.cards_opt.DRESP3" title="structmanager.sol200.cards_opt.DRESP3"><code class="xref py py-class docutils literal"><span class="pre">DRESP3</span></code></a> objects</td>
 </tr>
 <tr class="row-odd"><td><code class="docutils literal"><span class="pre">dconstrs</span></code></td>
-<td><code class="docutils literal"><span class="pre">dict</span></code> of <a class="reference internal" href="#structMan.sol200.cards_opt.DCONSTR" title="structMan.sol200.cards_opt.DCONSTR"><code class="xref py py-class docutils literal"><span class="pre">DCONSTR</span></code></a> objects</td>
+<td><code class="docutils literal"><span class="pre">dict</span></code> of <a class="reference internal" href="#structmanager.sol200.cards_opt.DCONSTR" title="structmanager.sol200.cards_opt.DCONSTR"><code class="xref py py-class docutils literal"><span class="pre">DCONSTR</span></code></a> objects</td>
 </tr>
 <tr class="row-even"><td><code class="docutils literal"><span class="pre">dvars</span></code></td>
-<td><code class="docutils literal"><span class="pre">dict</span></code> of <a class="reference internal" href="genesis.html#structMan.genesis.cards_opt.DVAR" title="structMan.genesis.cards_opt.DVAR"><code class="xref py py-class docutils literal"><span class="pre">DVAR</span></code></a> objects</td>
+<td><code class="docutils literal"><span class="pre">dict</span></code> of <a class="reference internal" href="genesis.html#structmanager.genesis.cards_opt.DVAR" title="structmanager.genesis.cards_opt.DVAR"><code class="xref py py-class docutils literal"><span class="pre">DVAR</span></code></a> objects</td>
 </tr>
 <tr class="row-odd"><td><code class="docutils literal"><span class="pre">dvar_codes</span></code></td>
 <td><dl class="first last docutils">
-<dt><code class="docutils literal"><span class="pre">dict</span></code> classifying the <a class="reference internal" href="genesis.html#structMan.genesis.cards_opt.DVAR" title="structMan.genesis.cards_opt.DVAR"><code class="xref py py-class docutils literal"><span class="pre">DVAR</span></code></a> objects by</dt>
+<dt><code class="docutils literal"><span class="pre">dict</span></code> classifying the <a class="reference internal" href="genesis.html#structmanager.genesis.cards_opt.DVAR" title="structmanager.genesis.cards_opt.DVAR"><code class="xref py py-class docutils literal"><span class="pre">DVAR</span></code></a> objects by</dt>
 <dd>their unique codes</dd>
 </dl>
 </td>
 </tr>
 <tr class="row-even"><td><code class="docutils literal"><span class="pre">dlinks</span></code></td>
-<td><code class="docutils literal"><span class="pre">dict</span></code> of <a class="reference internal" href="genesis.html#structMan.genesis.cards_opt.DLINK" title="structMan.genesis.cards_opt.DLINK"><code class="xref py py-class docutils literal"><span class="pre">DLINK</span></code></a> objects</td>
+<td><code class="docutils literal"><span class="pre">dict</span></code> of <a class="reference internal" href="genesis.html#structmanager.genesis.cards_opt.DLINK" title="structmanager.genesis.cards_opt.DLINK"><code class="xref py py-class docutils literal"><span class="pre">DLINK</span></code></a> objects</td>
 </tr>
 <tr class="row-odd"><td><code class="docutils literal"><span class="pre">newprops</span></code></td>
 <td><code class="docutils literal"><span class="pre">dict</span></code> with different NASTRAN cards, see
-<a class="reference internal" href="#structMan.sol200.sol200.SOL200.reset_newprops" title="structMan.sol200.sol200.SOL200.reset_newprops"><code class="xref py py-meth docutils literal"><span class="pre">reset_newprops()</span></code></a></td>
+<a class="reference internal" href="#structmanager.sol200.sol200.SOL200.reset_newprops" title="structmanager.sol200.sol200.SOL200.reset_newprops"><code class="xref py py-meth docutils literal"><span class="pre">reset_newprops()</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="docutils literal"><span class="pre">nodal_displ</span></code></td>
 <td><code class="docutils literal"><span class="pre">dict</span></code> with the nodal displacements constraints as
-detailed in <a class="reference internal" href="genesis.html#structMan.genesis.genesis.Genesis.nodal_displ_from_excel" title="structMan.genesis.genesis.Genesis.nodal_displ_from_excel"><code class="xref py py-meth docutils literal"><span class="pre">nodal_displ_from_excel()</span></code></a></td>
+detailed in <a class="reference internal" href="genesis.html#structmanager.genesis.genesis.Genesis.nodal_displ_from_excel" title="structmanager.genesis.genesis.Genesis.nodal_displ_from_excel"><code class="xref py py-meth docutils literal"><span class="pre">nodal_displ_from_excel()</span></code></a></td>
 </tr>
 <tr class="row-odd"><td><code class="docutils literal"><span class="pre">loads_list</span></code></td>
 <td><code class="docutils literal"><span class="pre">list</span></code> containing the load cases&#8217; ids</td>
@@ -141,16 +141,16 @@ detailed in <a class="reference internal" href="genesis.html#structMan.genesis.g
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#structMan.sol200.sol200.SOL200.constrain_pbar" title="structMan.sol200.sol200.SOL200.constrain_pbar"><code class="xref py py-obj docutils literal"><span class="pre">constrain_pbar</span></code></a>(dcid,&nbsp;pid,&nbsp;name,&nbsp;rtype,&nbsp;...)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#structmanager.sol200.sol200.SOL200.constrain_pbar" title="structmanager.sol200.sol200.SOL200.constrain_pbar"><code class="xref py py-obj docutils literal"><span class="pre">constrain_pbar</span></code></a>(dcid,&nbsp;pid,&nbsp;name,&nbsp;rtype,&nbsp;...)</td>
 <td>Add constraints to all stress recovery points of a bar property.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#structMan.sol200.sol200.SOL200.constrain_pshell" title="structMan.sol200.sol200.SOL200.constrain_pshell"><code class="xref py py-obj docutils literal"><span class="pre">constrain_pshell</span></code></a>(dcid,&nbsp;pid,&nbsp;eltype,&nbsp;rtype,&nbsp;names)</td>
+<tr class="row-even"><td><a class="reference internal" href="#structmanager.sol200.sol200.SOL200.constrain_pshell" title="structmanager.sol200.sol200.SOL200.constrain_pshell"><code class="xref py py-obj docutils literal"><span class="pre">constrain_pshell</span></code></a>(dcid,&nbsp;pid,&nbsp;eltype,&nbsp;rtype,&nbsp;names)</td>
 <td>Add constraints to the bottom and top faces of a shell property.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#structMan.sol200.sol200.SOL200.constrain_two_vars" title="structMan.sol200.sol200.SOL200.constrain_two_vars"><code class="xref py py-obj docutils literal"><span class="pre">constrain_two_vars</span></code></a>(dcid,&nbsp;var1,&nbsp;var2,&nbsp;maxdiff)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#structmanager.sol200.sol200.SOL200.constrain_two_vars" title="structmanager.sol200.sol200.SOL200.constrain_two_vars"><code class="xref py py-obj docutils literal"><span class="pre">constrain_two_vars</span></code></a>(dcid,&nbsp;var1,&nbsp;var2,&nbsp;maxdiff)</td>
 <td>Constrain two vars in order to keep a maximum relative difference</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#structMan.sol200.sol200.SOL200.create_dobj" title="structMan.sol200.sol200.SOL200.create_dobj"><code class="xref py py-obj docutils literal"><span class="pre">create_dobj</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="#structmanager.sol200.sol200.SOL200.create_dobj" title="structmanager.sol200.sol200.SOL200.create_dobj"><code class="xref py py-obj docutils literal"><span class="pre">create_dobj</span></code></a>()</td>
 <td>Create the design objective.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">pickle_dump</span></code>(path)</td>
@@ -159,20 +159,20 @@ detailed in <a class="reference internal" href="genesis.html#structMan.genesis.g
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">pickle_load</span></code>(path)</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#structMan.sol200.sol200.SOL200.print_model" title="structMan.sol200.sol200.SOL200.print_model"><code class="xref py py-obj docutils literal"><span class="pre">print_model</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#structmanager.sol200.sol200.SOL200.print_model" title="structmanager.sol200.sol200.SOL200.print_model"><code class="xref py py-obj docutils literal"><span class="pre">print_model</span></code></a>()</td>
 <td>Print the whole model.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#structMan.sol200.sol200.SOL200.reset_newprops" title="structMan.sol200.sol200.SOL200.reset_newprops"><code class="xref py py-obj docutils literal"><span class="pre">reset_newprops</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="#structmanager.sol200.sol200.SOL200.reset_newprops" title="structmanager.sol200.sol200.SOL200.reset_newprops"><code class="xref py py-obj docutils literal"><span class="pre">reset_newprops</span></code></a>()</td>
 <td>Reset the dictionary <code class="docutils literal"><span class="pre">newprops</span></code>.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#structMan.sol200.sol200.SOL200.set_output_file" title="structMan.sol200.sol200.SOL200.set_output_file"><code class="xref py py-obj docutils literal"><span class="pre">set_output_file</span></code></a>(path)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#structmanager.sol200.sol200.SOL200.set_output_file" title="structmanager.sol200.sol200.SOL200.set_output_file"><code class="xref py py-obj docutils literal"><span class="pre">set_output_file</span></code></a>(path)</td>
 <td>Define the data related to the output file.</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
-<dt id="structMan.sol200.sol200.SOL200.constrain_pbar">
-<code class="descname">constrain_pbar</code><span class="sig-paren">(</span><em>dcid</em>, <em>pid</em>, <em>name</em>, <em>rtype</em>, <em>eltype</em>, <em>allow_C</em>, <em>allow_T</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/sol200.html#SOL200.constrain_pbar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.sol200.SOL200.constrain_pbar" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.sol200.SOL200.constrain_pbar">
+<code class="descname">constrain_pbar</code><span class="sig-paren">(</span><em>dcid</em>, <em>pid</em>, <em>name</em>, <em>rtype</em>, <em>eltype</em>, <em>allow_C</em>, <em>allow_T</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/sol200.html#SOL200.constrain_pbar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.sol200.SOL200.constrain_pbar" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add constraints to all stress recovery points of a bar property.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -213,8 +213,8 @@ detailed in <a class="reference internal" href="genesis.html#structMan.genesis.g
 </dd></dl>
 
 <dl class="method">
-<dt id="structMan.sol200.sol200.SOL200.constrain_pshell">
-<code class="descname">constrain_pshell</code><span class="sig-paren">(</span><em>dcid</em>, <em>pid</em>, <em>eltype</em>, <em>rtype</em>, <em>names</em>, <em>lallow=None</em>, <em>uallow=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/sol200.html#SOL200.constrain_pshell"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.sol200.SOL200.constrain_pshell" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.sol200.SOL200.constrain_pshell">
+<code class="descname">constrain_pshell</code><span class="sig-paren">(</span><em>dcid</em>, <em>pid</em>, <em>eltype</em>, <em>rtype</em>, <em>names</em>, <em>lallow=None</em>, <em>uallow=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/sol200.html#SOL200.constrain_pshell"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.sol200.SOL200.constrain_pshell" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add constraints to the bottom and top faces of a shell property.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -256,8 +256,8 @@ reproduced in module <code class="xref py py-mod docutils literal"><span class="
 </dd></dl>
 
 <dl class="method">
-<dt id="structMan.sol200.sol200.SOL200.constrain_two_vars">
-<code class="descname">constrain_two_vars</code><span class="sig-paren">(</span><em>dcid</em>, <em>var1</em>, <em>var2</em>, <em>maxdiff</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/sol200.html#SOL200.constrain_two_vars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.sol200.SOL200.constrain_two_vars" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.sol200.SOL200.constrain_two_vars">
+<code class="descname">constrain_two_vars</code><span class="sig-paren">(</span><em>dcid</em>, <em>var1</em>, <em>var2</em>, <em>maxdiff</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/sol200.html#SOL200.constrain_two_vars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.sol200.SOL200.constrain_two_vars" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constrain two vars in order to keep a maximum relative difference</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -283,30 +283,30 @@ respect.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="structMan.sol200.sol200.SOL200.create_dobj">
-<code class="descname">create_dobj</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/sol200.html#SOL200.create_dobj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.sol200.SOL200.create_dobj" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.sol200.SOL200.create_dobj">
+<code class="descname">create_dobj</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/sol200.html#SOL200.create_dobj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.sol200.SOL200.create_dobj" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create the design objective.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="structMan.sol200.sol200.SOL200.print_model">
-<code class="descname">print_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/sol200.html#SOL200.print_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.sol200.SOL200.print_model" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.sol200.SOL200.print_model">
+<code class="descname">print_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/sol200.html#SOL200.print_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.sol200.SOL200.print_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print the whole model.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="structMan.sol200.sol200.SOL200.reset_newprops">
-<code class="descname">reset_newprops</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/sol200.html#SOL200.reset_newprops"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.sol200.SOL200.reset_newprops" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.sol200.SOL200.reset_newprops">
+<code class="descname">reset_newprops</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/sol200.html#SOL200.reset_newprops"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.sol200.SOL200.reset_newprops" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reset the dictionary <code class="docutils literal"><span class="pre">newprops</span></code>.</p>
 <p>This dictionary contains NASTRAN property cards that should be created
 along with the optimization model.</p>
 <p>The supported cards are those corresponding to the classes defined in
-<a class="reference internal" href="#module-structMan.sol200.cards_solver" title="structMan.sol200.cards_solver"><code class="xref py py-mod docutils literal"><span class="pre">cards_solver</span></code></a>.</p>
+<a class="reference internal" href="#module-structmanager.sol200.cards_solver" title="structmanager.sol200.cards_solver"><code class="xref py py-mod docutils literal"><span class="pre">cards_solver</span></code></a>.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="structMan.sol200.sol200.SOL200.set_output_file">
-<code class="descname">set_output_file</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/sol200.html#SOL200.set_output_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.sol200.SOL200.set_output_file" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.sol200.SOL200.set_output_file">
+<code class="descname">set_output_file</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/sol200.html#SOL200.set_output_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.sol200.SOL200.set_output_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Define the data related to the output file.</p>
 <p>The output directory is estimated based on <code class="docutils literal"><span class="pre">path</span></code>.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -325,11 +325,11 @@ along with the optimization model.</p>
 
 </dd></dl>
 
-<span class="target" id="module-structMan.sol200.cards_opt"></span><div class="section" id="optimization-cards-structman-sol200-cards-opt">
-<h2>Optimization cards (<a class="reference internal" href="#module-structMan.sol200.cards_opt" title="structMan.sol200.cards_opt"><code class="xref py py-mod docutils literal"><span class="pre">structMan.sol200.cards_opt</span></code></a>)<a class="headerlink" href="#optimization-cards-structman-sol200-cards-opt" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-structmanager.sol200.cards_opt"></span><div class="section" id="optimization-cards-structman-sol200-cards-opt">
+<h2>Optimization cards (<a class="reference internal" href="#module-structmanager.sol200.cards_opt" title="structmanager.sol200.cards_opt"><code class="xref py py-mod docutils literal"><span class="pre">structmanager.sol200.cards_opt</span></code></a>)<a class="headerlink" href="#optimization-cards-structman-sol200-cards-opt" title="Permalink to this headline">¶</a></h2>
 <p>Many input cards related to the optimization problem are wrapped in this
 module. The input cards more related to the solver are contained in module
-<a class="reference internal" href="#module-structMan.sol200.cards_solver" title="structMan.sol200.cards_solver"><code class="xref py py-mod docutils literal"><span class="pre">structMan.sol200.cards_solver</span></code></a>.</p>
+<a class="reference internal" href="#module-structmanager.sol200.cards_solver" title="structmanager.sol200.cards_solver"><code class="xref py py-mod docutils literal"><span class="pre">structmanager.sol200.cards_solver</span></code></a>.</p>
 <p class="rubric">Classes</p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -337,38 +337,38 @@ module. The input cards more related to the solver are contained in module
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#structMan.sol200.cards_opt.DCONSTR" title="structMan.sol200.cards_opt.DCONSTR"><code class="xref py py-obj docutils literal"><span class="pre">structMan.sol200.cards_opt.DCONSTR</span></code></a>(dcid,&nbsp;...)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#structmanager.sol200.cards_opt.DCONSTR" title="structmanager.sol200.cards_opt.DCONSTR"><code class="xref py py-obj docutils literal"><span class="pre">structmanager.sol200.cards_opt.DCONSTR</span></code></a>(dcid,&nbsp;...)</td>
 <td>Design constraint</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#structMan.sol200.cards_opt.DEQATN" title="structMan.sol200.cards_opt.DEQATN"><code class="xref py py-obj docutils literal"><span class="pre">structMan.sol200.cards_opt.DEQATN</span></code></a>(eq)</td>
+<tr class="row-even"><td><a class="reference internal" href="#structmanager.sol200.cards_opt.DEQATN" title="structmanager.sol200.cards_opt.DEQATN"><code class="xref py py-obj docutils literal"><span class="pre">structmanager.sol200.cards_opt.DEQATN</span></code></a>(eq)</td>
 <td>Equation to calculate customized responses</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#structMan.sol200.cards_opt.DESVAR" title="structMan.sol200.cards_opt.DESVAR"><code class="xref py py-obj docutils literal"><span class="pre">structMan.sol200.cards_opt.DESVAR</span></code></a>(label,&nbsp;...)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#structmanager.sol200.cards_opt.DESVAR" title="structmanager.sol200.cards_opt.DESVAR"><code class="xref py py-obj docutils literal"><span class="pre">structmanager.sol200.cards_opt.DESVAR</span></code></a>(label,&nbsp;...)</td>
 <td>Design Variable</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#structMan.sol200.cards_opt.DLINK" title="structMan.sol200.cards_opt.DLINK"><code class="xref py py-obj docutils literal"><span class="pre">structMan.sol200.cards_opt.DLINK</span></code></a>(ddvid,&nbsp;idvs,&nbsp;cs)</td>
+<tr class="row-even"><td><a class="reference internal" href="#structmanager.sol200.cards_opt.DLINK" title="structmanager.sol200.cards_opt.DLINK"><code class="xref py py-obj docutils literal"><span class="pre">structmanager.sol200.cards_opt.DLINK</span></code></a>(ddvid,&nbsp;idvs,&nbsp;cs)</td>
 <td>Link between design variables</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#structMan.sol200.cards_opt.DRESP1" title="structMan.sol200.cards_opt.DRESP1"><code class="xref py py-obj docutils literal"><span class="pre">structMan.sol200.cards_opt.DRESP1</span></code></a>(label,&nbsp;...)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#structmanager.sol200.cards_opt.DRESP1" title="structmanager.sol200.cards_opt.DRESP1"><code class="xref py py-obj docutils literal"><span class="pre">structmanager.sol200.cards_opt.DRESP1</span></code></a>(label,&nbsp;...)</td>
 <td>Design response DRESP1</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#structMan.sol200.cards_opt.DRESP2" title="structMan.sol200.cards_opt.DRESP2"><code class="xref py py-obj docutils literal"><span class="pre">structMan.sol200.cards_opt.DRESP2</span></code></a>(label,&nbsp;eqid)</td>
+<tr class="row-even"><td><a class="reference internal" href="#structmanager.sol200.cards_opt.DRESP2" title="structmanager.sol200.cards_opt.DRESP2"><code class="xref py py-obj docutils literal"><span class="pre">structmanager.sol200.cards_opt.DRESP2</span></code></a>(label,&nbsp;eqid)</td>
 <td>Design response DRESP2</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#structMan.sol200.cards_opt.DRESP3" title="structMan.sol200.cards_opt.DRESP3"><code class="xref py py-obj docutils literal"><span class="pre">structMan.sol200.cards_opt.DRESP3</span></code></a>(label,&nbsp;...)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#structmanager.sol200.cards_opt.DRESP3" title="structmanager.sol200.cards_opt.DRESP3"><code class="xref py py-obj docutils literal"><span class="pre">structmanager.sol200.cards_opt.DRESP3</span></code></a>(label,&nbsp;...)</td>
 <td>Design response DRESP3</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#structMan.sol200.cards_opt.DTABLE" title="structMan.sol200.cards_opt.DTABLE"><code class="xref py py-obj docutils literal"><span class="pre">structMan.sol200.cards_opt.DTABLE</span></code></a>([input_dict])</td>
+<tr class="row-even"><td><a class="reference internal" href="#structmanager.sol200.cards_opt.DTABLE" title="structmanager.sol200.cards_opt.DTABLE"><code class="xref py py-obj docutils literal"><span class="pre">structmanager.sol200.cards_opt.DTABLE</span></code></a>([input_dict])</td>
 <td>Design Table used to define many constants</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#structMan.sol200.cards_opt.DVPREL1" title="structMan.sol200.cards_opt.DVPREL1"><code class="xref py py-obj docutils literal"><span class="pre">structMan.sol200.cards_opt.DVPREL1</span></code></a>(type,&nbsp;...)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#structmanager.sol200.cards_opt.DVPREL1" title="structmanager.sol200.cards_opt.DVPREL1"><code class="xref py py-obj docutils literal"><span class="pre">structmanager.sol200.cards_opt.DVPREL1</span></code></a>(type,&nbsp;...)</td>
 <td>Design Variable-to-Property relation</td>
 </tr>
 </tbody>
 </table>
 <dl class="class">
-<dt id="structMan.sol200.cards_opt.BASEDV2">
-<em class="property">class </em><code class="descclassname">structMan.sol200.cards_opt.</code><code class="descname">BASEDV2</code><a class="reference internal" href="../_modules/structMan/sol200/cards_opt.html#BASEDV2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_opt.BASEDV2" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.cards_opt.BASEDV2">
+<em class="property">class </em><code class="descclassname">structmanager.sol200.cards_opt.</code><code class="descname">BASEDV2</code><a class="reference internal" href="../_modules/structmanager/sol200/cards_opt.html#BASEDV2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_opt.BASEDV2" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base class for DVPREL2, DVCREL2 and DVMREL2</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
@@ -391,8 +391,8 @@ module. The input cards more related to the solver are contained in module
 </dd></dl>
 
 <dl class="class">
-<dt id="structMan.sol200.cards_opt.DCONSTR">
-<em class="property">class </em><code class="descclassname">structMan.sol200.cards_opt.</code><code class="descname">DCONSTR</code><span class="sig-paren">(</span><em>dcid</em>, <em>rid</em>, <em>lallow</em>, <em>uallow</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/cards_opt.html#DCONSTR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_opt.DCONSTR" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.cards_opt.DCONSTR">
+<em class="property">class </em><code class="descclassname">structmanager.sol200.cards_opt.</code><code class="descname">DCONSTR</code><span class="sig-paren">(</span><em>dcid</em>, <em>rid</em>, <em>lallow</em>, <em>uallow</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/cards_opt.html#DCONSTR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_opt.DCONSTR" title="Permalink to this definition">¶</a></dt>
 <dd><p>Design constraint</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -431,8 +431,8 @@ module. The input cards more related to the solver are contained in module
 </tbody>
 </table>
 <dl class="method">
-<dt id="structMan.sol200.cards_opt.DCONSTR.print_card">
-<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/cards_opt.html#DCONSTR.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_opt.DCONSTR.print_card" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.cards_opt.DCONSTR.print_card">
+<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/cards_opt.html#DCONSTR.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_opt.DCONSTR.print_card" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print the corresponding input card</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -451,8 +451,8 @@ module. The input cards more related to the solver are contained in module
 </dd></dl>
 
 <dl class="class">
-<dt id="structMan.sol200.cards_opt.DEQATN">
-<em class="property">class </em><code class="descclassname">structMan.sol200.cards_opt.</code><code class="descname">DEQATN</code><span class="sig-paren">(</span><em>eq</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/cards_opt.html#DEQATN"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_opt.DEQATN" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.cards_opt.DEQATN">
+<em class="property">class </em><code class="descclassname">structmanager.sol200.cards_opt.</code><code class="descname">DEQATN</code><span class="sig-paren">(</span><em>eq</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/cards_opt.html#DEQATN"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_opt.DEQATN" title="Permalink to this definition">¶</a></dt>
 <dd><p>Equation to calculate customized responses</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -475,7 +475,7 @@ module. The input cards more related to the solver are contained in module
 <p class="rubric">Notes</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The <a class="reference internal" href="#structMan.sol200.cards_opt.DEQATN.print_card" title="structMan.sol200.cards_opt.DEQATN.print_card"><code class="xref py py-meth docutils literal"><span class="pre">DEQATN.print_card()</span></code></a> method will split the
+<p class="last">The <a class="reference internal" href="#structmanager.sol200.cards_opt.DEQATN.print_card" title="structmanager.sol200.cards_opt.DEQATN.print_card"><code class="xref py py-meth docutils literal"><span class="pre">DEQATN.print_card()</span></code></a> method will split the
 equation, when necessary, in order to keep the limit length up to
 56 characters in the first line, and 64 characters for the
 subsequent lines.</p>
@@ -493,8 +493,8 @@ subsequent lines.</p>
 </tbody>
 </table>
 <dl class="method">
-<dt id="structMan.sol200.cards_opt.DEQATN.print_card">
-<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/cards_opt.html#DEQATN.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_opt.DEQATN.print_card" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.cards_opt.DEQATN.print_card">
+<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/cards_opt.html#DEQATN.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_opt.DEQATN.print_card" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print the corresponding input card</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -513,8 +513,8 @@ subsequent lines.</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="structMan.sol200.cards_opt.DESVAR">
-<em class="property">class </em><code class="descclassname">structMan.sol200.cards_opt.</code><code class="descname">DESVAR</code><span class="sig-paren">(</span><em>label</em>, <em>xinit</em>, <em>xlb</em>, <em>xub</em>, <em>dvprel1=None</em>, <em>code=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/cards_opt.html#DESVAR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_opt.DESVAR" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.cards_opt.DESVAR">
+<em class="property">class </em><code class="descclassname">structmanager.sol200.cards_opt.</code><code class="descname">DESVAR</code><span class="sig-paren">(</span><em>label</em>, <em>xinit</em>, <em>xlb</em>, <em>xub</em>, <em>dvprel1=None</em>, <em>code=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/cards_opt.html#DESVAR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_opt.DESVAR" title="Permalink to this definition">¶</a></dt>
 <dd><p>Design Variable</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -536,7 +536,7 @@ subsequent lines.</p>
 <blockquote>
 <div><p>Upper bound.</p>
 </div></blockquote>
-<p><strong>dvprel1</strong> : <a class="reference internal" href="#structMan.sol200.cards_opt.DVPREL1" title="structMan.sol200.cards_opt.DVPREL1"><code class="xref py py-class docutils literal"><span class="pre">DVPREL1</span></code></a> or None, optional</p>
+<p><strong>dvprel1</strong> : <a class="reference internal" href="#structmanager.sol200.cards_opt.DVPREL1" title="structmanager.sol200.cards_opt.DVPREL1"><code class="xref py py-class docutils literal"><span class="pre">DVPREL1</span></code></a> or None, optional</p>
 <blockquote>
 <div><p>The corresponding design variable-to-property relation.</p>
 </div></blockquote>
@@ -567,8 +567,8 @@ subsequent lines.</p>
 </tbody>
 </table>
 <dl class="method">
-<dt id="structMan.sol200.cards_opt.DESVAR.print_card">
-<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/cards_opt.html#DESVAR.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_opt.DESVAR.print_card" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.cards_opt.DESVAR.print_card">
+<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/cards_opt.html#DESVAR.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_opt.DESVAR.print_card" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print the corresponding input card</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -587,8 +587,8 @@ subsequent lines.</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="structMan.sol200.cards_opt.DLINK">
-<em class="property">class </em><code class="descclassname">structMan.sol200.cards_opt.</code><code class="descname">DLINK</code><span class="sig-paren">(</span><em>ddvid</em>, <em>idvs</em>, <em>cs</em>, <em>c0=0.0</em>, <em>cmult=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/cards_opt.html#DLINK"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_opt.DLINK" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.cards_opt.DLINK">
+<em class="property">class </em><code class="descclassname">structmanager.sol200.cards_opt.</code><code class="descname">DLINK</code><span class="sig-paren">(</span><em>ddvid</em>, <em>idvs</em>, <em>cs</em>, <em>c0=0.0</em>, <em>cmult=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/cards_opt.html#DLINK"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_opt.DLINK" title="Permalink to this definition">¶</a></dt>
 <dd><p>Link between design variables</p>
 <p>DLINK creates links among variables using the form:</p>
 <div class="math">
@@ -652,8 +652,8 @@ variables.</p>
 </tbody>
 </table>
 <dl class="method">
-<dt id="structMan.sol200.cards_opt.DLINK.print_card">
-<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/cards_opt.html#DLINK.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_opt.DLINK.print_card" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.cards_opt.DLINK.print_card">
+<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/cards_opt.html#DLINK.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_opt.DLINK.print_card" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print the corresponding input card</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -672,8 +672,8 @@ variables.</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="structMan.sol200.cards_opt.DRESP1">
-<em class="property">class </em><code class="descclassname">structMan.sol200.cards_opt.</code><code class="descname">DRESP1</code><span class="sig-paren">(</span><em>label</em>, <em>rtype</em>, <em>ptype</em>, <em>region=None</em>, <em>atta=None</em>, <em>attb=None</em>, <em>atti=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/cards_opt.html#DRESP1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_opt.DRESP1" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.cards_opt.DRESP1">
+<em class="property">class </em><code class="descclassname">structmanager.sol200.cards_opt.</code><code class="descname">DRESP1</code><span class="sig-paren">(</span><em>label</em>, <em>rtype</em>, <em>ptype</em>, <em>region=None</em>, <em>atta=None</em>, <em>attb=None</em>, <em>atti=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/cards_opt.html#DRESP1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_opt.DRESP1" title="Permalink to this definition">¶</a></dt>
 <dd><p>Design response DRESP1</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -720,16 +720,16 @@ variables.</p>
 </tbody>
 </table>
 <dl class="method">
-<dt id="structMan.sol200.cards_opt.DRESP1.print_card">
-<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/cards_opt.html#DRESP1.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_opt.DRESP1.print_card" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.cards_opt.DRESP1.print_card">
+<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/cards_opt.html#DRESP1.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_opt.DRESP1.print_card" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print the corresponding input card</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="structMan.sol200.cards_opt.DRESP2">
-<em class="property">class </em><code class="descclassname">structMan.sol200.cards_opt.</code><code class="descname">DRESP2</code><span class="sig-paren">(</span><em>label</em>, <em>eqid</em>, <em>region=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/cards_opt.html#DRESP2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_opt.DRESP2" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.cards_opt.DRESP2">
+<em class="property">class </em><code class="descclassname">structmanager.sol200.cards_opt.</code><code class="descname">DRESP2</code><span class="sig-paren">(</span><em>label</em>, <em>eqid</em>, <em>region=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/cards_opt.html#DRESP2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_opt.DRESP2" title="Permalink to this definition">¶</a></dt>
 <dd><p>Design response DRESP2</p>
 <p>Define equation responses that are used in the design, either as an
 objective function or as constraints.</p>
@@ -743,7 +743,7 @@ objective function or as constraints.</p>
 </div></blockquote>
 <p><strong>eqid</strong> : int or str</p>
 <blockquote>
-<div><p><a class="reference internal" href="#structMan.sol200.cards_opt.DEQATN" title="structMan.sol200.cards_opt.DEQATN"><code class="xref py py-class docutils literal"><span class="pre">DEQATN</span></code></a> entry identification number, or string informing a
+<div><p><a class="reference internal" href="#structmanager.sol200.cards_opt.DEQATN" title="structmanager.sol200.cards_opt.DEQATN"><code class="xref py py-class docutils literal"><span class="pre">DEQATN</span></code></a> entry identification number, or string informing a
 pre-programmed function.</p>
 </div></blockquote>
 <p><strong>region</strong> : int or None, optional</p>
@@ -755,8 +755,8 @@ pre-programmed function.</p>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>To add variables, table entries or other <a class="reference internal" href="#structMan.sol200.cards_opt.DRESP1" title="structMan.sol200.cards_opt.DRESP1"><code class="xref py py-class docutils literal"><span class="pre">DRESP1</span></code></a> responses use the
-methods: <a class="reference internal" href="../ses/ses.html#structMan.ses.ses.SE.add_dvar" title="structMan.ses.ses.SE.add_dvar"><code class="xref py py-meth docutils literal"><span class="pre">add_dvar()</span></code></a>, <a class="reference internal" href="../ses/ses.html#structMan.ses.ses.SE.add_dtable" title="structMan.ses.ses.SE.add_dtable"><code class="xref py py-meth docutils literal"><span class="pre">add_dtable()</span></code></a> and <code class="xref py py-meth docutils literal"><span class="pre">add_dresp1()</span></code>.</p>
+<p>To add variables, table entries or other <a class="reference internal" href="#structmanager.sol200.cards_opt.DRESP1" title="structmanager.sol200.cards_opt.DRESP1"><code class="xref py py-class docutils literal"><span class="pre">DRESP1</span></code></a> responses use the
+methods: <a class="reference internal" href="../ses/ses.html#structmanager.ses.ses.SE.add_dvar" title="structmanager.ses.ses.SE.add_dvar"><code class="xref py py-meth docutils literal"><span class="pre">add_dvar()</span></code></a>, <a class="reference internal" href="../ses/ses.html#structmanager.ses.ses.SE.add_dtable" title="structmanager.ses.ses.SE.add_dtable"><code class="xref py py-meth docutils literal"><span class="pre">add_dtable()</span></code></a> and <code class="xref py py-meth docutils literal"><span class="pre">add_dresp1()</span></code>.</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -782,8 +782,8 @@ methods: <a class="reference internal" href="../ses/ses.html#structMan.ses.ses.S
 </tbody>
 </table>
 <dl class="method">
-<dt id="structMan.sol200.cards_opt.DRESP2.print_card">
-<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/cards_opt.html#DRESP2.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_opt.DRESP2.print_card" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.cards_opt.DRESP2.print_card">
+<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/cards_opt.html#DRESP2.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_opt.DRESP2.print_card" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print the corresponding input card</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -802,8 +802,8 @@ methods: <a class="reference internal" href="../ses/ses.html#structMan.ses.ses.S
 </dd></dl>
 
 <dl class="class">
-<dt id="structMan.sol200.cards_opt.DRESP23">
-<em class="property">class </em><code class="descclassname">structMan.sol200.cards_opt.</code><code class="descname">DRESP23</code><a class="reference internal" href="../_modules/structMan/sol200/cards_opt.html#DRESP23"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_opt.DRESP23" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.cards_opt.DRESP23">
+<em class="property">class </em><code class="descclassname">structmanager.sol200.cards_opt.</code><code class="descname">DRESP23</code><a class="reference internal" href="../_modules/structmanager/sol200/cards_opt.html#DRESP23"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_opt.DRESP23" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base class for DVPREL2, DVCREL2, DVMREL2, DRESP2, DRESP3 etc</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
@@ -829,8 +829,8 @@ methods: <a class="reference internal" href="../ses/ses.html#structMan.ses.ses.S
 </dd></dl>
 
 <dl class="class">
-<dt id="structMan.sol200.cards_opt.DRESP3">
-<em class="property">class </em><code class="descclassname">structMan.sol200.cards_opt.</code><code class="descname">DRESP3</code><span class="sig-paren">(</span><em>label</em>, <em>group</em>, <em>type</em>, <em>region=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/cards_opt.html#DRESP3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_opt.DRESP3" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.cards_opt.DRESP3">
+<em class="property">class </em><code class="descclassname">structmanager.sol200.cards_opt.</code><code class="descname">DRESP3</code><span class="sig-paren">(</span><em>label</em>, <em>group</em>, <em>type</em>, <em>region=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/cards_opt.html#DRESP3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_opt.DRESP3" title="Permalink to this definition">¶</a></dt>
 <dd><p>Design response DRESP3</p>
 <p>Define use-subroutine or built-in responses that can be used in the design
 either as constraint or as an objective.</p>
@@ -852,15 +852,15 @@ either as constraint or as an objective.</p>
 </div></blockquote>
 <p><strong>region</strong> : int, optional</p>
 <blockquote class="last">
-<div><p><a class="reference internal" href="#structMan.sol200.cards_opt.DEQATN" title="structMan.sol200.cards_opt.DEQATN"><code class="xref py py-class docutils literal"><span class="pre">DEQATN</span></code></a> entry identification number.</p>
+<div><p><a class="reference internal" href="#structmanager.sol200.cards_opt.DEQATN" title="structmanager.sol200.cards_opt.DEQATN"><code class="xref py py-class docutils literal"><span class="pre">DEQATN</span></code></a> entry identification number.</p>
 </div></blockquote>
 </td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>To add variables, table entries or other <a class="reference internal" href="#structMan.sol200.cards_opt.DRESP1" title="structMan.sol200.cards_opt.DRESP1"><code class="xref py py-class docutils literal"><span class="pre">DRESP1</span></code></a> responses use the
-methods: <a class="reference internal" href="../ses/ses.html#structMan.ses.ses.SE.add_dvar" title="structMan.ses.ses.SE.add_dvar"><code class="xref py py-meth docutils literal"><span class="pre">add_dvar()</span></code></a>, <a class="reference internal" href="../ses/ses.html#structMan.ses.ses.SE.add_dtable" title="structMan.ses.ses.SE.add_dtable"><code class="xref py py-meth docutils literal"><span class="pre">add_dtable()</span></code></a> and <code class="xref py py-meth docutils literal"><span class="pre">add_dresp1()</span></code>.</p>
+<p>To add variables, table entries or other <a class="reference internal" href="#structmanager.sol200.cards_opt.DRESP1" title="structmanager.sol200.cards_opt.DRESP1"><code class="xref py py-class docutils literal"><span class="pre">DRESP1</span></code></a> responses use the
+methods: <a class="reference internal" href="../ses/ses.html#structmanager.ses.ses.SE.add_dvar" title="structmanager.ses.ses.SE.add_dvar"><code class="xref py py-meth docutils literal"><span class="pre">add_dvar()</span></code></a>, <a class="reference internal" href="../ses/ses.html#structmanager.ses.ses.SE.add_dtable" title="structmanager.ses.ses.SE.add_dtable"><code class="xref py py-meth docutils literal"><span class="pre">add_dtable()</span></code></a> and <code class="xref py py-meth docutils literal"><span class="pre">add_dresp1()</span></code>.</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -886,8 +886,8 @@ methods: <a class="reference internal" href="../ses/ses.html#structMan.ses.ses.S
 </tbody>
 </table>
 <dl class="method">
-<dt id="structMan.sol200.cards_opt.DRESP3.print_card">
-<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/cards_opt.html#DRESP3.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_opt.DRESP3.print_card" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.cards_opt.DRESP3.print_card">
+<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/cards_opt.html#DRESP3.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_opt.DRESP3.print_card" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print the corresponding input card</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -906,8 +906,8 @@ methods: <a class="reference internal" href="../ses/ses.html#structMan.ses.ses.S
 </dd></dl>
 
 <dl class="class">
-<dt id="structMan.sol200.cards_opt.DTABLE">
-<em class="property">class </em><code class="descclassname">structMan.sol200.cards_opt.</code><code class="descname">DTABLE</code><span class="sig-paren">(</span><em>input_dict={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/cards_opt.html#DTABLE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_opt.DTABLE" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.cards_opt.DTABLE">
+<em class="property">class </em><code class="descclassname">structmanager.sol200.cards_opt.</code><code class="descname">DTABLE</code><span class="sig-paren">(</span><em>input_dict={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/cards_opt.html#DTABLE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_opt.DTABLE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Design Table used to define many constants</p>
 <p>Hints:</p>
 <ul class="simple">
@@ -932,8 +932,8 @@ methods: <a class="reference internal" href="../ses/ses.html#structMan.ses.ses.S
 </tbody>
 </table>
 <dl class="method">
-<dt id="structMan.sol200.cards_opt.DTABLE.print_card">
-<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/cards_opt.html#DTABLE.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_opt.DTABLE.print_card" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.cards_opt.DTABLE.print_card">
+<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/cards_opt.html#DTABLE.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_opt.DTABLE.print_card" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print the corresponding input card</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -952,8 +952,8 @@ methods: <a class="reference internal" href="../ses/ses.html#structMan.ses.ses.S
 </dd></dl>
 
 <dl class="class">
-<dt id="structMan.sol200.cards_opt.DVPREL1">
-<em class="property">class </em><code class="descclassname">structMan.sol200.cards_opt.</code><code class="descname">DVPREL1</code><span class="sig-paren">(</span><em>type</em>, <em>pid</em>, <em>pname</em>, <em>dvids</em>, <em>coeffs</em>, <em>c0=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/cards_opt.html#DVPREL1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_opt.DVPREL1" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.cards_opt.DVPREL1">
+<em class="property">class </em><code class="descclassname">structmanager.sol200.cards_opt.</code><code class="descname">DVPREL1</code><span class="sig-paren">(</span><em>type</em>, <em>pid</em>, <em>pname</em>, <em>dvids</em>, <em>coeffs</em>, <em>c0=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/cards_opt.html#DVPREL1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_opt.DVPREL1" title="Permalink to this definition">¶</a></dt>
 <dd><p>Design Variable-to-Property relation</p>
 <p>This is a wrapper for the DVPREL1 card in NASTRAN.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1003,8 +1003,8 @@ parameter.</p>
 </tbody>
 </table>
 <dl class="method">
-<dt id="structMan.sol200.cards_opt.DVPREL1.print_card">
-<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/cards_opt.html#DVPREL1.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_opt.DVPREL1.print_card" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.cards_opt.DVPREL1.print_card">
+<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/cards_opt.html#DVPREL1.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_opt.DVPREL1.print_card" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print the corresponding input card</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1023,8 +1023,8 @@ parameter.</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="structMan.sol200.cards_opt.DVPREL2">
-<em class="property">class </em><code class="descclassname">structMan.sol200.cards_opt.</code><code class="descname">DVPREL2</code><span class="sig-paren">(</span><em>type</em>, <em>pid</em>, <em>pname</em>, <em>eqid</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/cards_opt.html#DVPREL2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_opt.DVPREL2" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.cards_opt.DVPREL2">
+<em class="property">class </em><code class="descclassname">structmanager.sol200.cards_opt.</code><code class="descname">DVPREL2</code><span class="sig-paren">(</span><em>type</em>, <em>pid</em>, <em>pname</em>, <em>eqid</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/cards_opt.html#DVPREL2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_opt.DVPREL2" title="Permalink to this definition">¶</a></dt>
 <dd><p>Design Variable-to-Property relation</p>
 <p>This is a wrapper for the DVPREL1 card in NASTRAN.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1046,7 +1046,7 @@ property entry.</p>
 </div></blockquote>
 <p><strong>eqid</strong> : int or str</p>
 <blockquote class="last">
-<div><p><a class="reference internal" href="#structMan.sol200.cards_opt.DEQATN" title="structMan.sol200.cards_opt.DEQATN"><code class="xref py py-class docutils literal"><span class="pre">DEQATN</span></code></a> entry identification number, or string informing a
+<div><p><a class="reference internal" href="#structmanager.sol200.cards_opt.DEQATN" title="structmanager.sol200.cards_opt.DEQATN"><code class="xref py py-class docutils literal"><span class="pre">DEQATN</span></code></a> entry identification number, or string informing a
 pre-programmed function.</p>
 </div></blockquote>
 </td>
@@ -1075,8 +1075,8 @@ pre-programmed function.</p>
 </tbody>
 </table>
 <dl class="method">
-<dt id="structMan.sol200.cards_opt.DVPREL2.print_card">
-<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/cards_opt.html#DVPREL2.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_opt.DVPREL2.print_card" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.cards_opt.DVPREL2.print_card">
+<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/cards_opt.html#DVPREL2.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_opt.DVPREL2.print_card" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print the corresponding input card</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1095,8 +1095,8 @@ pre-programmed function.</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="structMan.sol200.cards_opt.PRINTAUX">
-<em class="property">class </em><code class="descclassname">structMan.sol200.cards_opt.</code><code class="descname">PRINTAUX</code><a class="reference internal" href="../_modules/structMan/sol200/cards_opt.html#PRINTAUX"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_opt.PRINTAUX" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.cards_opt.PRINTAUX">
+<em class="property">class </em><code class="descclassname">structmanager.sol200.cards_opt.</code><code class="descname">PRINTAUX</code><a class="reference internal" href="../_modules/structmanager/sol200/cards_opt.html#PRINTAUX"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_opt.PRINTAUX" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base class for <code class="xref py py-class docutils literal"><span class="pre">DRESP23</span></code> and <code class="xref py py-class docutils literal"><span class="pre">BASEDV2</span></code></p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
@@ -1113,13 +1113,13 @@ pre-programmed function.</p>
 </dd></dl>
 
 </div>
-<span class="target" id="module-structMan.sol200.cards_solver"></span><div class="section" id="optimization-cards-structman-genesis-cards-solver">
-<h2>Optimization cards (<a class="reference internal" href="genesis.html#module-structMan.genesis.cards_solver" title="structMan.genesis.cards_solver"><code class="xref py py-mod docutils literal"><span class="pre">structMan.genesis.cards_solver</span></code></a>)<a class="headerlink" href="#optimization-cards-structman-genesis-cards-solver" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-structmanager.sol200.cards_solver"></span><div class="section" id="optimization-cards-structman-genesis-cards-solver">
+<h2>Optimization cards (<a class="reference internal" href="genesis.html#module-structmanager.genesis.cards_solver" title="structmanager.genesis.cards_solver"><code class="xref py py-mod docutils literal"><span class="pre">structmanager.genesis.cards_solver</span></code></a>)<a class="headerlink" href="#optimization-cards-structman-genesis-cards-solver" title="Permalink to this headline">¶</a></h2>
 <p>Many input cards related to the finite element solver are wrapped in this
 module.</p>
 <dl class="class">
-<dt id="structMan.sol200.cards_solver.PBARL">
-<em class="property">class </em><code class="descclassname">structMan.sol200.cards_solver.</code><code class="descname">PBARL</code><span class="sig-paren">(</span><em>id</em>, <em>mid</em>, <em>library</em>, <em>type</em>, <em>d_list</em>, <em>nsm=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/cards_solver.html#PBARL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_solver.PBARL" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.cards_solver.PBARL">
+<em class="property">class </em><code class="descclassname">structmanager.sol200.cards_solver.</code><code class="descname">PBARL</code><span class="sig-paren">(</span><em>id</em>, <em>mid</em>, <em>library</em>, <em>type</em>, <em>d_list</em>, <em>nsm=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/cards_solver.html#PBARL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_solver.PBARL" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pre-defined sections for bar elements</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -1193,8 +1193,8 @@ properties (<code class="docutils literal"><span class="pre">'CSLIB1'</span></co
 </tbody>
 </table>
 <dl class="method">
-<dt id="structMan.sol200.cards_solver.PBARL.print_card">
-<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structMan/sol200/cards_solver.html#PBARL.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structMan.sol200.cards_solver.PBARL.print_card" title="Permalink to this definition">¶</a></dt>
+<dt id="structmanager.sol200.cards_solver.PBARL.print_card">
+<code class="descname">print_card</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/structmanager/sol200/cards_solver.html#PBARL.print_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#structmanager.sol200.cards_solver.PBARL.print_card" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prints the corresponding input card</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1213,7 +1213,7 @@ properties (<code class="docutils literal"><span class="pre">'CSLIB1'</span></co
 </dd></dl>
 
 </div>
-<span class="target" id="module-structMan.sol200.sizing_data"></span><div class="section" id="sizing-data-feopt-genesis-sizing-data">
+<span class="target" id="module-structmanager.sol200.sizing_data"></span><div class="section" id="sizing-data-feopt-genesis-sizing-data">
 <h2>Sizing data (<code class="xref py py-mod docutils literal"><span class="pre">feopt.genesis.sizing_data</span></code>)<a class="headerlink" href="#sizing-data-feopt-genesis-sizing-data" title="Permalink to this headline">¶</a></h2>
 <p>In this module it is defined the dictionary <code class="docutils literal"><span class="pre">SDATA</span></code> containing the definition
 of the sizing variables for each property accordingly to GENESIS Analysis
@@ -1236,11 +1236,11 @@ Manual (vol01).</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">SOL 200 (<code class="docutils literal"><span class="pre">structMan.sol200</span></code>)</a><ul>
-<li><a class="reference internal" href="#optimization-cards-structman-sol200-cards-opt">Optimization cards (<code class="docutils literal"><span class="pre">structMan.sol200.cards_opt</span></code>)</a><ul>
+<li><a class="reference internal" href="#">SOL 200 (<code class="docutils literal"><span class="pre">structmanager.sol200</span></code>)</a><ul>
+<li><a class="reference internal" href="#optimization-cards-structman-sol200-cards-opt">Optimization cards (<code class="docutils literal"><span class="pre">structmanager.sol200.cards_opt</span></code>)</a><ul>
 </ul>
 </li>
-<li><a class="reference internal" href="#optimization-cards-structman-genesis-cards-solver">Optimization cards (<code class="docutils literal"><span class="pre">structMan.genesis.cards_solver</span></code>)</a></li>
+<li><a class="reference internal" href="#optimization-cards-structman-genesis-cards-solver">Optimization cards (<code class="docutils literal"><span class="pre">structmanager.genesis.cards_solver</span></code>)</a></li>
 <li><a class="reference internal" href="#sizing-data-feopt-genesis-sizing-data">Sizing data (<code class="docutils literal"><span class="pre">feopt.genesis.sizing_data</span></code>)</a></li>
 </ul>
 </li>
@@ -1282,7 +1282,7 @@ Manual (vol01).</p>
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">structMan 0.1.0 dev documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">structmanager 0.1.0 dev documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

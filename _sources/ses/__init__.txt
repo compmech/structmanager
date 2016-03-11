@@ -1,5 +1,5 @@
-Structural Elements - SEs (:mod:`structMan.ses`)
-================================================
+Structural Elements - SEs (:mod:`structmanager.ses`)
+====================================================
 
 .. toctree::
     :maxdepth: 4
@@ -7,5 +7,7 @@ Structural Elements - SEs (:mod:`structMan.ses`)
     ./ses.rst
     ./flanges.rst
     ./panel.rst
+    ./panelcomp.rst
     ./stringer.rst
+    ./web.rst
 

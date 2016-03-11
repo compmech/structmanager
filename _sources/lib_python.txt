@@ -1,17 +1,17 @@
-structMan Modules
+structmanager Modules
 =================
 
-.. automodule:: structMan.genesis
+.. automodule:: structmanager.genesis
     :members:
 
-.. automodule:: structMan.sol200
+.. automodule:: structmanager.sol200
     :members:
 
-.. automodule:: structMan.model
+.. automodule:: structmanager.model
     :members:
 
-.. automodule:: structMan.ses
+.. automodule:: structmanager.ses
     :members:
 
-.. automodule:: structMan.sas
+.. automodule:: structmanager.sas
     :members:
