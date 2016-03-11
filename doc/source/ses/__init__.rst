@@ -7,6 +7,7 @@ Structural Elements - SEs (:mod:`structmanager.ses`)
     ./ses.rst
     ./flanges.rst
     ./panel.rst
+    ./panelcomp.rst
     ./stringer.rst
     ./web.rst
 

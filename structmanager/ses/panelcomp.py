@@ -1,8 +1,8 @@
 """
-Panel SEs (:mod:`structmanager.ses.panel`)
-==========================================
+Composite Panel SEs (:mod:`structmanager.ses.panelcomp`)
+========================================================
 
-.. currentmodule:: structmanager.ses.panel
+.. currentmodule:: structmanager.ses.panelcomp
 
 """
 import numpy as np
