@@ -1,16 +1,16 @@
-=============================
-Structure Manager (structMan)
-=============================
+=================================
+Structure Manager (structmanager)
+=================================
 
 Documentation
 -------------
 
-The documentation is available on: http://saullocastro.github.io/structMan/
+The documentation is available on: http://compmech.github.io/structmanager/
 
 Roadmap
 -------
 Please, `refer to the ROADMAP.rst file for details
-<https://github.com/saullocastro/structMan/blob/master/ROADMAP.rst>`_.
+<https://github.com/compmech/structmanager/blob/master/ROADMAP.rst>`_.
 
 Requirements
 ------------
@@ -21,6 +21,6 @@ Licensing
 ---------
 
 The new BSD License (`see the LICENSE file for details
-<https://raw.github.com/saullocastro/structMan/master/LICENSE>`_)
-covers all files in the structMan repository unless stated otherwise.
+<https://raw.github.com/compmech/structmanager/master/LICENSE>`_)
+covers all files in the structmanager repository unless stated otherwise.
 
