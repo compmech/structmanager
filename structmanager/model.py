@@ -28,7 +28,6 @@ def treat_bdf_subcases(bdf):
             bdf.subcases.append(int(line.split()[-1]))
 
 
-
 class Model(object):
     """Model"""
     def __init__(self):
