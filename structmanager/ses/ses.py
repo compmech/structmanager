@@ -9,8 +9,8 @@ from operator import itemgetter
 
 import numpy as np
 
-from structmanager.sol200 import (DRESP1, DCONSTR, DEQATN, DRESP2, DRESP3, DESVAR,
-                              DVPREL1, DVPREL2)
+from structmanager.sol200 import (DRESP1, DCONSTR, DEQATN, DRESP2, DRESP3,
+        DESVAR, DVPREL1, DVPREL2)
 import structmanager.sol200.output_codes as output_codes_SOL200
 
 
@@ -90,7 +90,7 @@ class SE(object):
                     self.nu = mat.nu
                     if None in [self.E, self.G, self.nu]:
                         raise ValueError('Invalid Material')
-                if self.mtype == 'MAT8':
+                elif self.mtype == 'MAT8':
                     if mat.e11 is None:
                         raise ValueError('Invalid Material')
                     if mat.e22 is None:
