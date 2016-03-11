@@ -69,4 +69,20 @@ class StiffenedPanelAssembly(object):
     def __repr__(self):
         return str(self)
 
+#TODO
+class StiffenedPanelCutout(object):
+    """Stiffened Panel Cutout"""
+    def __init__(self, name, panelcutout, str1, str2):
+        self.name = name
+        self.panelcutout = panelcutout
+        self.str1 = str1
+        self.str2 = str2
+        
+    def __str__(self):
+        return ('Stiffened Panel Cutout: ' + self.name +
+                '\n-' + str(self.panelcutout) +
+                '\n-' + str(self.str1) +
+                '\n-' + str(self.str2))
 
+    def __repr__(self):
+        return str(self)

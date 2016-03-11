@@ -195,6 +195,48 @@ class SOL200(object):
             self.dconstrs[dconstr.id] = dconstr
 
 
+    def constrain_pcomp(self, dcid, pid, eltype, rtype, names, lallow=None,
+            uallow=None):
+        """Add constraints to the bottom and top faces of a pcomp property.
+
+        Parameters
+        ----------
+        dcid : int
+            Design constraint set identification number.
+        pid : int
+            Property id.
+        eltype : str
+            Element type ('CQUAD4', 'CTRIA3', etc).
+        rtype : str
+            The type of response. For shells it is usually `'STRESS'`.
+        names : str or list of strings
+            The name of the constraint, as in the quick reference guide,
+            reproduced in module :mod:`.atd.sol200.output_codes`.
+        lallow : float or None, optional
+            Lower bound on the response quantity.
+        uallow : float or None, optional
+            Upper bound on the response quantity.
+
+        """
+        ptype = 'PCOMP'
+        region = ''
+        if lallow is None:
+            lallow = ''
+        if uallow is None:
+            uallow = ''
+
+        if not isinstance(names, (list, tuple)):
+            names = [names]
+
+        self.dcids.add(dcid)
+        for name in names:
+            atta = get_output_code(rtype, eltype, name)
+            dresp1 = DRESP1(name[:8], rtype, ptype, region, atta, pid)
+            dconstr = DCONSTR(dcid, dresp1.id, lallow, uallow)
+            self.dresps[dresp1.id] = dresp1
+            self.dconstrs[dconstr.id] = dconstr
+
+            
     def constrain_pbar(self, dcid, pid, name, rtype, eltype, allow_C, allow_T):
         """Add constraints to all stress recovery points of a bar property.
 

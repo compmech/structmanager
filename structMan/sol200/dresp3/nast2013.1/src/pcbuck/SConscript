@@ -1,0 +1,74 @@
+import os
+import time
+
+Import("env_base")
+env = env_base.Copy()
+#================== Perform local customization here ==================
+
+# Local Variables
+src_top=env.AbsDirPathInSou('#')
+
+if env['MACHINE'] == 'LX86':
+   MscArch='linux32'
+elif env['MACHINE'] == 'LX8664':
+   MscArch='linux64'
+elif env['MACHINE'] == 'WINNT':
+   MscArch='win32'
+elif env['MACHINE'] == 'WIN8664':
+   MscArch='win64'
+else:
+   MscArch=env['MACHINE']
+
+libdir=src_top + os.sep + 'lib' + os.sep + MscArch + os.sep
+
+# scons build environment
+env.Append(CPPDEFINES=['DRESP3_SERVER', '_MSCUTIL', '_OEM_NASTRAN'])
+env.Append(MSCFPP_DEFINES = ['_IMPLICITNONE', 'DRESP3_SERVER'])
+env.Append(CPPPATH=[src_top + os.sep + 'include'])
+
+# Compile Flags   
+if env['MACHINE'].startswith('LX86'):
+  env.Append(CCFLAGS='-fPIC')
+  env.Append(FORTRANFLAGS='-fPIC')
+elif env_base['MACHINE'] == 'linuxipf':
+  env.Append(CCFLAGS='-fPIC')
+  env.Append(FORTRANFLAGS='-fPIC')
+elif env_base['MACHINE'] == 'hpux': 
+  env.Append(CCFLAGS='+Z')
+  env.Append(FORTRANFLAGS='+pic=long')
+
+# Link Libraries
+env.AddLinkSource(libdir+'cnxx'+env['OBJSUFFIX'])
+env.AddLinkSource(libdir+'initgmsrvcmns'+env['OBJSUFFIX'])
+env.AddLinkSource(libdir+'main'+env['OBJSUFFIX'])
+env.AddLinkSource(libdir+'semd'+env['OBJSUFFIX'])
+
+env.AddLinkLibrary(libdir + 'dr3srv')
+
+if env['MACHINE'] == 'hpux':
+  env.Append(LIBS=['nsl', 'pthread','c','dld'])
+
+elif env['MACHINE'] == 'hpuxipf':
+  env.Append(LIBS=['nsl'])
+
+elif env['MACHINE'] == 'irix':
+  env.Append(LIBS=['fortran'])
+
+elif env['MACHINE'] == 'solaris':
+  env.Append(LIBS=['aio','rt','sunmath','socket','nsl','intl'])
+  env.Append(LIBS=['Cstd','Crun','malloc','dl','mvec'])
+
+elif env['MACHINE'].startswith('WIN'):
+  env.AddLinkLibrary(src_top + '/../../api/' + MscArch + '/xdr')
+  env.Append(LIBS=['netapi32', 'Advapi32', 'ws2_32'])
+  env.AddLinkSource(libdir+'getlserm'+env['OBJSUFFIX'])
+
+if env['MACHINE'] == 'solaris8664':
+  if env['MODE_I8']:
+    env.Append(LIBS=['sunquad'])
+
+env.BuildProgram('pcbuck',  aliases=None, tree='apps', fortranmain=False, fortranlibs=True)
+
+#================== Perform local customization here ==================
+retval = env.ProcessDir(env_base)
+Return('retval')

@@ -112,7 +112,7 @@ class PRINTAUX(object):
             if count == 10:
                 file.write(auxstr + '\n')
                 count = 3
-                auxstr = '+'.ljust(8)
+                auxstr = '+'.ljust(16)
             auxstr += str(aux_id).rjust(8)
         file.write(auxstr + '\n')
 
