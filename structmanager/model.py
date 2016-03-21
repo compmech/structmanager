@@ -66,6 +66,7 @@ class Model(object):
                     'stiffenedpanelcutout': StiffenedPanelCutout,}
         # optimization related
         self.optmodel = SOL200()
+        self.optsolver = 'SOL200'
 
 
     def read_op2(self, vectorized=True):
