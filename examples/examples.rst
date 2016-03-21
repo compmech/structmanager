@@ -7,4 +7,4 @@ be used in real problems.
 .. toctree::
     :maxdepth: 1
 
-    fus_section.rst
+    optimization/fus_section.rst
