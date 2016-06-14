@@ -1,3 +1,5 @@
+# property analysis methods
+methods
 # Output from cython -a
 *.html
 # Saved files

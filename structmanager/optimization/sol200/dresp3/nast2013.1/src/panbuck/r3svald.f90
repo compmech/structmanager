@@ -72,7 +72,7 @@ subroutine R3SVALD(GRPID, TYPNAM, NITEMS, ARGLIS, NSIZE, ARGVAL, &
 
     real*8 Nxx, Nxy, FC, FS, nu, Ec
     real*8 FScr, FCcr
-    real*8 A_ratio, B_ratio, Rc, Rs
+    real*8 Rc, Rs
 
     real*8 r, t, a, b
     real*8 ms
