@@ -1,13 +1,13 @@
 """
-Composite Panel SEs (:mod:`structmanager.ses.panelcomp`)
+Composite Panel (:mod:`structmanager.structelem.panelcomp`)
 ========================================================
 
-.. currentmodule:: structmanager.ses.panelcomp
+.. currentmodule:: structmanager.structelem.panelcomp
 
 """
 import numpy as np
 
-from ses import SE2D
+from base import SE2D
 
 
 class PanelComp(SE2D):

@@ -33,12 +33,10 @@ def read_forces_1d(op2, se):
     """
     # LINEAR ELEMENTS
     # CBAR
-    #FIXME try to fix op2.subcases and submit a pull request
     subcases = op2.subcases
     num_subcases = len(subcases)
     forces = op2.cbar_force
     force1 = forces[subcases[0]]
-    print 'DEBUG HERE'
     num_vectors = force1.data.shape[2]
 
     forces = np.zeros((num_vectors, len(se.eids), num_subcases))

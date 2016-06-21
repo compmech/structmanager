@@ -2,6 +2,14 @@
 Structure Manager (structmanager)
 =================================
 
+Structural Manager is intented to help in GFEM-type of analysis, where the
+finite elment discretization is at a global level and detailed analysis is
+performed using analytical or semi-analytical methods.
+
+The structure is mapped onto the finite element model using two mapping files
+and additional data is usually required to define for example exact beam
+profiles that will be used in the real structures.
+
 Documentation
 -------------
 
@@ -9,12 +17,13 @@ The documentation is available on: http://compmech.github.io/structmanager/
 
 Roadmap
 -------
-Please, `refer to the ROADMAP.rst file for details
-<https://github.com/compmech/structmanager/blob/master/ROADMAP.rst>`_.
+
+.. literalinclude:: ../../../ROADMAP.rst
 
 Requirements
 ------------
 - numpy
+- scipy
 - pyNastran
 
 Licensing

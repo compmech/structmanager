@@ -1,6 +1,7 @@
 from operator import itemgetter
 
 import numpy as np
+from pyNastran.op2.data_in_material_coord import get_eids_from_op2_vector
 
 
 class Forces2D(object):
@@ -11,14 +12,14 @@ class Forces2D(object):
     """
     def __init__(self, forces):
         self.forces = forces
-        self.mx = forces[0]
-        self.my = forces[1]
-        self.mxy = forces[2]
-        self.bmx = forces[3]
-        self.bmy = forces[4]
-        self.bmxy = forces[5]
-        self.tx = forces[6]
-        self.ty = forces[7]
+        self.mx = dict((sub, force[..., 0]) for sub, force in forces.items())
+        self.my = dict((sub, force[..., 1]) for sub, force in forces.items())
+        self.mxy = dict((sub, force[..., 2]) for sub, force in forces.items())
+        self.bmx = dict((sub, force[..., 3]) for sub, force in forces.items())
+        self.bmy = dict((sub, force[..., 4]) for sub, force in forces.items())
+        self.bmxy = dict((sub, force[..., 5]) for sub, force in forces.items())
+        self.tx = dict((sub, force[..., 6]) for sub, force in forces.items())
+        self.ty = dict((sub, force[..., 7]) for sub, force in forces.items())
 
 
 def read_forces_2d(op2, se):
@@ -33,44 +34,14 @@ def read_forces_2d(op2, se):
         The structural element for which the forces should be read.
 
     """
-    #FIXME try to fix op2.subcases and submit a pull request
-    subcases = sorted(op2.subcase_key.keys())
-    num_subcases = len(subcases)
+    se_forces = {}
 
-    se_forces = None
-
-    # LINEAR ELEMENTS
-
-    # CQUAD4
-    forces = op2.cquad4_force
-    values = forces.values()
-    if len(values) > 0:
-        force1 = values[0]
-        if se_forces is None:
-            num_vectors = force1.data.shape[2]
-            se_forces = np.zeros((num_vectors, len(se.eids), num_subcases))
-
-        i_op2 = np.in1d(force1.element, se.eids)
-        i_panel = np.in1d(se.eids, force1.element)
-
-        for i, force in enumerate(forces.values()):
-            se_forces[:, i_panel, i] = force.data[-1, i_op2, :].swapaxes(-1, -2)
-
-    # CTRIA3
-    forces = op2.ctria3_force
-    values = forces.values()
-    if len(values) > 0:
-        force1 = forces.values()[0]
-
-        if se_forces is None:
-            num_vectors = force1.data.shape[2]
-            se_forces = np.zeros((num_vectors, len(se.eids), num_subcases))
-
-        i_op2 = np.in1d(force1.element, se.eids)
-        i_panel = np.in1d(se.eids, force1.element)
-
-        for i, force in enumerate(forces.values()):
-            se_forces[:, i_panel, i] = data[-1, i_op2, :].swapaxes(-1, -2)
+    for vecname in ['cquad4_force', 'ctria3_force']:
+        vectors = getattr(op2, vecname)
+        for subcase, vector in vectors.items():
+            eids = get_eids_from_op2_vector(vector)
+            check = np.in1d(eids, se.eids)
+            se_forces[subcase] = vector.data[:, check]
 
     return Forces2D(se_forces)
 

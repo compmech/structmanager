@@ -2,6 +2,7 @@ import os
 
 from pyNastran.bdf.bdf import BDF
 from pyNastran.op2.op2 import OP2
+from pyNastran.op2.data_in_material_coord import data_in_material_coord
 
 
 class NastranModel(object):
@@ -27,9 +28,10 @@ class NastranModel(object):
         if not os.path.isfile(op2path):
             print('ERROR - op2 "{0}" does not exist!'.format(op2path))
             return
-        self.op2 = OP2()
+        op2 = OP2()
         print('Reading op2 file...')
-        self.op2.read_op2(op2path, combine=False)
+        op2.read_op2(op2path)
+        self.op2 = data_in_material_coord(self.bdf, op2, in_place=True)
         print('finished!')
 
 

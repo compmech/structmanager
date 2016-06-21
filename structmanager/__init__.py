@@ -5,7 +5,6 @@ Structure Manager (:mod:`structmanager`)
 .. currentmodule:: structmanager
 
 """
-__version__ = '0.4.0 dev'
-
+from version import __version__
 from structmodel import StructModel
 

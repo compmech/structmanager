@@ -1,12 +1,15 @@
 Roadmap
 =======
 
-Version 0.3.0
+Version 0.4.0
 -------------
+- finish new program structure with simplified read of OP2 using newest
+  PyNastran
+- add ATD Worksheet methods
+- figure out best way to pass properties
 
-- add PBARL for Stringers
-- add crippling methods
-- add buckling methods for curved panels
+Version 0.5.0
+-------------
 - add SA called WingBay, constituted by many stiffened panels. From this
   assembly we can build a constraint to calculate the global buckling on each
   bay

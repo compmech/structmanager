@@ -1,13 +1,13 @@
 """
-Web SE (:mod:`structMan.ses.web`)
+Web (:mod:`structMan.structelem.web`)
 ============================================
 
-.. currentmodule:: structMan.ses.web
+.. currentmodule:: structMan.structelem.web
 
 """
 import numpy as np
 
-from ses import SE2D
+from base import SE2D
 
 
 class Web(SE2D):

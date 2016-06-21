@@ -1,13 +1,13 @@
 """
-Stringer SEs (:mod:`structmanager.ses.stringer`)
+Stringer (:mod:`structmanager.structelem.stringer`)
 ================================================
 
-.. currentmodule:: structmanager.ses.stringer
+.. currentmodule:: structmanager.structelem.stringer
 
 """
 import numpy as np
 
-from ses import SE1D
+from base import SE1D
 
 
 class Stringer(SE1D):

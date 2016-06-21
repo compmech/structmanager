@@ -6,16 +6,24 @@ Structural Analysis Model (:mod:`structmanager.structmodel`)
 
 """
 import os
+from collections import defaultdict
 from string import strip
 
 import numpy as np
 
-from structelem import (SE1D, SE2D, Panel, PanelComp, InnerFlange, Web,
-        OuterFlange, ShearClipFrame, ShearClipSkin, Stringer)
-from sas import FrameAssembly, FrameShearClipAssembly, StiffenedPanelAssembly, StiffenedPanelCutout
+from structelem.base import SE1D, SE2D
+from structelem import se_classes
+from sas import sa_classes
 from nastranmodel import NastranModel
 
 from outreader import read_forces_1d, read_forces_2d
+
+
+class dictX(dict):
+    def __getattr__(self, attr):
+        return self[attr]
+    def __setattr__(self, attr, value):
+        self[attr] = value
 
 
 class StructModel(object):
@@ -33,35 +41,13 @@ class StructModel(object):
         # link to Nastran model
         self.bdfpath = bdfpath
         self.nastranmodel = None
-        # structural elements
+        # structural elements and assemblies
         self.sefilepath = sefilepath
         self.safilepath = safilepath
-        self.panels = {}
-        self.panelcomps = {}
-        self.innerflanges = {}
-        self.webs = {}
-        self.outerflanges = {}
-        self.shearclipframes = {}
-        self.shearclipskins = {}
-        self.stringers = {}
-		#self.panelcutout = {}
-		#self.stringersegment = {}
-        self.ses = {'panel': Panel,
-					'panelcomp': PanelComp,
-                    'innerflange': InnerFlange,
-                    'web': Web,
-                    'outerflange': OuterFlange,
-                    'shearclipframe': ShearClipFrame,
-                    'shearclipskin': ShearClipSkin,
-                    'stringer': Stringer}
-        # structural assemblies
-        self.frames = {}
-        self.stiffenedpanels = {}
-		#self.stiffenedpanelcutout = {}
-        self.sas = {'stiffenedpanelassembly': StiffenedPanelAssembly,
-                    'frameshearclipassembly': FrameShearClipAssembly,
-                    'frameassembly': FrameAssembly,
-                    'stiffenedpanelcutout': StiffenedPanelCutout,}
+        self.se_classes = dictX((c.__name__.lower(), c) for c in se_classes)
+        self.sa_classes = dictX((c.__name__.lower(), c) for c in sa_classes)
+        self.ses = dictX((c.__name__.lower(), dictX()) for c in se_classes)
+        self.sas = dictX((c.__name__.lower(), dictX()) for c in sa_classes)
         self.build()
 
 
@@ -71,11 +57,9 @@ class StructModel(object):
             return
         op2 = self.nastranmodel.op2
         # reading forces for each SE
-        for sename in self.ses.keys():
-            sename = sename.lower()
-            se_container = getattr(self, sename + 's')
+        for sename, d in self.ses.items():
             already_print = False
-            for se in se_container.values():
+            for se in d.values():
                 if not already_print:
                     print('Reading forces for %s...' % sename)
                 if isinstance(se, SE1D):
@@ -88,22 +72,6 @@ class StructModel(object):
 
 
     def build(self):
-        panels = self.panels
-        innerflanges = self.innerflanges
-        webs = self.webs
-        outerflanges = self.outerflanges
-        shearclipframes = self.shearclipframes
-        shearclipskins = self.shearclipskins
-        stringers = self.stringers
-        frames = self.frames
-        stiffenedpanels = self.stiffenedpanels
-		#compositepanels = self.panelcutout
-        compositepanels = self.panels
-		#compositestringers = self.stringersegment
-        compositestringers = self.stringers
-		#compositestiffenedpanels = self.stiffenedpanelcutout
-        compositestiffenedpanels = self.stiffenedpanels
-
         if self.bdfpath is not None:
             if os.path.isfile(str(self.bdfpath)):
                 self.nastranmodel = NastranModel(self.bdfpath)
@@ -128,50 +96,34 @@ class StructModel(object):
             sename, name = fields[:2]
             sename = sename.lower()
 
-            seClass = self.ses.get(sename)
+            seClass = self.se_classes.get(sename)
             if seClass is None:
+                print('ERROR - Ivalid Structural Element: {0}'.format(sename))
                 continue
 
             eids = map(int, fields[2:])
-
-            container = getattr(self, sename + 's')
-            se = seClass(name, eids, self)
-            container[name] = se
+            self.ses[sename][name] = seClass(name, eids, model=self)
 
         # reading structural assemblies
-        if self.safilepath is not None:
-            with open(self.safilepath) as f:
-                lines = f.readlines()
-            for line in lines:
-                line = strip(line)
-                if not line:
-                    continue
-                if line.startswith('#'):
-                    continue
-                fields = line.split(';')
-                saname, name = map(strip, fields[:2])
-                saname = saname.lower()
+        if self.safilepath is None:
+            return
+        with open(self.safilepath) as f:
+            lines = f.readlines()
+        for line in lines:
+            line = strip(line)
+            if not line:
+                continue
+            if line.startswith('#'):
+                continue
+            fields = line.split(';')
+            saname, name = map(strip, fields[:2])
+            saname = saname.lower()
 
-                saClass = self.sas.get(saname)
-                if saClass is None:
-                    continue
+            saClass = self.sa_classes.get(saname)
+            if saClass is None:
+                print('ERROR - Ivalid Structural Assembly: {0}'.format(saname))
+                continue
 
-                if saname == 'frameassembly':
-                    n1, n2, n3 = fields[2:]
-                    frames[name] = saClass(name, outerflanges[n1], webs[n2],
-                            innerflanges[n3])
-
-                if saname == 'frameshearclipassembly':
-                    n1, n2, n3, n4, n5 = fields[2:]
-                    frames[name] = saClass(name, shearclipskins[n1],
-                            shearclipframes[n2], outerflanges[n3], webs[n4],
-                            innerflanges[n5])
-
-                if saname == 'stiffenedpanelassembly':
-                    n1, n2, n3, n4, n5 = fields[2:]
-                    stiffenedpanels[name] = saClass(name, panels[n1], frames[n2],
-                            frames[n3], stringers[n4], stringers[n5])
-                #TODO
-                #if saname == 'stiffenedpanelcuotut':
-                #    n1, n2, n3 = fields[2:]
-                #    compositestiffenedpanels[name] = saClass(name, panels[n1], stringers[n2], stringers[n3])
+            senames = fields[2:]
+            args = [self.ses.get(sename) for sename in senames]
+            self.sas[saname][name] = saClass(name, args)

@@ -1,15 +1,13 @@
 """
-Panel SEs (:mod:`structmanager.ses.panel`)
+Panel (:mod:`structmanager.structelem.panel`)
 ==========================================
 
-.. currentmodule:: structmanager.ses.panel
+.. currentmodule:: structmanager.structelem.panel
 
 """
 import numpy as np
 
-from ses import SE2D
-
-
+from base import SE2D
 
 
 class Panel(SE2D):

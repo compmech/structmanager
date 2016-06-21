@@ -32,8 +32,6 @@ def plate_buckling(panel, method=1, load_idealization='avg'):
     except:
         raise ImportError('Analysis methods not implemented')
 
-    #NOTE should we also return additional intermediate data?
-    #     if yes, a dicionary seems a good container for that
     if panel.forces is None:
         raise RuntimeError('No output data found for Panel {0}'.format(panel.name))
 
@@ -42,11 +40,11 @@ def plate_buckling(panel, method=1, load_idealization='avg'):
         t = panel.t
         a = panel.a
         b = panel.b
-        #TODO improve the way material data is passed in, use a material
-        #     object than can carry necessary data for other types of
-        #     analyzes
         nu = panel.material.nu
         Ec = panel.material.Ec
+        FCcr = FCcr_skin(a, b, t, r, Ec, nu)
+        FScr = FScr_skin(a, b, t, r, Ec, nu)
+
         Nxx = panel.forces[0]
         Nxy = panel.forces[2]
         if load_idealization.lower() == 'avg':
@@ -57,8 +55,6 @@ def plate_buckling(panel, method=1, load_idealization='avg'):
             Nxy = Nxx[np.argmax(np.abs(Nxy), axis=0)]
         FC = Nxx/t
         FS = np.abs(Nxy/t)
-        FCcr = FCcr_skin(a, b, t, r, Ec, nu)
-        FScr = FScr_skin(a, b, t, r, Ec, nu)
         Rc = FC/FCcr
         Rs = FS/FScr
 
