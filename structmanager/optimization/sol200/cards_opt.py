@@ -23,8 +23,8 @@ module. The input cards more related to the solver are contained in module
     structmanager.sol200.cards_opt.DVPREL1
 
 """
-from sizing_data import SDATA
-from utils import format_float as ff
+from .sizing_data import SDATA
+from .utils import format_float as ff
 
 
 class DVPREL(object):

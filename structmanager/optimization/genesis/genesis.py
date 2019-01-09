@@ -3,9 +3,9 @@ import cPickle as pickle
 from pprint import pformat
 from collections import Iterable
 
-from output_codes import OUTC, get_output_code
-from cards_opt import *
-from cards_solver import *
+from .output_codes import OUTC, get_output_code
+from .cards_opt import *
+from .cards_solver import *
 
 
 class Genesis(object):
@@ -103,7 +103,7 @@ class Genesis(object):
             - `'Absolute Z'`
 
         """
-        from excel import Excel
+        from structmanager.excel import Excel
 
         if not xls_file:
             return None
@@ -258,7 +258,7 @@ class Genesis(object):
             The full path of the Excel file.
 
         """
-        from excel import Excel
+        from structmanager.excel import Excel
 
         ex = Excel(xls_file)
         found = False
@@ -661,16 +661,6 @@ class Genesis(object):
             dlink.print_card(self.genesisfile)
 
 
-    def simx_create_output_file(self):
-        self.simx_export_nastran_file()
-
-
-    def simx_export_nastran_file(self):
-        import simx
-
-        simx.export_current_model(self.nastranfile.name)
-
-
     def merge_temp_files(self):
         """Merge the temporary file handlers into the final input file.
 
@@ -679,7 +669,7 @@ class Genesis(object):
         attribute `datname`.
 
         """
-        import files
+        from . import files
 
         files.merge_temp_files(self)
 

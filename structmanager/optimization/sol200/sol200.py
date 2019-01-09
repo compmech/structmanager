@@ -9,9 +9,9 @@ import os
 import cPickle as pickle
 from collections import Iterable
 
-from output_codes import OUTC, get_output_code
-from cards_opt import *
-from cards_solver import *
+from .output_codes import OUTC, get_output_code
+from .cards_opt import *
+from .cards_solver import *
 
 
 def section(text, file):
@@ -236,7 +236,7 @@ class SOL200(object):
             self.dresps[dresp1.id] = dresp1
             self.dconstrs[dconstr.id] = dconstr
 
-            
+
     def constrain_pbar(self, dcid, pid, name, rtype, eltype, allow_C, allow_T):
         """Add constraints to all stress recovery points of a bar property.
 

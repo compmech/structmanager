@@ -7,7 +7,7 @@ Web (:mod:`structMan.structelem.web`)
 """
 import numpy as np
 
-from base import SE2D
+from .base import SE2D
 
 
 class Web(SE2D):

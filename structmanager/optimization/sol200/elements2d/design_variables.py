@@ -1,4 +1,4 @@
-from cards_opt import DESVAR, DVPREL1
+from ..cards_opt import DESVAR, DVPREL1
 
 
 def create(panel, pid):

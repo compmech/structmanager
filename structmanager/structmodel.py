@@ -11,12 +11,12 @@ from string import strip
 
 import numpy as np
 
-from structelem.base import SE1D, SE2D
-from structelem import se_classes
-from sas import sa_classes
-from nastranmodel import NastranModel
+from .structelem.base import SE1D, SE2D
+from .structelem import se_classes
+from .sas import sa_classes
+from .nastranmodel import NastranModel
 
-from outreader import read_forces_1d, read_forces_2d
+from .outreader import read_forces_1d, read_forces_2d
 
 
 class dictX(dict):

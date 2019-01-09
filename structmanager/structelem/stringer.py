@@ -7,7 +7,7 @@ Stringer (:mod:`structmanager.structelem.stringer`)
 """
 import numpy as np
 
-from base import SE1D
+from .base import SE1D
 
 
 class Stringer(SE1D):

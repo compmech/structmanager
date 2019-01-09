@@ -1,4 +1,4 @@
-from opt_cards import DCONSTR
+from .opt_cards import DCONSTR
 
 def add_dtable(se, key, value):
     """Add a DTABLE entry to the SE and the optmodel

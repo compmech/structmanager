@@ -8,7 +8,7 @@ Many input cards related to the finite element solver are wrapped in this
 module.
 
 """
-from sol200 import SOL200
+from .sol200 import SOL200
 
 
 class PBARL(SOL200):

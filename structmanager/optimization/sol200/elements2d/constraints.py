@@ -1,6 +1,6 @@
-from cards_opt import (DRESP1, DCONSTR, DEQATN, DRESP2, DRESP3, DESVAR,
+from ..cards_opt import (DRESP1, DCONSTR, DEQATN, DRESP2, DRESP3, DESVAR,
         DVPREL1, DVPREL2)
-import output_codes as output_codes_SOL200
+import ..output_codes as output_codes_SOL200
 
 
 def constrain_vonMises(panel, Fcy, average=False, dcid=1):

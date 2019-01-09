@@ -28,7 +28,7 @@ module. The input cards more related to the solver are contained in module
 from pprint import pformat
 from collections import Iterable
 
-from sizing_data import SDATA
+from .sizing_data import SDATA
 
 
 class DSPLIT(object):

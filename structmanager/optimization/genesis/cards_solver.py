@@ -8,7 +8,7 @@ Many input cards related to the finite element solver are wrapped in this
 module.
 
 """
-from genesis import Genesis
+from .genesis import Genesis
 
 
 class PBARL(Genesis):

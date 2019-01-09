@@ -7,7 +7,7 @@ Panel (:mod:`structmanager.structelem.panel`)
 """
 import numpy as np
 
-from base import SE2D
+from .base import SE2D
 
 
 class Panel(SE2D):

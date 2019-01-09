@@ -7,7 +7,7 @@ Composite Panel (:mod:`structmanager.structelem.panelcomp`)
 """
 import numpy as np
 
-from base import SE2D
+from .base import SE2D
 
 
 class PanelComp(SE2D):

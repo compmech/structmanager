@@ -20,6 +20,6 @@ GENESIS.
     :members:
 
 """
-from cards_opt import *
-from cards_solver import *
-from genesis import Genesis
+from .cards_opt import *
+from .cards_solver import *
+from .genesis import Genesis

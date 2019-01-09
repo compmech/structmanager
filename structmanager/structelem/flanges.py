@@ -7,7 +7,7 @@ Ring frame flanges (:mod:`structmanager.structelem.flanges`)
 """
 import numpy as np
 
-from base import SE1D
+from .base import SE1D
 
 
 class Flange1D(SE1D):

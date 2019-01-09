@@ -1,4 +1,4 @@
-from base import SE1D, SE2D
+from .base import SE1D, SE2D
 
 class ShearClipWeb(SE2D):
     """Shear Clip Web attached to Frame

@@ -6,5 +6,5 @@ Structure Manager (:mod:`structmanager`)
 
 """
 from version import __version__
-from structmodel import StructModel
+from .structmodel import StructModel
 
