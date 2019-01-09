@@ -21,6 +21,7 @@ test*.*
 #
 *.py[cod]
 mysetup.py
+version.py
 k*.txt
 print*.txt
 
